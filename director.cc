@@ -26,8 +26,9 @@ void Director::DrawScene() {
 
     float zeye = winSizeInPixels_.y / 1.1566f / content_scale_factor_;
     
-    mat4 projection = mat4::PerspectiveProjection(60, winSizeInPoints_.x / winSizeInPoints_.y,
-                                                  0.1f, zeye * 2);
+    mat4 projection = mat4::Perspective(60, winSizeInPoints_.x / winSizeInPoints_.y,
+                                        0.1f, zeye * 2);
+
     vec3 eye(winSizeInPoints_.x / 2, winSizeInPoints_.y / 2, zeye);
     vec3 center(winSizeInPoints_.x / 2, winSizeInPoints_.y / 2, 0);
     vec3 up(0, 1, 0);
@@ -54,7 +55,7 @@ void Director::DrawScene() {
     p.AddAttribute("a_Position", kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Position);
 
-    vec2 pos(20, 20);
+    vec2 pos(10, 10);
     glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
 
     glDrawArrays(GL_POINTS, 0, 1);

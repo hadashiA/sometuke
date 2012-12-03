@@ -105,7 +105,7 @@ bool GLProgram::Link() {
 }
 
 void GLProgram::SetUniformForModelViewProjectionMatrix(const mat4& mvp_matrix) {
-    glUniformMatrix4fv(uniform_MVPMatrix_, 1, 0, mvp_matrix.Pointer());
+    glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, mvp_matrix.Pointer());
 }
 
 // private

@@ -163,9 +163,7 @@ struct Matrix4 {
         return m;
     }
 
-    static Matrix4<T> PerspectiveProjection(float fovY,
-                                            float aspect, float zNear,
-                                            float zFar) {
+    static Matrix4<T> Perspective(float fovY, float aspect, float zNear, float zFar) {
 	float r = DegreesToRadians(fovY / 2);
         float deltaZ = zFar - zNear;
         float s = std::sin(r);
