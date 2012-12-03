@@ -34,7 +34,7 @@ void Director::DrawScene() {
     vec3 up(0, 1, 0);
     mat4 model_view = mat4::LookAt(eye, center, up);
     
-    mat4 model_view_projection = projection * model_view;
+    mat4 model_view_projection = model_view * projection;
     
     GLProgram p;
     p.LoadShaderFiles("position_ucolor.vert",
