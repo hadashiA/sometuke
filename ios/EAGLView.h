@@ -42,7 +42,10 @@
 
     // displayLink
     CADisplayLink *displayLink_;
+    BOOL nextDeltaTimeZero_;
     CFTimeInterval lastDisplayTime_;
+    float dt_;
+
     BOOL isAnimating_;
 
     kawaii::Director *director_;

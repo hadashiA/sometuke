@@ -11,12 +11,13 @@ using namespace std;
 class Director {
 public:
     explicit Director(float content_scale_factor) :
-        content_scale_factor_(content_scale_factor) {
+        content_scale_factor_(content_scale_factor)
+    {
         set_animation_interval(1.0 / 60);
     };
     
     void SetProjection(float width, float height);
-    void DrawScene();
+    void DrawScene(float deltaTime);
     void Sample();
 
     const double animation_interval() const {

@@ -5,6 +5,7 @@
 
 @interface EAGLView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
+- (void)calculateDeltaTime;
 @end
 
 @implementation EAGLView
@@ -109,6 +110,9 @@
         CGSize size = self.bounds.size;
         float contentScaleFactor = [UIScreen mainScreen].scale;
         
+        nextDeltaTimeZero_ = YES;
+        lastDisplayTime_ = 0;
+
         isAnimating_ = NO;
 
         director_ = new kawaii::Director(contentScaleFactor);
@@ -255,7 +259,9 @@
 - (void)mainLoop:(CADisplayLink *)displayLink {
     [EAGLContext setCurrentContext:context_];
 
-    director_->DrawScene();
+    [self calculateDeltaTime];
+
+    director_->DrawScene(dt_);
 
     [self swapBuffers];
 }
@@ -289,6 +295,20 @@
         return GL_RGBA8_OES;
     }
 }
+
+- (void)calculateDeltaTime {
+    if (nextDeltaTimeZero_ || lastDisplayTime_ == 0) {
+        dt_ = 0;
+        nextDeltaTimeZero_ = NO;
+    } else {
+        dt_ = displayLink_.timestamp - lastDisplayTime_;
+        dt_ = MAX(0, dt_);
+    }
+    lastDisplayTime_ = displayLink_.timestamp;
+}
+
+#pragma mark -
+#pragma mark Memory Managements
 
 - (void)dealloc {
     delete director_;
