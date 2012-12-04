@@ -23,6 +23,8 @@ typedef enum {
 
 class ShaderCache {
 public:
+    ~ShaderCache();
+
     static ShaderCache *Shared();
     static void Purge();
 
