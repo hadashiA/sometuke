@@ -46,7 +46,7 @@ mat4 MatrixStack::Pop() {
     mat4 result = stack_.back();
     stack_.pop_back();
 
-    return retult;
+    return result;
 }
 
 mat4 MatrixStack::Get() const {
