@@ -108,8 +108,14 @@ void GLProgram::SetUniformsForBuiltins() {
     mat4 model_view = MatrixStack::GLModelView()->Get();
     mat4 model_view_projection = model_view * projection;
 
-    glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, model_view_projection.Pointer());
+    // glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, model_view_projection.Pointer());
+    SetUniformMatrix4fv(uniform_MVPMatrix_, model_view_projection.Pointer());
 }
+
+void GLProgram::SetUniformMatrix4fv(const GLint uniform, const GLfloat *value) {
+    glUniformMatrix4fv(uniform, 1, GL_FALSE, value);
+}
+
 
 // private
 

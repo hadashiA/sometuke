@@ -54,6 +54,7 @@ public:
     void Use();
 
     void SetUniformsForBuiltins();
+    void SetUniformMatrix4fv(const GLint uniform, const GLfloat *value);
 
 private:
     bool CompileShader(GLuint *shader, GLenum type, const GLchar *source);
@@ -61,7 +62,6 @@ private:
     const string LogForOpenGLObject(GLuint id,
                                     GLInfoFunction infoFunc,
                                     GLLogFunction logFunc) const;
-
     GLuint program_;
     GLuint vertShader_;
     GLuint fragShader_;
@@ -69,6 +69,7 @@ private:
     GLint uniform_MVPMatrix_;
     GLint uniform_Sampler_;
 };
+
 
 } // namespace kawaii
 
