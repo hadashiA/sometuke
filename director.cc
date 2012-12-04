@@ -32,7 +32,7 @@ void Director::SetProjection(float width, float height) {
 }
 
 void Director::DrawScene(float deltaTime) {
-    IIINFO("deltaTime:%f", deltaTime);
+    // IIINFO("deltaTime:%f", deltaTime);
 
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
