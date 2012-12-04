@@ -5,8 +5,7 @@
 
 #include "file_utils.h"
 #include "logger.h"
-
-#include "matrix.h"
+#include "matrix_stack.h"
 
 namespace kawaii {
 
@@ -104,8 +103,12 @@ bool GLProgram::Link() {
     return true;
 }
 
-void GLProgram::SetUniformForModelViewProjectionMatrix(const mat4& mvp_matrix) {
-    glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, mvp_matrix.Pointer());
+void GLProgram::SetUniformsForBuiltins() {
+    mat4 projection = MatrixStack::GLProjection()->Get();
+    mat4 model_view = MatrixStack::GLModelView()->Get();
+    mat4 model_view_projection = model_view * projection;
+
+    glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, model_view_projection.Pointer());
 }
 
 // private

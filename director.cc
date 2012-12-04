@@ -35,17 +35,12 @@ void Director::DrawScene() {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    mat4 projection = MatrixStack::GLProjection()->Get();
-    mat4 model_view = MatrixStack::GLModelView()->Get();
-    mat4 model_view_projection = model_view * projection;
-    
     GLProgram p;
-    p.LoadShaderFiles("position_ucolor.vert",
-                      "position_ucolor.frag");
+    p.LoadShaderFiles("position_ucolor.vert", "position_ucolor.frag");
     p.Use();
 
     // uniforms
-    p.SetUniformForModelViewProjectionMatrix(model_view_projection);
+    p.SetUniformsForBuiltins();
 
     GLint color_location = glGetUniformLocation(p.id(), "u_Color");
     vec4 color(1, 0, 0, 1);

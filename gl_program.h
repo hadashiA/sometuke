@@ -53,7 +53,7 @@ public:
     bool Link();
     void Use();
 
-    void SetUniformForModelViewProjectionMatrix(const mat4& model_view_projection);
+    void SetUniformsForBuiltins();
 
 private:
     bool CompileShader(GLuint *shader, GLenum type, const GLchar *source);
