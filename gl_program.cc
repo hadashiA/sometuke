@@ -10,10 +10,11 @@
 namespace kawaii {
 
 GLProgram::GLProgram() : vertShader_(0),
-                         fragShader_(0),
-                         uniform_MVPMatrix_(0),
-                         uniform_Sampler_(0) {
+                         fragShader_(0) {
     program_ = glCreateProgram();
+    for (int i = 0; i < kUniform_MAX; ++i) {
+        uniform_locations_[i] = -1;
+    }
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
@@ -53,17 +54,12 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
         return false;
     }
 
-    // set default uniforms
-    uniform_MVPMatrix_ = glGetUniformLocation(program_, kUniformName_MVPMatrix);
-    uniform_Sampler_   = glGetUniformLocation(program_, kUniformName_Sampler);
-
-    Use();
-    glUniform1i(uniform_Sampler_, 0);
+    UpdateUniformLocations();
     
     return true;
 }
 
-void GLProgram::AddAttribute(const string& attributeName, GLuint index) {
+void GLProgram::AddAttribute(const string& attributeName, const VertexAttribIndex index) {
     glBindAttribLocation(program_, index, attributeName.c_str());
 }
 
@@ -103,17 +99,37 @@ bool GLProgram::Link() {
     return true;
 }
 
+void GLProgram::UpdateUniformLocations() {
+    uniform_locations_[kUniform_PMatrix]   = glGetUniformLocation(program_, UNIFORM_NAME_PMatrix);
+    uniform_locations_[kUniform_MVMatrix]  = glGetUniformLocation(program_, UNIFORM_NAME_MVMatrix);
+    uniform_locations_[kUniform_MVPMatrix] = glGetUniformLocation(program_, UNIFORM_NAME_MVPMatrix);
+
+    uniform_locations_[kUniform_Time]    = glGetUniformLocation(program_, UNIFORM_NAME_Time);
+    uniform_locations_[kUniform_SinTime] = glGetUniformLocation(program_, UNIFORM_NAME_SinTime);
+    uniform_locations_[kUniform_CosTime] = glGetUniformLocation(program_, UNIFORM_NAME_CosTime);
+    usesTime_ = (uniform_locations_[kUniform_Time] ||
+                 uniform_locations_[kUniform_SinTime] ||
+                 uniform_locations_[kUniform_CosTime]);
+
+    uniform_locations_[kUniform_Random01] = glGetUniformLocation(program_, UNIFORM_NAME_Random01);
+
+    uniform_locations_[kUniform_Sampler]  = glGetUniformLocation(program_, UNIFORM_NAME_Sampler);
+    
+    Use();
+    glUniform1i(uniform_locations_[kUniform_Sampler], 0);
+}
+
 void GLProgram::SetUniformsForBuiltins() {
     mat4 projection = MatrixStack::GLProjection()->Get();
     mat4 model_view = MatrixStack::GLModelView()->Get();
     mat4 model_view_projection = model_view * projection;
 
     // glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, model_view_projection.Pointer());
-    SetUniformMatrix4fv(uniform_MVPMatrix_, model_view_projection.Pointer());
+    SetUniformMatrix4fv(kUniform_MVPMatrix, model_view_projection.Pointer());
 }
 
-void GLProgram::SetUniformMatrix4fv(const GLint uniform, const GLfloat *value) {
-    glUniformMatrix4fv(uniform, 1, GL_FALSE, value);
+void GLProgram::SetUniformMatrix4fv(const UniformLabel label, const GLfloat *value) {
+    glUniformMatrix4fv(uniform_locations_[label], 1, GL_FALSE, value);
 }
 
 

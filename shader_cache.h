@@ -1,6 +1,8 @@
 #ifndef __kawaii__shader_cache__
 #define __kawaii__shader_cache__
 
+#include <memory>
+
 #include <OpenGLES/ES2/gl.h>
 
 #include "gl_program.h"
@@ -23,12 +25,9 @@ typedef enum {
 
 class ShaderCache {
 public:
-    ~ShaderCache();
-
     static ShaderCache *Shared();
-    static void Purge();
 
-    GLProgram *operator[](ShaderLabel key);
+    shared_ptr<GLProgram> operator[](ShaderLabel key);
     void LoadDefaultShaders();
 
 private:
@@ -36,7 +35,7 @@ private:
 
     static ShaderCache *__shared;
 
-    GLProgram *shaders_[kShaderLabel_Max];
+    shared_ptr<GLProgram> shaders_[kShaderLabel_Max];
 };
 
 }

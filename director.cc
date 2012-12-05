@@ -1,6 +1,6 @@
 #include "director.h"
 #include "file_utils.h"
-#include "gl_program.h"
+#include "shader_cache.h"
 #include "logger.h"
 
 #include <OpenGLES/ES2/gl.h>

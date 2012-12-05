@@ -9,22 +9,39 @@
 namespace kawaii {
 using namespace std;
 
-enum {
+typedef enum {
     kVertexAttrib_Position,
     kVertexAttrib_Color,
     kVertexAttrib_TexCoords,
 
     kVertexAttrib_MAX,
-};
+} VertexAttribIndex;
 
-#define kUniformName_MVPMatrix      "u_MVPMatrix"
-#define kUniformName_Sampler        "u_Texture"
-#define kUniformName_AlphaTestValue "u_AlphaValue"
+typedef enum {
+    kUniform_PMatrix,
+    kUniform_MVMatrix,
+    kUniform_MVPMatrix,
+    kUniform_Time,
+    kUniform_SinTime,
+    kUniform_CosTime,
+    kUniform_Random01,
+    kUniform_Sampler,
 
-#define kAttributeName_Position     "a_Position"
-#define kAttributeName_Color        "a_Color"
-#define kAttributeName_TexCoord     "a_TexCoord"
+    kUniform_MAX,
+} UniformLabel;
 
+static const char *UNIFORM_NAME_PMatrix        = "u_PMatrix";
+static const char *UNIFORM_NAME_MVMatrix       = "u_MVMatrix";
+static const char *UNIFORM_NAME_MVPMatrix      = "u_MVPMatrix";
+static const char *UNIFORM_NAME_Time           = "u_Time";
+static const char *UNIFORM_NAME_SinTime        = "u_SinTime";
+static const char *UNIFORM_NAME_CosTime        = "u_CosTime";
+static const char *UNIFORM_NAME_Random01       = "u_Random01";
+static const char *UNIFORM_NAME_Sampler        = "u_Sampler";
+
+static const char *ATTRIBUTE_NAME_Position = "a_Position";
+static const char *ATTRIBUTE_NAME_Color    = "a_Color";
+static const char *ATTRIBUTE_NAME_TexCoord = "a_TexCoord";
 
 typedef void (*GLInfoFunction)(GLuint program,
                                GLenum pname,
@@ -49,12 +66,13 @@ public:
     const string FragmentShaderLog() const;
     const string ProgramLog() const;
 
-    void AddAttribute(const string& attributeName, GLuint index);
+    void AddAttribute(const string& attributeName, const VertexAttribIndex index);
     bool Link();
     void Use();
 
+    void UpdateUniformLocations();
     void SetUniformsForBuiltins();
-    void SetUniformMatrix4fv(const GLint uniform, const GLfloat *value);
+    void SetUniformMatrix4fv(const UniformLabel label, const GLfloat *value);
 
 private:
     bool CompileShader(GLuint *shader, GLenum type, const GLchar *source);
@@ -66,8 +84,8 @@ private:
     GLuint vertShader_;
     GLuint fragShader_;
 
-    GLint uniform_MVPMatrix_;
-    GLint uniform_Sampler_;
+    GLint uniform_locations_[kUniform_MAX];
+    bool usesTime_;
 };
 
 
