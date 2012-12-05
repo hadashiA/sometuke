@@ -37,22 +37,18 @@ void Director::DrawScene(float deltaTime) {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    GLProgram p;
-    p.LoadShaderFiles("position_ucolor.vert", "position_ucolor.frag");
-    p.Use();
+    ShaderCache *shaders = ShaderCache::Shared();
+    shared_ptr<GLProgram> p = (*shaders)[kShader_Position_uColor];
+    p->SetUniformsForBuiltins();
 
-    // uniforms
-    p.SetUniformsForBuiltins();
-
-    GLint color_location = glGetUniformLocation(p.id(), "u_Color");
+    GLint color_location = glGetUniformLocation(p->id(), "u_Color");
     vec4 color(1, 0, 0, 1);
     glUniform4fv(color_location, 1, color.Pointer());
 
-    GLint point_size_location = glGetUniformLocation(p.id(), "u_PointSize");
+    GLint point_size_location = glGetUniformLocation(p->id(), "u_PointSize");
     glUniform1f(point_size_location, 20);
 
     // attributes
-    p.AddAttribute("a_Position", kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Position);
 
     vec2 pos(10, 10);
