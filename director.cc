@@ -31,8 +31,8 @@ void Director::SetProjection(float width, float height) {
     CHECK_GL_ERROR();
 }
 
-void Director::DrawScene(float deltaTime) {
-    // IIINFO("deltaTime:%f", deltaTime);
+void Director::DrawScene(float delta_time) {
+    total_time_ += delta_time;
 
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -51,10 +51,14 @@ void Director::DrawScene(float deltaTime) {
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
 
-    vec2 pos(10, 10);
+    vec2 pos(10 + total_time_, 10);
     glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
 
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
 } // namespace kawaii
+
+
+
+

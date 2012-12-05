@@ -11,8 +11,8 @@ using namespace std;
 class Director {
 public:
     explicit Director(float content_scale_factor) :
-        content_scale_factor_(content_scale_factor)
-    {
+        content_scale_factor_(content_scale_factor),
+        total_time_(0) {
         set_animation_interval(1.0 / 60);
     };
     
@@ -34,6 +34,8 @@ private:
     float content_scale_factor_;
 
     double animation_interval_;
+
+    float total_time_;
 };
 
 } // namespace kawaii
