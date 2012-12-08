@@ -9,6 +9,19 @@
 
 namespace kawaii {
 
+const GLchar *UNIFORM_NAME_PMatrix        = "u_PMatrix";
+const GLchar *UNIFORM_NAME_MVMatrix       = "u_MVMatrix";
+const GLchar *UNIFORM_NAME_MVPMatrix      = "u_MVPMatrix";
+const GLchar *UNIFORM_NAME_Time           = "u_Time";
+const GLchar *UNIFORM_NAME_SinTime        = "u_SinTime";
+const GLchar *UNIFORM_NAME_CosTime        = "u_CosTime";
+const GLchar *UNIFORM_NAME_Random01       = "u_Random01";
+const GLchar *UNIFORM_NAME_Sampler        = "u_Sampler";
+
+const GLchar *ATTRIBUTE_NAME_Position = "a_Position";
+const GLchar *ATTRIBUTE_NAME_Color    = "a_Color";
+const GLchar *ATTRIBUTE_NAME_TexCoord = "a_TexCoord";
+
 GLProgram::GLProgram() : vertShader_(0),
                          fragShader_(0) {
     program_ = glCreateProgram();

@@ -30,18 +30,18 @@ typedef enum {
     kUniform_MAX,
 } UniformLabel;
 
-static const char *UNIFORM_NAME_PMatrix        = "u_PMatrix";
-static const char *UNIFORM_NAME_MVMatrix       = "u_MVMatrix";
-static const char *UNIFORM_NAME_MVPMatrix      = "u_MVPMatrix";
-static const char *UNIFORM_NAME_Time           = "u_Time";
-static const char *UNIFORM_NAME_SinTime        = "u_SinTime";
-static const char *UNIFORM_NAME_CosTime        = "u_CosTime";
-static const char *UNIFORM_NAME_Random01       = "u_Random01";
-static const char *UNIFORM_NAME_Sampler        = "u_Sampler";
+extern const GLchar *UNIFORM_NAME_PMatrix;
+extern const GLchar *UNIFORM_NAME_MVMatrix;
+extern const GLchar *UNIFORM_NAME_MVPMatrix;
+extern const GLchar *UNIFORM_NAME_Time;
+extern const GLchar *UNIFORM_NAME_SinTime;
+extern const GLchar *UNIFORM_NAME_CosTime;
+extern const GLchar *UNIFORM_NAME_Random01;
+extern const GLchar *UNIFORM_NAME_Sampler;
 
-static const char *ATTRIBUTE_NAME_Position = "a_Position";
-static const char *ATTRIBUTE_NAME_Color    = "a_Color";
-static const char *ATTRIBUTE_NAME_TexCoord = "a_TexCoord";
+extern const GLchar *ATTRIBUTE_NAME_Position;
+extern const GLchar *ATTRIBUTE_NAME_Color;
+extern const GLchar *ATTRIBUTE_NAME_TexCoord;
 
 typedef void (*GLInfoFunction)(GLuint program,
                                GLenum pname,
