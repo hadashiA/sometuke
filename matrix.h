@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __kawaii_matrix__
+#define __kawaii_matrix__
+
 #include "vector.h"
 
 namespace kawaii {
@@ -213,3 +215,5 @@ typedef Matrix3<float> mat3;
 typedef Matrix4<float> mat4;
 
 } // namespace kawaii
+
+#endif /* defined(__kawaii_matrix__) */

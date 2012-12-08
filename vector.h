@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __kawaii_vector__
+#define __kawaii_vector__
+
 #include <cmath>
 
 namespace kawaii {
@@ -220,3 +222,6 @@ typedef Vector3<float> vec3;
 typedef Vector4<float> vec4;
 
 } // namespace kawaii
+
+
+#endif /* defined(__kawaii_vector_) */
