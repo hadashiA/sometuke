@@ -1,4 +1,5 @@
 #include "texture_2d.h"
+#include "logger.h"
 
 namespace kawaii {
 
@@ -19,6 +20,75 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
     } else {
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    switch(pixel_format) {
+    case kPixelFormat_RGBA8888:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        break;
+
+    case kPixelFormat_RGBA4444:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
+        break;
+
+    case kPixelFormat_RGB5A1:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
+        break;
+
+    case kPixelFormat_RGB565:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+        break;
+
+    case kPixelFormat_RGB888:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        break;
+
+    case kPixelFormat_AI88:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
+        break;
+
+    case kPixelFormat_A8:
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
+                     (GLsizei)pixel_width, (GLsizei)pixel_height,
+                     0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+        break;
+    default:
+        IIERROR("invalid pixel format %d", pixel_format);
+    }
+
+    content_size_ = content_size;
+    pixel_size_   = pixel_size;
+    format_       = pixel_format;
+    max_s_ = content_size_.x / pixel_size_.x;
+    max_t_ = content_size.y  / pixel_size_.y;
+
+    has_premultipled_alpha_ = false;
+
+    ShaderCache shaders = *ShaderCache::Shared();
+    shader_program_ = shaders[kShader_PositionTexture];
 }
 
 }
+
+
+
+
+
+
+

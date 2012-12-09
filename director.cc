@@ -37,8 +37,8 @@ void Director::DrawScene(float delta_time) {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    ShaderCache *shaders = ShaderCache::Shared();
-    shared_ptr<GLProgram> p = (*shaders)[kShader_Position_uColor];
+    ShaderCache shaders = *ShaderCache::Shared();
+    shared_ptr<GLProgram> p = shaders[kShader_Position_uColor];
     p->SetUniformsForBuiltins();
 
     GLint color_location = glGetUniformLocation(p->id(), "u_Color");
