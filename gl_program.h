@@ -30,18 +30,8 @@ typedef enum {
     kUniform_MAX,
 } UniformLabel;
 
-extern const GLchar *UNIFORM_NAME_PMatrix;
-extern const GLchar *UNIFORM_NAME_MVMatrix;
-extern const GLchar *UNIFORM_NAME_MVPMatrix;
-extern const GLchar *UNIFORM_NAME_Time;
-extern const GLchar *UNIFORM_NAME_SinTime;
-extern const GLchar *UNIFORM_NAME_CosTime;
-extern const GLchar *UNIFORM_NAME_Random01;
-extern const GLchar *UNIFORM_NAME_Sampler;
-
-extern const GLchar *ATTRIBUTE_NAME_Position;
-extern const GLchar *ATTRIBUTE_NAME_Color;
-extern const GLchar *ATTRIBUTE_NAME_TexCoord;
+extern const GLchar *VERTEX_ATTRIB_NAMES[kVertexAttrib_MAX];
+extern const GLchar *UNIFORM_NAMES[kUniform_MAX];
 
 typedef void (*GLInfoFunction)(GLuint program,
                                GLenum pname,
@@ -66,7 +56,7 @@ public:
     const string FragmentShaderLog() const;
     const string ProgramLog() const;
 
-    void AddAttribute(const string& attributeName, const VertexAttribIndex index);
+    void AddAttribute(const VertexAttribIndex index);
     bool Link();
     void Use();
 

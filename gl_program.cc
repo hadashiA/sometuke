@@ -9,18 +9,23 @@
 
 namespace kawaii {
 
-const GLchar *UNIFORM_NAME_PMatrix        = "u_PMatrix";
-const GLchar *UNIFORM_NAME_MVMatrix       = "u_MVMatrix";
-const GLchar *UNIFORM_NAME_MVPMatrix      = "u_MVPMatrix";
-const GLchar *UNIFORM_NAME_Time           = "u_Time";
-const GLchar *UNIFORM_NAME_SinTime        = "u_SinTime";
-const GLchar *UNIFORM_NAME_CosTime        = "u_CosTime";
-const GLchar *UNIFORM_NAME_Random01       = "u_Random01";
-const GLchar *UNIFORM_NAME_Sampler        = "u_Sampler";
+const GLchar *UNIFORM_NAMES[kUniform_MAX] = {
+    "u_PMatrix",
+    "u_MVMatrix",
+    "u_MVPMatrix",
+    "u_Time",
+    "u_SinTime",
+    "u_CosTime",
+    "u_Random01",
+    "u_Sampler",
+};
 
-const GLchar *ATTRIBUTE_NAME_Position = "a_Position";
-const GLchar *ATTRIBUTE_NAME_Color    = "a_Color";
-const GLchar *ATTRIBUTE_NAME_TexCoord = "a_TexCoord";
+const GLchar *VERTEX_ATTRIB_NAMES[kVertexAttrib_MAX] = {
+    "a_Position",
+    "a_Color",
+    "a_TexCoord"
+};
+
 
 GLProgram::GLProgram() : vertShader_(0),
                          fragShader_(0) {
@@ -72,8 +77,9 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
     return true;
 }
 
-void GLProgram::AddAttribute(const string& attributeName, const VertexAttribIndex index) {
-    glBindAttribLocation(program_, index, attributeName.c_str());
+void GLProgram::AddAttribute(const VertexAttribIndex index) {
+    const GLchar *attribName = VERTEX_ATTRIB_NAMES[index];
+    glBindAttribLocation(program_, index, attribName);
 }
 
 void GLProgram::Use() {
@@ -113,21 +119,14 @@ bool GLProgram::Link() {
 }
 
 void GLProgram::UpdateUniformLocations() {
-    uniform_locations_[kUniform_PMatrix]   = glGetUniformLocation(program_, UNIFORM_NAME_PMatrix);
-    uniform_locations_[kUniform_MVMatrix]  = glGetUniformLocation(program_, UNIFORM_NAME_MVMatrix);
-    uniform_locations_[kUniform_MVPMatrix] = glGetUniformLocation(program_, UNIFORM_NAME_MVPMatrix);
+    for (int i = 0; i < kUniform_MAX; ++i) {
+        uniform_locations_[i] = glGetUniformLocation(program_, UNIFORM_NAMES[i]);
+    }
 
-    uniform_locations_[kUniform_Time]    = glGetUniformLocation(program_, UNIFORM_NAME_Time);
-    uniform_locations_[kUniform_SinTime] = glGetUniformLocation(program_, UNIFORM_NAME_SinTime);
-    uniform_locations_[kUniform_CosTime] = glGetUniformLocation(program_, UNIFORM_NAME_CosTime);
     usesTime_ = (uniform_locations_[kUniform_Time] ||
                  uniform_locations_[kUniform_SinTime] ||
                  uniform_locations_[kUniform_CosTime]);
 
-    uniform_locations_[kUniform_Random01] = glGetUniformLocation(program_, UNIFORM_NAME_Random01);
-
-    uniform_locations_[kUniform_Sampler]  = glGetUniformLocation(program_, UNIFORM_NAME_Sampler);
-    
     Use();
     glUniform1i(uniform_locations_[kUniform_Sampler], 0);
 }
