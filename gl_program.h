@@ -63,6 +63,8 @@ public:
     void UpdateUniformLocations();
     void SetUniformsForBuiltins();
     void SetUniformMatrix4fv(const UniformLabel label, const GLfloat *value);
+    void SetUniform1i(const UniformLabel label, GLint v0);
+    void SetUniform1f(const UniformLabel label, GLfloat v0);
 
 private:
     bool CompileShader(GLuint *shader, GLenum type, const GLchar *source);

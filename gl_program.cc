@@ -128,7 +128,7 @@ void GLProgram::UpdateUniformLocations() {
                  uniform_locations_[kUniform_CosTime]);
 
     Use();
-    glUniform1i(uniform_locations_[kUniform_Sampler], 0);
+    SetUniform1i(kUniform_Sampler, 0);
 }
 
 void GLProgram::SetUniformsForBuiltins() {
@@ -136,7 +136,6 @@ void GLProgram::SetUniformsForBuiltins() {
     mat4 model_view = MatrixStack::GLModelView()->Get();
     mat4 model_view_projection = model_view * projection;
 
-    // glUniformMatrix4fv(uniform_MVPMatrix_, 1, GL_FALSE, model_view_projection.Pointer());
     SetUniformMatrix4fv(kUniform_MVPMatrix, model_view_projection.Pointer());
 }
 
@@ -144,6 +143,13 @@ void GLProgram::SetUniformMatrix4fv(const UniformLabel label, const GLfloat *val
     glUniformMatrix4fv(uniform_locations_[label], 1, GL_FALSE, value);
 }
 
+void GLProgram::SetUniform1i(const UniformLabel label, GLint v0) {
+    glUniform1i(uniform_locations_[label], v0);
+}
+
+void GLProgram::SetUniform1f(const UniformLabel label, GLfloat v0) {
+    glUniform1i(uniform_locations_[label], v0);
+}
 
 // private
 
