@@ -8,6 +8,16 @@
 
 namespace kawaii {
 
+static inline unsigned long NextPowerOf2(unsigned long x) {
+    x = x - 1;
+    x = x | (x >> 1);
+    x = x | (x >> 2);
+    x = x | (x >> 4);
+    x = x | (x >> 8);
+    x = x | (x >>16);
+    return x + 1;
+}
+
 class Texture2D {
 public:
     typedef enum {
@@ -40,18 +50,20 @@ public:
 
     Texture2D();
 
-    void LoadData(const void* data, PixelFormat pixelFormat, ivec2 pixelSize_, vec2 contentSize_);
+    void LoadData(const void* data, PixelFormat pixel_format,
+                  ivec2 pixelSize_, vec2 contentSize_);
+
 private:
     GLuint id_;
-    ivec2 pixelSize_;
-    vec2 contentSize_;
+    ivec2 pixel_size_;
+    vec2 content_size_;
     PixelFormat format_;
     GLfloat max_s_;
     GLfloat max_t_;
     bool has_premultipled_alpha_;
     bool has_mipmaps_;
     
-    shared_ptr<GLProgram> shaderProgram_;
+    shared_ptr<GLProgram> shader_program_;
 };
 
 }
