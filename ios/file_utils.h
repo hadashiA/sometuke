@@ -3,10 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace kawaii {
 
 using namespace std;
+
+class Texture2D;
 
 typedef enum {
     kiPhone,
@@ -23,7 +26,7 @@ static const string IPAD_RETINA_DISPLAY_SUFFIX   = "-ipad@x2";
 
 const DeviceType RunningDevice();
 const string FullPathFromRelativePath(const string& relative_path);
-vector<char> ReadResource(const string& relative_path);
+shared_ptr<Texture2D> ReadTextureResource(const string &relative_path);
 string ReadStringResource(const string& relative_path);
 
 } 

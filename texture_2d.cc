@@ -85,10 +85,3 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
 }
 
 }
-
-
-
-
-
-
-

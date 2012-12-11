@@ -1,10 +1,20 @@
-#include "file_utils.h"
-#include "logger.h"
-
 #include <fstream>
+
 #include <UIKit/UIKit.h>
 
+#include "file_utils.h"
+#include "logger.h"
+#include "texture_2d.h"
+
 namespace kawaii {
+
+bool EndsWith(const string& str, const string& suffix) {
+    if (str.length() >= suffix.length()) {
+        return (0 == str.compare(str.length() - suffix.length(), suffix.length(), suffix));
+    } else {
+        return false;
+    }
+}
 
 const DeviceType RunningDevice() {
     static DeviceType __running_device = kDeviceNone;
@@ -93,6 +103,37 @@ vector<char> ReadResource(const string &relative_path) {
     io.close();
 
     return buf;
+}
+
+shared_ptr<Texture2D> ReadTextureResource(const string &relative_path) {
+    string full_path = FullPathFromRelativePath(relative_path);
+    NSString *full_path_ns = [NSString stringWithUTF8String:full_path.c_str()];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:full_path_ns];
+
+    CGImageRef cg_image = image.CGImage;
+    if (cg_image == NULL) {
+        IIERROR("Can't create Texture. cgImage is NULL");
+        return NULL;
+    }
+
+    CGImageAlphaInfo info = CGImageGetAlphaInfo(cg_image);
+
+    unsigned int texture_width, texture_height;
+    CGContextRef context = NULL;
+    void *data = NULL;
+    CGColorSpaceRef color_space;
+    void *temp_data;
+    unsigned int *in_pixel_32;
+    unsigned short *out_pixel_16;
+    bool has_alpha;
+    float content_width, content_height;
+    Texture2D::PixelFormat pixel_format;
+
+    
+
+    [image release];
+
+    return NULL;
 }
 
 string ReadStringResource(const string &relative_path) {
