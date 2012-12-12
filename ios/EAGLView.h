@@ -8,6 +8,7 @@
 
 #import "IIProtocols.h"
 #import "kawaii/director.h"
+#import "kawaii/ios/ios_surface.h"
 
 // @interface EAGLView : UIView <UIKeyInput, UITextInput> {
 @interface EAGLView : UIView <IIGameLoop> {
@@ -47,8 +48,6 @@
     float dt_;
 
     BOOL isAnimating_;
-
-    kawaii::Director *director_;
 }
 
 + (id)viewWithFrame:(CGRect)frame
@@ -71,6 +70,10 @@
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
 
+@property (nonatomic, readonly) kawaii::Director *director;
+
+@property (nonatomic, readonly) GLint backingWidth;
+@property (nonatomic, readonly) GLint backingHeight;
 @property (nonatomic, readonly) NSString *eaglColorFormat;
 @property (nonatomic, readonly) unsigned int pixelFormat;
 @property (nonatomic, readonly) GLuint depthFormat;

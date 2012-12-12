@@ -10,20 +10,30 @@
 
 namespace kawaii {
 
-void Director::SetProjection(float width, float height) {
-    winSizeInPoints_ = vec2(width, height);
-    winSizeInPixels_ = winSizeInPoints_ * content_scale_factor_;
+Director *Director::__current = NULL;
+Director *Director::Current() {
+    if (__current == NULL) {
+        __current = new Director();
+    }
+    return __current;
+}
 
-    IIINFO("Director::SetProjection %fx%f", winSizeInPoints_.x, winSizeInPoints_.y);
-    glViewport(0, 0, winSizeInPoints_.x, winSizeInPoints_.y);
+void Director::SetProjection(Surface *surface) {
+    surface_.reset(surface);
 
-    float zeye = winSizeInPixels_.y / 1.1566f / content_scale_factor_;
-    mat4 projection = mat4::Perspective(60, winSizeInPoints_.x / winSizeInPoints_.y,
+    vec2 size_in_points = surface_->size_in_points();
+    vec2 size_in_pixels = surface_->size_in_pixels();
+    
+    IIINFO("SetProjection %fx%f", size_in_points.x, size_in_points.y);
+    glViewport(0, 0, size_in_points.x, size_in_points.y);
+
+    float zeye = size_in_pixels.y / 1.1566f / surface_->content_scale_factor();
+    mat4 projection = mat4::Perspective(60, size_in_points.x / size_in_points.y,
                                         0.1f, zeye * 2);
     MatrixStack::GLProjection()->Push(projection);
 
-    vec3 eye(winSizeInPoints_.x / 2, winSizeInPoints_.y / 2, zeye);
-    vec3 center(winSizeInPoints_.x / 2, winSizeInPoints_.y / 2, 0);
+    vec3 eye(size_in_points.x / 2, size_in_points.y / 2, zeye);
+    vec3 center(size_in_points.x / 2, size_in_points.y / 2, 0);
     vec3 up(0, 1, 0);
     mat4 model_view = mat4::LookAt(eye, center, up);
     MatrixStack::GLModelView()->Push(model_view);

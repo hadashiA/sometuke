@@ -10,6 +10,8 @@
 
 @implementation EAGLView
 @synthesize
+    backingWidth=backingWidth_,
+    backingHeight=backingHeight_,
     eaglColorFormat=eaglColorFormat_,
     pixelFormat=pixelFormat_,
     depthFormat=depthFormat_,
@@ -107,17 +109,15 @@
 
         supportsDiscardFramebuffer_ = [self checkForGLExtension:@"GL_EXT_discard_framebuffer"];
 
-        CGSize size = self.bounds.size;
-        float contentScaleFactor = [UIScreen mainScreen].scale;
-        
         nextDeltaTimeZero_ = YES;
         lastDisplayTime_ = 0;
 
         isAnimating_ = NO;
 
-        director_ = new kawaii::Director(contentScaleFactor);
-        director_->SetProjection(size.width, size.height);
-        // director.Sample();
+        CGSize size = self.bounds.size;
+        backingWidth_  = size.width;
+        backingHeight_ = size.height;
+        kawaii::Director::Current()->SetProjection(new kawaii::IOSSurface(self));
 
         [self mainLoop:nil];
     }
@@ -242,13 +242,12 @@
     return [extensionsNames containsObject: searchName];
 }
 
-
 #pragma mark -
 #pragma mark UIView callbacks
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    director_->SetProjection(backingWidth_, backingHeight_);
+    kawaii::Director::Current()->SetProjection(new kawaii::IOSSurface(self));
 
     [self mainLoop:nil];
 }
@@ -261,7 +260,7 @@
 
     [self calculateDeltaTime];
 
-    director_->DrawScene(dt_);
+    kawaii::Director::Current()->DrawScene(dt_);
 
     [self swapBuffers];
 }
@@ -271,7 +270,7 @@
         return;
     }
 
-    int frameInterval = (int)floor(director_->animation_interval() * 60.0f);
+    int frameInterval = (int)floor(kawaii::Director::Current()->animation_interval() * 60.0f);
     displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
     [displayLink_ setFrameInterval:frameInterval];
 
@@ -311,7 +310,6 @@
 #pragma mark Memory Managements
 
 - (void)dealloc {
-    delete director_;
     [super dealloc];
 }
 @end

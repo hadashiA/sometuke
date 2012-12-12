@@ -31,9 +31,9 @@ public:
     void LoadDefaultShaders();
 
 private:
-    ShaderCache() {}
-
     static ShaderCache *__shared;
+
+    ShaderCache() {}
 
     shared_ptr<GLProgram> shaders_[kShaderLabel_Max];
 };
