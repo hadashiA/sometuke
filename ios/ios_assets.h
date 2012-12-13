@@ -2,33 +2,26 @@
 #define __kawaii__ios_assets__
 
 #include "kawaii/assets.h"
+#include "kawaii/ios/platform.h"
 
 namespace kawaii {
 
 using namespace std;
 
-// TODO: Device that separates
-typedef enum {
-    kiPhone,
-    kiPhoneRetinaDisplay,
-    kiPad,
-    kiPadRetinaDisplay,
-
-    kDeviceNone,
-} DeviceType;
-
-static const string IPHONE_RETINA_DISPLAY_SUFFIX = "@x2";
-static const string IPAD_SUFFIX                  = "-ipad";
-static const string IPAD_RETINA_DISPLAY_SUFFIX   = "-ipad@x2";
-
 class IOSAssets : public Assets {
 public:
+    IOSAssets() {
+        suffixes_[kiPhone]              = "";
+        suffixes_[kiPhoneRetinaDisplay] = "@x2";
+        suffixes_[kiPad]                = "-ipad";
+        suffixes_[kiPadRetinaDisplay]   = "-ipad@x2";
+    }
+
     vector<char> ReadBytes(const string& relative_path);
     shared_ptr<Texture2D> ReadTexture(const string &relative_path);
     string ReadString(const string& relative_path);
 
 private:
-    const DeviceType RunningDevice();
     const string FullPathFromRelativePath(const string& relative_path);
 
     bool EndsWith(const string& str, const string& suffix) {
@@ -38,6 +31,8 @@ private:
             return false;
         }
     }
+
+    string suffixes_[kDevice_MAX];
 };
 
 } 

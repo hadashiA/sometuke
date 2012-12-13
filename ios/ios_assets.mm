@@ -7,38 +7,10 @@
 
 namespace kawaii {
 
-const DeviceType IOSAssets::RunningDevice() {
-    static DeviceType __running_device = kDeviceNone;
-    if (__running_device == kDeviceNone) {
-        float content_scale_factor = [[UIScreen mainScreen] scale];
-
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            __running_device = (content_scale_factor == 2 ? kiPadRetinaDisplay : kiPad);
-        } else {
-            __running_device = (content_scale_factor == 2 ? kiPhoneRetinaDisplay : kiPhone);
-        }
-    }
-    return __running_device;
-}
-
 const string IOSAssets::FullPathFromRelativePath(const string& relative_path) {
     DeviceType d = RunningDevice();
 
-    string suffix;
-    switch (d) {
-    case kiPadRetinaDisplay:
-        suffix = IPAD_RETINA_DISPLAY_SUFFIX;
-        break;
-    case kiPad:
-        suffix = IPAD_SUFFIX;
-        break;
-    case kiPhoneRetinaDisplay:
-        suffix = IPHONE_RETINA_DISPLAY_SUFFIX;
-        break;
-    default:
-        suffix = "";
-        break;
-    }
+    string suffix = suffixes_[d];
         
     int ext_pos = relative_path.find_last_of('.');
     string extname  = (ext_pos == string::npos ? "" : relative_path.substr(ext_pos));
