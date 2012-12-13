@@ -1,11 +1,11 @@
 #include "gl_program.h"
 
-#include <vector>
-#include <iostream>
-
-#include "file_utils.h"
+#include "director.h"
 #include "logger.h"
 #include "matrix_stack.h"
+
+#include <vector>
+#include <iostream>
 
 namespace kawaii {
 
@@ -37,8 +37,9 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    string vShaderSource = ReadStringResource(vShaderFilename);
-    string fShaderSource = ReadStringResource(fShaderFilename);
+    Director *director = Director::Current();
+    string vShaderSource = director->assets()->ReadString(vShaderFilename);
+    string fShaderSource = director->assets()->ReadString(fShaderFilename);
     
     return LoadShaderSources(vShaderSource.c_str(), fShaderSource.c_str());
 }

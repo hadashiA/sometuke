@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace kawaii {
 using namespace std;
@@ -12,7 +13,7 @@ class Texture2D;
 class Assets {
 public:
     virtual ~Assets() {}
-    virtual vector<char> ReadResource(const string &relative_path) = 0;
+    virtual vector<char> ReadBytes(const string& relative_path) = 0;
     virtual shared_ptr<Texture2D> ReadTexture(const string &relative_path) = 0;
     virtual string ReadString(const string &relative_path) = 0;
 };

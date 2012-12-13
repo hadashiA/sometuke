@@ -1,22 +1,13 @@
-#include <fstream>
-
-#include <UIKit/UIKit.h>
-
-#include "file_utils.h"
+#include "ios_assets.h"
 #include "logger.h"
 #include "texture_2d.h"
 
+#include <UIKit/UIKit.h>
+#include <fstream>
+
 namespace kawaii {
 
-bool EndsWith(const string& str, const string& suffix) {
-    if (str.length() >= suffix.length()) {
-        return (0 == str.compare(str.length() - suffix.length(), suffix.length(), suffix));
-    } else {
-        return false;
-    }
-}
-
-const DeviceType RunningDevice() {
+const DeviceType IOSAssets::RunningDevice() {
     static DeviceType __running_device = kDeviceNone;
     if (__running_device == kDeviceNone) {
         float content_scale_factor = [[UIScreen mainScreen] scale];
@@ -30,7 +21,7 @@ const DeviceType RunningDevice() {
     return __running_device;
 }
 
-const string FullPathFromRelativePath(const string& relative_path) {
+const string IOSAssets::FullPathFromRelativePath(const string& relative_path) {
     DeviceType d = RunningDevice();
 
     string suffix;
@@ -95,7 +86,7 @@ const string FullPathFromRelativePath(const string& relative_path) {
     }
 }
 
-vector<char> ReadResource(const string &relative_path) {
+vector<char> IOSAssets::ReadBytes(const string &relative_path) {
     ifstream io(FullPathFromRelativePath(relative_path));
     size_t size = io.seekg(0, ios::end).tellg();
     vector<char> buf(size);
@@ -105,7 +96,7 @@ vector<char> ReadResource(const string &relative_path) {
     return buf;
 }
 
-shared_ptr<Texture2D> ReadTextureResource(const string &relative_path) {
+shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
     string full_path = FullPathFromRelativePath(relative_path);
     NSString *full_path_ns = [NSString stringWithUTF8String:full_path.c_str()];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:full_path_ns];
@@ -136,8 +127,8 @@ shared_ptr<Texture2D> ReadTextureResource(const string &relative_path) {
     return NULL;
 }
 
-string ReadStringResource(const string &relative_path) {
-    vector<char> buf = ReadResource(relative_path);
+string IOSAssets::ReadString(const string &relative_path) {
+    vector<char> buf = ReadBytes(relative_path);
     return string(buf.begin(), buf.end());
 }
 

@@ -41,7 +41,7 @@ public:
         animation_interval_ = value;
     }
 
-    const Assets *assets() {
+    Assets *assets() {
         return assets_.get();
     }
 
