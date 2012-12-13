@@ -121,7 +121,7 @@
         director->set_content_scale_factor(scale);
         director->ReshapeProjection(size.width, size.height);
 
-        [self mainLoop:nil];
+        // [self mainLoop:nil];
     }
     return self;
 }
