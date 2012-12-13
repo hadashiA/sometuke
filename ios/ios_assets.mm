@@ -92,6 +92,7 @@ shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
     float content_width, content_height;
     Texture2D::PixelFormat pixel_format;
 
+    unsigned int ios_version = RunningVersion();
     
 
     [image release];

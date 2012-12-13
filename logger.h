@@ -7,14 +7,26 @@
 #include <time.h>
 #include <stdarg.h>
 
-#define IIINFO(s, ...)   kawaii::log("INFO", s, ##__VA_ARGS__)
-#define IIWARN(s, ...)   kawaii::log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...)  kawaii::log("ERROR", s, ##__VA_ARGS__)
+#if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
+#define IIINFO(...)  do {} while (0)
+#define IIWARN(...)  do {} while (0)
+#define IIERROR(...) do {} while (0)
+
+#elif KAWAII_DEBUG == 1
+#define IIINFO(...)     do {} while (0)
+#define IIWARN(s, ...)  kawaii::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
+
+#elif KAWAII_DEBUG > 1
+#define IIINFO(s, ...)  kawaii::Log("INFO", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  kawaii::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
+#endif
 
 namespace kawaii {
 using namespace std;
 
-static void log(const char *loglevel, const string message, ...) {
+static void Log(const char *loglevel, const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
     printf("kawaii - %04d-%02d-%02d %02d:%02d:%02d [%s] ",

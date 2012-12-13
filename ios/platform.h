@@ -38,7 +38,7 @@ typedef enum {
 } DeviceType;
 
 
-static const DeviceType RunningDevice() {
+static inline const DeviceType RunningDevice() {
     static DeviceType __running_device = kDevice_MAX;
     if (__running_device == kDevice_MAX) {
         float content_scale_factor = [[UIScreen mainScreen] scale];
@@ -52,7 +52,7 @@ static const DeviceType RunningDevice() {
     return __running_device;
 }
 
-static const unsigned int RunningVersion() {
+static inline const unsigned int RunningVersion() {
     static unsigned int __ios_version = 0;
 
     if (__ios_version == 0) {

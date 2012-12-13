@@ -58,7 +58,7 @@ void Director::MainLoop(float delta_time) {
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
 
-    vec2 pos(10 + total_time_, 10);
+    vec2 pos(10 + total_time_, 10 + total_time_);
     glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
 
     glDrawArrays(GL_POINTS, 0, 1);
