@@ -117,7 +117,7 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        kawaii::Director director = kawaii::Director::Current();
+        kawaii::Director *director = kawaii::Director::Current();
         director->set_content_scale_factor(scale);
         director->ReshapeProjection(size.width, size.height);
 

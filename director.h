@@ -41,11 +41,11 @@ public:
         animation_interval_ = value;
     }
 
-    const *Assets assets() {
+    const Assets *assets() {
         return assets_.get();
     }
 
-    void set_assets(const Assets *assets) {
+    void set_assets(Assets *assets) {
         assets_.reset(assets);
     }
 
