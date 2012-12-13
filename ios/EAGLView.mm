@@ -113,13 +113,6 @@
         lastDisplayTime_ = 0;
 
         isAnimating_ = NO;
-
-        CGSize size = self.bounds.size;
-        backingWidth_  = size.width;
-        backingHeight_ = size.height;
-        kawaii::Director::Current()->SetProjection(new kawaii::IOSSurface(self));
-
-        [self mainLoop:nil];
     }
     return self;
 }
@@ -247,21 +240,19 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    kawaii::Director::Current()->SetProjection(new kawaii::IOSSurface(self));
+    kawaii::Director::Current()->ReshapeProjection();
 
     [self mainLoop:nil];
 }
 
 #pragma mark -
-#pragma mark PPGameLoop Protocol
+#pragma mark IIGameLoop Protocol
 
 - (void)mainLoop:(CADisplayLink *)displayLink {
     [EAGLContext setCurrentContext:context_];
 
     [self calculateDeltaTime];
-
-    kawaii::Director::Current()->DrawScene(dt_);
-
+    kawaii::Director::Current()->MainLoop(dt_);
     [self swapBuffers];
 }
 

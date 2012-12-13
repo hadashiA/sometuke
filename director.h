@@ -14,15 +14,19 @@ class Director {
 public:
     static Director *Current();
 
-    void SetProjection(Surface *surface);
-    void DrawScene(float deltaTime);
+    void ReshapeProjection();
+    void MainLoop(float deltaTime);
+
+    const Surface *surface() {
+        return surface_.get();
+    }
+
+    void set_surface(Surface *surface) {
+        surface_.reset(surface);
+    }
 
     const double animation_interval() const {
         return animation_interval_;
-    }
-
-    Surface *surface() {
-        return surface_.get();
     }
 
     void set_animation_interval(double value) {

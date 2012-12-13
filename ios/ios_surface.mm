@@ -1,10 +1,10 @@
 #include "ios_surface.h"
 
-#include "EAGLView.mm"
+#include "EAGLView.h"
 
 namespace kawaii {
 
-const float IOSSurface::content_scale_factor() const {
+const float IOSSurface::scale() const {
     return [UIScreen mainScreen].scale;
 }
 

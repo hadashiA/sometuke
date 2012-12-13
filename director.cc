@@ -18,16 +18,15 @@ Director *Director::Current() {
     return __current;
 }
 
-void Director::SetProjection(Surface *surface) {
-    surface_.reset(surface);
-
-    vec2 size_in_points = surface_->size_in_points();
-    vec2 size_in_pixels = surface_->size_in_pixels();
+void Director::ReshapeProjection() {
+    const vec2 size_in_points = surface_->size_in_points();
+    const vec2 size_in_pixels = surface_->size_in_pixels();
+    const float scale = surface_->scale;
     
     IIINFO("SetProjection %fx%f", size_in_points.x, size_in_points.y);
     glViewport(0, 0, size_in_points.x, size_in_points.y);
 
-    float zeye = size_in_pixels.y / 1.1566f / surface_->content_scale_factor();
+    float zeye = size_in_pixels.y / 1.1566f / scale;
     mat4 projection = mat4::Perspective(60, size_in_points.x / size_in_points.y,
                                         0.1f, zeye * 2);
     MatrixStack::GLProjection()->Push(projection);
@@ -41,7 +40,7 @@ void Director::SetProjection(Surface *surface) {
     CHECK_GL_ERROR();
 }
 
-void Director::DrawScene(float delta_time) {
+void Director::MainLoop(float delta_time) {
     total_time_ += delta_time;
 
     glClearColor(0.5, 0.5, 0.5, 1);
