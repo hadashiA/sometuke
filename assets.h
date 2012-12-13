@@ -4,6 +4,9 @@
 #include <vector>
 #include <memory>
 
+namespace kawaii {
+using namespace std;
+
 class Texture2D;
 
 class Assets {
@@ -12,5 +15,7 @@ public:
     virtual shared_ptr<Texture2D> ReadTexture(const string &relative_path) = 0;
     virtual string ReadString(const string &relative_path) = 0;
 };
+
+}
 
 #endif /* defined(__kawaii__resource_loader__) */

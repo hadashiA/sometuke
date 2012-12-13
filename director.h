@@ -5,6 +5,7 @@
 #include <OpenGLES/ES2/gl.h>
 
 #include "vector.h"
+#include "assets.h"
 
 namespace kawaii {
 using namespace std;
@@ -40,6 +41,14 @@ public:
         animation_interval_ = value;
     }
 
+    const *Assets assets() {
+        return assets_.get();
+    }
+
+    void set_assets(const Assets *assets) {
+        assets_.reset(assets);
+    }
+
 private:
     static Director *__current;
 
@@ -57,6 +66,8 @@ private:
 
     double animation_interval_;
     float total_time_;
+
+    shared_ptr<Assets> assets_;
 };
 
 } // namespace kawaii
