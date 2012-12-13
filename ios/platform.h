@@ -1,6 +1,8 @@
 #ifndef __kawaii__ios__platform__
 #define __kawaii__ios__platform__
 
+#include "kawaii/logger.h"
+
 // TODO: Device staff that separates file
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 #define __II_PLATFORM_IOS 1
@@ -8,7 +10,7 @@
 
 namespace kawaii {
 
-typedef enum {
+enum {
     kiOSVersion_4_0   = 0x04000000,
     kiOSVersion_4_0_1 = 0x04000100,
     kiOSVersion_4_1   = 0x04010000,
@@ -24,7 +26,7 @@ typedef enum {
     kiOSVersion_5_0_1 = 0x05000100,
     kiOSVersion_5_1_0 = 0x05010000,
     kiOSVersion_6_0_0 = 0x06000000,
-} kiOSVersion;
+};
 
 typedef enum {
     kiPhone,
@@ -48,6 +50,24 @@ static const DeviceType RunningDevice() {
         }
     }
     return __running_device;
+}
+
+static const unsigned int RunningVersion() {
+    static unsigned int __ios_version = 0;
+
+    if (__ios_version == 0) {
+        NSString *versionStr = [[UIDevice currentDevice] systemVersion];
+        NSArray *arr = [versionStr componentsSeparatedByString:@"."];
+        int idx = 0x01000000;
+        for( NSString *str in arr ) {
+            int value = [str intValue];
+            __ios_version += value * idx;
+            idx = idx >> 8;
+        }
+        IIINFO("iOS version: %s (0x%08x)", [versionStr UTF8String], __ios_version);
+    }
+
+    return __ios_version;
 }
 
 }
