@@ -3,8 +3,11 @@
 
 namespace kawaii {
 
-Texture2D::Texture2D() : id_(0), pixel_size_(0, 0), content_size_(0, 0),
-                         format_(kPixelFormat_Default) {
+Texture2D::Texture2D()
+    : id_(0),
+      pixel_size_(0, 0),
+      content_size_(0, 0),
+      format_(kPixelFormat_Default) {
     glGenTextures(1, &id_);
     glBindTexture(GL_TEXTURE_2D, id_);
 }

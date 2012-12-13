@@ -52,11 +52,11 @@ public:
 private:
     static Director *__current;
 
-    Director() :
-        total_time_(0),
-        size_in_points_(0, 0),
-        size_in_pixels_(0, 0),
-        content_scale_factor_(1) {
+    Director()
+        : total_time_(0),
+          size_in_points_(0, 0),
+          size_in_pixels_(0, 0),
+          content_scale_factor_(1) {
         set_animation_interval(1.0 / 60);
     };
     

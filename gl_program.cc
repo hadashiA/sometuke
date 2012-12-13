@@ -27,8 +27,9 @@ const GLchar *VERTEX_ATTRIB_NAMES[kVertexAttrib_MAX] = {
 };
 
 
-GLProgram::GLProgram() : vertShader_(0),
-                         fragShader_(0) {
+GLProgram::GLProgram()
+    : vertShader_(0),
+      fragShader_(0) {
     program_ = glCreateProgram();
     for (int i = 0; i < kUniform_MAX; ++i) {
         uniform_locations_[i] = -1;
