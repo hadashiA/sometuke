@@ -113,6 +113,15 @@
         lastDisplayTime_ = 0;
 
         isAnimating_ = NO;
+
+        CGSize size = self.bounds.size;
+        float scale = [UIScreen mainScreen].scale;
+
+        kawaii::Director director = kawaii::Director::Current();
+        director->set_content_scale_factor(scale);
+        director->ReshapeProjection(size.width, size.height);
+
+        [self mainLoop:nil];
     }
     return self;
 }
@@ -240,7 +249,8 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    kawaii::Director::Current()->ReshapeProjection();
+    kawaii::Director::Current()->ReshapeProjection(backingWidth_,
+                                                   backingHeight_);
 
     [self mainLoop:nil];
 }

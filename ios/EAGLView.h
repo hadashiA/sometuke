@@ -8,7 +8,6 @@
 
 #import "IIProtocols.h"
 #import "kawaii/director.h"
-#import "kawaii/ios/ios_surface.h"
 
 // @interface EAGLView : UIView <UIKeyInput, UITextInput> {
 @interface EAGLView : UIView <IIGameLoop> {

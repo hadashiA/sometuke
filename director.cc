@@ -18,15 +18,14 @@ Director *Director::Current() {
     return __current;
 }
 
-void Director::ReshapeProjection() {
-    const vec2 size_in_points = surface_->size_in_points();
-    const vec2 size_in_pixels = surface_->size_in_pixels();
-    const float scale = surface_->scale;
+void Director::ReshapeProjection(const float width, const float height) {
+    const vec2 size_in_points(width, height);
+    const vec2 size_in_pixels = size_in_points * content_scale_factor_;
     
     IIINFO("SetProjection %fx%f", size_in_points.x, size_in_points.y);
     glViewport(0, 0, size_in_points.x, size_in_points.y);
 
-    float zeye = size_in_pixels.y / 1.1566f / scale;
+    float zeye = size_in_pixels.y / 1.1566f / content_scale_factor_;
     mat4 projection = mat4::Perspective(60, size_in_points.x / size_in_points.y,
                                         0.1f, zeye * 2);
     MatrixStack::GLProjection()->Push(projection);
