@@ -3,6 +3,8 @@
 
 #include "kawaii/logger.h"
 
+#include <OpenGLES/ES2/gl.h>
+
 // TODO: Device staff that separates file
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 #define __II_PLATFORM_IOS 1
@@ -37,7 +39,6 @@ typedef enum {
     kDevice_MAX,
 } DeviceType;
 
-
 static inline const DeviceType RunningDevice() {
     static DeviceType __running_device = kDevice_MAX;
     if (__running_device == kDevice_MAX) {
@@ -68,6 +69,22 @@ static inline const unsigned int RunningVersion() {
     }
 
     return __ios_version;
+}
+
+static inline const GLint MaxTextureSize() {
+    static GLint *__max_texture_size = NULL;
+    if (__max_texture_size == NULL) {
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, __max_texture_size);
+    }
+    return *__max_texture_size;
+}
+
+static inline const GLint MaxTextureUnits() {
+    static GLint *__max_texture_units = NULL;
+    if (__max_texture_units == NULL) {
+        glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, __max_texture_units);
+    }
+    return *__max_texture_units;
 }
 
 }

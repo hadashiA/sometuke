@@ -93,7 +93,50 @@ shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
     Texture2D::PixelFormat pixel_format;
 
     unsigned int ios_version = RunningVersion();
-    
+    if (ios_version >= kiOSVersion_4_0 && ios_version < kiOSVersion_5_0) {
+        has_alpha = ((info == kCGImageAlphaNoneSkipLast) ||
+                     (info == kCGImageAlphaPremultipliedLast) ||
+                     (info == kCGImageAlphaPremultipliedFirst) ||
+                     (info == kCGImageAlphaLast) ||
+                     (info == kCGImageAlphaFirst));
+    } else {
+        has_alpha = ((info == kCGImageAlphaPremultipliedLast) ||
+                     (info == kCGImageAlphaPremultipliedFirst) ||
+                     (info == kCGImageAlphaLast) ||
+                     (info == kCGImageAlphaFirst));
+    }
+
+    if ((color_space = CGImageGetColorSpace(cg_image))) {
+        if (has_alpha) {
+            pixel_format = Texture2D::kPixelFormat_Default;
+            info = kCGImageAlphaPremultipliedLast;
+        } else {
+            info = kCGImageAlphaNoneSkipLast;
+            
+            // Use RGBA8888 if default is RGBA8888, otherwise use RGB565.
+            // DO NOT USE RGB888 since it is the same as RGBA8888, but it is more expensive to create it
+            if (Texture2D::kPixelFormat_Default == Texture2D::kPixelFormat_RGBA8888 )
+                pixel_format = Texture2D::kPixelFormat_RGBA8888;
+            else
+                pixel_format = Texture2D::kPixelFormat_RGB565;
+            
+            IIINFO("Using RGB565 texture since image has no alpha");
+        }
+    } else {
+        IIINFO("Using A8 texture since image is a mask");
+        pixel_format = Texture2D::kPixelFormat_A8;
+    }
+
+    ivec2 pixel_size(CGImageGetWidth(cg_image),
+                     CGImageGetHeight(cg_image));
+
+    // iOS 5 BUG:
+    // If width is not word aligned, convert it to word aligned.
+    // http://www.cocos2d-iphone.org/forum/topic/31092
+    if (ios_version >= kiOSVersion_5_0) {
+    }
+
+    // unsigned int max_texture_size = 
 
     [image release];
 
