@@ -36,6 +36,8 @@ void Director::ReshapeProjection(const float width, const float height) {
     MatrixStack::GLModelView()->Push(model_view);
 
     CHECK_GL_ERROR();
+
+    shared_ptr<Texture2D> texture = assets_->ReadTexture("kid.png");
 }
 
 void Director::MainLoop(float delta_time) {
