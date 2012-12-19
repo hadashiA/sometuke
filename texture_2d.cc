@@ -1,7 +1,54 @@
 #include "texture_2d.h"
 #include "logger.h"
 
+#include <assert.h>
+
 namespace kawaii {
+
+unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
+    unsigned int ret = 0;
+
+    switch (format) {
+    case kPixelFormat_RGBA8888:
+        ret = 32;
+        break;
+    case kPixelFormat_RGB888:
+        // It is 32 and not 24, since its internal representation uses 32 bits.
+        ret = 32;
+        break;
+    case kPixelFormat_RGB565:
+        ret = 16;
+        break;
+    case kPixelFormat_RGBA4444:
+        ret = 16;
+        break;
+    case kPixelFormat_RGB5A1:
+        ret = 16;
+        break;
+    case kPixelFormat_AI88:
+        ret = 16;
+        break;
+    case kPixelFormat_A8:
+        ret = 8;
+        break;
+    case kPixelFormat_I8:
+        ret = 8;
+        break;
+    case kPixelFormat_PVRTC4:
+        ret = 4;
+        break;
+    case kPixelFormat_PVRTC2:
+        ret = 2;
+        break;
+    default:
+        ret = -1;
+        IIERROR("bitsPerPixelForFormat: %ld, cannot give useful result", (long)format);
+        assert(false);
+        break;
+    }
+
+    return ret;
+}
 
 Texture2D::Texture2D()
     : id_(0),

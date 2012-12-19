@@ -134,6 +134,7 @@ shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
     // If width is not word aligned, convert it to word aligned.
     // http://www.cocos2d-iphone.org/forum/topic/31092
     if (ios_version >= kiOSVersion_5_0) {
+        unsigned int bpp = 1;
     }
 
     // unsigned int max_texture_size = 

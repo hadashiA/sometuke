@@ -47,6 +47,7 @@ public:
 
     } PixelFormat;
 
+    static unsigned int BitsPerPixelForFormat(PixelFormat format);
 
     Texture2D();
 
