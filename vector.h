@@ -1,5 +1,5 @@
-#ifndef __kawaii_vector__
-#define __kawaii_vector__
+#ifndef __kawaii__vector__
+#define __kawaii__vector__
 
 #include <cmath>
 
@@ -224,4 +224,4 @@ typedef Vector4<float> vec4;
 } // namespace kawaii
 
 
-#endif /* defined(__kawaii_vector_) */
+#endif /* defined(__kawaii__vector__) */

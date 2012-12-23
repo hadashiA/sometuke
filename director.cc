@@ -1,6 +1,7 @@
 #include "director.h"
 #include "shader_cache.h"
 #include "logger.h"
+#include "texture_2d.h"
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -37,7 +38,10 @@ void Director::ReshapeProjection(const float width, const float height) {
 
     CHECK_GL_ERROR();
 
-    shared_ptr<Texture2D> texture = assets_->ReadTexture("kid.png");
+    texture_ = assets_->ReadTexture("kid.png");
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glBindTexture(GL_TEXTURE_2D, texture_->id());
 }
 
 void Director::MainLoop(float delta_time) {
@@ -64,6 +68,8 @@ void Director::MainLoop(float delta_time) {
     glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
 
     glDrawArrays(GL_POINTS, 0, 1);
+
+    
 }
 
 } // namespace kawaii

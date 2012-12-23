@@ -51,6 +51,10 @@ public:
 
     Texture2D();
 
+    const GLuint id() const {
+        return id_;
+    }
+
     void LoadData(const void* data, PixelFormat pixel_format,
                   ivec2 pixelSize_, vec2 contentSize_);
 

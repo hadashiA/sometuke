@@ -68,6 +68,9 @@ private:
     float total_time_;
 
     shared_ptr<Assets> assets_;
+
+    // debug
+    shared_ptr<Texture2D> texture_;
 };
 
 } // namespace kawaii
