@@ -8,14 +8,18 @@ namespace kawaii {
 
 struct Color3B {
 public:
-    Glubyte r;
+    Color3B(GLubyte red, GLubyte green, GLubyte blue)
+        : r(red), g(green), b(blue) {}
+
+    GLubyte r;
     GLubyte g;
     GLubyte b;
 };
 
 struct Color4B {
 public:
-    explicit Color4B(Color4F c) : r(c.r*255.f, c.g*255.f, c.b*255.f, c.a*255.f) {};
+    Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
+        : r(red), g(green), b(blue), a(alpha) {}
 
     GLubyte r;
     GLubyte g;
@@ -25,14 +29,21 @@ public:
 
 struct Color4F {
 public:
-    explicit Color4F(Color3B c) : r(c.r/255.f, c.g/255.f, c.b/255.f, 1.f) {};
-    explicit Color4F(Color4B c) : r(c.r/255.f, c.g/255.f, c.b/255.f, c.a/255.f) {};
+    Color4F(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+        : r(red), g(green), b(blue), a(alpha) {}
+
+    explicit Color4F(Color3B c) : r(c.r/255.f), g(c.g/255.f), b(c.b/255.f), a(1.f) {};
+    explicit Color4F(Color4B c) : r(c.r/255.f), g(c.g/255.f), b(c.b/255.f), a(c.a/255.f) {};
 
     GLfloat r;
     GLfloat g;
     GLfloat b;
     GLfloat a;
 };
+
+// struct Color4B {
+//     explicit Color4B(Color4F c) : r(c.r*255.f), g(c.g*255.f), b(c.b*255.f), a(c.a*255.f) {};
+// };
 
 }
 

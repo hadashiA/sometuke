@@ -71,6 +71,8 @@ private:
 
     // debug
     shared_ptr<Texture2D> texture_;
+    GLenum blend_func_src_;
+    GLenum blend_func_dst_;
 };
 
 } // namespace kawaii

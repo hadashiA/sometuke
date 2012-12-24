@@ -55,6 +55,18 @@ public:
         return id_;
     }
 
+    const bool has_premultipled_alpha() const {
+        return has_premultipled_alpha_;
+    }
+
+    const vec2 pixel_size() const {
+        return pixel_size_;
+    }
+
+    const vec2 content_size() const {
+        return content_size_;
+    }
+
     void LoadData(const void* data, PixelFormat pixel_format,
                   ivec2 pixelSize_, vec2 contentSize_);
 

@@ -55,28 +55,28 @@ struct Quad3 {
 struct P2F_C4B_T2F {
     vec2 pos;                   // 2F
     Color4B color;              // 4B
-    vec2 tex_coord;             // 2F
+    Tex2F tex_coord;             // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4F
 struct P2F_C4F_T2F {
     vec2 pos;                    // 2F
     Color4F color;               // 4F
-    vec2 tex_coord;              // 2F
+    Tex2F tex_coord;              // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4F
 struct P3F_C4F_T2F {
     vec3 pos;                   // 3F
     Color4F color;              // 4F
-    vec2 tex_coord;             // 2F
+    Tex2F tex_coord;             // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4B
 struct P3F_C4B_T2F {
     vec3 pos;                   // 3F
     Color4B color;              // 4B
-    vec2 tex_coord;             // 2F
+    Tex2F tex_coord;             // 2F
 };
 
 

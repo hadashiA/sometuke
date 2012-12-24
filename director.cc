@@ -2,11 +2,10 @@
 #include "shader_cache.h"
 #include "logger.h"
 #include "texture_2d.h"
-
-#include <OpenGLES/ES2/gl.h>
+#include "matrix_stack.h"
+#include "vertices.h"
 
 #include "OpenGL_Internal.h"
-#include "matrix_stack.h"
 
 namespace kawaii {
 
@@ -42,6 +41,33 @@ void Director::ReshapeProjection(const float width, const float height) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, texture_->id());
+
+    Quad_P3F_C4B_T2F quad;
+    Color4B tmp_color(255, 255, 255, 255);
+    quad.bottom_left.color  = tmp_color;
+    quad.bottom_right.color = tmp_color;
+    quad.top_left.color     = tmp_color;
+    quad.top_right.color    = tmp_color;
+
+    if (texture_.has_premultipled_alpha()) {
+        blend_func_src_ = GL_ONE;
+        blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
+    } else {
+        blend_func_src_ = GL_SRC_ALPHA;
+        blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
+    }
+
+    vec2 content_size = texture_.content_size();
+    float content_width  = content_size.x;
+    float content_height = content_size.y;
+
+    vec2 pixel_size = texture_.pixel_size();
+    float pixel_width  = pixel_size.x;
+    float pixel_height = pixel_size.y;
+
+    Rect rect(0, 0, content_width, content_height);
+
+    float left, right, top, bottom;
 }
 
 void Director::MainLoop(float delta_time) {

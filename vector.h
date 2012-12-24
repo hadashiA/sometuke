@@ -221,6 +221,14 @@ typedef Vector2<float> vec2;
 typedef Vector3<float> vec3;
 typedef Vector4<float> vec4;
 
+struct Rect {
+public:
+    Rect(float x, float y, float w, float h) : pos(x, y), size(w, h) {}
+
+    vec2 pos;
+    vec2 size;
+};
+
 } // namespace kawaii
 
 
