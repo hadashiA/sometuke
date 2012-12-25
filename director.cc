@@ -49,7 +49,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     quad.top_left.color     = tmp_color;
     quad.top_right.color    = tmp_color;
 
-    if (texture_.has_premultipled_alpha()) {
+    if (texture_->has_premultipled_alpha()) {
         blend_func_src_ = GL_ONE;
         blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
     } else {
@@ -57,11 +57,11 @@ void Director::ReshapeProjection(const float width, const float height) {
         blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
     }
 
-    vec2 content_size = texture_.content_size();
+    vec2 content_size = texture_->content_size();
     float content_width  = content_size.x;
     float content_height = content_size.y;
 
-    vec2 pixel_size = texture_.pixel_size();
+    vec2 pixel_size = texture_->pixel_size();
     float pixel_width  = pixel_size.x;
     float pixel_height = pixel_size.y;
 

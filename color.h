@@ -8,6 +8,7 @@ namespace kawaii {
 
 struct Color3B {
 public:
+    Color3B() {}
     Color3B(GLubyte red, GLubyte green, GLubyte blue)
         : r(red), g(green), b(blue) {}
 
@@ -18,6 +19,7 @@ public:
 
 struct Color4B {
 public:
+    Color4B() {}
     Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
         : r(red), g(green), b(blue), a(alpha) {}
 
@@ -29,6 +31,7 @@ public:
 
 struct Color4F {
 public:
+    Color4F() {}
     Color4F(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
         : r(red), g(green), b(blue), a(alpha) {}
 
