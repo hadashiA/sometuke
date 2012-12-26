@@ -37,9 +37,6 @@ void Director::ReshapeProjection(const float width, const float height) {
     CHECK_GL_ERROR();
 
     texture_ = assets_->ReadTexture("kid.png");
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    glBindTexture(GL_TEXTURE_2D, texture_->id());
 
     Color4B tmp_color(255, 255, 255, 255);
     quad_.bottom_left.color  = tmp_color;
@@ -88,34 +85,22 @@ void Director::MainLoop(float delta_time) {
 
     shared_ptr<GLProgram> p = texture_->shader_program();
     p->Use();
-    p->SetUniformsForBuiltins();
+    // p->SetUniformsForBuiltins();
 
-    GLint color_location = glGetUniformLocation(p->id(), "u_Color");
-    vec4 color(1, 0, 0, 1);
-    glUniform4fv(color_location, 1, color.Pointer());
+    // // set blending
+    // if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
+    //     glDisable(GL_BLEND);
+    // } else {
+    //     glEnable(GL_BLEND);
+    //     glBlendFunc(blend_func_src_, blend_func_dst_);
+    // }
 
-    GLint point_size_location = glGetUniformLocation(p->id(), "u_PointSize");
-    glUniform1f(point_size_location, 20);
+    // glBindTexture(GL_TEXTURE_2D, texture_->id());
 
-    // attributes
-    glEnableVertexAttribArray(kVertexAttrib_Position);
-    glEnableVertexAttribArray(kVertexAttrib_Color);
-    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
-
-    vec2 pos(10 + total_time_, 10 + total_time_);
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
-
-    glDrawArrays(GL_POINTS, 0, 1);
-
-    IIINFO("delta:%f bl.u:%f bl.v:%f",
-           delta_time,
-           quad_.bottom_left.tex_coord.u,
-           quad_.bottom_left.tex_coord.v
-           );
+    // // attributes
+    // glEnableVertexAttribArray(kVertexAttrib_Position);
+    // glEnableVertexAttribArray(kVertexAttrib_Color);
+    // glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 }
 
 } // namespace kawaii
-
-
-
-

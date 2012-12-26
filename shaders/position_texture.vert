@@ -1,4 +1,4 @@
-uniform mat4 u_MVPMatrix
+uniform mat4 u_MVPMatrix;
 
 attribute vec4 a_Position;
 attribute vec2 a_TexCoord;
