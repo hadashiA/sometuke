@@ -60,7 +60,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     float pixel_width  = pixel_size.x;
     float pixel_height = pixel_size.y;
 
-    Rect rect(0, 0, content_width, content_height);
+    Rect rect(100, 100, content_width, content_height);
 
     float left   = rect.pos.x / pixel_width;
     float right  = (rect.pos.x + rect.size.x) / pixel_width;
@@ -101,6 +101,30 @@ void Director::MainLoop(float delta_time) {
     glEnableVertexAttribArray(kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Color);
     glEnableVertexAttribArray(kVertexAttrib_TexCoords);
+
+#define VERTEX_SIZE sizeof(quad_.bottom_left)
+    long offset = (long)&quad_;
+    unsigned int diff;
+
+    // position
+    diff = 0; // offsetof(P3F_C4B_T2F, pos);
+    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    // texCoord
+    diff = sizeof(vec3) + sizeof(Color4B); // offsetof(P3F_C4B_T2F, tex_coord);
+    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    // color
+    diff = sizeof(vec3); // offsetof(P3F_C4B_T2F, color);
+    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    CHECK_GL_ERROR_DEBUG();
 }
 
 } // namespace kawaii
+
+
