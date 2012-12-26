@@ -85,22 +85,22 @@ void Director::MainLoop(float delta_time) {
 
     shared_ptr<GLProgram> p = texture_->shader_program();
     p->Use();
-    // p->SetUniformsForBuiltins();
+    p->SetUniformsForBuiltins();
 
-    // // set blending
-    // if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
-    //     glDisable(GL_BLEND);
-    // } else {
-    //     glEnable(GL_BLEND);
-    //     glBlendFunc(blend_func_src_, blend_func_dst_);
-    // }
+    // set blending
+    if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
+        glDisable(GL_BLEND);
+    } else {
+        glEnable(GL_BLEND);
+        glBlendFunc(blend_func_src_, blend_func_dst_);
+    }
 
-    // glBindTexture(GL_TEXTURE_2D, texture_->id());
+    glBindTexture(GL_TEXTURE_2D, texture_->id());
 
-    // // attributes
-    // glEnableVertexAttribArray(kVertexAttrib_Position);
-    // glEnableVertexAttribArray(kVertexAttrib_Color);
-    // glEnableVertexAttribArray(kVertexAttrib_TexCoords);
+    // attributes
+    glEnableVertexAttribArray(kVertexAttrib_Position);
+    glEnableVertexAttribArray(kVertexAttrib_Color);
+    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 }
 
 } // namespace kawaii
