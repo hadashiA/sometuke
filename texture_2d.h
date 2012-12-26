@@ -55,6 +55,10 @@ public:
         return id_;
     }
 
+    const shared_ptr<GLProgram> shader_program() const {
+        return shader_program_;
+    }
+
     const bool has_premultipled_alpha() const {
         return has_premultipled_alpha_;
     }

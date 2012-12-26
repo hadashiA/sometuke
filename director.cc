@@ -86,8 +86,8 @@ void Director::MainLoop(float delta_time) {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    ShaderCache shaders = *ShaderCache::Shared();
-    shared_ptr<GLProgram> p = shaders[kShader_Position_uColor];
+    shared_ptr<GLProgram> p = texture_->shader_program();
+    p->Use();
     p->SetUniformsForBuiltins();
 
     GLint color_location = glGetUniformLocation(p->id(), "u_Color");
@@ -99,6 +99,8 @@ void Director::MainLoop(float delta_time) {
 
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
+    glEnableVertexAttribArray(kVertexAttrib_Color);
+    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
     vec2 pos(10 + total_time_, 10 + total_time_);
     glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, pos.Pointer());
