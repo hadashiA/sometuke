@@ -3,7 +3,6 @@
 #include "logger.h"
 #include "texture_2d.h"
 #include "matrix_stack.h"
-#include "vertices.h"
 
 #include "OpenGL_Internal.h"
 
@@ -42,12 +41,11 @@ void Director::ReshapeProjection(const float width, const float height) {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, texture_->id());
 
-    Quad_P3F_C4B_T2F quad;
     Color4B tmp_color(255, 255, 255, 255);
-    quad.bottom_left.color  = tmp_color;
-    quad.bottom_right.color = tmp_color;
-    quad.top_left.color     = tmp_color;
-    quad.top_right.color    = tmp_color;
+    quad_.bottom_left.color  = tmp_color;
+    quad_.bottom_right.color = tmp_color;
+    quad_.top_left.color     = tmp_color;
+    quad_.top_right.color    = tmp_color;
 
     if (texture_->has_premultipled_alpha()) {
         blend_func_src_ = GL_ONE;
@@ -67,7 +65,19 @@ void Director::ReshapeProjection(const float width, const float height) {
 
     Rect rect(0, 0, content_width, content_height);
 
-    float left, right, top, bottom;
+    float left   = rect.pos.x / pixel_width;
+    float right  = (rect.pos.x + rect.size.x) / pixel_width;
+    float top    = rect.pos.y / pixel_height;
+    float bottom = (rect.pos.y + rect.size.y) / pixel_height;
+
+    quad_.bottom_left.tex_coord.u  = left;
+    quad_.bottom_left.tex_coord.v  = bottom;
+    quad_.bottom_right.tex_coord.u = right;
+    quad_.bottom_right.tex_coord.v = bottom;
+    quad_.top_left.tex_coord.u     = left;
+    quad_.top_left.tex_coord.v     = top;
+    quad_.top_right.tex_coord.u    = right;
+    quad_.top_right.tex_coord.v    = top;
 }
 
 void Director::MainLoop(float delta_time) {
@@ -95,7 +105,11 @@ void Director::MainLoop(float delta_time) {
 
     glDrawArrays(GL_POINTS, 0, 1);
 
-    
+    IIINFO("delta:%f bl.u:%f bl.v:%f",
+           delta_time,
+           quad_.bottom_left.tex_coord.u,
+           quad_.bottom_left.tex_coord.v
+           );
 }
 
 } // namespace kawaii
