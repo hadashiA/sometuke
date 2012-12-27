@@ -38,7 +38,7 @@ void Director::ReshapeProjection(const float width, const float height) {
 
     texture_ = assets_->ReadTexture("kid.png");
 
-    Color4B tmp_color(255, 255, 255, 255);
+    Color4B tmp_color(255, 0, 0, 255);
     quad_.bottom_left.color  = tmp_color;
     quad_.bottom_right.color = tmp_color;
     quad_.top_left.color     = tmp_color;
@@ -60,7 +60,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     float pixel_width  = pixel_size.x;
     float pixel_height = pixel_size.y;
 
-    Rect rect(100, 100, content_width, content_height);
+    Rect rect(10, 10, content_width, content_height);
 
     float left   = rect.pos.x / pixel_width;
     float right  = (rect.pos.x + rect.size.x) / pixel_width;
@@ -83,7 +83,9 @@ void Director::MainLoop(float delta_time) {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    shared_ptr<GLProgram> p = texture_->shader_program();
+    // shared_ptr<GLProgram> p = texture_->shader_program();
+    ShaderCache shaders = *ShaderCache::Shared();
+    shared_ptr<GLProgram> p = shaders[kShader_PositionColor];
     p->Use();
     p->SetUniformsForBuiltins();
 
@@ -95,16 +97,22 @@ void Director::MainLoop(float delta_time) {
         glBlendFunc(blend_func_src_, blend_func_dst_);
     }
 
-    glBindTexture(GL_TEXTURE_2D, texture_->id());
+    // glActiveTexture(GL_TEXTURE0);
+    // glBindTexture(GL_TEXTURE_2D, texture_->id());
 
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Color);
-    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
+    // glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
 #define VERTEX_SIZE sizeof(quad_.bottom_left)
     long offset = (long)&quad_;
     unsigned int diff;
+
+    GLfloat *positions = (GLfloat *)offset;
+    for (int i = 0; i < 12; ++i) {
+        IIINFO("%d: %f", i, *(positions+i));
+    }
 
     // position
     diff = 0; // offsetof(P3F_C4B_T2F, pos);
@@ -112,9 +120,9 @@ void Director::MainLoop(float delta_time) {
                           (void *)(offset + diff));
 
     // texCoord
-    diff = sizeof(vec3) + sizeof(Color4B); // offsetof(P3F_C4B_T2F, tex_coord);
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
-                          (void *)(offset + diff));
+    // diff = sizeof(vec3) + sizeof(Color4B); // offsetof(P3F_C4B_T2F, tex_coord);
+    // glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+    //                       (void *)(offset + diff));
 
     // color
     diff = sizeof(vec3); // offsetof(P3F_C4B_T2F, color);
