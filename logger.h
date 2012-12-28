@@ -1,7 +1,12 @@
 #ifndef __kawaii__logger__
 #define __kawaii__logger__
 
+#include "vector.h"
+#include "matrix.h"
+#include "vertices.h"
+
 #include <string>
+#include <sstream>
 
 #include <stdio.h>
 #include <time.h>
@@ -22,6 +27,8 @@
 #define IIWARN(s, ...)  kawaii::Log("WARN", s, ##__VA_ARGS__)
 #define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
 #endif
+
+#define IIINSPECT(obj) kawaii::Inspect(obj).c_str()
 
 namespace kawaii {
 using namespace std;
@@ -45,6 +52,44 @@ static void Log(const char *loglevel, const string message, ...) {
     va_end(args);
 
     printf("\n");
+}
+
+static string Inspect(const string& str) {
+    return str;
+}
+
+static string Inspect(const vec2& v) {
+    stringstream ss;
+    ss << "vec2(";
+    ss << v.x;
+    ss << ",";
+    ss << v.y;
+    ss << ")";
+    return ss.str();
+}
+
+static string Inspect(const ivec2& v) {
+    stringstream ss;
+    ss << "ivec2(";
+    ss << v.x;
+    ss << ", ";
+    ss << v.y;
+    ss << ")";
+    return ss.str();
+}
+
+static string Inspect(const Rect& rect) {
+    stringstream ss;
+    ss << "Rect(";
+    ss << rect.pos.x;
+    ss << ",";
+    ss << rect.pos.y;
+    ss << " ";
+    ss << rect.size.x;
+    ss << "/";
+    ss << rect.size.y;
+    ss << ")";
+    return ss.str();
 }
 
 }

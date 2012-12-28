@@ -61,6 +61,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     float pixel_height = pixel_size.y;
 
     Rect rect(10, 10, content_width, content_height);
+    IIINFO(IIINSPECT(rect));
 
     float left   = rect.pos.x / pixel_width;
     float right  = (rect.pos.x + rect.size.x) / pixel_width;
@@ -108,11 +109,6 @@ void Director::MainLoop(float delta_time) {
 #define VERTEX_SIZE sizeof(quad_.bottom_left)
     long offset = (long)&quad_;
     unsigned int diff;
-
-    GLfloat *positions = (GLfloat *)offset;
-    for (int i = 0; i < 12; ++i) {
-        IIINFO("%d: %f", i, *(positions+i));
-    }
 
     // position
     diff = 0; // offsetof(P3F_C4B_T2F, pos);
