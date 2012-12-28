@@ -38,7 +38,7 @@ void Director::ReshapeProjection(const float width, const float height) {
 
     texture_ = assets_->ReadTexture("kid.png");
 
-    Color4B tmp_color(255, 0, 0, 255);
+    Color4B tmp_color(255, 255, 255, 255);
     quad_.bottom_left.color  = tmp_color;
     quad_.bottom_right.color = tmp_color;
     quad_.top_left.color     = tmp_color;
@@ -96,8 +96,8 @@ void Director::MainLoop(float delta_time) {
 
     ShaderCache shaders = *ShaderCache::Shared();
     shared_ptr<GLProgram> p =
-    //shaders[kShader_PositionColor];
-    texture_->shader_program();
+    shaders[kShader_PositionTextureColor];
+    // texture_->shader_program();
 
     // shared_ptr<GLProgram> p = texture_->shader_program();
     p->Use();
