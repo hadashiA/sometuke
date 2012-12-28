@@ -61,6 +61,8 @@ Texture2D::Texture2D()
 
 void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
                          ivec2 pixel_size, vec2 content_size) {
+    
+
     int pixel_width  = pixel_size.x;
     int pixel_height = pixel_size.y;
     
@@ -126,7 +128,7 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
     pixel_size_   = pixel_size;
     format_       = pixel_format;
     max_s_ = content_size_.x / pixel_size_.x;
-    max_t_ = content_size.y  / pixel_size_.y;
+    max_t_ = content_size_.y  / pixel_size_.y;
 
     has_premultipled_alpha_ = false;
 
@@ -135,3 +137,5 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
 }
 
 }
+
+

@@ -63,6 +63,10 @@ public:
         return has_premultipled_alpha_;
     }
 
+    void set_has_premultipled_alpha(bool value) {
+        has_premultipled_alpha_ = value;
+    }
+
     const vec2 pixel_size() const {
         return pixel_size_;
     }

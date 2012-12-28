@@ -255,7 +255,11 @@ shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
 
     shared_ptr<Texture2D> texture(new Texture2D);
     texture->LoadData(data, pixel_format, pixel_size, pixel_size);
+    texture->set_has_premultipled_alpha(info == kCGImageAlphaPremultipliedLast ||
+                                        info == kCGImageAlphaPremultipliedFirst);
 
+    CGContextRelease(context);
+    free(data);
     [image release];
     
     return texture;

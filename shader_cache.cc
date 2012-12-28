@@ -29,7 +29,7 @@ void ShaderCache::LoadDefaultShaders() {
     p.reset(new GLProgram);
     p->LoadShaderFiles("position_color.vert", "position_color.frag");
     p->AddAttribute(kVertexAttrib_Position);
-    p->AddAttribute(kVertexAttrib_TexCoords);
+    p->AddAttribute(kVertexAttrib_Color);
     CHECK_GL_ERROR_DEBUG();
     shaders_[kShader_PositionColor] = p;
 
