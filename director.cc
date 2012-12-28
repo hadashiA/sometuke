@@ -61,6 +61,14 @@ void Director::ReshapeProjection(const float width, const float height) {
     float pixel_height = pixel_size.y;
 
     Rect rect(10, 10, content_width, content_height);
+    float x1 = rect.pos.x;
+    float y1 = rect.pos.y;
+    float x2 = x1 + rect.size.x;
+    float y2 = y1 + rect.size.y;
+    quad_.bottom_left.pos  = vec3(x1, y1, 0);
+    quad_.bottom_right.pos = vec3(x2, y1, 0);
+    quad_.top_left.pos     = vec3(x1, y2, 0);
+    quad_.top_right.pos    = vec3(x2, y2, 0);
 
     float left   = rect.pos.x / pixel_width;
     float right  = (rect.pos.x + rect.size.x) / pixel_width;
@@ -76,7 +84,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     quad_.top_right.tex_coord.u    = right;
     quad_.top_right.tex_coord.v    = top;
 
-    IIINFO(IIINSPECT(quad_));
+    IIINFO("quad_.bottom_left:%s", IIINSPECT(quad_.bottom_left));
 }
 
 void Director::MainLoop(float delta_time) {
