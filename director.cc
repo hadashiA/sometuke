@@ -61,7 +61,6 @@ void Director::ReshapeProjection(const float width, const float height) {
     float pixel_height = pixel_size.y;
 
     Rect rect(10, 10, content_width, content_height);
-    IIINFO(IIINSPECT(rect));
 
     float left   = rect.pos.x / pixel_width;
     float right  = (rect.pos.x + rect.size.x) / pixel_width;
@@ -76,6 +75,8 @@ void Director::ReshapeProjection(const float width, const float height) {
     quad_.top_left.tex_coord.v     = top;
     quad_.top_right.tex_coord.u    = right;
     quad_.top_right.tex_coord.v    = top;
+
+    IIINFO(IIINSPECT(quad_));
 }
 
 void Director::MainLoop(float delta_time) {

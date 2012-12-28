@@ -54,41 +54,86 @@ static void Log(const char *loglevel, const string message, ...) {
     printf("\n");
 }
 
+// vector stuff
 static string Inspect(const string& str) {
     return str;
 }
 
 static string Inspect(const vec2& v) {
     stringstream ss;
-    ss << "vec2(";
-    ss << v.x;
-    ss << ",";
-    ss << v.y;
-    ss << ")";
+    ss << "vec2(" << v.x << ", " << v.y << ")";
     return ss.str();
 }
 
 static string Inspect(const ivec2& v) {
     stringstream ss;
-    ss << "ivec2(";
-    ss << v.x;
-    ss << ", ";
-    ss << v.y;
-    ss << ")";
+    ss << "ivec2(" << v.x << ", " << v.y << ")";
+    return ss.str();
+}
+
+static string Inspect(const vec3& v) {
+    stringstream ss;
+    ss << "vec3(" << v.x << ", " << v.y << ", " << v.z << ")";
     return ss.str();
 }
 
 static string Inspect(const Rect& rect) {
     stringstream ss;
-    ss << "Rect(";
-    ss << rect.pos.x;
-    ss << ",";
-    ss << rect.pos.y;
-    ss << " ";
-    ss << rect.size.x;
-    ss << "/";
-    ss << rect.size.y;
-    ss << ")";
+    ss << "Rect(" << rect.pos.x << "," << rect.pos.y << " " <<
+        rect.size.x << "/" << rect.size.y << ")";
+    return ss.str();
+}
+
+// color stuff
+static string Inspect(const Color3B& color) {
+    stringstream ss;
+    ss << "Color3B(" << color.r << ", " << color.g << ", " << color.b << ")";
+    return ss.str();
+}
+
+static string Inspect(const Color4B& color) {
+    stringstream ss;
+    ss << "Color4B(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
+    return ss.str();
+}
+
+static string Inspect(const Color4F& color) {
+    stringstream ss;
+    ss << "Color4F(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
+    return ss.str();
+}
+
+// vertices stuff
+static string Inspect(const Tex2F& tex) {
+    stringstream ss;
+    ss << "Tex2F(" << tex.u << ", " << tex.v << ")";
+    return ss.str();
+}
+
+static string Inspect(const P3F_C4B_T2F& v) {
+    stringstream ss;
+    ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
+
+    return ss.str();
+}
+
+static string Inspect(const P3F_C4F_T2F& v) {
+    stringstream ss;
+    ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
+
+    return ss.str();
+}
+
+static string Inspect(const Quad_P3F_C4B_T2F& quad) {
+    stringstream ss;
+
+    ss << "(" <<
+        "tl" << Inspect(quad.top_left) << " " <<
+        "bl" << Inspect(quad.bottom_left) << " " <<
+        "tl" << Inspect(quad.top_left) << " " <<
+        "br" << Inspect(quad.bottom_right) << 
+        ")";
+
     return ss.str();
 }
 
