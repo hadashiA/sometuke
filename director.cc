@@ -93,9 +93,12 @@ void Director::MainLoop(float delta_time) {
     glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // shared_ptr<GLProgram> p = texture_->shader_program();
     ShaderCache shaders = *ShaderCache::Shared();
-    shared_ptr<GLProgram> p = shaders[kShader_PositionColor];
+    shared_ptr<GLProgram> p =
+    //shaders[kShader_PositionColor];
+    texture_->shader_program();
+
+    // shared_ptr<GLProgram> p = texture_->shader_program();
     p->Use();
     p->SetUniformsForBuiltins();
 
@@ -108,12 +111,12 @@ void Director::MainLoop(float delta_time) {
     }
 
     // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_2D, texture_->id());
+    glBindTexture(GL_TEXTURE_2D, texture_->id());
 
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Color);
-    // glEnableVertexAttribArray(kVertexAttrib_TexCoords);
+    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
 #define VERTEX_SIZE sizeof(quad_.bottom_left)
     long offset = (long)&quad_;
@@ -125,9 +128,9 @@ void Director::MainLoop(float delta_time) {
                           (void *)(offset + diff));
 
     // texCoord
-    // diff = sizeof(vec3) + sizeof(Color4B); // offsetof(P3F_C4B_T2F, tex_coord);
-    // glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
-    //                       (void *)(offset + diff));
+    diff = sizeof(vec3) + sizeof(Color4B); // offsetof(P3F_C4B_T2F, tex_coord);
+    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                          (void *)(offset + diff));
 
     // color
     diff = sizeof(vec3); // offsetof(P3F_C4B_T2F, color);

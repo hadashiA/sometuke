@@ -125,9 +125,9 @@ void GLProgram::UpdateUniformLocations() {
         uniform_locations_[i] = glGetUniformLocation(program_, UNIFORM_NAMES[i]);
     }
 
-    usesTime_ = (uniform_locations_[kUniform_Time] ||
-                 uniform_locations_[kUniform_SinTime] ||
-                 uniform_locations_[kUniform_CosTime]);
+    usesTime_ = (uniform_locations_[kUniform_Time] != -1 ||
+                 uniform_locations_[kUniform_SinTime] != -1  ||
+                 uniform_locations_[kUniform_CosTime] != -1);
 
     Use();
     SetUniform1i(kUniform_Sampler, 0);
