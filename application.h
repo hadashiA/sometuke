@@ -1,12 +1,13 @@
 #ifndef __kawaii__application__
 #define __kawaii__application__
 
-#include <memory>
-#include <OpenGLES/ES2/gl.h>
-
 #include "vector.h"
 #include "assets.h"
 #include "vertices.h"
+#include "director.h"
+
+#include <memory>
+#include <OpenGLES/ES2/gl.h>
 
 namespace kawaii {
 using namespace std;
@@ -14,6 +15,10 @@ using namespace std;
 class Application {
 public:
     static Application *Current();
+
+    ~Application();
+
+    bool Initialize();
 
     void ReshapeProjection(const float width, const float height);
     void MainLoop(float deltaTime);
@@ -50,6 +55,10 @@ public:
         assets_.reset(assets);
     }
 
+    Director *director() const {
+        return director_;
+    }
+
 private:
     static Application *__current;
 
@@ -70,6 +79,8 @@ private:
 
     shared_ptr<Assets> assets_;
 
+    Director *director_;
+
     // debug
     shared_ptr<Texture2D> texture_;
     GLenum blend_func_src_;
@@ -80,8 +91,3 @@ private:
 } // namespace kawaii
 
 #endif /* defined(__kawaii__application__) */
-
-
-
-
-

@@ -12,8 +12,18 @@ Application *Application::__current = NULL;
 Application *Application::Current() {
     if (__current == NULL) {
         __current = new Application();
+        __current->Initialize();
     }
     return __current;
+}
+
+Application::~Application() {
+    delete director_;
+}
+
+bool Application::Initialize() {
+    director_ = new Director;
+    return true;
 }
 
 void Application::ReshapeProjection(const float width, const float height) {
