@@ -4,13 +4,14 @@
 #include "vector.h"
 #include "assets.h"
 #include "vertices.h"
-#include "director.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
 
 namespace kawaii {
 using namespace std;
+
+class Director;
 
 class Application {
 public:
@@ -80,12 +81,6 @@ private:
     shared_ptr<Assets> assets_;
 
     Director *director_;
-
-    // debug
-    shared_ptr<Texture2D> texture_;
-    GLenum blend_func_src_;
-    GLenum blend_func_dst_;
-    Quad_P3F_C4B_T2F quad_;
 };
 
 } // namespace kawaii

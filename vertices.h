@@ -1,6 +1,7 @@
 #ifndef __kawaii_vertices__
 #define __kawaii_vertices__
 
+#include "vector.h"
 #include "color.h"
 
 #include <OpenGLES/ES2/gl.h>
