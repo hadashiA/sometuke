@@ -1,4 +1,4 @@
-#include "director.h"
+#include "application.h"
 #include "shader_cache.h"
 #include "logger.h"
 #include "texture_2d.h"
@@ -8,15 +8,15 @@
 
 namespace kawaii {
 
-Director *Director::__current = NULL;
-Director *Director::Current() {
+Application *Application::__current = NULL;
+Application *Application::Current() {
     if (__current == NULL) {
-        __current = new Director();
+        __current = new Application();
     }
     return __current;
 }
 
-void Director::ReshapeProjection(const float width, const float height) {
+void Application::ReshapeProjection(const float width, const float height) {
     const vec2 size_in_points(width, height);
     const vec2 size_in_pixels = size_in_points * content_scale_factor_;
     
@@ -88,7 +88,7 @@ void Director::ReshapeProjection(const float width, const float height) {
     IIINFO("quad_.bottom_left.tex_coord:%s", IIINSPECT(quad_.bottom_left.tex_coord));
 }
 
-void Director::MainLoop(float delta_time) {
+void Application::MainLoop(float delta_time) {
     total_time_ += delta_time;
 
     glClearColor(0.5, 0.5, 0.5, 1);

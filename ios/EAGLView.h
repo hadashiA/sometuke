@@ -7,7 +7,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 
 #import "IIProtocols.h"
-#import "kawaii/director.h"
+#import "kawaii/application.h"
 
 // @interface EAGLView : UIView <UIKeyInput, UITextInput> {
 @interface EAGLView : UIView <IIGameLoop> {
@@ -69,7 +69,7 @@
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
 
-@property (nonatomic, readonly) kawaii::Director *director;
+@property (nonatomic, readonly) kawaii::Application *application;
 
 @property (nonatomic, readonly) GLint backingWidth;
 @property (nonatomic, readonly) GLint backingHeight;

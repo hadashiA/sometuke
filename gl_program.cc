@@ -1,6 +1,6 @@
 #include "gl_program.h"
 
-#include "director.h"
+#include "application.h"
 #include "logger.h"
 #include "matrix_stack.h"
 
@@ -37,9 +37,9 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    Director *director = Director::Current();
-    string vShaderSource = director->assets()->ReadString(vShaderFilename);
-    string fShaderSource = director->assets()->ReadString(fShaderFilename);
+    Application *application = Application::Current();
+    string vShaderSource = application->assets()->ReadString(vShaderFilename);
+    string fShaderSource = application->assets()->ReadString(fShaderFilename);
     
     return LoadShaderSources(vShaderSource.c_str(), fShaderSource.c_str());
 }
@@ -169,9 +169,6 @@ bool GLProgram::CompileShader(GLuint *shader, GLenum type, const GLchar *source)
     }
     return (status == GL_TRUE);
 }
-
-// const string &Director::VertexShaderLog() const {
-// }
 
 const string GLProgram::VertexShaderLog() const {
     return this->LogForOpenGLObject(vertShader_, &glGetShaderiv, &glGetShaderInfoLog);

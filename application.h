@@ -1,5 +1,5 @@
-#ifndef __kawaii__director__
-#define __kawaii__director__
+#ifndef __kawaii__application__
+#define __kawaii__application__
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
@@ -11,9 +11,9 @@
 namespace kawaii {
 using namespace std;
 
-class Director {
+class Application {
 public:
-    static Director *Current();
+    static Application *Current();
 
     void ReshapeProjection(const float width, const float height);
     void MainLoop(float deltaTime);
@@ -51,9 +51,9 @@ public:
     }
 
 private:
-    static Director *__current;
+    static Application *__current;
 
-    Director()
+    Application()
         : total_time_(0),
           size_in_points_(0, 0),
           size_in_pixels_(0, 0),
@@ -79,7 +79,7 @@ private:
 
 } // namespace kawaii
 
-#endif /* defined(__kawaii__director__) */
+#endif /* defined(__kawaii__application__) */
 
 
 
