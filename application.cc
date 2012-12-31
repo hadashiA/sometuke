@@ -1,8 +1,6 @@
 #include "application.h"
 
-#include "shader_cache.h"
 #include "logger.h"
-#include "texture_2d.h"
 #include "matrix_stack.h"
 #include "director.h"
 
@@ -59,5 +57,3 @@ void Application::MainLoop(float delta_time) {
 }
 
 } // namespace kawaii
-
-

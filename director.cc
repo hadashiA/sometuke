@@ -3,6 +3,7 @@
 #include "OpenGL_Internal.h"
 
 #include "application.h"
+#include "shader_cache.h"
 #include "texture_2d.h"
 
 namespace kawaii {
