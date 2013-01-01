@@ -2,9 +2,6 @@
 #define __kawaii__director__
 
 #include "vertices.h"
-#include "actor.h"
-#include "event_manager.h"
-#include "process_manager.h"
 
 #include <memory>
 #include <map>
@@ -14,9 +11,12 @@
 namespace kawaii {
 using namespace std;
 
-typedef map<actor_id, shared_ptr<Actor> > ActorTable;
-
 class Texture2D;
+class Actor;
+class EventManager;
+class ProcessManager;
+
+typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director {
 public:
