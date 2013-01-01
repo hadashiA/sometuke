@@ -4,6 +4,9 @@
 #include "vector.h"
 #include "shader_cache.h"
 
+#include <vector>
+#include <memory>
+
 namespace kawaii {
 using namespace std;
 
@@ -19,6 +22,8 @@ public:
           visible_(true),
           is_reorder_child_dirty_(false) {
     }
+    
+    virtual ~Node() {}
 
     const vec3& position() const {
         return position_;
@@ -36,12 +41,11 @@ public:
         scale_ = value;
     }
 
-    virtual Node& AddChild(Node& child);
+    virtual void AddChild(shared_ptr<Node> child);
 
-    Node& operator<<(Node& child) {
-        return AddChild(child);
+    virtual void operator<<(shared_ptr<Node> child) {
+        AddChild(child);
     }
-    
 
 private:    
     vec3 position_;
@@ -53,6 +57,8 @@ private:
     bool visible_;
 
     bool is_reorder_child_dirty_;
+
+    vector<shared_ptr<Node> > children_;
 };
 
 }
