@@ -1,6 +1,7 @@
 #include "gl_program.h"
 
 #include "application.h"
+#include "assets.h"
 #include "logger.h"
 #include "matrix_stack.h"
 

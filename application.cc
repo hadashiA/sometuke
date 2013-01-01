@@ -21,7 +21,12 @@ Application::~Application() {
     delete director_;
 }
 
-bool Application::Initialize() {
+bool Application::Initialize(Assets *assets) {
+    assets_ = assets;
+    if (assets_ == NULL) {
+        return false;
+    }
+
     director_ = new Director;
     if (!director_->Initialize()) {
         return false;

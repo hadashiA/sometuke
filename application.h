@@ -2,7 +2,6 @@
 #define __kawaii__application__
 
 #include "vector.h"
-#include "assets.h"
 #include "vertices.h"
 
 #include <memory>
@@ -11,6 +10,7 @@
 namespace kawaii {
 using namespace std;
 
+class Assets;
 class Director;
 
 class Application {
@@ -19,7 +19,7 @@ public:
 
     ~Application();
 
-    bool Initialize();
+    bool Initialize(Assets *assets);
 
     void ReshapeProjection(const float width, const float height);
     void MainLoop(float deltaTime);
@@ -49,11 +49,7 @@ public:
     }
 
     Assets *assets() {
-        return assets_.get();
-    }
-
-    void set_assets(Assets *assets) {
-        assets_.reset(assets);
+        return assets_;
     }
 
     Director *director() const {
@@ -78,8 +74,7 @@ private:
     double animation_interval_;
     float total_time_;
 
-    shared_ptr<Assets> assets_;
-
+    Assets *assets_;
     Director *director_;
 };
 

@@ -1,10 +1,12 @@
 #include "director.h"
 
-#include "OpenGL_Internal.h"
-
 #include "application.h"
+#include "assets.h"
 #include "shader_cache.h"
 #include "texture_2d.h"
+
+#include "OpenGL_Internal.h"
+
 
 namespace kawaii {
 

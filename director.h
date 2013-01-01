@@ -2,6 +2,7 @@
 #define __kawaii__director__
 
 #include "vertices.h"
+#include "actor.h"
 
 #include <memory>
 #include <map>
