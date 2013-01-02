@@ -10,6 +10,10 @@ using namespace std;
 
 class Process {
 public:
+    // typedef enum {
+    //     ATTACHED = 0x00000001,
+    // } Flags;
+
     Process(unsigned int priority=0);
     virtual ~Process();
 
@@ -44,8 +48,6 @@ public:
     const shared_ptr<Process> next() const {
         return next_;
     }
-
-    const bool IsAttached() const;
 
     virtual void Initialize() {
         initialized_ = true;
