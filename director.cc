@@ -7,7 +7,6 @@
 
 #include "OpenGL_Internal.h"
 
-
 namespace kawaii {
 
 bool Director::Initialize() {

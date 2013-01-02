@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "matrix.h"
 #include "vertices.h"
+#include "hashed_string.h"
 
 #include <string>
 #include <sstream>
@@ -134,6 +135,16 @@ static string Inspect(const Quad_P3F_C4B_T2F& quad) {
         "br" << Inspect(quad.bottom_right) << 
         ")";
 
+    return ss.str();
+}
+
+static string Inspect(const HashedString& hashed_string) {
+    stringstream ss;
+    ss << "HashedString(" <<
+        hashed_string.string() <<
+        " -> " <<
+        hashed_string.value() <<
+        ")";
     return ss.str();
 }
 
