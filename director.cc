@@ -9,6 +9,14 @@
 
 namespace kawaii {
 
+Director::~Director() {
+}
+
+void Director::AddActor(const shared_ptr<Actor>& actor) {
+    actor_id id = actor->id();
+    actor_table_[id] = actor;
+}
+
 bool Director::Initialize() {
     Application *app = Application::Current();
 

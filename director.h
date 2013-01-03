@@ -21,8 +21,10 @@ typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director {
 public:
-    bool Initialize();
-    void Update(float delta_time);
+    virtual ~Director();
+    virtual bool Initialize();
+    virtual void Update(float delta_time);
+    virtual void AddActor(const shared_ptr<Actor>& actor);
 
 private:
     ActorTable actor_table_;
