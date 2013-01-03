@@ -16,6 +16,11 @@ struct ActorStatus {
 
 class Actor {
 public:
+    static int NextId() {
+        static int __last_id = 0;
+        return ++__last_id;
+    }
+
     ~Actor() {
         delete status_;
     }
