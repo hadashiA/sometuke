@@ -49,6 +49,10 @@ public:
         return next_;
     }
 
+    void set_next(const shared_ptr<Process>& value) {
+        next_ = value;
+    }
+
     virtual void Initialize() {
         initialized_ = true;
     }
@@ -59,7 +63,8 @@ public:
         }
     }
     virtual void Kill();
-    virtual void TogglePause() { paused_ = !paused_; }
+    virtual void Pauce()  { paused_ = true }
+    virtual void Resume() { paused_ = false }
 
 protected:
     bool killed_;
