@@ -56,9 +56,9 @@ public:
         return *this;
     }
 
-    virtual void OnEnter();
-    virtual void Update(const float delta_time);
-    virtual void Render();
+    virtual void OnEnter() = 0;
+    virtual void Update(const float delta_time) = 0;
+    virtual void Render() = 0;
 
 private:    
     vec3 position_;
