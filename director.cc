@@ -4,12 +4,21 @@
 #include "assets.h"
 #include "shader_cache.h"
 #include "texture_2d.h"
+#include "process_manager.h"
+#include "event_manager.h"
 
 #include "OpenGL_Internal.h"
 
 namespace kawaii {
 
+Director::Director() {
+    process_manager_ = new ProcessManager;
+    event_manager_   = new EventManager;
+}
+
 Director::~Director() {
+    delete process_manager_;
+    delete event_manager_;
 }
 
 void Director::AddActor(const shared_ptr<Actor>& actor) {
@@ -71,9 +80,10 @@ bool Director::Initialize() {
     return true;
 }
 
-void Director::Update(float delta_time) {
-    glClearColor(0.5, 0.5, 0.5, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+void Director::Update(const float delta_time) {
+    process_manager_->UpdateProcesses(delta_time);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     ShaderCache shaders = *ShaderCache::Shared();
     shared_ptr<GLProgram> p = shaders[kShader_PositionTextureColor];

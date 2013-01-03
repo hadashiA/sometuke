@@ -13,7 +13,6 @@ namespace kawaii {
 using namespace std;
 
 class Texture2D;
-class Actor;
 class EventManager;
 class ProcessManager;
 
@@ -21,6 +20,7 @@ typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director {
 public:
+    Director();
     virtual ~Director();
     virtual bool Initialize();
     virtual void Update(float delta_time);
