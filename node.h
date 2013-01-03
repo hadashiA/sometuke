@@ -41,11 +41,24 @@ public:
         scale_ = value;
     }
 
+    const int z_order() const {
+        return z_order_;
+    }
+
+    void set_z_order(int value) {
+        z_order_ = value;
+    }
+
     virtual void AddChild(shared_ptr<Node> child);
 
-    virtual void operator<<(shared_ptr<Node> child) {
+    virtual Node& operator<<(shared_ptr<Node> child) {
         AddChild(child);
+        return *this;
     }
+
+    virtual void OnEnter();
+    virtual void Update(const float delta_time);
+    virtual void Render();
 
 private:    
     vec3 position_;

@@ -36,7 +36,6 @@ private:
     GLenum blend_func_src_;
     GLenum blend_func_dst_;
     Quad_P3F_C4B_T2F quad_;
-
 };
 
 }
