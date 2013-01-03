@@ -4,6 +4,7 @@
 #include "vertices.h"
 #include "actor.h"
 
+#include <vector>
 #include <memory>
 #include <map>
 
@@ -15,21 +16,26 @@ using namespace std;
 class Texture2D;
 class EventManager;
 class ProcessManager;
+class Scene;
 
 typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director {
 public:
     Director();
-    virtual ~Director();
-    virtual bool Initialize();
-    virtual void Update(float delta_time);
-    virtual void AddActor(const shared_ptr<Actor>& actor);
+    ~Director();
+    bool Initialize();
+    void Update(float delta_time);
+    void AddActor(const shared_ptr<Actor>& actor);
+    const shared_ptr<Actor> ActorById(const actor_id id);
 
 private:
     ActorTable actor_table_;
     EventManager *event_manager_;
     ProcessManager *process_manager_;
+    vector<shared_ptr<Scene> > scene_stack_;
+    shared_ptr<Scene> running_scene_;
+    shared_ptr<Scene> next_scene_;
 
     // debug
     shared_ptr<Texture2D> texture_;

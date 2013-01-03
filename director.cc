@@ -26,6 +26,11 @@ void Director::AddActor(const shared_ptr<Actor>& actor) {
     actor_table_[id] = actor;
 }
 
+const shared_ptr<Actor> Director::ActorById(const actor_id id) {
+    return actor_table_[id];
+}
+
+
 bool Director::Initialize() {
     Application *app = Application::Current();
 
