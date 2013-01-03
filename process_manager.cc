@@ -33,12 +33,12 @@ bool ProcessManager::HasProcesses() const {
 }
 
 void ProcessManager::UpdateProcesses(const float deltaTime) {
-    for (ProcessList::iterator i = processes_.begin(); i != end; i++) {
+    for (ProcessList::iterator i = processes_.begin(); i != processes_.end(); i++) {
         shared_ptr<Process> p = *i;
         if (p->dead()) {
             shared_ptr<Process> next = p->next();
             if (next) {
-                p->set_next(shared_ptr<Process>(NULL));
+                p->set_next(NULL);
                 Attach(next);
             }
             Detach(p);
