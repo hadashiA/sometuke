@@ -19,8 +19,8 @@ public:
           anchor_point_(0, 0),
           content_size_(0, 0),
           z_order_(0),
-          visible_(true),
-          is_reorder_child_dirty_(false) {
+          is_visible_(true),
+          is_running_(false) {
     }
     
     virtual ~Node() {}
@@ -50,19 +50,19 @@ public:
     }
 
     const bool is_visible() const {
-        return visible_;
+        return is_visible_;
     }
 
     void set_visible(bool value) {
-        visible_ = value;
+        is_visible_ = value;
     }
 
     void show() {
-        visible_ = true;
+        is_visible_ = true;
     }
 
     void hide() {
-        visible_ = false;
+        is_visible_ = false;
     }
 
     const bool is_running() const {
