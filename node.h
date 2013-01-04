@@ -78,7 +78,6 @@ public:
         return *this;
     }
 
-    virtual bool Initialize() { return true; }
     virtual void OnEnter() {}
     virtual void Render()  {}
     virtual void OnExit()  {}

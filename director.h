@@ -26,8 +26,18 @@ public:
     ~Director();
     bool Initialize();
     void Update(float delta_time);
+
     void AddActor(const shared_ptr<Actor>& actor);
     const shared_ptr<Actor> ActorById(const actor_id id);
+
+    void RunWithScene(shared_ptr<Scene> scene);
+    void ReplaceScene(shared_ptr<Scene> scene);
+    void PushScene(shared_ptr<Scene> scene);
+    void PopScene();
+
+    void SetNextScene(shared_ptr<Scene> scene);
+
+    void End();
 
 private:
     ActorTable actor_table_;

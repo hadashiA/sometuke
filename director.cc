@@ -136,4 +136,22 @@ void Director::Update(const float delta_time) {
     CHECK_GL_ERROR_DEBUG();
 }
 
+void Director::RunWithScene(shared_ptr<Scene> scene) {
+}
+
+void Director::ReplaceScene(shared_ptr<Scene> scene) {
+}
+
+void Director::PushScene(shared_ptr<Scene> scene) {
+}
+
+void Director::PopScene() {
+}
+
+void Director::SetNextScene(shared_ptr<Scene> scene) {
+}
+
+void Director::End() {
+}
+
 }
