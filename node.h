@@ -57,7 +57,6 @@ public:
     }
 
     virtual void OnEnter() = 0;
-    virtual void Update(const float delta_time) = 0;
     virtual void Render() = 0;
 
 private:    
