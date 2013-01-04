@@ -49,12 +49,24 @@ public:
         z_order_ = value;
     }
 
-    bool visible() const {
+    const bool is_visible() const {
         return visible_;
     }
 
     void set_visible(bool value) {
         visible_ = value;
+    }
+
+    void show() {
+        visible_ = true;
+    }
+
+    void hide() {
+        visible_ = false;
+    }
+
+    const bool is_running() const {
+        return is_running_;
     }
 
     void Visit();
@@ -78,9 +90,8 @@ private:
     vec2 anchor_point_;
     vec2 content_size_;
     int z_order_;
-    bool visible_;
-
-    bool is_reorder_child_dirty_;
+    bool is_visible_;
+    bool is_running_;
 
     vector<shared_ptr<Node> > children_;
 };
