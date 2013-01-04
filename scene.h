@@ -1,20 +1,25 @@
 #ifndef __kawaii__scene__
 #define __kawaii__scene__
 
+#include "actor.h"
+#include "node.h"
+
+#include <map>
+
 namespace kawaii {
+using namespace std;
 
-class Scene {
+class Scene : public Node {
 public:
-    virtual ~Scene() {}
+    Scene();
+    virtual ~Scene();
+    
+    void AddChildFromActor(shared_ptr<Actor> actor);
 
-    virtual void OnEnter() = 0;
-    virtual void Update(const float delta_time) = 0;
-    virtual void Render() = 0;
+protected:
+    std::map<actor_id, shared_ptr<Node> > node_for_actor_id_;
 };
 
 }
 
 #endif /* defined(__kawaii__scene__) */
-
-
-

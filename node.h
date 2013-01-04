@@ -2,7 +2,7 @@
 #define __kawaii__node__
 
 #include "vector.h"
-#include "shader_cache.h"
+#include "actor.h"
 
 #include <vector>
 #include <memory>
@@ -49,15 +49,27 @@ public:
         z_order_ = value;
     }
 
+    bool visible() const {
+        return visible_;
+    }
+
+    void set_visible(bool value) {
+        visible_ = value;
+    }
+
+    void Visit();
+
     virtual void AddChild(shared_ptr<Node> child);
 
-    virtual Node& operator<<(shared_ptr<Node> child) {
+    Node& operator<<(shared_ptr<Node> child) {
         AddChild(child);
         return *this;
     }
 
-    virtual void OnEnter() = 0;
-    virtual void Render() = 0;
+    virtual bool Initialize() { return true; }
+    virtual void OnEnter() {}
+    virtual void Render()  {}
+    virtual void OnExit()  {}
 
 private:    
     vec3 position_;
