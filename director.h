@@ -48,12 +48,6 @@ private:
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
-
-    // debug
-    shared_ptr<Texture2D> texture_;
-    GLenum blend_func_src_;
-    GLenum blend_func_dst_;
-    Quad_P3F_C4B_T2F quad_;
 };
 
 }
