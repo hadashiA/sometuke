@@ -20,7 +20,7 @@ public:
     void Attach(const shared_ptr<Process>& process);
     bool HasProcesses() const;
     bool IsProcessActive(const HashedString& process_type);
-    void UpdateProcesses(const float deltaTime);
+    void Update(const float deltaTime);
 
 private:
     void Detach(const shared_ptr<Process>& process);

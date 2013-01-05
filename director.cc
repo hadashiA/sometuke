@@ -4,7 +4,6 @@
 #include "assets.h"
 #include "shader_cache.h"
 #include "texture_2d.h"
-#include "process_manager.h"
 #include "event_manager.h"
 #include "matrix_stack.h"
 #include "logger.h"
@@ -15,26 +14,11 @@
 namespace kawaii {
 
 Director::Director() {
-    process_manager_ = new ProcessManager;
     event_manager_   = new EventManager;
 }
 
 Director::~Director() {
-    delete process_manager_;
     delete event_manager_;
-}
-
-void Director::AddActor(const shared_ptr<Actor>& actor) {
-    actor_id id = actor->id();
-    actor_table_[id] = actor;
-}
-
-const shared_ptr<Actor> Director::ActorById(const actor_id id) {
-    return actor_table_[id];
-}
-
-bool Director::Initialize() {
-    return true;
 }
 
 void Director::ReshapeProjection() {
@@ -61,17 +45,20 @@ void Director::ReshapeProjection() {
 }
 
 void Director::MainLoop(const float delta_time) {
-    process_manager_->UpdateProcesses(delta_time);
+    if (running_scene_) {
+        running_scene_->Update(delta_time);
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (running_scene_) {
-        running_scene_->Visit();
+        running_scene_->Render();
     }
 }
 
 void Director::RunWithScene(shared_ptr<Scene> scene) {
     running_scene_ = scene;
+    running_scene_->Initialize();
 }
 
 // void Director::ReplaceScene(shared_ptr<Scene> scene) {

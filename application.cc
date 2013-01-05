@@ -28,9 +28,6 @@ bool Application::Initialize(Assets *assets) {
     }
 
     director_ = new Director;
-    if (!director_->Initialize()) {
-        return false;
-    };
 
     return true;
 }
