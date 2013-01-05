@@ -17,6 +17,10 @@
 #include "matrix.h"
 #include "vertices.h"
 
+#include "logger.h"
+
+#include "OpenGL_Internal.h"
+
 namespace kawaii {
 using namespace std;
 }
