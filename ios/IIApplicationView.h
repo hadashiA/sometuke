@@ -9,8 +9,8 @@
 #import "IIProtocols.h"
 #import "kawaii/application.h"
 
-// @interface EAGLView : UIView <UIKeyInput, UITextInput> {
-@interface EAGLView : UIView <IIGameLoop> {
+// @interface IIApplicationView : UIView <UIKeyInput, UITextInput> {
+@interface IIApplicationView : UIView <IIGameLoop> {
     GLint backingWidth_;
     GLint backingHeight_;
 

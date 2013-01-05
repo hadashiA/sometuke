@@ -1,15 +1,15 @@
-#import "EAGLView.h"
+#import "IIApplicationView.h"
 #import "OpenGL_Internal.h"
 
 #import "director.h"
 #import "logger.h"
 
-@interface EAGLView (Private)
+@interface IIApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
 - (void)calculateDeltaTime;
 @end
 
-@implementation EAGLView
+@implementation IIApplicationView
 @synthesize
     backingWidth=backingWidth_,
     backingHeight=backingHeight_,
