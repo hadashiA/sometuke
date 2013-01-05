@@ -11,6 +11,7 @@ void Node::AddChild(shared_ptr<Node> child) {
 
 void Node::Visit() {
     if (!is_visible_) return;
+    Render();
 }
 
 }

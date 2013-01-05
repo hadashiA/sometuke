@@ -5,6 +5,7 @@
 #include "director.h"
 
 // resource
+#include "assets.h"
 #include "texture_2d.h"
 #include "shader_cache.h"
 
