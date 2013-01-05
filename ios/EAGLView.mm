@@ -1,6 +1,7 @@
 #import "EAGLView.h"
 #import "OpenGL_Internal.h"
 
+#import "director.h"
 #import "logger.h"
 
 @interface EAGLView (Private)
@@ -119,7 +120,7 @@
 
         kawaii::Application *kawaii_app = kawaii::Application::Current();
         kawaii_app->set_content_scale_factor(scale);
-        kawaii_app->ReshapeProjection(size.width, size.height);
+        kawaii_app->Resize(size.width, size.height);
 
         // [self mainLoop:nil];
     }
@@ -249,8 +250,7 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    kawaii::Application::Current()->ReshapeProjection(backingWidth_,
-                                                      backingHeight_);
+    kawaii::Application::Current()->Resize(backingWidth_, backingHeight_);
 
     [self mainLoop:nil];
 }
@@ -262,7 +262,7 @@
     [EAGLContext setCurrentContext:context_];
 
     [self calculateDeltaTime];
-    kawaii::Application::Current()->MainLoop(dt_);
+    kawaii::Application::Current()->director()->MainLoop(dt_);
     [self swapBuffers];
 }
 

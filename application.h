@@ -20,9 +20,7 @@ public:
     ~Application();
 
     bool Initialize(Assets *assets);
-
-    void ReshapeProjection(const float width, const float height);
-    void MainLoop(float deltaTime);
+    void Resize(const float point_width, const float point_height);
 
     const vec2& size_in_points() {
         return size_in_points_;

@@ -14,6 +14,7 @@ public:
     Scene();
     virtual ~Scene();
     
+    // void Visit() { Node::Visit(); }
     void AddChildFromActor(shared_ptr<Actor> actor);
 
 protected:

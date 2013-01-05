@@ -69,14 +69,14 @@ public:
         return is_running_;
     }
 
-    void Visit();
-
     virtual void AddChild(shared_ptr<Node> child);
 
     Node& operator<<(shared_ptr<Node> child) {
         AddChild(child);
         return *this;
     }
+
+    void Visit();
 
     virtual void OnEnter() {}
     virtual void Render()  {}
