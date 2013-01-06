@@ -13,18 +13,28 @@ class Process;
 
 class ProcessTimer {
 public:
+    static const unsigned int REPEAT_FOREVER;
+
     ProcessTimer(shared_ptr<Process> process);
-    ProcessTimer(shared_ptr<Process> process, ii_time interval);
-    ProcessTimer(shared_ptr<Process> process, ii_time interval, int repeat, ii_time delay);
+    ProcessTimer(shared_ptr<Process> process, const ii_time interval);
+    ProcessTimer(shared_ptr<Process> process, const ii_time interval,
+                 const unsigned int repeat, const ii_time delay);
+
+    shared_ptr<Process> process() const {
+        return process_;
+    }
+
+    void Update(const ii_time delta_time);
 
 private:    
     shared_ptr<Process> process_;
     ii_time elapsed_;
-    bool run_forever_;
+    ii_time interval_;
+    ii_time delay_;
     bool use_delay_;
+    unsigned int repeat_;
+    bool run_forever_;
     int num_executed_;
-    int repeat;
-    ii_time delay;
 };
 
 typedef std::list<shared_ptr<ProcessTimer> > TimerList;

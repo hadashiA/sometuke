@@ -14,8 +14,6 @@ public:
     //     ATTACHED = 0x00000001,
     // } Flags;
 
-    static const HashedString TYPE;
-
     Process(unsigned int priority=0);
     virtual ~Process();
 
@@ -64,10 +62,10 @@ public:
             Initialize();
         }
     }
-    virtual void Kill();
+    virtual void Kill()   { killed_ = true; }
     virtual void Pauce()  { paused_ = true; }
     virtual void Resume() { paused_ = false; }
-    virtual const HashedString& type() { return Process::TYPE; }
+    virtual const HashedString& type() = 0;
 
 protected:
     bool killed_;
@@ -82,8 +80,6 @@ private:
 
     unsigned int flags;
 };
-
-const HashedString Process::TYPE("process base");
 
 }
 
