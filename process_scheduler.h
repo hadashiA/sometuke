@@ -2,6 +2,7 @@
 #define __kawaii__process_scheduler__
 
 #include "types.h"
+#include "process.h"
 
 #include <memory>
 #include <list>
@@ -9,25 +10,28 @@
 namespace kawaii {
 using namespace std;
 
-class Process;
-
-class ProcessTimer {
+class ProcessTimer : Process {
 public:
+    static const HashedString TYPE;
     static const unsigned int REPEAT_FOREVER;
 
-    ProcessTimer(shared_ptr<Process> process);
-    ProcessTimer(shared_ptr<Process> process, const ii_time interval);
-    ProcessTimer(shared_ptr<Process> process, const ii_time interval,
+    ProcessTimer(shared_ptr<Process> inner_process);
+    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval);
+    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
                  const unsigned int repeat, const ii_time delay);
 
-    shared_ptr<Process> process() const {
-        return process_;
+    virtual const HashedString& type() {
+        return ProcessTimer::TYPE;
     }
 
-    void Update(const ii_time delta_time);
+    shared_ptr<Process> inner_process() const {
+        return inner_process_;
+    }
+
+    virtual void Update(const ii_time delta_time);
 
 private:    
-    shared_ptr<Process> process_;
+    shared_ptr<Process> inner_process_;
     ii_time elapsed_;
     ii_time interval_;
     ii_time delay_;
@@ -37,17 +41,20 @@ private:
     int num_executed_;
 };
 
+typedef std::list<shared_ptr<Process> > ProcessList;
 typedef std::list<shared_ptr<ProcessTimer> > TimerList;
 
 class ProcessScheduler {
 public:
-    void Update(const ii_time delta_time);
     void ScheduleFor(shared_ptr<Process> process);
     void ScheduleFor(shared_ptr<Process> process, const ii_time interval);
+    void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
+                     const unsigned int repeat, const ii_time delay);
     void UnScheduleFor(shared_ptr<Process> process);
+    void Update(const ii_time delta_time);
 
 private:
-    TimerList timers_;
+    ProcessList processes_;
 };
 
 }

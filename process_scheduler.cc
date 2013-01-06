@@ -1,15 +1,16 @@
 #include "process_scheduler.h"
 
-#include "process.h"
-
 #include <climits>
 
 namespace kawaii {
 
-const unsigned int ProcessTimer::REPEAT_FOREVER = UINT_MAX - 1;
+const HashedString ProcessTimer::TYPE("process timer");
+const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
-ProcessTimer::ProcessTimer(shared_ptr<Process> process)
-    : process_(process),
+// ProcessTimer
+
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process)
+    : inner_process_(inner_process),
       elapsed_(-1),
       interval_(0),
       delay_(0),
@@ -18,8 +19,8 @@ ProcessTimer::ProcessTimer(shared_ptr<Process> process)
       run_forever_(true) {
 }
 
-ProcessTimer::ProcessTimer(shared_ptr<Process> process, const ii_time interval)
-    : process_(process),
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval)
+    : inner_process_(inner_process),
       elapsed_(-1),
       interval_(interval),
       delay_(0),
@@ -28,9 +29,9 @@ ProcessTimer::ProcessTimer(shared_ptr<Process> process, const ii_time interval)
       run_forever_(true) {
 }
 
-ProcessTimer::ProcessTimer(shared_ptr<Process> process, const ii_time interval,
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
                            const unsigned int repeat, const ii_time delay)
-    : process_(process),
+    : inner_process_(inner_process),
       elapsed_(-1),
       interval_(interval),
       delay_(delay),
@@ -45,34 +46,83 @@ void ProcessTimer::Update(const ii_time delta_time) {
         elapsed_ = 0;
         num_executed_ = 0;
 
-    // standard timer usage
-    } else if (run_forever_ && !use_delay_) {
-        elapsed_ += delta_time;
-        if (elapsed_ >= interval_) {
-            process_->Update(elapsed_);
-            elapsed_ = 0;
-        }
-
-    // advanced usage
     } else {
-        elapsed_ += delta_time;
-        if (use_delay_) {
-            if (elapsed_ >= delay_) {
-                process_->Update(elapsed_);
-                elapsed_ -= delay_;
-                num_executed_++;
-                use_delay_ = false;
-            }
-        } else {
+        // standard timer usage
+        if (run_forever_ && !use_delay_) {
+            elapsed_ += delta_time;
             if (elapsed_ >= interval_) {
-                process_->Update(elapsed_);
+                inner_process_->Update(elapsed_);
                 elapsed_ = 0;
-                num_executed_++;
+            }
+            
+        // advanced usage
+        } else {
+            elapsed_ += delta_time;
+            if (use_delay_) {
+                if (elapsed_ >= delay_) {
+                    inner_process_->Update(elapsed_);
+                    elapsed_ -= delay_;
+                    num_executed_++;
+                    use_delay_ = false;
+                }
+            } else {
+                if (elapsed_ >= interval_) {
+                    inner_process_->Update(elapsed_);
+                    elapsed_ = 0;
+                    num_executed_++;
+                }
+            }
+            
+            if (num_executed_ > repeat_) {
+                inner_process_->Kill();
             }
         }
 
-        if (num_executed_ > repeat_) {
-            process_->Kill();
+        if (inner_process_->dead()) {
+            shared_ptr<Process> next = inner_process_->next();
+            if (next) {
+                inner_process_->set_next(NULL);
+                inner_process_ = next;
+            } else {
+                Kill();
+            }
+        }
+    }
+}
+
+// ProcessScheduler
+
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process) {
+    processes_.push_back(process);
+}
+
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval) {
+    shared_ptr<ProcessTimer> timer(new ProcessTimer(process, interval));
+    processes_.push_back(timer);
+}
+    
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval,
+                                   const unsigned int repeat, const ii_time delay) {
+    shared_ptr<ProcessTimer> timer(new ProcessTimer(process, interval, repeat, delay));
+    processes_.push_back(timer);
+}
+
+void ProcessScheduler::UnScheduleFor(shared_ptr<Process> process) {
+    processes_.remove(process);
+}
+
+void ProcessScheduler::Update(const ii_time delta_time) {
+    for (ProcessList::iterator iter = processes_.begin(); iter != processes_.end(); iter++) {
+        shared_ptr<Process> p = (*iter);
+        if (p->dead()) {
+            shared_ptr<Process> next = p->next();
+            if (next) {
+                p->set_next(NULL);
+                ScheduleFor(next);
+            }
+            UnScheduleFor(p);
+        } else if (p->is_active() && !p->paused()) {
+            p->Update(delta_time);
         }
     }
 }
