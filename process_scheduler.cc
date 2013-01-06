@@ -97,13 +97,15 @@ void ProcessScheduler::ScheduleFor(shared_ptr<Process> process) {
 }
 
 void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval) {
-    shared_ptr<ProcessTimer> timer(new ProcessTimer(process, interval));
+    Process *timer_ptr = new ProcessTimer(process, interval);
+    shared_ptr<Process> timer(timer_ptr);
     processes_.push_back(timer);
 }
     
 void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval,
                                    const unsigned int repeat, const ii_time delay) {
-    shared_ptr<ProcessTimer> timer(new ProcessTimer(process, interval, repeat, delay));
+    Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
+    shared_ptr<Process> timer(timer_ptr);
     processes_.push_back(timer);
 }
 

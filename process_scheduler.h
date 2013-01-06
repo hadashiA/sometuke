@@ -10,7 +10,7 @@
 namespace kawaii {
 using namespace std;
 
-class ProcessTimer : Process {
+class ProcessTimer : public Process {
 public:
     static const HashedString TYPE;
     static const unsigned int REPEAT_FOREVER;
