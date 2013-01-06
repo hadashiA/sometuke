@@ -4,6 +4,7 @@
 #include "assets.h"
 #include "shader_cache.h"
 #include "texture_2d.h"
+#include "process_scheduler.h"
 #include "event_manager.h"
 #include "matrix_stack.h"
 #include "logger.h"
@@ -14,10 +15,12 @@
 namespace kawaii {
 
 Director::Director() {
-    event_manager_   = new EventManager;
+    scheduler_ = new ProcessScheduler;
+    event_manager_ = new EventManager;
 }
 
 Director::~Director() {
+    delete scheduler_;
     delete event_manager_;
 }
 
@@ -44,7 +47,9 @@ void Director::ReshapeProjection() {
     CHECK_GL_ERROR();
 }
 
-void Director::MainLoop(const float delta_time) {
+void Director::MainLoop(const ii_time delta_time) {
+    scheduler_->Update(delta_time);
+
     if (running_scene_) {
         running_scene_->Update(delta_time);
     }
