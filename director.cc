@@ -50,10 +50,6 @@ void Director::ReshapeProjection() {
 void Director::MainLoop(const ii_time delta_time) {
     scheduler_->Update(delta_time);
 
-    if (running_scene_) {
-        running_scene_->Update(delta_time);
-    }
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (running_scene_) {

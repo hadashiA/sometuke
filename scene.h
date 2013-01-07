@@ -25,7 +25,6 @@ public:
 
     virtual bool Initialize() = 0;
 
-    void Update(const ii_time delta_time);
     void Render();
 
     void AddActor(shared_ptr<Actor> actor);

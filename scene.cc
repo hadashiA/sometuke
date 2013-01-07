@@ -10,10 +10,6 @@ Scene::Scene()
 Scene::~Scene() {
 }
 
-void Scene::Update(const ii_time delta_time) {
-    // root_node_->Update();
-}
-
 void Scene::Render() {
     root_node_->Visit();
 }
