@@ -1,5 +1,9 @@
 #include "scene.h"
 
+#include "matrix_stack.h"
+
+#include <OpenGLES/ES2/gl.h>
+
 namespace kawaii {
 
 Scene::Scene()
@@ -11,7 +15,13 @@ Scene::~Scene() {
 }
 
 void Scene::Render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    MatrixStack::GLModelView()->Push();
+
     root_node_->Visit();
+
+    MatrixStack::GLModelView()->Pop();
 }
 
 void Scene::AddActor(shared_ptr<Actor> actor) {

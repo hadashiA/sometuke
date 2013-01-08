@@ -15,9 +15,9 @@ public:
     static MatrixStack *GLTexture();
     static void Purge();
 
-    void Push(const mat4& matrix);
+    mat4& Push();
     mat4 Pop();
-    mat4 Get() const;
+    mat4& Top();
 
 private:
     MatrixStack() : stack_() {

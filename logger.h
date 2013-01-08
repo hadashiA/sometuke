@@ -148,6 +148,16 @@ static string Inspect(const HashedString& hashed_string) {
     return ss.str();
 }
 
+static string Inspect(const mat4& m) {
+    stringstream ss;
+    ss << "\n" << 
+        m.x.x << ", " << m.x.y << ", " << m.x.z << ", " << m.x.w << "\n" <<
+        m.y.x << ", " << m.y.y << ", " << m.y.z << ", " << m.y.w << "\n" <<
+        m.z.x << ", " << m.z.y << ", " << m.z.z << ", " << m.z.w << "\n" <<
+        m.w.x << ", " << m.w.y << ", " << m.w.z << ", " << m.w.w;
+    return ss.str();
+}
+
 }
 
 #endif  /* defined(__kawaii__logger__) */

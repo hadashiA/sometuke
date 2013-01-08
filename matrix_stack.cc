@@ -44,8 +44,13 @@ void MatrixStack::Purge() {
     }
 }
 
-void MatrixStack::Push(const mat4& matrix) {
-    stack_.push_back(matrix);
+mat4& MatrixStack::Push() {
+    if (stack_.empty()) {
+        stack_.push_back(mat4::Identity());
+    } else {
+        stack_.push_back(Top());
+    }
+    return stack_.back();
 }
 
 mat4 MatrixStack::Pop() {
@@ -55,7 +60,7 @@ mat4 MatrixStack::Pop() {
     return result;
 }
 
-mat4 MatrixStack::Get() const {
+mat4& MatrixStack::Top() {
     return stack_.back();
 }
 
