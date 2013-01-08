@@ -114,8 +114,9 @@ void ProcessScheduler::UnScheduleFor(shared_ptr<Process> process) {
 }
 
 void ProcessScheduler::Update(const ii_time delta_time) {
-    for (ProcessList::iterator iter = processes_.begin(); iter != processes_.end(); iter++) {
+    for (ProcessList::iterator iter = processes_.begin(); iter != processes_.end();) {
         shared_ptr<Process> p = (*iter);
+        
         if (p->dead()) {
             shared_ptr<Process> next = p->next();
             if (next) {
@@ -126,6 +127,7 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         } else if (p->is_active() && !p->paused()) {
             p->Update(delta_time);
         }
+        ++iter;
     }
 }
 

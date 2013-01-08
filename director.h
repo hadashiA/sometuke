@@ -20,6 +20,11 @@ class Director {
 public:
     Director();
     ~Director();
+
+    ProcessScheduler *scheduler() const {
+        return scheduler_;
+    }
+
     void ReshapeProjection();
     void MainLoop(const ii_time delta_time);
 

@@ -14,7 +14,14 @@ public:
     //     ATTACHED = 0x00000001,
     // } Flags;
 
-    Process() {}
+    Process()
+        : killed_(false),
+          paused_(false),
+          is_active_(true),
+          initialized_(false),
+          next_(NULL) {
+    }
+    
     virtual ~Process() {}
 
     const bool killed() const {
