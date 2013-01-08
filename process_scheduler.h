@@ -15,9 +15,9 @@ public:
     static const HashedString TYPE;
     static const unsigned int REPEAT_FOREVER;
 
-    ProcessTimer(shared_ptr<Process> inner_process);
-    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval);
-    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
+    ProcessTimer(const shared_ptr<Process>& inner_process);
+    ProcessTimer(const shared_ptr<Process>& inner_process, const ii_time interval);
+    ProcessTimer(const shared_ptr<Process>& inner_process, const ii_time interval,
                  const unsigned int repeat, const ii_time delay);
 
     virtual const HashedString& type() {
@@ -46,11 +46,11 @@ typedef std::list<shared_ptr<ProcessTimer> > TimerList;
 
 class ProcessScheduler {
 public:
-    void ScheduleFor(shared_ptr<Process> process);
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval);
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
+    void ScheduleFor(const shared_ptr<Process>& process);
+    void ScheduleFor(const shared_ptr<Process>& process, const ii_time interval);
+    void ScheduleFor(const shared_ptr<Process>& process, const ii_time interval,
                      const unsigned int repeat, const ii_time delay);
-    void UnScheduleFor(shared_ptr<Process> process);
+    void UnScheduleFor(const shared_ptr<Process>& process);
     void Update(const ii_time delta_time);
 
 private:
