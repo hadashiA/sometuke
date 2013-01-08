@@ -56,7 +56,7 @@ public:
         return next_;
     }
 
-    void set_next(const shared_ptr<Process>& value) {
+    void set_next(shared_ptr<Process> value) {
         next_ = value;
     }
 

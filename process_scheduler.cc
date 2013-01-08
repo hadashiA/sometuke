@@ -9,7 +9,7 @@ const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
 // ProcessTimer
 
-ProcessTimer::ProcessTimer(const shared_ptr<Process>& inner_process)
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process)
     : inner_process_(inner_process),
       elapsed_(-1),
       interval_(0),
@@ -19,7 +19,7 @@ ProcessTimer::ProcessTimer(const shared_ptr<Process>& inner_process)
       run_forever_(true) {
 }
 
-ProcessTimer::ProcessTimer(const shared_ptr<Process>& inner_process, const ii_time interval)
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval)
     : inner_process_(inner_process),
       elapsed_(-1),
       interval_(interval),
@@ -29,7 +29,7 @@ ProcessTimer::ProcessTimer(const shared_ptr<Process>& inner_process, const ii_ti
       run_forever_(true) {
 }
 
-ProcessTimer::ProcessTimer(const shared_ptr<Process>& inner_process, const ii_time interval,
+ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
                            const unsigned int repeat, const ii_time delay)
     : inner_process_(inner_process),
       elapsed_(-1),
@@ -92,24 +92,24 @@ void ProcessTimer::Update(const ii_time delta_time) {
 
 // ProcessScheduler
 
-void ProcessScheduler::ScheduleFor(const shared_ptr<Process>& process) {
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process) {
     processes_.push_back(process);
 }
 
-void ProcessScheduler::ScheduleFor(const shared_ptr<Process>& process, const ii_time interval) {
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval) {
     Process *timer_ptr = new ProcessTimer(process, interval);
     shared_ptr<Process> timer(timer_ptr);
     processes_.push_back(timer);
 }
     
-void ProcessScheduler::ScheduleFor(const shared_ptr<Process>& process, const ii_time interval,
+void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time interval,
                                    const unsigned int repeat, const ii_time delay) {
     Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
     shared_ptr<Process> timer(timer_ptr);
     processes_.push_back(timer);
 }
 
-void ProcessScheduler::UnScheduleFor(const shared_ptr<Process>& process) {
+void ProcessScheduler::UnScheduleFor(shared_ptr<Process> process) {
     processes_.remove(process);
 }
 

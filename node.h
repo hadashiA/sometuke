@@ -2,7 +2,7 @@
 #define __kawaii__node__
 
 #include "vector.h"
-#include "actor.h"
+#include "types.h"
 
 #include <vector>
 #include <memory>
@@ -77,7 +77,9 @@ public:
     }
 
     void Visit();
+    void ScheduleUpdate();
 
+    virtual void Update(const ii_time delta_time) {}   // Is not called by default
     virtual void OnEnter() {}
     virtual void Render()  {}
     virtual void OnExit()  {}
