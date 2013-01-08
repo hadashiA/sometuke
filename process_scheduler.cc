@@ -1,5 +1,7 @@
 #include "process_scheduler.h"
 
+#include "node.h"
+
 #include <climits>
 
 namespace kawaii {
@@ -109,8 +111,16 @@ void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time in
     processes_.push_back(timer);
 }
 
+void ProcessScheduler::ScheduleFor(Node *node) {
+    nodes_.push_back(node);
+}
+
 void ProcessScheduler::UnScheduleFor(shared_ptr<Process> process) {
     processes_.remove(process);
+}
+
+void ProcessScheduler::UnScheduleFor(Node *node) {
+    nodes_.remove(node);
 }
 
 void ProcessScheduler::Update(const ii_time delta_time) {
@@ -128,6 +138,11 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         } else if (p->is_active() && !p->paused()) {
             p->Update(delta_time);
         }
+    }
+
+    for (std::list<Node *>::iterator iter = nodes_.begin(); iter != nodes_.end(); ++iter) {
+        Node *node = (*iter);
+        node->Update(delta_time);
     }
 }
 

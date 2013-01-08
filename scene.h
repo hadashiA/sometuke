@@ -10,9 +10,9 @@
 namespace kawaii {
 using namespace std;
 
-typedef map<actor_id, shared_ptr<Actor> > ActorTable;
-
 class Actor;
+    
+typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Scene {
 public:

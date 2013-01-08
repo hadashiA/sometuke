@@ -33,7 +33,6 @@ void Director::ReshapeProjection() {
     glViewport(0, 0, size_in_points.x, size_in_points.y);
 
     mat4& projection = MatrixStack::GLProjection()->Push();
-    IIINFO("projection: %s", IIINSPECT(projection));
     float zeye = size_in_pixels.y / 1.1566f / content_scale_factor;
     projection = mat4::Perspective(60, size_in_points.x / size_in_points.y,
                                    0.1f, zeye * 2);

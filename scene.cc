@@ -1,6 +1,7 @@
 #include "scene.h"
 
 #include "matrix_stack.h"
+#include "actor.h"
 
 #include <OpenGLES/ES2/gl.h>
 
