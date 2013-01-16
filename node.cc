@@ -14,7 +14,7 @@ void Node::AddChild(shared_ptr<Node> child) {
 void Node::Visit() {
     if (!is_visible_) return;
 
-    // MatrixStack::GLModelView()->Push(mat4::Identity());
+    MatrixStack::GLModelView()->Push();
 
     if (!children_.empty()) {
         for (vector<shared_ptr<Node> >::iterator iter = children_.begin(); iter != children_.end(); iter++) {
@@ -24,7 +24,7 @@ void Node::Visit() {
     }
     Render();
 
-    // MatrixStack::GLModelView()->Pop();
+    MatrixStack::GLModelView()->Pop();
 }
 
 }
