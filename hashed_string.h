@@ -17,6 +17,10 @@ public:
         : ident_(HashName(ident_c_str)),
           ident_string_(ident_c_str) {}
 
+    explicit HashedString(const string& ident_string)
+        : ident_(HashName(ident_string.c_str())),
+          ident_string_(ident_string) {}
+
     const unsigned long value() const {
         return reinterpret_cast<unsigned long>(ident_);
     }
