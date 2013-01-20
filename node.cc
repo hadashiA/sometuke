@@ -7,13 +7,13 @@
 namespace kawaii {
 using namespace std;
 
-void Node::set_position(const vec3& position) {
-    position_ = position;
+void Node::set_local_position(const vec3& position) {
+    local_position_ = position;
     is_transform_dirty_ = is_inverse_dirty_ = true;
 }
 
 void Node::add_position(const vec3& diff) {
-    position_ += diff;
+    local_position_ += diff;
     is_transform_dirty_ = is_inverse_dirty_ = true;
 }
 
@@ -53,9 +53,9 @@ void Node::set_anchor_point(const vec2& anchor_point) {
 
 const mat4& Node::NodeToParentTransform() {
     if (is_transform_dirty_) {
-        float x = position_.x;
-        float y = position_.y;
-        float z = position_.z;
+        float x = local_position_.x;
+        float y = local_position_.y;
+        float z = local_position_.z;
 
         float c = 1;
         float s = 0;
@@ -68,7 +68,7 @@ const mat4& Node::NodeToParentTransform() {
         // optimization:
         // inline anchor point calculation if skew is not needed
         bool needs_skew_matrix = (skew_.x || skew_.y);
-        if (!needs_skew_matrix && !IsAnchorPointZero()) {
+        if (!needs_skew_matrix && !AnchorPointIsZero()) {
             x += c * -anchor_point_.x * scale_.x + -s * -anchor_point_.y * scale_.y;
             y += s * -anchor_point_.x * scale_.x +  c * -anchor_point_.y * scale_.y;
         }
@@ -76,12 +76,12 @@ const mat4& Node::NodeToParentTransform() {
         // Build Transform Matrix
         float a = c * scale_.x;
         float b = s * scale_.x;
-        float c = -s * scale_.y;
+        float c_ = -s * scale_.y;
         float d = c * scale_.y;
         float tx = x;
         float ty = y;
         transform_ = mat4(a, b, 0, 0,
-                          c, d, 0, 0,
+                          c_, d, 0, 0,
                           0, 0, 1, 0,
                           tx, ty, 0, 1);
 
@@ -95,7 +95,7 @@ const mat4& Node::NodeToParentTransform() {
             transform_ = skew_matrix * transform_;
 
             // adjust anchor point
-            if (!IsAnchorPointZero()) {
+            if (!AnchorPointIsZero()) {
                 transform_ = transform_.Translate(-anchor_point_.x, -anchor_point_.y, 0);
             }
         }

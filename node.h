@@ -14,9 +14,9 @@ using namespace std;
 class Node {
 public:
     Node()
-        : position_(0, 0, 0),
+        : local_position_(0, 0, 0),
           scale_(1, 1),
-          rotation_(0, 0),
+          rotation_(0),
           skew_(0, 0),
           anchor_point_(0, 0),
           content_size_(0, 0),
@@ -65,7 +65,7 @@ public:
     void add_position(const vec3& diff);
     void set_scale_x(const float scale_x);
     void set_scale_y(const float scale_y);
-    void set_scale(const vec2& scale);
+    void set_scale(const float scale);
     void set_skew_x(const float skew_x);
     void set_skew_y(const float skew_y);
     void set_rotation(const float rotation);
