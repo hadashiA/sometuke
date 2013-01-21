@@ -9,13 +9,6 @@ namespace kawaii {
 
 TextureCache *TextureCache::__current = NULL;
 
-TextureCache *TextureCache::Current() {
-    if (__current == NULL) {
-        __current = new TextureCache;
-    }
-    return __current;
-}
-
 shared_ptr<Texture2D> TextureCache::AddImage(const string& path) {
     unsigned int texture_id = HashedString(path).value();
     if (textures_.find(texture_id) == textures_.end()) {

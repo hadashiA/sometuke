@@ -4,18 +4,6 @@
 namespace kawaii {
 
 ShaderCache *ShaderCache::__shared = NULL;
-ShaderCache *ShaderCache::Shared() {
-    if (__shared == NULL) {
-        __shared = new ShaderCache();
-        __shared->LoadDefaultShaders();
-    }
-    return __shared;
-}
-
-shared_ptr<GLProgram> ShaderCache::operator[](ShaderLabel key) {
-    shared_ptr<GLProgram> result = shaders_[key];
-    return result;
-}
 
 void ShaderCache::LoadDefaultShaders() {
     shared_ptr<GLProgram> p;

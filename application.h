@@ -15,6 +15,14 @@ class Director;
 
 class Application {
 public:
+    static inline Application *Current() {
+        if (__current == NULL) {
+            __current = new Application();
+            // __current->Initialize();
+        }
+        return __current;
+    }
+
     static Application *Current();
 
     ~Application();

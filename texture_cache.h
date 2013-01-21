@@ -11,7 +11,12 @@ class Texture2D;
 
 class TextureCache {
 public:
-    static TextureCache *Current();
+    static inline TextureCache *Current() {
+        if (__current == NULL) {
+            __current = new TextureCache;
+        }
+        return __current;
+    }
 
     shared_ptr<Texture2D> AddImage(const string& path);
 

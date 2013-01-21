@@ -9,13 +9,6 @@
 namespace kawaii {
 
 Application *Application::__current = NULL;
-Application *Application::Current() {
-    if (__current == NULL) {
-        __current = new Application();
-        // __current->Initialize();
-    }
-    return __current;
-}
 
 Application::~Application() {
     delete director_;
