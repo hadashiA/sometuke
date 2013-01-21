@@ -61,6 +61,10 @@ public:
         return anchor_point_;
     }
 
+    const vec2& content_size() const {
+        return content_size_;
+    }
+
     void set_local_position(const vec3& local_position);
     void add_position(const vec3& diff);
     void set_scale_x(const float scale_x);
@@ -71,6 +75,7 @@ public:
     void set_rotation(const float rotation);
     void set_z_order(int z_order);
     void set_anchor_point(const vec2& point);
+    void set_content_size(const vec2& size);
 
     void show() {
         is_visible_ = true;

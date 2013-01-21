@@ -48,7 +48,22 @@ void Node::set_z_order(int z_order) {
     // parent_->ReorderChild(this, z_order)
 }
 
-void Node::set_anchor_point(const vec2& anchor_point) {
+void Node::set_anchor_point(const vec2& value) {
+    if (anchor_point_ != value) {
+        anchor_point_ = value;
+        anchor_point_ = vec2(content_size_.x * anchor_point_.x,
+                             content_size_.y * anchor_point_.y);
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+}
+
+void Node::set_content_size(const vec2& value) {
+    if (content_size_ != value) {
+        content_size_ = value;
+        anchor_point_ = vec2(content_size_.x * anchor_point_.x,
+                             content_size_.y * anchor_point_.y);
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
 }
 
 const mat4& Node::NodeToParentTransform() {
