@@ -72,6 +72,10 @@ struct Vector2 {
         return x == v.x && y == v.y;
     }
 
+    bool operator!=(const Vector2& v) const {
+        return x != v.x || y != v.y;
+    }
+
     Vector2 Lerp(float t, const Vector2& v) const {
         return Vector2(x * (1 - t) + v.x * t,
                        y * (1 - t) + v.y * t);

@@ -23,8 +23,6 @@ public:
         return __current;
     }
 
-    static Application *Current();
-
     ~Application();
 
     bool Initialize(Assets *assets);
