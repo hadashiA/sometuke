@@ -168,11 +168,11 @@ public:
     void Visit();
     void ScheduleUpdate();
 
-    const mat4& NodeToParentTransform();
-    const mat4& ParentToNodeTransform();
+    const mat4& LocalTransform();
+    const mat4& LocalInverseTransform();
 
-    const mat4 NodeToWorldTransform();
-    const mat4 WorldToNodeTransform();
+    const mat4 WorldTransform();
+    const mat4 WorldInverseTransform();
 
     const vec3& WorldPosition() const;
     void SetWorldPosition(const vec3& world_position);
@@ -188,8 +188,8 @@ private:
     bool is_visible_;
     bool is_running_;
 
-    mat4 transform_;
-    mat4 inverse_;
+    mat4 local_transform_;
+    mat4 local_inverse_;
     bool is_transform_dirty_;
     bool is_inverse_dirty_;
 

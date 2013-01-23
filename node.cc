@@ -9,7 +9,7 @@
 namespace kawaii {
 using namespace std;
 
-const mat4& Node::NodeToParentTransform() {
+const mat4& Node::LocalTransform() {
     if (is_transform_dirty_) {
         float x = local_position_.x;
         float y = local_position_.y;
@@ -38,7 +38,7 @@ const mat4& Node::NodeToParentTransform() {
         float d = c * scale_.y;
         float tx = x;
         float ty = y;
-        transform_ = mat4(a, b, 0, 0,
+        local_transform_ = mat4(a, b, 0, 0,
                           c_, d, 0, 0,
                           0, 0, 1, 0,
                           tx, ty, z, 1);
@@ -50,34 +50,34 @@ const mat4& Node::NodeToParentTransform() {
                              tanf(DegreesToRadians(skew_.x)), 1.0f, 0, 0,
                              0, 0, 1, 0,
                              0, 0, 0, 1);
-            transform_ = skew_matrix * transform_;
+            local_transform_ = skew_matrix * local_transform_;
 
             // adjust anchor point
             if (!anchor_point_is_zero()) {
-                transform_ = transform_.Translate(-anchor_point_.x, -anchor_point_.y, 0);
+                local_transform_ = local_transform_.Translate(-anchor_point_.x, -anchor_point_.y, 0);
             }
         }
 
         is_transform_dirty_ = false;
     }
 
-    return transform_;
+    return local_transform_;
 }
 
-const mat4& Node::ParentToNodeTransform() {
+const mat4& Node::LocalInverseTransform() {
     if (is_inverse_dirty_) {
         // inverse_ = transform_.Inverse();
         is_inverse_dirty_ = false;
     }
-    return inverse_;
+    return local_inverse_;
 }
 
-const mat4 NodeToWorldTransform() {
-    mat4 t = NodeToWorldTransform();
+const mat4 Node::WorldTransform() {
+    mat4 t = LocalTransform();
     return t;
 }
 
-const mat4 WorldToNodeTransform() {
+const mat4 Node::WorldInverseTransform() {
     return mat4();
 }
 
@@ -92,8 +92,7 @@ void Node::Visit() {
 
     mat4& model_view = MatrixStack::GLModelView()->Push();
 
-    // model_view *= NodeToParentTransform();
-    model_view = model_view * NodeToParentTransform();
+    model_view = model_view * LocalTransform();
 
     if (!children_.empty()) {
         Render();
