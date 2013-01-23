@@ -66,7 +66,7 @@ public:
         return content_size_;
     }
 
-    const Node *parent() const {
+    Node *parent() {
         return parent_;
     }
 

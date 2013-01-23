@@ -74,6 +74,9 @@ const mat4& Node::LocalInverseTransform() {
 
 const mat4 Node::WorldTransform() {
     mat4 t = LocalTransform();
+    for (Node *p = parent(); p != NULL; p = p->parent()) {
+        t *= p->LocalTransform();
+    }
     return t;
 }
 
