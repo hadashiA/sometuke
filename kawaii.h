@@ -4,7 +4,7 @@
 #include "application.h"
 #include "director.h"
 #include "process_scheduler.h"
-#include "event_manager.h"
+#include "event_dispatcher.h"
 
 // resource
 #include "assets.h"

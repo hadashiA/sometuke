@@ -13,7 +13,7 @@ namespace kawaii {
 using namespace std;
 
 class ProcessScheduler;
-class EventManager;
+class EventDispatcher;
 class Scene;
 
 class Director {
@@ -39,7 +39,7 @@ public:
 
 private:
     ProcessScheduler *scheduler_;
-    EventManager *event_manager_;
+    EventDispatcher *event_dispatcher_;
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;

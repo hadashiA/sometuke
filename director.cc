@@ -5,7 +5,7 @@
 #include "shader_cache.h"
 #include "texture_2d.h"
 #include "process_scheduler.h"
-#include "event_manager.h"
+#include "event_dispatcher.h"
 #include "matrix_stack.h"
 #include "logger.h"
 #include "scene.h"
@@ -16,12 +16,12 @@ namespace kawaii {
 
 Director::Director() {
     scheduler_ = new ProcessScheduler;
-    event_manager_ = new EventManager;
+    event_dispatcher_ = new EventDispatcher;
 }
 
 Director::~Director() {
     delete scheduler_;
-    delete event_manager_;
+    delete event_dispatcher_;
 }
 
 void Director::ReshapeProjection() {
