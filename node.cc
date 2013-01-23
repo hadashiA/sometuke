@@ -32,16 +32,14 @@ const mat4& Node::LocalTransform() {
         }
 
         // Build Transform Matrix
-        float xx = c * scale_.x;
-        float xy = s * scale_.x;
-        float yx = -s * scale_.y;
-        float yy = c * scale_.y;
-        float tx = x;
-        float ty = y;
-        local_transform_ = mat4(xx, xy, 0, 0,
-                                yx, yy, 0, 0,
-                                 0,  0, 1, 0,
-                                tx, ty, z, 1);
+        float a_a  = c * scale_.x;
+        float a_b  = s * scale_.x;
+        float a_c  = -s * scale_.y;
+        float a_d  = c * scale_.y;
+        local_transform_ = mat4(a_a, a_b, 0, 0,
+                                a_c, a_d, 0, 0,
+                                  0,   0, 1, 0,
+                                  x,   y, z, 1);
 
         // XXX: Try to inline skew
         // If skew is needed, apply skew and then anchor point

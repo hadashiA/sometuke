@@ -98,10 +98,10 @@ struct Matrix4 {
     }
 
     Vector4<T> operator * (const Vector4<T>& b) const {
-        return Vector4<T>(x.x * b.x + x.y * b.y + x.z * b.z + x.w * b.w,
-                          y.x * b.x + y.y * b.y + y.z * b.z + y.w * b.w,
-                          z.x * b.x + z.y * b.y + z.z * b.z + z.w * b.w,
-                          w.x * b.x + w.y * b.y + w.z * b.z + w.w * b.w);
+        return Vector4<T>((x.x * b.x) + (y.x * b.y) + (z.x * b.z) + (w.x * b.w),
+                          (x.y * b.x) + (y.y * b.y) + (z.y * b.z) + (w.y * b.w),
+                          (x.z * b.x) + (y.z * b.y) + (z.z * b.z) + (w.z * b.w),
+                          (x.w * b.x) + (y.w * b.y) + (z.w * b.z) + (w.w * b.w));
     }
 
     Matrix4& operator *= (const Matrix4& b) {
