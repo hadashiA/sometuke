@@ -72,7 +72,7 @@ const mat4& Node::LocalInverseTransform() {
     return local_inverse_;
 }
 
-const mat4 Node::WorldTransform() {
+mat4 Node::WorldTransform() {
     mat4 t = LocalTransform();
     for (Node *p = parent(); p != NULL; p = p->parent()) {
         t *= p->LocalTransform();
@@ -80,8 +80,13 @@ const mat4 Node::WorldTransform() {
     return t;
 }
 
-const mat4 Node::WorldInverseTransform() {
+mat4 Node::WorldInverseTransform() {
     return mat4();
+}
+
+vec3 Node::WorldPosition() {
+    vec4 pos = WorldTransform() * vec4(local_position_, 1);
+    return vec3(pos.x, pos.y, pos.z);
 }
 
 void Node::AddChild(shared_ptr<Node> child) {

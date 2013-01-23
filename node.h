@@ -171,10 +171,10 @@ public:
     const mat4& LocalTransform();
     const mat4& LocalInverseTransform();
 
-    const mat4 WorldTransform();
-    const mat4 WorldInverseTransform();
+    mat4 WorldTransform();
+    mat4 WorldInverseTransform();
 
-    const vec3& WorldPosition() const;
+    vec3 WorldPosition();
     void SetWorldPosition(const vec3& world_position);
 
 private:    
