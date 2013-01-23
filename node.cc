@@ -39,9 +39,9 @@ const mat4& Node::LocalTransform() {
         float tx = x;
         float ty = y;
         local_transform_ = mat4(a, b, 0, 0,
-                          c_, d, 0, 0,
-                          0, 0, 1, 0,
-                          tx, ty, z, 1);
+                                c_, d, 0, 0,
+                                0, 0, 1, 0,
+                                tx, ty, z, 1);
 
         // XXX: Try to inline skew
         // If skew is needed, apply skew and then anchor point
@@ -91,6 +91,8 @@ vec3 Node::WorldPosition() {
 
 void Node::AddChild(shared_ptr<Node> child) {
     assert(child->parent() == NULL);
+
+    child->set_parent(this);
 
     children_.push_back(child);
 }

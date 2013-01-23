@@ -100,6 +100,7 @@ template <typename T>
 struct Vector3 {
     Vector3() {}
     Vector3(T x, T y, T z) : x(x), y(y), z(z) {}
+    Vector3(Vector2<T> v) : x(v.x), y(v.y), z(0) {}
 
     void Normalize() {
         float s = 1.0f / std::sqrt(x * x + y * y + z * z);
