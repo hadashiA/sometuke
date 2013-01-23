@@ -39,7 +39,7 @@ const mat4& Node::NodeToParentTransform() {
         transform_ = mat4(a, b, 0, 0,
                           c_, d, 0, 0,
                           0, 0, 1, 0,
-                          tx, ty, 0, 1);
+                          tx, ty, z, 1);
 
         // XXX: Try to inline skew
         // If skew is needed, apply skew and then anchor point
@@ -77,7 +77,10 @@ void Node::AddChild(shared_ptr<Node> child) {
 void Node::Visit() {
     if (!is_visible_) return;
 
-    MatrixStack::GLModelView()->Push();
+    mat4& model_view = MatrixStack::GLModelView()->Push();
+
+    // model_view *= NodeToParentTransform();
+    model_view = model_view * NodeToParentTransform();
 
     if (!children_.empty()) {
         for (vector<shared_ptr<Node> >::iterator iter = children_.begin(); iter != children_.end(); iter++) {
