@@ -83,12 +83,24 @@ void Node::Visit() {
     model_view = model_view * NodeToParentTransform();
 
     if (!children_.empty()) {
+        Render();
+
+        // sort all children
+
+        // Render children z_order < 0
+
+        Render();
+
+        
+        // Render children z_order > 0
         for (vector<shared_ptr<Node> >::iterator iter = children_.begin(); iter != children_.end(); iter++) {
             shared_ptr<Node> child = (*iter);
             child->Visit();
         }
+
+    } else {
+        Render();
     }
-    Render();
 
     MatrixStack::GLModelView()->Pop();
 }

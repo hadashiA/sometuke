@@ -70,9 +70,17 @@ public:
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
+    void set_local_position(const float x, const float y, const float z = 0) {
+        set_local_position(vec3(x, y, z));
+    }
+
     void add_position(const vec3& diff) {
         local_position_ += diff;
         is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void add_position(const float dx, const float dy, const float dz = 0) {
+        add_position(vec3(dx, dy, dz));
     }
 
     void set_scale_x(const float scale_x) {
