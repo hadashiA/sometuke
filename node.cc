@@ -4,6 +4,8 @@
 
 #include "logger.h"
 
+#include <cassert>
+
 namespace kawaii {
 using namespace std;
 
@@ -70,7 +72,18 @@ const mat4& Node::ParentToNodeTransform() {
     return inverse_;
 }
 
+const mat4 NodeToWorldTransform() {
+    mat4 t = NodeToWorldTransform();
+    return t;
+}
+
+const mat4 WorldToNodeTransform() {
+    return mat4();
+}
+
 void Node::AddChild(shared_ptr<Node> child) {
+    assert(child->parent() == NULL);
+
     children_.push_back(child);
 }
 

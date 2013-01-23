@@ -24,7 +24,8 @@ public:
           is_visible_(true),
           is_running_(false),
           is_transform_dirty_(true),
-          is_inverse_dirty_(true) {
+          is_inverse_dirty_(true),
+          parent_(NULL) {
     }
     
     virtual ~Node() {}
@@ -63,6 +64,10 @@ public:
 
     const vec2& content_size() const {
         return content_size_;
+    }
+
+    const Node *parent() const {
+        return parent_;
     }
 
     void set_local_position(const vec3& position) {
@@ -140,12 +145,13 @@ public:
         is_visible_ = false;
     }
 
+    void set_parent(Node *value) {
+        parent_ = value;
+    }
+
     bool anchor_point_is_zero() const {
         return (anchor_point_.x == 0 && anchor_point_.y == 0);
     }
-
-    const vec3& WorldPosition() const;
-    void SetWorldPosition(const vec3& world_position);
 
     virtual void AddChild(shared_ptr<Node> child);
 
@@ -165,6 +171,12 @@ public:
     const mat4& NodeToParentTransform();
     const mat4& ParentToNodeTransform();
 
+    const mat4 NodeToWorldTransform();
+    const mat4 WorldToNodeTransform();
+
+    const vec3& WorldPosition() const;
+    void SetWorldPosition(const vec3& world_position);
+
 private:    
     vec3 local_position_;
     vec2 scale_;
@@ -182,6 +194,7 @@ private:
     bool is_inverse_dirty_;
 
     vector<shared_ptr<Node> > children_;
+    Node *parent_;
 };
 
 }
