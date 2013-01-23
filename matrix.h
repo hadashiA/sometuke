@@ -97,13 +97,6 @@ struct Matrix4 {
         return m;
     }
 
-    Vector4<T> operator * (const Vector4<T>& b) const {
-        return Vector4<T>((x.x * b.x) + (y.x * b.y) + (z.x * b.z) + (w.x * b.w),
-                          (x.y * b.x) + (y.y * b.y) + (z.y * b.z) + (w.y * b.w),
-                          (x.z * b.x) + (y.z * b.y) + (z.z * b.z) + (w.z * b.w),
-                          (x.w * b.x) + (y.w * b.y) + (z.w * b.z) + (w.w * b.w));
-    }
-
     Matrix4& operator *= (const Matrix4& b) {
         Matrix4 m = *this * b;
         return (*this = m);
@@ -197,7 +190,7 @@ struct Matrix4 {
         m.z = Vector4<T>(z, 0);
         m.w = Vector4<T>(0, 0, 0, 1);
         
-        Vector4<T> eyePrime = m * Vector4<T>(-eye, 1);
+        Vector4<T> eyePrime = Vector4<T>(-eye, 1) * m;
         m = m.Transposed();
         m.w = eyePrime;
         
@@ -209,6 +202,16 @@ struct Matrix4 {
     vec4 z;
     vec4 w;
 };
+
+template <typename T>
+Vector4<T> operator * (const Vector4<T>& v, const Matrix4<T>& m)  {
+    return Vector4<T>((v.x * m.x.x) + (v.y * m.y.x) + (v.z * m.z.x) + (v.w * m.w.x),
+                      (v.x * m.x.y) + (v.y * m.y.y) + (v.z * m.z.y) + (v.w * m.w.y),
+                      (v.x * m.x.z) + (v.y * m.y.z) + (v.z * m.z.z) + (v.w * m.w.z),
+                      (v.x * m.x.w) + (v.y * m.y.w) + (v.z * m.z.w) + (v.w * m.w.w));
+}
+
+
 
 typedef Matrix2<float> mat2;
 typedef Matrix3<float> mat3;

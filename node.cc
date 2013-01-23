@@ -83,7 +83,7 @@ mat4 Node::WorldInverseTransform() {
 }
 
 vec3 Node::WorldPosition() {
-    vec4 pos = WorldTransform() * vec4(local_position_, 1);
+    vec4 pos = vec4(local_position_, 1) * WorldTransform();
     return vec3(pos.x, pos.y, pos.z);
 }
 
@@ -100,7 +100,7 @@ void Node::Visit() {
 
     mat4& model_view = MatrixStack::GLModelView()->Push();
 
-    model_view = model_view * LocalTransform();
+    model_view *= LocalTransform();
 
     if (!children_.empty()) {
         Render();
