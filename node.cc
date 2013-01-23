@@ -7,65 +7,6 @@
 namespace kawaii {
 using namespace std;
 
-void Node::set_local_position(const vec3& position) {
-    local_position_ = position;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::add_position(const vec3& diff) {
-    local_position_ += diff;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_scale_x(const float scale_x) {
-    scale_.x = scale_x;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_scale_y(const float scale_y) {
-    scale_.y = scale_y;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_scale(const float scale) {
-    scale_.x = scale;
-    scale_.y = scale;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_skew_x(const float skew_x) {
-    skew_.x = skew_x;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_skew_y(const float skew_y) {
-    skew_.y = skew_y;
-    is_transform_dirty_ = is_inverse_dirty_ = true;
-}
-
-void Node::set_z_order(int z_order) {
-    z_order = z_order;
-    // parent_->ReorderChild(this, z_order)
-}
-
-void Node::set_anchor_point(const vec2& value) {
-    if (anchor_point_ != value) {
-        anchor_point_ = value;
-        anchor_point_ = vec2(content_size_.x * anchor_point_.x,
-                             content_size_.y * anchor_point_.y);
-        is_transform_dirty_ = is_inverse_dirty_ = true;
-    }
-}
-
-void Node::set_content_size(const vec2& value) {
-    if (content_size_ != value) {
-        content_size_ = value;
-        anchor_point_ = vec2(content_size_.x * anchor_point_.x,
-                             content_size_.y * anchor_point_.y);
-        is_transform_dirty_ = is_inverse_dirty_ = true;
-    }
-}
-
 const mat4& Node::NodeToParentTransform() {
     if (is_transform_dirty_) {
         float x = local_position_.x;
@@ -83,7 +24,7 @@ const mat4& Node::NodeToParentTransform() {
         // optimization:
         // inline anchor point calculation if skew is not needed
         bool needs_skew_matrix = (skew_.x || skew_.y);
-        if (!needs_skew_matrix && !AnchorPointIsZero()) {
+        if (!needs_skew_matrix && !anchor_point_is_zero()) {
             x += c * -anchor_point_.x * scale_.x + -s * -anchor_point_.y * scale_.y;
             y += s * -anchor_point_.x * scale_.x +  c * -anchor_point_.y * scale_.y;
         }
@@ -110,7 +51,7 @@ const mat4& Node::NodeToParentTransform() {
             transform_ = skew_matrix * transform_;
 
             // adjust anchor point
-            if (!AnchorPointIsZero()) {
+            if (!anchor_point_is_zero()) {
                 transform_ = transform_.Translate(-anchor_point_.x, -anchor_point_.y, 0);
             }
         }
@@ -123,7 +64,7 @@ const mat4& Node::NodeToParentTransform() {
 
 const mat4& Node::ParentToNodeTransform() {
     if (is_inverse_dirty_) {
-        // is_inverse_dirty_ = transform_.Inverse();
+        // inverse_ = transform_.Inverse();
         is_inverse_dirty_ = false;
     }
     return inverse_;

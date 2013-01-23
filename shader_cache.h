@@ -38,6 +38,11 @@ public:
         return result;
     }
 
+    shared_ptr<GLProgram> get(ShaderLabel key) {
+        shared_ptr<GLProgram> result = shaders_[key];
+        return result;
+    }
+
     void LoadDefaultShaders();
 
 private:

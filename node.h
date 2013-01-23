@@ -65,17 +65,64 @@ public:
         return content_size_;
     }
 
-    void set_local_position(const vec3& local_position);
-    void add_position(const vec3& diff);
-    void set_scale_x(const float scale_x);
-    void set_scale_y(const float scale_y);
-    void set_scale(const float scale);
-    void set_skew_x(const float skew_x);
-    void set_skew_y(const float skew_y);
-    void set_rotation(const float rotation);
-    void set_z_order(int z_order);
-    void set_anchor_point(const vec2& point);
-    void set_content_size(const vec2& size);
+    void set_local_position(const vec3& position) {
+        local_position_ = position;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void add_position(const vec3& diff) {
+        local_position_ += diff;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_scale_x(const float scale_x) {
+        scale_.x = scale_x;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_scale_y(const float scale_y) {
+        scale_.y = scale_y;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_scale(const float scale) {
+        scale_.x = scale;
+        scale_.y = scale;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_skew_x(const float skew_x) {
+        skew_.x = skew_x;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_skew_y(const float skew_y) {
+        skew_.y = skew_y;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    void set_z_order(int z_order) {
+        z_order = z_order;
+        // parent_->ReorderChild(this, z_order)
+    }
+
+    void set_anchor_point(const vec2& value) {
+        if (anchor_point_ != value) {
+            anchor_point_ = value;
+            anchor_point_ = vec2(content_size_.x * anchor_point_.x,
+                                 content_size_.y * anchor_point_.y);
+            is_transform_dirty_ = is_inverse_dirty_ = true;
+        }
+    }
+
+    void set_content_size(const vec2& value) {
+        if (content_size_ != value) {
+            content_size_ = value;
+            anchor_point_ = vec2(content_size_.x * anchor_point_.x,
+                                 content_size_.y * anchor_point_.y);
+            is_transform_dirty_ = is_inverse_dirty_ = true;
+        }
+    }
 
     void show() {
         is_visible_ = true;
@@ -85,7 +132,7 @@ public:
         is_visible_ = false;
     }
 
-    bool AnchorPointIsZero() const {
+    bool anchor_point_is_zero() const {
         return (anchor_point_.x == 0 && anchor_point_.y == 0);
     }
 
