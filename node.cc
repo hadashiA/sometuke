@@ -62,24 +62,12 @@ const mat4& Node::LocalTransform() {
     return local_transform_;
 }
 
-const mat4& Node::LocalInverseTransform() {
-    if (is_inverse_dirty_) {
-        // inverse_ = transform_.Inverse();
-        is_inverse_dirty_ = false;
-    }
-    return local_inverse_;
-}
-
 mat4 Node::WorldTransform() {
     mat4 t = LocalTransform();
     for (Node *p = parent(); p != NULL; p = p->parent()) {
         t *= p->LocalTransform();
     }
     return t;
-}
-
-mat4 Node::WorldInverseTransform() {
-    return mat4();
 }
 
 vec3 Node::WorldPosition() {
@@ -89,6 +77,10 @@ vec3 Node::WorldPosition() {
 vec3 Node::WorldPositionAt(const vec3& local_position) {
     vec4 pos = vec4(local_position, 1) * WorldTransform();
     return vec3(pos.x, pos.y, pos.z);
+}
+
+vec3 Node::LocalPositionAt(const vec3& world_position) {
+    return WorldPosition() - world_position;
 }
 
 void Node::AddChild(shared_ptr<Node> child) {
