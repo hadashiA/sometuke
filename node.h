@@ -177,6 +177,8 @@ public:
     vec3 WorldPosition();
     void SetWorldPosition(const vec3& world_position);
 
+    vec3 WorldPositionAt(const vec3& local_position);
+
 private:    
     vec3 local_position_;
     vec2 scale_;

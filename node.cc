@@ -83,7 +83,11 @@ mat4 Node::WorldInverseTransform() {
 }
 
 vec3 Node::WorldPosition() {
-    vec4 pos = vec4(local_position_, 1) * WorldTransform();
+    return WorldPositionAt(local_position_);
+}
+
+vec3 Node::WorldPositionAt(const vec3& local_position) {
+    vec4 pos = vec4(local_position, 1) * WorldTransform();
     return vec3(pos.x, pos.y, pos.z);
 }
 
