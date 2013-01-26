@@ -1,0 +1,63 @@
+#ifndef __kawaii__sprite_frame__
+#define __kawaii__sprite_frame__
+
+#include "vertices.h"
+#include "application.h"
+
+#include <memory>
+#include <string>
+
+namespace kawaii {
+using namespace std;
+
+class Texture2D;
+
+struct SpriteFrame {
+public:
+    SpriteFrame(shared_ptr<Texture2D> _texture, const Rect& _rect)
+        : texture(_texture),
+          rect(_rect),
+          rotated(false),
+          offset(0, 0),
+          original_size(_rect.size),
+          texture_filename("") {
+        UpdatePixelSize();
+    }
+
+    SpriteFrame(shared_ptr<Texture2D> _texture,
+                const Rect& _rect,
+                bool _rotated,
+                const vec2& _offset,
+                const vec2& _original)
+        : texture(_texture),
+          rect(_rect),
+          rotated(_rotated),
+          offset(_offset),
+          original_size(_original_size),
+          texture_filename("") {
+        UpdatePixelSize();
+    }
+
+    Rect rect;
+    Rect rect_in_pixels;
+    BOOL rotated;
+    vec2 offset;
+    vec2 offset_in_pixels;
+    vec2 original_size;
+    vec2 original_size_in_pixels;
+    shared_ptr<Texture2D> texture;
+    string texture_filename;
+
+private:
+    void UpdatePixelSize() {
+        float content_scale_factor = Application::Current()->content_scale_factor();
+        rect_in_pixels = rect * content_scale_factor;
+        offset_in_pixels = offset * content_scale_factor;
+        original_size_in_pixels = original_size * content_scale_factor;
+    }
+};
+
+}
+
+#endif /* defined(__kawaii__sprite_frame__) */
+
