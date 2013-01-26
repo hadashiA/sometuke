@@ -4,6 +4,7 @@
 #include "texture_cache.h"
 #include "texture_2d.h"
 #include "application.h"
+#include "OpenGL_Internal.h"
 
 #include <algorithm>
 #include <cassert>
@@ -35,7 +36,6 @@ bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture,
     set_texture_rect(rect, rotated, rect.size);
     return true;
 }
-
 
 void Sprite::set_color(const Color3B& value) {
     color_unmodified_ = value;
@@ -89,12 +89,23 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     vertex_rect_rotated_ = rotated;
     UpdateQuadTexCoords();
 
+    // TODO: offset_position calculate
+    float x1 = 0;
+    float y1 = 0;
+    float x2 = x1 + rect.size.x;
+    float y2 = y1 + rect.size.y;
+
+    // Don't update Z
+    quad_.bottom_left.pos  = vec3(x1, y1, 0);
+    quad_.bottom_right.pos = vec3(x2, y1, 0);
+    quad_.top_left.pos     = vec3(x1, y2, 0);
+    quad_.top_right.pos    = vec3(x2, y2, 0);
     
 }
 
 void Sprite::Render() {
     shader_program_->Use();
-    shadre_program_->SetUniformsForBuiltins();
+    shader_program_->SetUniformsForBuiltins();
     
     // set blending
     if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
@@ -107,27 +118,27 @@ void Sprite::Render() {
     glBindTexture(GL_TEXTURE_2D, texture_->id());
 
     // attributes
-    glEnableVertexAttribArray(kawaii::kVertexAttrib_Position);
-    glEnableVertexAttribArray(kawaii::kVertexAttrib_Color);
-    glEnableVertexAttribArray(kawaii::kVertexAttrib_TexCoords);
+    glEnableVertexAttribArray(kVertexAttrib_Position);
+    glEnableVertexAttribArray(kVertexAttrib_Color);
+    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
 #define VERTEX_SIZE sizeof(quad_.bottom_left)
     long offset = (long)&quad_;
     unsigned int diff;
 
     // position
-    diff = offsetof(kawaii::P3F_C4B_T2F, pos);
-    glVertexAttribPointer(kawaii::kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+    diff = offsetof(P3F_C4B_T2F, pos);
+    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
                           (void *)(offset + diff));
 
     // texCoord
-    diff = offsetof(kawaii::P3F_C4B_T2F, tex_coord);
-    glVertexAttribPointer(kawaii::kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+    diff = offsetof(P3F_C4B_T2F, tex_coord);
+    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
                           (void *)(offset + diff));
 
     // color
-    diff = offsetof(kawaii::P3F_C4B_T2F, color);
-    glVertexAttribPointer(kawaii::kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE,
+    diff = offsetof(P3F_C4B_T2F, color);
+    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE,
                           (void *)(offset + diff));
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -178,3 +189,4 @@ void Sprite::UpdateQuadTexCoords() {
 }
 
 }
+
