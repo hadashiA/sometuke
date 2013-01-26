@@ -228,7 +228,9 @@ typedef Vector4<float> vec4;
 
 struct Rect {
 public:
-    Rect(float x, float y, float w, float h) : pos(x, y), size(w, h) {}
+    Rect(float x = 0, float y = 0, float w = 0, float h = 0)
+        : pos(x, y), size(w, h) {
+    }
 
     vec2 pos;
     vec2 size;

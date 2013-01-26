@@ -65,18 +65,27 @@ public:
         blend_func_dst_ = value;
     }
 
-    void set_texture(shared_ptr<Texture2D> value);
     void set_color(const Color3B& value);
+    void set_opacity(GLubyte value);
     void set_opacity_modify_rgb(bool value);
+    void set_texture(shared_ptr<Texture2D> value);
+    void set_texture_rect(const Rect& rect);
+    void set_texture_rect(const Rect& rect, bool rotated,
+                          const vec2& untrimmed_size);
 
 private:
     void UpdateQuadColor();
+    void UpdateQuadTexCoords();
 
     shared_ptr<Texture2D> texture_;
+    shared_ptr<GLProgram> shader_program_;
+
+    bvec2 fliped_;
+
+    // renderer stuff
+    Quad_P3F_C4B_T2F quad_;
     GLenum blend_func_src_;
     GLenum blend_func_dst_;
-    shared_ptr<GLProgram> shader_program_;
-    Quad_P3F_C4B_T2F quad_;
 
     // color stuff
     GLubyte opacity_;
@@ -84,7 +93,8 @@ private:
     Color3B color_unmodified_;
     bool does_opacity_modify_rgb_;
 
-    bvec2 fliped_;
+    // vertex stuff
+    Rect vertex_rect_;
 };
 
 }
