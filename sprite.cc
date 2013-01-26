@@ -88,10 +88,50 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     vertex_rect_ = rect;
     vertex_rect_rotated_ = rotated;
     UpdateQuadTexCoords();
+
+    
 }
 
-
 void Sprite::Render() {
+    shader_program_->Use();
+    shadre_program_->SetUniformsForBuiltins();
+    
+    // set blending
+    if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
+        glDisable(GL_BLEND);
+    } else {
+        glEnable(GL_BLEND);
+        glBlendFunc(blend_func_src_, blend_func_dst_);
+    }
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture_->id());
+
+    // attributes
+    glEnableVertexAttribArray(kawaii::kVertexAttrib_Position);
+    glEnableVertexAttribArray(kawaii::kVertexAttrib_Color);
+    glEnableVertexAttribArray(kawaii::kVertexAttrib_TexCoords);
+
+#define VERTEX_SIZE sizeof(quad_.bottom_left)
+    long offset = (long)&quad_;
+    unsigned int diff;
+
+    // position
+    diff = offsetof(kawaii::P3F_C4B_T2F, pos);
+    glVertexAttribPointer(kawaii::kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    // texCoord
+    diff = offsetof(kawaii::P3F_C4B_T2F, tex_coord);
+    glVertexAttribPointer(kawaii::kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    // color
+    diff = offsetof(kawaii::P3F_C4B_T2F, color);
+    glVertexAttribPointer(kawaii::kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE,
+                          (void *)(offset + diff));
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    CHECK_GL_ERROR_DEBUG();
 }
 
 // private
