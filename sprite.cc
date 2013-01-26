@@ -15,6 +15,7 @@ Sprite::Sprite()
     : color_(255, 255, 255),
       color_unmodified_(255, 255, 255),
       opacity_(255),
+      does_opacity_modify_rgb_(false),
       vertex_rect_rotated_(false),
       fliped_(false, false) {
     shader_program_ = ShaderCache::Shared()->get(kShader_PositionTextureColor);
@@ -69,13 +70,13 @@ void Sprite::set_opacity_modify_rgb(bool value) {
 void Sprite::set_texture(shared_ptr<Texture2D> value) {
     texture_ = value;
 
-    if(texture_->has_premultipled_alpha()) {
-        set_blend_func_src(GL_ONE);
-        set_blend_func_dst(GL_ONE_MINUS_SRC_ALPHA);
+    if (texture_->has_premultipled_alpha()) {
+        blend_func_src_ = GL_ONE;
+        blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         set_opacity_modify_rgb(true);
     } else {
-        set_blend_func_src(GL_SRC_ALPHA);
-        set_blend_func_dst(GL_ONE_MINUS_SRC_ALPHA);
+        blend_func_src_ = GL_SRC_ALPHA;
+        blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         set_opacity_modify_rgb(false);
     }
 }
