@@ -229,7 +229,13 @@ typedef Vector4<float> vec4;
 struct Rect {
 public:
     Rect(float x = 0, float y = 0, float w = 0, float h = 0)
-        : pos(x, y), size(w, h) {
+        : pos(x, y), size(w, h) {}
+
+    Rect(const vec2& p, const vec2& s)
+        : pos(p), size(s) {}
+
+    Rect operator*(float factor) const {
+        return Rect(pos * factor, size * factor);
     }
 
     vec2 pos;

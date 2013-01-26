@@ -1,13 +1,18 @@
 #include "sprite.h"
+
 #include "shader_cache.h"
 #include "texture_cache.h"
 #include "texture_2d.h"
+#include "application.h"
+
+#include <algorithm>
 
 namespace kawaii {
 
 Sprite::Sprite()
     : color_(255, 255, 255),
-      color_unmodified_(255, 255, 255) {
+      color_unmodified_(255, 255, 255),
+      vertex_rect_rotated_(false) {
     shader_program_ = ShaderCache::Shared()->get(kShader_PositionTextureColor);
 
     std::memset(&quad_, 0, sizeof(quad_));
@@ -67,6 +72,7 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
                               const vec2& untrimmed_size) {
     set_content_size(untrimmed_size);
     vertex_rect_ = rect;
+    vertex_rect_rotated_ = rotated;
     UpdateQuadTexCoords();
 }
 
@@ -85,7 +91,36 @@ void Sprite::UpdateQuadColor() {
 }
 
 void Sprite::UpdateQuadTexCoords() {
-    
+    Rect rect = vertex_rect_ * Application::Current()->content_scale_factor();
+    float atlas_width  = texture_.pixel_size().x;
+    float atlas_height = texture_.pixel_size().y;
+    float left, right, top, bottom;
+
+    if (vertex_rect_rotated_) {
+        assert(false);          // no implemented
+    } else {
+        // FIX_ARTIFACTS_BY_STRECHING_TEXEL ??
+        left   = rect.pos.x / atlas_width;
+        right  = (rect.pos.x + rect.size.x) / atlas_width;
+        top    = rect.pos.y / atlas_height;
+        bottom = (rect.pos.y + rect.size.y) / atlas_height;
+
+        if (fliped_.x) {
+            std::swap(left, right);
+        }
+        if (fliped_.y) {
+            std::swap(top, bottom);
+        }
+
+        quad_.bottom_left.tex_coord.u  = left;
+        quad_.bottom_left.tex_coord.v  = bottom;
+        quad_.bottom_right.tex_coord.u = right;
+        quad_.bottom_right.tex_coord.v = bottom;
+        quad_.top_left.tex_coord.u     = left;
+        quad_.top_left.tex_coord.v     = top;
+        quad_.top_right.tex_coord.u    = right;
+        quad_.top_right.tex_coord.v    = top;
+    }
 }
 
 }

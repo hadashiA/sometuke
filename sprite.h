@@ -95,6 +95,7 @@ private:
 
     // vertex stuff
     Rect vertex_rect_;
+    bool vertex_rect_rotated_;
 };
 
 }
