@@ -23,7 +23,7 @@ public:
         return root_node_;
     }
 
-    virtual bool Initialize() = 0;
+    virtual bool Init() = 0;
 
     void Render();
 

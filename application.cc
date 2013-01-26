@@ -14,7 +14,7 @@ Application::~Application() {
     delete director_;
 }
 
-bool Application::Initialize(Assets *assets) {
+bool Application::Init(Assets *assets) {
     assets_ = assets;
     if (assets_ == NULL) {
         return false;

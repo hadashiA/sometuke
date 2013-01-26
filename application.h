@@ -18,14 +18,14 @@ public:
     static inline Application *Current() {
         if (__current == NULL) {
             __current = new Application();
-            // __current->Initialize();
+            // __current->Init();
         }
         return __current;
     }
 
     ~Application();
 
-    bool Initialize(Assets *assets);
+    bool Init(Assets *assets);
     void Resize(const float point_width, const float point_height);
 
     const vec2& size_in_points() {

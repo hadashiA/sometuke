@@ -60,13 +60,13 @@ public:
         next_ = value;
     }
 
-    virtual void Initialize() {
+    virtual void Init() {
         initialized_ = true;
     }
 
     virtual void Update(const float delta) {
         if (!initialized_) {
-            Initialize();
+            Init();
         }
     }
     virtual void Kill()   { killed_ = true; }
