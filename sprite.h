@@ -19,6 +19,10 @@ public:
     Sprite();
     virtual ~Sprite() {}
 
+    bool InitWithTexture(shared_ptr<Texture2D> texture);
+    bool InitWithTexture(shared_ptr<Texture2D> texture,
+                         const Rect& rect, bool rotated = false);
+
     virtual void Render();
 
     const bvec2& fliped() const {

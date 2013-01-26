@@ -6,6 +6,7 @@
 #include "application.h"
 
 #include <algorithm>
+#include <cassert>
 
 namespace kawaii {
 
@@ -23,6 +24,18 @@ Sprite::Sprite()
     quad_.top_left.color     = tmp_color;
     quad_.top_right.color    = tmp_color;
 }
+
+bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture) {
+    return InitWithTexture(texture, Rect(vec2(0, 0), texture->content_size()), false);
+}
+
+bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture,
+                             const Rect& rect, bool rotated) {
+    set_texture(texture);
+    set_texture_rect(rect, rotated, rect.size);
+    return true;
+}
+
 
 void Sprite::set_color(const Color3B& value) {
     color_unmodified_ = value;
@@ -53,6 +66,7 @@ void Sprite::set_opacity_modify_rgb(bool value) {
 
 void Sprite::set_texture(shared_ptr<Texture2D> value) {
     texture_ = value;
+
     if(!texture_ || !texture_->has_premultipled_alpha()) {
         set_blend_func_src(GL_SRC_ALPHA);
         set_blend_func_dst(GL_ONE_MINUS_SRC_ALPHA);
@@ -92,8 +106,8 @@ void Sprite::UpdateQuadColor() {
 
 void Sprite::UpdateQuadTexCoords() {
     Rect rect = vertex_rect_ * Application::Current()->content_scale_factor();
-    float atlas_width  = texture_.pixel_size().x;
-    float atlas_height = texture_.pixel_size().y;
+    float atlas_width  = texture_->pixel_size().x;
+    float atlas_height = texture_->pixel_size().y;
     float left, right, top, bottom;
 
     if (vertex_rect_rotated_) {
