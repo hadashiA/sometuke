@@ -14,6 +14,7 @@ namespace kawaii {
 Sprite::Sprite()
     : color_(255, 255, 255),
       color_unmodified_(255, 255, 255),
+      opacity_(255),
       vertex_rect_rotated_(false) {
     shader_program_ = ShaderCache::Shared()->get(kShader_PositionTextureColor);
 

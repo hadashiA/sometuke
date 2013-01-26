@@ -14,10 +14,11 @@ namespace kawaii {
 class Texture2D;
 class GLProgram;
 
-class Sprite : Node {
+class Sprite : public Node {
 public:
     Sprite();
     virtual ~Sprite() {}
+    virtual bool Init() { return true; }
 
     bool InitWithTexture(shared_ptr<Texture2D> texture);
     bool InitWithTexture(shared_ptr<Texture2D> texture,

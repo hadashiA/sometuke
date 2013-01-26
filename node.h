@@ -160,6 +160,7 @@ public:
     //     return *this;
     // }
 
+    virtual bool Init() { return true; }
     virtual void Update(const ii_time delta_time) {}   // Is not called by default
     virtual void OnEnter() {}
     virtual void Render()  {}

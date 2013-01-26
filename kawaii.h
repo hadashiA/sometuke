@@ -13,6 +13,7 @@
 
 // node
 #include "scene.h"
+#include "sprite.h"
 
 // structs
 #include "vector.h"
