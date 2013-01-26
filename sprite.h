@@ -21,14 +21,56 @@ public:
 
     virtual void Render();
 
-    const bvec2& flip() const {
-        return flip_;
+    const bvec2& fliped() const {
+        return fliped_;
     }
 
-    void SetTexture(shared_ptr<Texture2D> texture);
-    
+    const GLubyte blend_func_src() const {
+        return blend_func_src_;
+    }
+
+    const GLubyte blend_func_dst() const {
+        return blend_func_dst_;
+    }
+
+    shared_ptr<Texture2D> texture() const {
+        return texture_;
+    }
+
+    const Color3B color() const {
+        return (does_opacity_modify_rgb_ ? color_unmodified_ : color_);
+    }
+
+    const GLubyte opacity() const {
+        return opacity_;
+    }
+
+    bool does_opacity_modify_rgb() const {
+        return does_opacity_modify_rgb_;
+    }
+
+    void set_fliped_x(bool value) {
+        fliped_.x = value;
+    }
+
+    void set_fliped_y(bool value) {
+        fliped_.y = value;
+    }
+
+    void set_blend_func_src(GLubyte value) {
+        blend_func_src_ = value;
+    }
+
+    void set_blend_func_dst(GLubyte value) {
+        blend_func_dst_ = value;
+    }
+
+    void set_texture(shared_ptr<Texture2D> value);
+    void set_color(const Color3B& value);
+    void set_opacity_modify_rgb(bool value);
+
 private:
-    void UpdateBlendFunc();
+    void UpdateQuadColor();
 
     shared_ptr<Texture2D> texture_;
     GLenum blend_func_src_;
@@ -36,10 +78,13 @@ private:
     shared_ptr<GLProgram> shader_program_;
     Quad_P3F_C4B_T2F quad_;
 
+    // color stuff
     GLubyte opacity_;
     Color3B color_;
+    Color3B color_unmodified_;
+    bool does_opacity_modify_rgb_;
 
-    bvec2 flip_;
+    bvec2 fliped_;
 };
 
 }

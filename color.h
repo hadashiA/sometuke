@@ -22,6 +22,8 @@ public:
     Color4B() {}
     Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
         : r(red), g(green), b(blue), a(alpha) {}
+    Color4B(Color3B color3, GLubyte alpha)
+        : r(color3.r), g(color3.g), b(color3.b), a(alpha) {}
 
     GLubyte r;
     GLubyte g;
