@@ -18,7 +18,7 @@ public:
         return __current;
     }
 
-    shared_ptr<Texture2D> AddImage(const string& path);
+    shared_ptr<Texture2D> FetchFromPath(const string& path);
 
 private:
     typedef std::map<unsigned int, shared_ptr<Texture2D> > TextureTable;

@@ -9,7 +9,7 @@ namespace kawaii {
 
 TextureCache *TextureCache::__current = NULL;
 
-shared_ptr<Texture2D> TextureCache::AddImage(const string& path) {
+shared_ptr<Texture2D> TextureCache::FetchFromPath(const string& path) {
     unsigned int texture_id = HashedString(path).value();
     if (textures_.find(texture_id) == textures_.end()) {
         shared_ptr<Texture2D> texture = Application::Current()->assets()->ReadTexture(path);
