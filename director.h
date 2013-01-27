@@ -49,7 +49,13 @@ private:
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
+
+    // stats
     bool display_stats_;
+    unsigned int frames_;
+    unsigned int total_frames_;
+    ii_time accum_dt_;
+    float frame_rate_;
 };
 
 }
