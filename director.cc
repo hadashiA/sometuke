@@ -14,10 +14,11 @@
 
 namespace kawaii {
 
-Director::Director() {
-    scheduler_ = new ProcessScheduler;
-    event_dispatcher_ = new EventDispatcher;
-}
+Director::Director()
+    : scheduler_(new ProcessScheduler),
+      event_dispatcher_(new EventDispatcher),
+      display_stats_(true) {
+    }
 
 Director::~Director() {
     delete scheduler_;
@@ -49,9 +50,19 @@ void Director::ReshapeProjection() {
 void Director::MainLoop(const ii_time delta_time) {
     scheduler_->Update(delta_time);
 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    MatrixStack::GLModelView()->Push();
+
     if (running_scene_) {
         running_scene_->Render();
     }
+
+    if (display_stats_) {
+        ShowStats();
+    }
+
+    MatrixStack::GLModelView()->Pop();
 }
 
 void Director::RunWithScene(shared_ptr<Scene> scene) {
@@ -72,6 +83,11 @@ void Director::RunWithScene(shared_ptr<Scene> scene) {
 // }
 
 void Director::End() {
+}
+
+// private
+
+void Director::ShowStats() {
 }
 
 }

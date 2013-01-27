@@ -7,22 +7,8 @@
 
 namespace kawaii {
 
-Scene::Scene()
-    : root_node_(new Node),
-      actor_table_(),
-      node_for_actor_id_() {}
-
-Scene::~Scene() {
-}
-
 void Scene::Render() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    MatrixStack::GLModelView()->Push();
-
     root_node_->Visit();
-
-    MatrixStack::GLModelView()->Pop();
 }
 
 void Scene::AddActor(shared_ptr<Actor> actor) {

@@ -25,6 +25,10 @@ public:
         return scheduler_;
     }
 
+    EventDispatcher *dispatcher() const {
+        return event_dispatcher_;
+    }
+
     void ReshapeProjection();
     void MainLoop(const ii_time delta_time);
 
@@ -38,11 +42,14 @@ public:
     void End();
 
 private:
+    void ShowStats();
+
     ProcessScheduler *scheduler_;
     EventDispatcher *event_dispatcher_;
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
+    bool display_stats_;
 };
 
 }

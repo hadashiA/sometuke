@@ -16,8 +16,14 @@ typedef map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Scene {
 public:
-    Scene();
-    virtual ~Scene();
+    Scene()
+        : root_node_(new Node),
+          actor_table_(),
+          node_for_actor_id_() {
+    }
+
+    virtual ~Scene() {
+    }
 
     const shared_ptr<Node> root_node() const {
         return root_node_;
