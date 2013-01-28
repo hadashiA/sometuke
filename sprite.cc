@@ -3,7 +3,9 @@
 #include "shader_cache.h"
 #include "texture_cache.h"
 #include "texture_2d.h"
+#include "sprite_frame.h"
 #include "application.h"
+
 #include "OpenGL_Internal.h"
 
 #include <algorithm>
@@ -17,7 +19,9 @@ Sprite::Sprite()
       opacity_(255),
       does_opacity_modify_rgb_(false),
       vertex_rect_rotated_(false),
-      fliped_(false, false) {
+      fliped_(false, false),
+      offset_position_(0, 0),
+      unflipped_offset_position_from_center_(0, 0) {
     shader_program_ = ShaderCache::Shared()->get(kShader_PositionTextureColor);
 
     std::memset(&quad_, 0, sizeof(quad_));
@@ -93,8 +97,18 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     UpdateQuadTexCoords();
 
     // TODO: offset_position calculate
-    float x1 = 0;
-    float y1 = 0;
+    vec2 relative_offset(unflipped_offset_position_from_center_);
+    if (fliped_.x) {
+        relative_offset.x = -relative_offset.x;
+    }
+    if (fliped_.y) {
+        relative_offset.y = -relative_offset.y;
+    }
+    offset_position_.x = relative_offset.x + (content_size().x - rect.size.x) / 2;
+    offset_position_.y = relative_offset.y + (content_size().y - rect.size.y) / 2;
+
+    float x1 = offset_position_.x;
+    float y1 = offset_position_.y;
     float x2 = x1 + rect.size.x;
     float y2 = y1 + rect.size.y;
 
@@ -103,7 +117,14 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     quad_.bottom_right.pos = vec3(x2, y1, 0);
     quad_.top_left.pos     = vec3(x1, y2, 0);
     quad_.top_right.pos    = vec3(x2, y2, 0);
-    
+}
+
+void Sprite::set_display_frame(const SpriteFrame& frame) {
+    unflipped_offset_position_from_center_ = frame.offset;
+    texture_ = frame.texture;
+    vertex_rect_rotated_ = frame.rotated;
+
+    set_texture_rect(frame.rect, vertex_rect_rotated_, frame.original_size);
 }
 
 void Sprite::Render() {

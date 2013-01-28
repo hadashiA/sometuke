@@ -28,7 +28,7 @@ public:
                 const Rect& _rect,
                 bool _rotated,
                 const vec2& _offset,
-                const vec2& _original)
+                const vec2& _original_size)
         : texture(_texture),
           rect(_rect),
           rotated(_rotated),
@@ -40,7 +40,7 @@ public:
 
     Rect rect;
     Rect rect_in_pixels;
-    BOOL rotated;
+    bool rotated;
     vec2 offset;
     vec2 offset_in_pixels;
     vec2 original_size;

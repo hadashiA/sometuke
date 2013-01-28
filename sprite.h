@@ -13,6 +13,7 @@ namespace kawaii {
 
 class Texture2D;
 class GLProgram;
+class SpriteFrame;
 
 class Sprite : public Node {
 public:
@@ -77,6 +78,7 @@ public:
     void set_texture_rect(const Rect& rect);
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
+    void set_display_frame(const SpriteFrame& sprite_frame);
 
 private:
     void UpdateQuadColor();
@@ -101,6 +103,8 @@ private:
     // vertex stuff
     Rect vertex_rect_;
     bool vertex_rect_rotated_;
+    vec2 offset_position_;
+    vec2 unflipped_offset_position_from_center_;
 };
 
 }
