@@ -165,7 +165,28 @@ void Sprite::UpdateQuadTexCoords() {
     float left, right, top, bottom;
 
     if (vertex_rect_rotated_) {
-        assert(false);          // no implemented
+        // FIX_ARTIFACTS_BY_STRECHIN_TEXEL ??
+        left   = rect.pos.x / atlas_width;
+        right  = (rect.pos.x + rect.size.y) / atlas_width;
+        top    = rect.pos.y / atlas_height;
+        bottom = (rect.pos.y + rect.size.x) / atlas_height;
+        
+        if (fliped_.x) {
+            std::swap(top, bottom);
+        }
+        if (fliped_.y) {
+            std::swap(left, right);
+        }
+        
+        quad_.bottom_left.tex_coord.u  = left;
+        quad_.bottom_left.tex_coord.v  = top;
+        quad_.bottom_right.tex_coord.u = left;
+        quad_.bottom_right.tex_coord.v = bottom;
+        quad_.top_left.tex_coord.u     = right;
+        quad_.top_left.tex_coord.v     = top;
+        quad_.top_right.tex_coord.u    = right;
+        quad_.top_right.tex_coord.v    = bottom;
+
     } else {
         // FIX_ARTIFACTS_BY_STRECHING_TEXEL ??
         left   = rect.pos.x / atlas_width;
