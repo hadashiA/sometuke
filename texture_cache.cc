@@ -7,7 +7,7 @@
 
 namespace kawaii {
 
-TextureCache *TextureCache::__current = NULL;
+TextureCache *TextureCache::__shared = NULL;
 
 shared_ptr<Texture2D> TextureCache::FetchFromPath(const string& path) {
     unsigned int texture_id = HashedString(path).value();

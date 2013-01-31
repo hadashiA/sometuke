@@ -11,11 +11,11 @@ class Texture2D;
 
 class TextureCache {
 public:
-    static inline TextureCache *Current() {
-        if (__current == NULL) {
-            __current = new TextureCache;
+    static inline TextureCache *Shared() {
+        if (__shared == NULL) {
+            __shared = new TextureCache;
         }
-        return __current;
+        return __shared;
     }
 
     shared_ptr<Texture2D> FetchFromPath(const string& path);
@@ -23,7 +23,7 @@ public:
 private:
     typedef std::map<unsigned int, shared_ptr<Texture2D> > TextureTable;
 
-    static TextureCache *__current;
+    static TextureCache *__shared;
 
     TextureCache() {}
     TextureTable textures_;
