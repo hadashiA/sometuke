@@ -34,7 +34,7 @@
 namespace kawaii {
 using namespace std;
 
-static void Log(const char *loglevel, const string message, ...) {
+static inline void Log(const char *loglevel, const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
     printf("kawaii - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
@@ -56,29 +56,29 @@ static void Log(const char *loglevel, const string message, ...) {
 }
 
 // vector stuff
-static string Inspect(const string& str) {
+static inline string Inspect(const string& str) {
     return str;
 }
 
-static string Inspect(const vec2& v) {
+static inline string Inspect(const vec2& v) {
     stringstream ss;
     ss << "vec2(" << v.x << ", " << v.y << ")";
     return ss.str();
 }
 
-static string Inspect(const ivec2& v) {
+static inline string Inspect(const ivec2& v) {
     stringstream ss;
     ss << "ivec2(" << v.x << ", " << v.y << ")";
     return ss.str();
 }
 
-static string Inspect(const vec3& v) {
+static inline string Inspect(const vec3& v) {
     stringstream ss;
     ss << "vec3(" << v.x << ", " << v.y << ", " << v.z << ")";
     return ss.str();
 }
 
-static string Inspect(const Rect& rect) {
+static inline string Inspect(const Rect& rect) {
     stringstream ss;
     ss << "Rect(" << rect.pos.x << "," << rect.pos.y << " " <<
         rect.size.x << "/" << rect.size.y << ")";
@@ -86,46 +86,46 @@ static string Inspect(const Rect& rect) {
 }
 
 // color stuff
-static string Inspect(const Color3B& color) {
+static inline string Inspect(const Color3B& color) {
     stringstream ss;
     ss << "Color3B(" << color.r << ", " << color.g << ", " << color.b << ")";
     return ss.str();
 }
 
-static string Inspect(const Color4B& color) {
+static inline string Inspect(const Color4B& color) {
     stringstream ss;
     ss << "Color4B(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
     return ss.str();
 }
 
-static string Inspect(const Color4F& color) {
+static inline string Inspect(const Color4F& color) {
     stringstream ss;
     ss << "Color4F(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
     return ss.str();
 }
 
 // vertices stuff
-static string Inspect(const Tex2F& tex) {
+static inline string Inspect(const Tex2F& tex) {
     stringstream ss;
     ss << "Tex2F(" << tex.u << ", " << tex.v << ")";
     return ss.str();
 }
 
-static string Inspect(const P3F_C4B_T2F& v) {
+static inline string Inspect(const P3F_C4B_T2F& v) {
     stringstream ss;
     ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
 
     return ss.str();
 }
 
-static string Inspect(const P3F_C4F_T2F& v) {
+static inline string Inspect(const P3F_C4F_T2F& v) {
     stringstream ss;
     ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
 
     return ss.str();
 }
 
-static string Inspect(const Quad_P3F_C4B_T2F& quad) {
+static inline string Inspect(const Quad_P3F_C4B_T2F& quad) {
     stringstream ss;
 
     ss << "(" <<
@@ -138,7 +138,7 @@ static string Inspect(const Quad_P3F_C4B_T2F& quad) {
     return ss.str();
 }
 
-static string Inspect(const HashedString& hashed_string) {
+static inline string Inspect(const HashedString& hashed_string) {
     stringstream ss;
     ss << "HashedString(" <<
         hashed_string.string() <<
@@ -148,7 +148,7 @@ static string Inspect(const HashedString& hashed_string) {
     return ss.str();
 }
 
-static string Inspect(const mat4& m) {
+static inline string Inspect(const mat4& m) {
     stringstream ss;
     ss << "\n" << 
         m.x.x << ", " << m.x.y << ", " << m.x.z << ", " << m.x.w << "\n" <<
