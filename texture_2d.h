@@ -5,6 +5,7 @@
 
 #include "vector.h"
 #include "shader_cache.h"
+#include "application.h"
 
 namespace kawaii {
 
@@ -72,7 +73,7 @@ public:
     }
 
     const vec2 content_size() const {
-        return content_size_;
+        return content_size_ / Application::Current()->content_scale_factor();
     }
 
     void LoadData(const void* data, PixelFormat pixel_format,
