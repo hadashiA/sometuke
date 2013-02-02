@@ -105,7 +105,7 @@ void Node::Visit() {
 
         // Render children z_order < 0
 
-        Render();
+        // Render();
 
         
         // Render children z_order > 0
