@@ -49,9 +49,9 @@ public:
     } PixelFormat;
 
     static unsigned int BitsPerPixelForFormat(PixelFormat format);
-
-
-    Texture2D::Texture2D()
+    
+    
+    Texture2D()
         : id_(0),
           pixel_size_(0, 0),
           content_size_(0, 0),
