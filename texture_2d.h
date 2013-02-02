@@ -50,7 +50,15 @@ public:
 
     static unsigned int BitsPerPixelForFormat(PixelFormat format);
 
-    Texture2D();
+
+    Texture2D::Texture2D()
+        : id_(0),
+          pixel_size_(0, 0),
+          content_size_(0, 0),
+          format_(kPixelFormat_Default) {
+        glGenTextures(1, &id_);
+        glBindTexture(GL_TEXTURE_2D, id_);
+    }
 
     const GLuint id() const {
         return id_;
@@ -76,7 +84,7 @@ public:
         return content_size_ / Application::Current()->content_scale_factor();
     }
 
-    void LoadData(const void* data, PixelFormat pixel_format,
+    bool LoadData(const void* data, PixelFormat pixel_format,
                   ivec2 pixelSize_, vec2 contentSize_);
 
 private:

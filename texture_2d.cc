@@ -50,16 +50,7 @@ unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
     return ret;
 }
 
-Texture2D::Texture2D()
-    : id_(0),
-      pixel_size_(0, 0),
-      content_size_(0, 0),
-      format_(kPixelFormat_Default) {
-    glGenTextures(1, &id_);
-    glBindTexture(GL_TEXTURE_2D, id_);
-}
-
-void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
+bool Texture2D::LoadData(const void* data, PixelFormat pixel_format,
                          ivec2 pixel_size, vec2 content_size) {
     
 
@@ -122,6 +113,7 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
         break;
     default:
         IIERROR("invalid pixel format %d", pixel_format);
+        return false;
     }
 
     content_size_ = content_size;
@@ -134,6 +126,7 @@ void Texture2D::LoadData(const void* data, PixelFormat pixel_format,
 
     ShaderCache shaders = *ShaderCache::Shared();
     shader_program_ = shaders[kShader_PositionTexture];
+    return true;
 }
 
 }
