@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cassert>
 
 namespace kawaii {
 using namespace std;
@@ -42,11 +43,25 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
         const string& version_str = version.get<string>();
         format = atoi(version_str.c_str());
     }
-
-    IIINFO("format:%d", format);
+    if (format < 0 || format > 3) {
+        IIWARN("non support format:%d", format);
+        return false;
+    }
 
     picojson::value frames = json.get("frames");
+    if (!frames.is<picojson::array>()) {
+        IIWARN("frames property not array:%s", frames.to_str().c_str());
+        return false;
+    }
     
+    const picojson::array& frames_array = frames.get<picojson::array>();
+    for (picojson::array::const_iterator iter = frames_array.begin();
+         iter != frames_array.end();
+         ++iter) {
+
+        const picojson::value& frame_properties = *iter;
+        cout << frame_properties.get("filename") << endl;
+    }
     
     return true;
 }
