@@ -20,10 +20,9 @@ public:
     vector<char> ReadBytes(const string& relative_path);
     shared_ptr<Texture2D> ReadTexture(const string &relative_path);
     string ReadString(const string& relative_path);
-
-private:
     const string FullPathFromRelativePath(const string& relative_path);
 
+private:
     bool EndsWith(const string& str, const string& suffix) {
         if (str.length() >= suffix.length()) {
             return (0 == str.compare(str.length() - suffix.length(), suffix.length(), suffix));

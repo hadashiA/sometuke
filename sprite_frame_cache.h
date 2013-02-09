@@ -18,12 +18,16 @@ public:
         return __shared;
     }
 
+    bool AddSpriteFramesWithFile(const string& json_path);
+
 private:
     typedef std::map<unsigned int, shared_ptr<SpriteFrame> > SpriteFrameTable;
 
     static SpriteFrameCache *__shared;
 
     SpriteFrameCache() {}
+
+    
 
     SpriteFrameTable sprite_frames_;
 };

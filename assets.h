@@ -1,6 +1,8 @@
 #ifndef __kawaii__assets__
 #define __kawaii__assets__
 
+#include "picojson/picojson.h"
+
 #include <vector>
 #include <memory>
 #include <string>
@@ -16,6 +18,7 @@ public:
     virtual vector<char> ReadBytes(const string& relative_path) = 0;
     virtual shared_ptr<Texture2D> ReadTexture(const string &relative_path) = 0;
     virtual string ReadString(const string &relative_path) = 0;
+    virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
 };
 
 }
