@@ -21,7 +21,7 @@ public:
         : ident_(HashName(ident_string.c_str())),
           ident_string_(ident_string) {}
 
-    const unsigned long value() const {
+    const unsigned long id() const {
         return reinterpret_cast<unsigned long>(ident_);
     }
 
@@ -30,11 +30,11 @@ public:
     }
 
     bool operator<(const HashedString& rhs) const {
-        return (value() < rhs.value());
+        return (id() < rhs.id());
     }
 
     bool operator==(const HashedString& rhs) const {
-        return (value() == rhs.value());
+        return (id() == rhs.id());
     }
 
 private:

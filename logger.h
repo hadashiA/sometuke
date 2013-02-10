@@ -143,7 +143,7 @@ static inline string Inspect(const HashedString& hashed_string) {
     ss << "HashedString(" <<
         hashed_string.string() <<
         " -> " <<
-        hashed_string.value() <<
+        hashed_string.id() <<
         ")";
     return ss.str();
 }
