@@ -3,6 +3,9 @@
 
 #include "vertices.h"
 #include "application.h"
+#include "hashed_string.h"
+
+#include "picojson/picojson.h"
 
 #include <memory>
 #include <string>
@@ -20,7 +23,7 @@ public:
           rotated(false),
           offset(0, 0),
           original_size(_rect.size),
-          texture_filename("") {
+          name("") {
         UpdatePixelSize();
     }
 
@@ -28,13 +31,14 @@ public:
                 const Rect& _rect,
                 bool _rotated,
                 const vec2& _offset,
-                const vec2& _original_size)
+                const vec2& _original_size,
+                const string& _name)
         : texture(_texture),
           rect(_rect),
           rotated(_rotated),
           offset(_offset),
           original_size(_original_size),
-          texture_filename("") {
+          name(_name) {
         UpdatePixelSize();
     }
 
@@ -46,7 +50,7 @@ public:
     vec2 original_size;
     vec2 original_size_in_pixels;
     shared_ptr<Texture2D> texture;
-    string texture_filename;
+    HashedString name;
 
 private:
     void UpdatePixelSize() {

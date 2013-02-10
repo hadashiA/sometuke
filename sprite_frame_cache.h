@@ -27,7 +27,6 @@ private:
 
     SpriteFrameCache() {}
 
-    
 
     SpriteFrameTable sprite_frames_;
 };
