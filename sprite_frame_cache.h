@@ -20,6 +20,10 @@ public:
     }
 
     bool AddSpriteFramesWithFile(const string& json_path);
+    shared_ptr<SpriteFrame> get(const char* sprite_frame_name) {
+        HashedString hashed_name(sprite_frame_name);
+        return sprite_frames_[hashed_name];
+    }
 
 private:
     typedef std::map<HashedString, shared_ptr<SpriteFrame> > SpriteFrameTable;

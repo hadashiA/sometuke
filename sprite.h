@@ -24,6 +24,7 @@ public:
     bool InitWithTexture(shared_ptr<Texture2D> texture);
     bool InitWithTexture(shared_ptr<Texture2D> texture,
                          const Rect& rect, bool rotated = false);
+    bool InitWithSpriteFrame(shared_ptr<SpriteFrame> sprite_frame);
 
     virtual void Render();
 
@@ -78,7 +79,7 @@ public:
     void set_texture_rect(const Rect& rect);
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
-    void set_display_frame(const SpriteFrame& sprite_frame);
+    void set_display_frame(shared_ptr<SpriteFrame> sprite_frame);
 
 private:
     void UpdateQuadColor();

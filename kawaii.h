@@ -5,6 +5,8 @@
 #include "director.h"
 #include "process_scheduler.h"
 #include "event_dispatcher.h"
+#include "sprite_frame_cache.h"
+#include "texture_cache.h"
 
 // resource
 #include "assets.h"
