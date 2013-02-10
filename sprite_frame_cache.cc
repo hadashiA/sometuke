@@ -43,7 +43,8 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
         const string& version_str = version.get<string>();
         format = atoi(version_str.c_str());
     }
-    if (format < 0 || format > 3) {
+    // if (format < 0 || format > 3) {
+    if (format != 1) {
         IIWARN("non support format:%d", format);
         return false;
     }
