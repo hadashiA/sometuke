@@ -6,8 +6,6 @@
 #include "texture_cache.h"
 #include "logger.h"
 
-#include "picojson/picojson.h"
-
 #include <fstream>
 #include <memory>
 #include <string>
@@ -61,44 +59,62 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
     shared_ptr<Texture2D> texture = TextureCache::Shared()->FetchFromPath(texture_filename);
 
     picojson::value frames = json.get("frames");
-    if (!frames.is<picojson::array>()) {
+    if (frames.is<picojson::array>()) {
+        const picojson::array& frames_array = frames.get<picojson::array>();
+        for (picojson::array::const_iterator iter = frames_array.begin();
+             iter != frames_array.end();
+             ++iter) {
+            
+            const picojson::value& frame_json = *iter;
+            const string& name = frame_json.get("filename").get<string>();
+            AddSpriteFrameFromJSON(texture, name, frame_json);
+        }
+        
+    } else if (frames.is<picojson::object>()) {
+        const picojson::object& frames_object = frames.get<picojson::object>();
+        for (picojson::object::const_iterator iter = frames_object.begin();
+             iter != frames_object.end();
+             ++iter) {
+
+            const string& name = iter->first;
+            const picojson::value& frame_json = iter->second;
+            AddSpriteFrameFromJSON(texture, name, frame_json);
+        }
+
+    } else {
         IIWARN("frames property not array:%s", frames.to_str().c_str());
         return false;
     }
     
-    const picojson::array& frames_array = frames.get<picojson::array>();
-    for (picojson::array::const_iterator iter = frames_array.begin();
-         iter != frames_array.end();
-         ++iter) {
-
-        const picojson::value& frame_json = *iter;
-        const string& name = frame_json.get("filename").get<string>();
-        const picojson::value& frame_rect_json    = frame_json.get("frame");
-        const picojson::value& original_size_json = frame_json.get("sourceSize");
-        bool rotated = frame_json.get("rotated").get<bool>();
-        // bool trimmed = frame_json.get("trimmed").get<bool>();
-
-        Rect frame_rect(frame_rect_json.get("x").get<double>(),
-                        frame_rect_json.get("y").get<double>(),
-                        frame_rect_json.get("w").get<double>(),
-                        frame_rect_json.get("h").get<double>()
-                        );
-        vec2 original_size(original_size_json.get("w").get<double>(),
-                           original_size_json.get("h").get<double>()
-                           );
-
-        shared_ptr<SpriteFrame> sprite_frame(new SpriteFrame(texture,
-                                                             frame_rect,
-                                                             rotated,
-                                                             vec2(0, 0),
-                                                             original_size,
-                                                             name
-                                                             ));
-        HashedString hashed_name(name);
-        sprite_frames_[hashed_name] = sprite_frame;
-    }
-    
     return true;
+}
+
+void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
+                                              const string& name,
+                                              const picojson::value& frame_json) {
+    const picojson::value& frame_rect_json    = frame_json.get("frame");
+    const picojson::value& original_size_json = frame_json.get("sourceSize");
+    bool rotated = frame_json.get("rotated").get<bool>();
+    // bool trimmed = frame_json.get("trimmed").get<bool>();
+    
+    Rect frame_rect(frame_rect_json.get("x").get<double>(),
+                    frame_rect_json.get("y").get<double>(),
+                    frame_rect_json.get("w").get<double>(),
+                    frame_rect_json.get("h").get<double>()
+                    );
+    vec2 original_size(original_size_json.get("w").get<double>(),
+                       original_size_json.get("h").get<double>()
+                       );
+    
+    shared_ptr<SpriteFrame> sprite_frame(new SpriteFrame(texture,
+                                                         frame_rect,
+                                                         rotated,
+                                                         vec2(0, 0),
+                                                         original_size,
+                                                         name
+                                                         ));
+    HashedString hashed_name(name);
+    sprite_frames_[hashed_name] = sprite_frame;
 }
 
 }

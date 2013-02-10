@@ -3,12 +3,15 @@
 
 #include "hashed_string.h"
 
+#include "picojson/picojson.h"
+
 #include <map>
 #include <set>
 
 namespace kawaii {
 
 class SpriteFrame;
+class Texture2D;
 
 class SpriteFrameCache {
 public:
@@ -31,6 +34,9 @@ private:
     static SpriteFrameCache *__shared;
 
     SpriteFrameCache() {}
+    void AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
+                                const string& name,
+                                const picojson::value& frame_json);
 
     SpriteFrameTable sprite_frames_;
     std::set<HashedString> loaded_filenames_;
