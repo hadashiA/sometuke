@@ -20,6 +20,13 @@ using namespace std;
 SpriteFrameCache *SpriteFrameCache::__shared = NULL;
 
 bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
+    HashedString hashed_json_path(json_path);
+    if (loaded_filenames_.find(hashed_json_path) != loaded_filenames_.end()) {
+        return true;
+    }
+
+    loaded_filenames_.insert(hashed_json_path);
+
     Assets *assets = Application::Current()->assets();
     const string& path = assets->FullPathFromRelativePath(json_path);
     ifstream io(path);
@@ -88,7 +95,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
                                                              name
                                                              ));
         HashedString hashed_name(name);
-        sprite_frames_[hashed_name.id()] = sprite_frame;
+        sprite_frames_[hashed_name] = sprite_frame;
     }
     
     return true;

@@ -4,6 +4,7 @@
 #include "hashed_string.h"
 
 #include <map>
+#include <set>
 
 namespace kawaii {
 
@@ -21,14 +22,14 @@ public:
     bool AddSpriteFramesWithFile(const string& json_path);
 
 private:
-    typedef std::map<unsigned int, shared_ptr<SpriteFrame> > SpriteFrameTable;
+    typedef std::map<HashedString, shared_ptr<SpriteFrame> > SpriteFrameTable;
 
     static SpriteFrameCache *__shared;
 
     SpriteFrameCache() {}
 
-
     SpriteFrameTable sprite_frames_;
+    std::set<HashedString> loaded_filenames_;
 };
 
 }
