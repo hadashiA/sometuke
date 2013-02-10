@@ -96,6 +96,8 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
                                                              ));
         HashedString hashed_name(name);
         sprite_frames_[hashed_name] = sprite_frame;
+
+        IIINFO(IIINSPECT(*sprite_frame));
     }
     
     return true;

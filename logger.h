@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "vertices.h"
 #include "hashed_string.h"
+#include "sprite_frame.h"
 
 #include <string>
 #include <sstream>
@@ -155,11 +156,26 @@ static inline string Inspect(const HashedString& hashed_string) {
 
 static inline string Inspect(const mat4& m) {
     stringstream ss;
-    ss << "\n" << 
+    ss << 
         m.x.x << ", " << m.x.y << ", " << m.x.z << ", " << m.x.w << "\n" <<
         m.y.x << ", " << m.y.y << ", " << m.y.z << ", " << m.y.w << "\n" <<
         m.z.x << ", " << m.z.y << ", " << m.z.z << ", " << m.z.w << "\n" <<
         m.w.x << ", " << m.w.y << ", " << m.w.z << ", " << m.w.w;
+    return ss.str();
+}
+
+static inline string Inspect(bool value) {
+    return value ? "true" : "false";
+}
+
+static inline string Inspect(const SpriteFrame& v) {
+    stringstream ss;
+    ss <<
+        "{rect:" << Inspect(v.rect) <<
+        ", rotated:" << Inspect(v.rotated) <<
+        ", original_size:" << Inspect(v.original_size) <<
+        ", name:\"" << v.name.string() << "\"" <<
+        "}";
     return ss.str();
 }
 
