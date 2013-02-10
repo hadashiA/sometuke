@@ -62,65 +62,74 @@ static inline string Inspect(const string& str) {
 
 static inline string Inspect(const vec2& v) {
     stringstream ss;
-    ss << "vec2(" << v.x << ", " << v.y << ")";
+    ss << "{x:" << v.x << ", y:" << v.y << "}";
     return ss.str();
 }
 
 static inline string Inspect(const ivec2& v) {
     stringstream ss;
-    ss << "ivec2(" << v.x << ", " << v.y << ")";
+    ss << "{x:" << v.x << ",y: " << v.y << "}";
     return ss.str();
 }
 
 static inline string Inspect(const vec3& v) {
     stringstream ss;
-    ss << "vec3(" << v.x << ", " << v.y << ", " << v.z << ")";
+    ss << "{x:" << v.x << ", y:" << v.y << ", z:" << v.z << "}";
     return ss.str();
 }
 
 static inline string Inspect(const Rect& rect) {
     stringstream ss;
-    ss << "Rect(" << rect.pos.x << "," << rect.pos.y << " " <<
-        rect.size.x << "/" << rect.size.y << ")";
+    ss << "{x" << rect.pos.x << ", y:" << rect.pos.y <<
+        ", w:" << rect.size.x << ", h:" << rect.size.y << "}";
     return ss.str();
 }
 
 // color stuff
 static inline string Inspect(const Color3B& color) {
     stringstream ss;
-    ss << "Color3B(" << color.r << ", " << color.g << ", " << color.b << ")";
+    ss << "{r:" << color.r << ", g:" << color.g << ", b:" << color.b << "}";
     return ss.str();
 }
 
 static inline string Inspect(const Color4B& color) {
     stringstream ss;
-    ss << "Color4B(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
+    ss << "{r:" << color.r << ", g:" << color.g << ", b:" << color.b <<
+        ", a:" << color.a << "}";
     return ss.str();
 }
 
 static inline string Inspect(const Color4F& color) {
     stringstream ss;
-    ss << "Color4F(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
+    ss << "{r:" << color.r << ", g:" << color.g << ", b:" << color.b <<
+        ", a:" << color.a << "}";
     return ss.str();
 }
 
 // vertices stuff
 static inline string Inspect(const Tex2F& tex) {
     stringstream ss;
-    ss << "Tex2F(" << tex.u << ", " << tex.v << ")";
+    ss << "{u:" << tex.u << ", v:" << tex.v << "}";
     return ss.str();
 }
 
-static inline string Inspect(const P3F_C4B_T2F& v) {
+static inline string Inspect(const P3F_C4B_T2F& vertex) {
     stringstream ss;
-    ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
+    ss <<
+        "{pos:" << Inspect(vertex.pos) <<
+        ", color:" << Inspect(vertex.color) <<
+        ", tex_coord:" << Inspect(vertex.tex_coord) <<
+        "}";
 
     return ss.str();
 }
 
-static inline string Inspect(const P3F_C4F_T2F& v) {
+static inline string Inspect(const P3F_C4F_T2F& vertex) {
     stringstream ss;
-    ss << "(" << Inspect(v.pos) << " " << Inspect(v.color) << " " << Inspect(v.tex_coord) << ")";
+    ss << "{pos:" << Inspect(vertex.pos) <<
+        ", color:" << Inspect(vertex.color) <<
+        ", tex_coord: " << Inspect(vertex.tex_coord) <<
+        "}";
 
     return ss.str();
 }
@@ -128,23 +137,19 @@ static inline string Inspect(const P3F_C4F_T2F& v) {
 static inline string Inspect(const Quad_P3F_C4B_T2F& quad) {
     stringstream ss;
 
-    ss << "(" <<
-        "tl" << Inspect(quad.top_left) << " " <<
-        "bl" << Inspect(quad.bottom_left) << " " <<
-        "tl" << Inspect(quad.top_left) << " " <<
-        "br" << Inspect(quad.bottom_right) << 
-        ")";
+    ss <<
+        "{top_left:"      << Inspect(quad.top_left) <<
+        ", bottom_left:"  << Inspect(quad.bottom_left) <<
+        ", top_left:"     << Inspect(quad.top_left) <<
+        ", borrom_right:" << Inspect(quad.bottom_right) << 
+        "}";
 
     return ss.str();
 }
 
 static inline string Inspect(const HashedString& hashed_string) {
     stringstream ss;
-    ss << "HashedString(" <<
-        hashed_string.string() <<
-        " -> " <<
-        hashed_string.id() <<
-        ")";
+    ss << "{string:" << hashed_string.string() << ", id:" << hashed_string.id() << "}";
     return ss.str();
 }
 
