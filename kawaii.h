@@ -20,6 +20,9 @@
 #include "scene.h"
 #include "sprite.h"
 
+// process
+#include "animate.h"
+
 // structs
 #include "vector.h"
 #include "matrix.h"

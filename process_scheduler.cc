@@ -6,7 +6,7 @@
 
 namespace kawaii {
 
-const HashedString ProcessTimer::TYPE("process timer");
+const HashedString ProcessTimer::TYPE("timer process");
 const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
 // ProcessTimer

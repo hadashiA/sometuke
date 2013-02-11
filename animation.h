@@ -28,10 +28,6 @@ struct Animation {
           frames(f) {
     }
 
-    const AnimationFrame operator[](int index) const {
-        return frames[index];
-    }
-
     unsigned int frame_size;
     bool loops;
     vector<AnimationFrame> frames;
