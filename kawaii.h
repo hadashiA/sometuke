@@ -3,15 +3,18 @@
 
 #include "application.h"
 #include "director.h"
+
+// process
 #include "process_scheduler.h"
 #include "event_dispatcher.h"
-#include "sprite_frame_cache.h"
-#include "texture_cache.h"
 
 // resource
 #include "assets.h"
 #include "texture_2d.h"
+#include "texture_cache.h"
+#include "sprite_frame_cache.h"
 #include "shader_cache.h"
+#include "animation_cache.h"
 
 // node
 #include "scene.h"
