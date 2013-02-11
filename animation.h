@@ -12,11 +12,22 @@ using namespace std;
 class SpriteFrame;
 
 struct AnimationFrame {
+    AnimationFrame(shared_ptr<SpriteFrame> f, ii_time t)
+        : sprite_frame(f),
+          time(t) {
+    }
+
     shared_ptr<SpriteFrame> sprite_frame;
     ii_time time;
 };
 
 struct Animation {
+    explicit Animation(vector<AnimationFrame> f, bool l=false)
+        : frame_size(f.size()),
+          loops(l),
+          frames(f) {
+    }
+
     unsigned int frame_size;
     bool loops;
     vector<AnimationFrame> frames;
