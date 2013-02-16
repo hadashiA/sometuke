@@ -1,17 +1,39 @@
 #include "event_dispatcher.h"
 
-#include <cstring>
+#include <functional>
+// #include <cstring>
 
 namespace kawaii {
 
-bool EventDispatcher::ValidateType(const EventType& type) {
-    if (type.string().empty()) {
-        return false;
-    }
+bool EventDispatcher::On(const EventType& type, EventListener *listener) {
+    std::pair<EventType, EventListener *> pair(type, listener);
+    listeners_.insert(pair);
+    return true;
+}
 
-    if (type.id() == 0 && strcmp(type.string().c_str(), "*") != 0) {
-        return false;
+bool EventDispatcher::Off(const EventType& type) {
+    return true;
+}
+
+bool EventDispatcher::Off(const EventListener *listener) {
+    return true;
+}
+
+void EventDispatcher::Trigger(const Event& event) {
+    std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
+        listeners_.equal_range(event.type);
+    for (EventListenerTable::iterator i = range.first; i != range.second; ++i) {
+        EventListener *listener = i->second;
+        listener->Callback(event);
     }
+}
+
+bool EventDispatcher::Queue(const Event& event) {
+    return true;
+}
+
+bool EventDispatcher::Tick(const ii_time max_time) {
+    return true;
 }
 
 }
