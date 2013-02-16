@@ -5,8 +5,8 @@
 
 namespace kawaii {
 
-bool EventDispatcher::On(const EventType& type, EventListener *listener) {
-    std::pair<EventType, EventListener *> pair(type, listener);
+bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
+    std::pair<EventType, shared_ptr<EventListener> > pair(type, listener);
     listeners_.insert(pair);
     return true;
 }
@@ -15,7 +15,7 @@ bool EventDispatcher::Off(const EventType& type) {
     return true;
 }
 
-bool EventDispatcher::Off(const EventListener *listener) {
+bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     return true;
 }
 
@@ -23,7 +23,7 @@ void EventDispatcher::Trigger(const Event& event) {
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(event.type);
     for (EventListenerTable::iterator i = range.first; i != range.second; ++i) {
-        EventListener *listener = i->second;
+        shared_ptr<EventListener> listener = i->second;
         listener->Callback(event);
     }
 }

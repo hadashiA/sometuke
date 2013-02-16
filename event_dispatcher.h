@@ -46,15 +46,15 @@ public:
 class EventDispatcher {
 public:
     typedef std::map<EventType, EventTypeMetadata> EventTypeTable;
-    typedef std::multimap<EventType, EventListener *> EventListenerTable;
+    typedef std::multimap<EventType, shared_ptr<EventListener> > EventListenerTable;
 
     EventDispatcher() :
         queue_index_(0) {
     }
 
-    bool On(const EventType& type, EventListener *listener);
+    bool On(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type);
-    bool Off(const EventListener *listener);
+    bool Off(shared_ptr<EventListener> listener);
     void Trigger(const Event& event);
     bool Queue(const Event& event);
     bool Tick(const ii_time max_time);
