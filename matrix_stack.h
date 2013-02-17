@@ -10,28 +10,20 @@ using namespace std;
 
 class MatrixStack {
 public:
-    static MatrixStack *GLProjection() {
-        if (__gl_projection == NULL) {
-            __gl_projection = new MatrixStack();
-        }
+    static unique_ptr<MatrixStack>& GLProjection() {
+        static unique_ptr<MatrixStack> __gl_projection(new MatrixStack);
         return __gl_projection;
     }
 
-    static MatrixStack *GLModelView() {
-        if (__gl_model_view == NULL) {
-            __gl_model_view = new MatrixStack();
-        }
+    static unique_ptr<MatrixStack>& GLModelView() {
+        static unique_ptr<MatrixStack> __gl_model_view(new MatrixStack);
         return __gl_model_view;
     }
 
-    static MatrixStack *GLTexture() {
-        if (__gl_texture == NULL) {
-            __gl_texture = new MatrixStack();
-        }
+    static unique_ptr<MatrixStack>& GLTexture() {
+        static unique_ptr<MatrixStack> __gl_texture(new MatrixStack);
         return __gl_texture;
     }
-
-    static void Purge();
 
     mat4& Push() {
         stack_.push_back(stack_.empty() ? mat4::Identity() : Top());
@@ -52,10 +44,6 @@ private:
     MatrixStack() : stack_() {
         stack_.push_back(mat4::Identity());
     }
-
-    static MatrixStack *__gl_projection;
-    static MatrixStack *__gl_model_view;
-    static MatrixStack *__gl_texture;
 
     vector<mat4> stack_;
 };
