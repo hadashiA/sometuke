@@ -3,6 +3,7 @@
 #include "node.h"
 
 #include <climits>
+#include <cassert>
 
 namespace kawaii {
 
@@ -111,16 +112,19 @@ void ProcessScheduler::ScheduleFor(shared_ptr<Process> process, const ii_time in
     processes_.push_back(timer);
 }
 
-void ProcessScheduler::ScheduleFor(Node *node) {
-    nodes_.push_back(node);
+void ProcessScheduler::ScheduleFor(weak_ptr<Node> node) {
+    if (!node.expired()) {
+        nodes_.push_back(node);
+    }
 }
 
 void ProcessScheduler::UnScheduleFor(shared_ptr<Process> process) {
     processes_.remove(process);
 }
 
-void ProcessScheduler::UnScheduleFor(Node *node) {
-    nodes_.remove(node);
+void ProcessScheduler::UnScheduleFor(weak_ptr<Node> node) {
+    assert(false);              // no implemented yet
+    // nodes_.remove(node);
 }
 
 void ProcessScheduler::Update(const ii_time delta_time) {
@@ -140,9 +144,14 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         }
     }
 
-    for (std::list<Node *>::iterator iter = nodes_.begin(); iter != nodes_.end(); ++iter) {
-        Node *node = (*iter);
-        node->Update(delta_time);
+    for (std::list<weak_ptr<Node> >::iterator iter = nodes_.begin(); iter != nodes_.end();) {
+        weak_ptr<Node> node_ref = *iter;
+        if (shared_ptr<Node> node = node_ref.lock()) {
+            node->Update(delta_time);
+            ++iter;
+        } else {
+            iter = nodes_.erase(iter);
+        }
     }
 }
 

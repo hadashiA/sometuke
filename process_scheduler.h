@@ -51,16 +51,16 @@ public:
     void ScheduleFor(shared_ptr<Process> process, const ii_time interval);
     void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
                      const unsigned int repeat, const ii_time delay);
-    void ScheduleFor(Node *node);
+    void ScheduleFor(weak_ptr<Node> node);
 
     void UnScheduleFor(shared_ptr<Process> process);
-    void UnScheduleFor(Node *node);
+    void UnScheduleFor(weak_ptr<Node> node);
 
     void Update(const ii_time delta_time);
 
 private:
     ProcessList processes_;
-    std::list<Node *> nodes_;
+    std::list<weak_ptr<Node> > nodes_;
 };
 
 }
