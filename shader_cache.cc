@@ -3,8 +3,6 @@
 
 namespace kawaii {
 
-ShaderCache *ShaderCache::__shared = NULL;
-
 void ShaderCache::LoadDefaultShaders() {
     shared_ptr<GLProgram> p;
 

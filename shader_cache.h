@@ -25,12 +25,14 @@ typedef enum {
 
 class ShaderCache {
 public:
-    static inline ShaderCache *Shared() {
-        if (__shared == NULL) {
-            __shared = new ShaderCache();
-            __shared->LoadDefaultShaders();
+    static unique_ptr<ShaderCache>& Shared() {
+        static unique_ptr<ShaderCache> __instance;
+        if (!__instance) {
+            __instance.reset(new ShaderCache);
+            __instance->LoadDefaultShaders();
         }
-        return __shared;
+
+        return __instance;
     }
 
     shared_ptr<GLProgram> operator[](ShaderLabel key) {
@@ -46,8 +48,6 @@ public:
     void LoadDefaultShaders();
 
 private:
-    static ShaderCache *__shared;
-
     ShaderCache() {}
 
     shared_ptr<GLProgram> shaders_[kShaderLabel_Max];
