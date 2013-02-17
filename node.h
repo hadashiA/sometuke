@@ -11,7 +11,7 @@
 namespace kawaii {
 using namespace std;
 
-class Node {
+class Node : public enable_shared_from_this<Node> {
 public:
     Node()
         : local_position_(0, 0, 0),
@@ -24,8 +24,7 @@ public:
           is_visible_(true),
           is_running_(false),
           is_transform_dirty_(true),
-          is_inverse_dirty_(true),
-          parent_(NULL) {
+          is_inverse_dirty_(true) {
     }
     
     virtual ~Node() {}
@@ -66,8 +65,8 @@ public:
         return content_size_;
     }
 
-    Node *parent() {
-        return parent_;
+    shared_ptr<Node> parent() {
+        return parent_.lock();
     }
 
     void set_local_position(const vec3& position) {
@@ -145,12 +144,16 @@ public:
         is_visible_ = false;
     }
 
-    void set_parent(Node *value) {
+    void set_parent(shared_ptr<Node> value) {
         parent_ = value;
     }
 
     bool anchor_point_is_zero() const {
         return (anchor_point_.x == 0 && anchor_point_.y == 0);
+    }
+
+    vector<shared_ptr<Node> > children() const {
+        return children_;
     }
 
     virtual void AddChild(shared_ptr<Node> child);
@@ -196,7 +199,7 @@ private:
     bool is_inverse_dirty_;
 
     vector<shared_ptr<Node> > children_;
-    Node *parent_;
+    weak_ptr<Node> parent_;
 };
 
 }

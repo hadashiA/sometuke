@@ -64,7 +64,7 @@ const mat4& Node::LocalTransform() {
 
 mat4 Node::WorldTransform() {
     mat4 t = LocalTransform();
-    for (Node *p = parent(); p != NULL; p = p->parent()) {
+    for (shared_ptr<Node> p = parent(); p; p = p->parent()) {
         t *= p->LocalTransform();
     }
     return t;
@@ -84,10 +84,9 @@ vec3 Node::LocalPositionAt(const vec3& world_position) {
 }
 
 void Node::AddChild(shared_ptr<Node> child) {
-    assert(child->parent() == NULL);
+    assert(!child->parent());
 
-    child->set_parent(this);
-
+    child->set_parent(shared_from_this());
     children_.push_back(child);
 }
 
