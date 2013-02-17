@@ -2,23 +2,19 @@
 
 #include "logger.h"
 #include "matrix_stack.h"
-#include "director.h"
 
 #include "OpenGL_Internal.h"
 
 namespace kawaii {
 
-Application::~Application() {
-    delete director_;
-}
-
 bool Application::Init(Assets *assets) {
-    assets_ = assets;
-    if (assets_ == NULL) {
+    assets_.reset(assets);
+    // assets_ = assets;
+    if (!assets_) {
         return false;
     }
 
-    director_ = new Director;
+    director_.reset(new Director);
 
     return true;
 }

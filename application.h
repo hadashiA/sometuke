@@ -3,6 +3,8 @@
 
 #include "vector.h"
 #include "vertices.h"
+#include "director.h"
+#include "assets.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
@@ -11,7 +13,6 @@ namespace kawaii {
 using namespace std;
 
 class Assets;
-class Director;
 
 class Application {
 public:
@@ -19,8 +20,6 @@ public:
         static unique_ptr<Application> __instance(new Application);
         return __instance;
     }
-
-    ~Application();
 
     bool Init(Assets *assets);
     void Resize(const float point_width, const float point_height);
@@ -49,11 +48,11 @@ public:
         animation_interval_ = value;
     }
 
-    Assets *assets() {
+    unique_ptr<Assets>& assets() {
         return assets_;
     }
 
-    Director *director() const {
+    unique_ptr<Director>& director() {
         return director_;
     }
 
@@ -73,8 +72,8 @@ private:
     double animation_interval_;
     float total_time_;
 
-    Assets *assets_;
-    Director *director_;
+    unique_ptr<Assets> assets_;
+    unique_ptr<Director> director_;
 };
 
 } // namespace kawaii

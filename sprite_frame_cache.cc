@@ -25,7 +25,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
     loaded_filenames_.insert(hashed_json_path);
 
-    Assets *assets = Application::Current()->assets();
+    unique_ptr<Assets>& assets = Application::Current()->assets();
     const string& path = assets->FullPathFromRelativePath(json_path);
     ifstream io(path);
 
