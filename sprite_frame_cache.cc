@@ -15,8 +15,6 @@
 namespace kawaii {
 using namespace std;
 
-SpriteFrameCache *SpriteFrameCache::__shared = NULL;
-
 bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
     HashedString hashed_json_path(json_path);
     if (loaded_filenames_.find(hashed_json_path) != loaded_filenames_.end()) {

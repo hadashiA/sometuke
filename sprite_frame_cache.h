@@ -7,6 +7,7 @@
 
 #include <map>
 #include <set>
+#include <memory>
 
 namespace kawaii {
 
@@ -15,10 +16,8 @@ class Texture2D;
 
 class SpriteFrameCache {
 public:
-    static inline SpriteFrameCache *Shared() {
-        if (__shared == NULL) {
-            __shared = new SpriteFrameCache;
-        }
+    static unique_ptr<SpriteFrameCache>& Shared() {
+        static unique_ptr<SpriteFrameCache> __shared(new SpriteFrameCache);
         return __shared;
     }
 
@@ -35,8 +34,6 @@ public:
 
 private:
     typedef std::map<HashedString, shared_ptr<SpriteFrame> > SpriteFrameTable;
-
-    static SpriteFrameCache *__shared;
 
     SpriteFrameCache() {}
     void AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
