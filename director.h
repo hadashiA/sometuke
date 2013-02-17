@@ -2,6 +2,8 @@
 #define __kawaii__director__
 
 #include "types.h"
+#include "process_scheduler.h"
+#include "event_dispatcher.h"
 
 #include <vector>
 #include <memory>
@@ -12,20 +14,21 @@
 namespace kawaii {
 using namespace std;
 
-class ProcessScheduler;
-class EventDispatcher;
 class Scene;
 
 class Director {
 public:
-    Director();
-    ~Director();
+    Director()
+        : scheduler_(new ProcessScheduler),
+          event_dispatcher_(new EventDispatcher),
+          display_stats_(true) {
+    }
 
-    ProcessScheduler *scheduler() const {
+    unique_ptr<ProcessScheduler>& scheduler() {
         return scheduler_;
     }
 
-    EventDispatcher *dispatcher() const {
+    unique_ptr<EventDispatcher>& dispatcher() {
         return event_dispatcher_;
     }
 
@@ -44,8 +47,8 @@ public:
 private:
     void ShowStats();
 
-    ProcessScheduler *scheduler_;
-    EventDispatcher *event_dispatcher_;
+    unique_ptr<ProcessScheduler> scheduler_;
+    unique_ptr<EventDispatcher> event_dispatcher_;
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;

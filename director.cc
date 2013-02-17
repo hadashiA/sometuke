@@ -14,17 +14,6 @@
 
 namespace kawaii {
 
-Director::Director()
-    : scheduler_(new ProcessScheduler),
-      event_dispatcher_(new EventDispatcher),
-      display_stats_(true) {
-    }
-
-Director::~Director() {
-    delete scheduler_;
-    delete event_dispatcher_;
-}
-
 void Director::ReshapeProjection() {
     unique_ptr<Application>& app = Application::Current();
     const vec2 size_in_points = app->size_in_points();
