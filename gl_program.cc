@@ -38,7 +38,7 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    Application *application = Application::Current();
+    unique_ptr<Application>& application = Application::Current();
     string vShaderSource = application->assets()->ReadString(vShaderFilename);
     string fShaderSource = application->assets()->ReadString(fShaderFilename);
     

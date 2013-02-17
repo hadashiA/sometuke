@@ -118,7 +118,7 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        kawaii::Application *kawaii_app = kawaii::Application::Current();
+        std::unique_ptr<kawaii::Application>& kawaii_app = kawaii::Application::Current();
         kawaii_app->set_content_scale_factor(scale);
         kawaii_app->Resize(size.width, size.height);
 

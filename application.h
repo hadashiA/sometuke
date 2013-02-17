@@ -15,12 +15,9 @@ class Director;
 
 class Application {
 public:
-    static inline Application *Current() {
-        if (__current == NULL) {
-            __current = new Application();
-            // __current->Init();
-        }
-        return __current;
+    static unique_ptr<Application>& Current() {
+        static unique_ptr<Application> __instance(new Application);
+        return __instance;
     }
 
     ~Application();
@@ -61,8 +58,6 @@ public:
     }
 
 private:
-    static Application *__current;
-
     Application()
         : total_time_(0),
           size_in_points_(0, 0),

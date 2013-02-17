@@ -8,8 +8,6 @@
 
 namespace kawaii {
 
-Application *Application::__current = NULL;
-
 Application::~Application() {
     delete director_;
 }

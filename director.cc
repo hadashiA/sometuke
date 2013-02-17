@@ -26,7 +26,7 @@ Director::~Director() {
 }
 
 void Director::ReshapeProjection() {
-    Application *app = Application::Current();
+    unique_ptr<Application>& app = Application::Current();
     const vec2 size_in_points = app->size_in_points();
     const vec2 size_in_pixels = app->size_in_pixels();
     const float content_scale_factor = app->content_scale_factor();
