@@ -40,19 +40,19 @@ public:
 class EventListener {
 public:
     virtual ~EventListener() {}
-    virtual void Callback(const Event& e) = 0;
+    virtual bool EventHandle(const Event& e) = 0;
 };
 
 class EventDispatcher {
 public:
     typedef std::map<EventType, EventTypeMetadata> EventTypeTable;
-    typedef std::multimap<EventType, shared_ptr<EventListener> > EventListenerTable;
+    typedef std::multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
 
     EventDispatcher() :
         queue_index_(0) {
     }
 
-    bool On(const EventType& type, shared_ptr<EventListener> listener);
+    bool On(const EventType& type, weak_ptr<EventListener> listener);
     bool Off(const EventType& type);
     bool Off(shared_ptr<EventListener> listener);
     void Trigger(const Event& event);
