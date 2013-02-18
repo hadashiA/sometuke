@@ -37,6 +37,7 @@ void Director::ReshapeProjection() {
 }
 
 void Director::MainLoop(const ii_time delta_time) {
+    event_dispatcher_->Tick(0.02);
     scheduler_->Update(delta_time);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

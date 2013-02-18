@@ -16,14 +16,13 @@ bool EventDispatcher::Off(const EventType& type) {
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
 
-    listeners_.erase(range->first, range->second);
+    listeners_.erase(range.first, range.second);
 
     return true;
 }
 
 bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     for (EventListenerTable::iterator i = listeners_.begin(); i != listeners_.end();) {
-        Event &event = i->first;
         weak_ptr<EventListener> ref = i->second;
         if (listener == ref.lock()) {
             listeners_.erase(i++);
@@ -38,9 +37,14 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
 void EventDispatcher::Trigger(const Event& event) {
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(event.type);
-    for (EventListenerTable::iterator i = range.first; i != range.second; ++i) {
-        shared_ptr<EventListener> listener = i->second;
-        listener->EventHandle(event);
+    for (EventListenerTable::iterator i = range.first; i != range.second;) {
+        weak_ptr<EventListener> listener_ref = i->second;
+        if (shared_ptr<EventListener> listener = listener_ref.lock()) {
+            listener->EventHandle(event);
+            ++i;
+        } else {
+            listeners_.erase(i++);
+        }
     }
 }
 
