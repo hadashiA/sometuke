@@ -1,19 +1,19 @@
 #include "event_dispatcher.h"
 
 #include <functional>
+#include <cassert>
 // #include <cstring>
 
 namespace kawaii {
 
 bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener) {
+    if (!IsValidType(type)) {
+        return false;
+    }
+
     weak_ptr<EventListener> listener_ref = listener;
     std::pair<EventType, weak_ptr<EventListener> > pair(type, listener_ref);
     listeners_.insert(pair);
-
-    EventTypeTable::const_iterator iter = types_.find(type);
-    if (iter == types_.end()) {
-        types_.insert(std::make_pair(type, EventTypeMetadata(kCodeEventOnly)));
-    }
 
     return true;
 }
@@ -36,36 +36,47 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
             ++i;
         }
     }
-
-    return true;
 }
 
-void EventDispatcher::Trigger(const Event& event) {
-    if (!IsVAlidType(event)) {
-        return;
+bool EventDispatcher::Trigger(const Event& event) {
+    if (!IsVAlidType(event.type) || !IsListerningType(event.type)) {
+        return false;
     }
-    if (!IsListerningType(event)) {
-        return;
-    }
+
+    bool emitted = false;
 
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(event.type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
         weak_ptr<EventListener> listener_ref = i->second;
         if (shared_ptr<EventListener> listener = listener_ref.lock()) {
+            emitted = true;
             listener->EventHandle(event);
             ++i;
         } else {
             listeners_.erase(i++);
         }
     }
+
+    return emitted;
 }
 
 bool EventDispatcher::Queue(const Event& event) {
+    assert(active_queue_index_ >= 0);
+    assert(active_queue_index_ < NUM_QUEUES);
+
+    if (!IsValidType(event.type) || !IsListerningType(event.type)) {
+        return false;
+    }
+
+    queues_[active_queue_index_].push_back(event);
+
     return true;
 }
 
 bool EventDispatcher::Tick(const ii_time max_time) {
+    
+
     return true;
 }
 
@@ -74,7 +85,7 @@ bool EventDispatcher::IsValidType(const EventType& type) const {
 }
 
 bool EventDispatcher::IsListerningType(const EventType& type) const {
-    return (types_.find(type) != types_.end())
+    return (listeners_.find(type) != listeners_.end());
 }
 
 }
