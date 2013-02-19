@@ -60,15 +60,23 @@ public:
         next_ = value;
     }
 
-    virtual void Init() {
-        initialized_ = true;
-    }
-
-    virtual void Update(const float delta) {
+    void Tick(const ii_time delta_time) {
         if (!initialized_) {
-            Init();
+            if (!(initialized_ = PreUpdate())) {
+                Kill();
+            }
+        }
+        bool result = Update(delta_time);
+        if (!result) {
+            Kill();
         }
     }
+
+    virtual bool PreUpdate() {
+        return true;
+    }
+
+    virtual bool Update(const ii_time delta) = 0;
     virtual void Kill()   { killed_ = true; }
     virtual void Pauce()  { paused_ = true; }
     virtual void Resume() { paused_ = false; }

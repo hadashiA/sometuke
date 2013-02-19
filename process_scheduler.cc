@@ -43,7 +43,7 @@ ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time inte
       run_forever_(repeat == REPEAT_FOREVER) {
 }
 
-void ProcessTimer::Update(const ii_time delta_time) {
+bool ProcessTimer::Update(const ii_time delta_time) {
     // first frame
     if (elapsed_ == -1) {
         elapsed_ = 0;
@@ -87,10 +87,11 @@ void ProcessTimer::Update(const ii_time delta_time) {
                 inner_process_->set_next(NULL);
                 inner_process_ = next;
             } else {
-                Kill();
+                return false;
             }
         }
     }
+    return true;
 }
 
 // ProcessScheduler
@@ -140,7 +141,7 @@ void ProcessScheduler::Update(const ii_time delta_time) {
             }
             UnScheduleFor(p);
         } else if (p->is_active() && !p->paused()) {
-            p->Update(delta_time);
+            p->Tick(delta_time);
         }
     }
 
