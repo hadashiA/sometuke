@@ -76,9 +76,41 @@ bool EventDispatcher::Queue(const Event& event) {
 }
 
 bool EventDispatcher::Tick(const ii_time max_time) {
-    
+    std::list<Event> queue = queues_[active_queue_index_];
 
-    return true;
+    // swap active queues, make sure new queue is empty after the swap..
+    active_queue_index_ = (active_queue_index_ + 1) % NUM_QUEUES;
+    queues_[active_queue_index_].clear();
+
+    while (!queue.empty()) {
+        const Event event = queue.front();
+        queue.pop_front();
+
+        std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
+            listeners_.equal_range(event.type);
+        for (EventListenerTable::iterator i = range.first; i != range.second;) {
+            weak_ptr<EventListener> listener_ref = i->second;
+            if (shared_ptr<EventListener> listener = listener_ref.lock()) {
+                if (listener->EventHandle(event)) {
+                    break;
+                }
+                ++i;
+            } else {
+                listeners_.erase(i++);
+            }
+        }
+    }
+
+    // if any events left to process, push them onto the active queue.
+    bool queue_flushed = queue.empty();
+    if (!queue_flushed) {
+        while (!queue.empty()) {
+            queues_[active_queue_index_].push_front(queue.back());
+            queue.pop_back();
+        }
+    }
+    
+    return queue_flushed;
 }
 
 bool EventDispatcher::IsValidType(const EventType& type) const {

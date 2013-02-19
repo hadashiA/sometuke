@@ -60,10 +60,10 @@ public:
     bool Queue(const Event& event);
     bool Tick(const ii_time max_time);
 
+private:
     bool IsValidType(const EventType& type) const;
     bool IsListerningType(const EventType& type) const;
 
-private:
     enum {
         NUM_QUEUES = 2
     };
