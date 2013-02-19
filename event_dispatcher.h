@@ -21,6 +21,7 @@ typedef enum {
 } EventCallable;
 
 struct EventTypeMetadata {
+    explicit EventTypeMetadata(EventCallable c) : callable(c) {}
     EventCallable callable;
 };
 
@@ -58,12 +59,15 @@ public:
     void Trigger(const Event& event);
     bool Queue(const Event& event);
     bool Tick(const ii_time max_time);
-    // bool ValidateType(const EventType& type);
+
+    bool IsValidType(const EventType& type);
+    bool IsListerningType(const EventType& type);
 
 private:
     std::list<Event> queues_[2];
     int queue_index_;
 
+    EventTypeTable types_;
     EventListenerTable listeners_;
 };
 

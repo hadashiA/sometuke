@@ -9,6 +9,12 @@ bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener
     weak_ptr<EventListener> listener_ref = listener;
     std::pair<EventType, weak_ptr<EventListener> > pair(type, listener_ref);
     listeners_.insert(pair);
+
+    EventTypeTable::const_iterator iter = types_.find(type);
+    if (iter == types_.end()) {
+        types_.insert(std::make_pair(type, EventTypeMetadata(kCodeEventOnly)));
+    }
+
     return true;
 }
 
@@ -35,6 +41,13 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
 }
 
 void EventDispatcher::Trigger(const Event& event) {
+    if (!IsVAlidType(event)) {
+        return;
+    }
+    if (!IsListerningType(event)) {
+        return;
+    }
+
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(event.type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
@@ -54,6 +67,14 @@ bool EventDispatcher::Queue(const Event& event) {
 
 bool EventDispatcher::Tick(const ii_time max_time) {
     return true;
+}
+
+bool EventDispatcher::IsValidType(const EventType& type) const {
+    return !type.string().empty();
+}
+
+bool EventDispatcher::IsListerningType(const EventType& type) const {
+    return (types_.find(type) != types_.end())
 }
 
 }

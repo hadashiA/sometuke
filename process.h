@@ -2,6 +2,7 @@
 #define __kawaii__process__
 
 #include "hashed_string.h"
+#include "types.h"
 
 #include <memory>
 

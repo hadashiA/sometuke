@@ -21,6 +21,7 @@ bool Animate::Update(ii_time delta_time) {
         target_->set_display_frame(sprite_frame);
     }
     elapsed_ += delta_time;
+    return true;
 }
 
 }
