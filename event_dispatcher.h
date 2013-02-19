@@ -50,7 +50,7 @@ public:
     typedef std::multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
 
     EventDispatcher() :
-        queue_index_(0) {
+        active_queue_index_(0) {
     }
 
     bool On(const EventType& type, weak_ptr<EventListener> listener);
@@ -60,8 +60,8 @@ public:
     bool Queue(const Event& event);
     bool Tick(const ii_time max_time);
 
-    bool IsValidType(const EventType& type);
-    bool IsListerningType(const EventType& type);
+    bool IsValidType(const EventType& type) const;
+    bool IsListerningType(const EventType& type) const;
 
 private:
     enum {

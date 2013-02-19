@@ -36,10 +36,11 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
             ++i;
         }
     }
+    return true;
 }
 
 bool EventDispatcher::Trigger(const Event& event) {
-    if (!IsVAlidType(event.type) || !IsListerningType(event.type)) {
+    if (!IsValidType(event.type) || !IsListerningType(event.type)) {
         return false;
     }
 
