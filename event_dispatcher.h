@@ -41,7 +41,7 @@ public:
 class EventListener {
 public:
     virtual ~EventListener() {}
-    virtual bool EventHandle(const Event& e) = 0;
+    virtual bool HandleEvent(const Event& e) = 0;
 };
 
 class EventDispatcher {

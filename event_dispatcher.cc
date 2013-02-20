@@ -52,7 +52,7 @@ bool EventDispatcher::Trigger(const Event& event) {
         weak_ptr<EventListener> listener_ref = i->second;
         if (shared_ptr<EventListener> listener = listener_ref.lock()) {
             emitted = true;
-            listener->EventHandle(event);
+            listener->HandleEvent(event);
             ++i;
         } else {
             listeners_.erase(i++);
@@ -91,7 +91,7 @@ bool EventDispatcher::Tick(const ii_time max_time) {
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
             weak_ptr<EventListener> listener_ref = i->second;
             if (shared_ptr<EventListener> listener = listener_ref.lock()) {
-                if (listener->EventHandle(event)) {
+                if (listener->HandleEvent(event)) {
                     break;
                 }
                 ++i;
