@@ -1,36 +1,41 @@
 #ifndef __kawaii__
 #define __kawaii__
 
-#include "application.h"
-#include "director.h"
+#include "kawaii/application.h"
+#include "kawaii/director.h"
+
+// actor
+#include "kawaii/types.h"
+#include "kawaii/actor.h"
+
 
 // process
-#include "process_scheduler.h"
-#include "event_dispatcher.h"
+#include "kawaii/process_scheduler.h"
+#include "kawaii/event_dispatcher.h"
 
 // resource
-#include "assets.h"
-#include "texture_2d.h"
-#include "texture_cache.h"
-#include "sprite_frame_cache.h"
-#include "shader_cache.h"
-#include "animation_cache.h"
+#include "kawaii/assets.h"
+#include "kawaii/texture_2d.h"
+#include "kawaii/texture_cache.h"
+#include "kawaii/sprite_frame_cache.h"
+#include "kawaii/shader_cache.h"
+#include "kawaii/animation_cache.h"
 
 // node
-#include "scene.h"
-#include "sprite.h"
+#include "kawaii/scene.h"
+#include "kawaii/sprite.h"
 
 // process
-#include "animate.h"
+#include "kawaii/animate.h"
 
 // structs
-#include "vector.h"
-#include "matrix.h"
-#include "vertices.h"
+#include "kawaii/vector.h"
+#include "kawaii/matrix.h"
+#include "kawaii/vertices.h"
 
-#include "logger.h"
+#include "kawaii/logger.h"
 
-#include "OpenGL_Internal.h"
+#include "kawaii/OpenGL_Internal.h"
 
 namespace kawaii {
 using namespace std;
