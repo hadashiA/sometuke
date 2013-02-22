@@ -4,11 +4,26 @@
 #include "vector.h"
 #include "hashed_string.h"
 
+#include <memory>
+
 namespace kawaii {
 
 typedef unsigned int actor_id;
 
+class Actor;
+
 struct ActorStatus {
+    static int NextId() {
+        static int __last_id = 0;
+        return ++__last_id;
+    }
+
+    ActorStatus(const HashedString& t, const vec3 p = vec3(0, 0, 0))
+        : type(t),
+          position(p) {
+        id = ActorStatus::NextId();
+    }
+
     actor_id id;
     HashedString type;
     vec3 position;
@@ -16,25 +31,16 @@ struct ActorStatus {
 
 class Actor {
 public:
-    static int NextId() {
-        static int __last_id = 0;
-        return ++__last_id;
-    }
-
-    ~Actor() {
-        delete status_;
-    }
-
     const actor_id id() const {
         return status_->id;
     }
 
-    const ActorStatus& status() const {
-        return *status_;
+    const unique_ptr<ActorStatus>& status() const {
+        return status_;
     }
 
 private:
-     ActorStatus *status_;
+    unique_ptr<ActorStatus> status_;
 };
 
 }
