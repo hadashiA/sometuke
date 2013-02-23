@@ -5,10 +5,8 @@ namespace kawaii {
 
 const HashedString Animate::TYPE("animate");
 
-bool Animate::Init() {
+void Animate::OnEnter() {
     target_->set_display_frame(animation_->frames[frame_num_].sprite_frame);
-
-    return true;
 }
 
 void Animate::Update(ii_time delta_time) {

@@ -13,6 +13,18 @@ const HashedString ProcessTimer::TYPE("timer");
 const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
 void ProcessTimer::Update(const ii_time delta_time) {
+    if (inner_process_->dead()) {
+        shared_ptr<Process> next = inner_process_->next();
+        if (next) {
+            inner_process_->set_next(NULL);
+            inner_process_ = next;
+            inner_process_->OnEnter();
+        } else {
+            Kill();
+            return;
+        }
+    }
+
     // standard timer usage
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;
@@ -41,19 +53,6 @@ void ProcessTimer::Update(const ii_time delta_time) {
             
         if (num_executed_ >= repeat_) {
             inner_process_->Kill();
-        }
-    }
-
-    if (inner_process_->dead()) {
-        shared_ptr<Process> next = inner_process_->next();
-        if (next) {
-            inner_process_->set_next(NULL);
-            inner_process_ = next;
-            if (!inner_process_->Init()) {
-                Kill();
-            }
-        } else {
-            Kill();
         }
     }
 }

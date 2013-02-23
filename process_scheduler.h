@@ -57,8 +57,8 @@ public:
         return inner_process_;
     }
 
-    virtual bool Init() {
-        return inner_process_->Init();
+    virtual void OnEnter() {
+        return inner_process_->OnEnter();
     }
 
     virtual void Update(const ii_time delta_time);

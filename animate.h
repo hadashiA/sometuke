@@ -25,7 +25,7 @@ public:
         return Animate::TYPE;
     }
     
-    virtual bool Init();
+    virtual void OnEnter();
     virtual void Update(ii_time delta_time);
 
 private:

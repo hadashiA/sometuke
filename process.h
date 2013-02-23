@@ -19,7 +19,7 @@ public:
         : killed_(false),
           paused_(false),
           is_active_(true),
-          initialized_(false),
+          entered_(false),
           next_(NULL) {
     }
     
@@ -49,8 +49,8 @@ public:
         return paused_;
     }
 
-    const bool initialized() const {
-        return initialized_;
+    const bool entered() const {
+        return entered_;
     }
 
     const shared_ptr<Process> next() const {
@@ -62,16 +62,16 @@ public:
     }
 
     void Visit(const ii_time delta_time) {
-        if (!initialized_) {
-            if (!(initialized_ = Init())) {
-                Kill();
-                return;
-            }
+        if (!entered_) {
+            OnEnter();
+            entered_ = true;
         }
-        Update(delta_time);
+        if (!dead()) {
+            Update(delta_time);
+        }
     }
-
-    virtual bool Init() { return true; }
+    
+    virtual void OnEnter() {}
     virtual void Update(const ii_time delta) = 0;
     virtual void Kill()   { killed_ = true; }
     virtual void Pauce()  { paused_ = true; }
@@ -83,6 +83,7 @@ protected:
     bool paused_;
     bool is_active_;
     bool initialized_;
+    bool entered_;
     shared_ptr<Process> next_;
 
 private:
