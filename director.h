@@ -1,6 +1,7 @@
 #ifndef __kawaii__director__
 #define __kawaii__director__
 
+#include "types.h"
 #include "actor.h"
 #include "process_scheduler.h"
 #include "event_dispatcher.h"
@@ -30,6 +31,8 @@ public:
     virtual ~Director() {}
     virtual bool Init() = 0;
     virtual bool End() { return true; }
+
+    // virtual void Update(const ii_time delta_time) = 0;
     virtual bool HandleEvent(const Event& e) = 0;
 
     unique_ptr<ProcessScheduler>& scheduler() {

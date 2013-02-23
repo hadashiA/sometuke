@@ -25,7 +25,12 @@ public:
     virtual bool HandleEvent(const Event& event) { return true; }
 
     void Render() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        MatrixStack::GLModelView()->Push();
+
         root_node_->Visit();
+
+        MatrixStack::GLModelView()->Pop();
     }
 
     void AddChild(actor_id id, shared_ptr<Node> node) {
