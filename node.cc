@@ -86,8 +86,15 @@ vec3 Node::LocalPositionAt(const vec3& world_position) {
 void Node::AddChild(shared_ptr<Node> child) {
     assert(!child->parent());
 
-    child->set_parent(shared_from_this());
-    children_.push_back(child);
+    bool fine = true;
+    if (child->initialized()) {
+        fine = child->Init();
+    }
+
+    if (fine) {
+        child->set_parent(shared_from_this());
+        children_.push_back(child);
+    }
 }
 
 void Node::Visit() {
