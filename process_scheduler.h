@@ -15,10 +15,39 @@ public:
     static const HashedString TYPE;
     static const unsigned int REPEAT_FOREVER;
 
-    ProcessTimer(shared_ptr<Process> inner_process);
-    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval);
+    ProcessTimer(shared_ptr<Process> inner_process)
+        : inner_process_(inner_process),
+          elapsed_(0),
+          num_executed_(0),
+          interval_(0),
+          delay_(0),
+          use_delay_(false),
+          repeat_(REPEAT_FOREVER),
+          run_forever_(true) {
+    }
+
+    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval)
+        : inner_process_(inner_process),
+          elapsed_(0),
+          num_executed_(0),
+          interval_(interval),
+          delay_(0),
+          use_delay_(false),
+          repeat_(REPEAT_FOREVER),
+          run_forever_(true) {
+    }
+
     ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
-                 const unsigned int repeat, const ii_time delay);
+                 const unsigned int repeat, const ii_time delay)
+        : inner_process_(inner_process),
+          elapsed_(0),
+          num_executed_(0),
+          interval_(interval),
+          delay_(delay),
+          use_delay_(delay > 0),
+          repeat_(repeat),
+          run_forever_(repeat == REPEAT_FOREVER) {
+    }
 
     virtual const HashedString& type() {
         return ProcessTimer::TYPE;
@@ -28,7 +57,11 @@ public:
         return inner_process_;
     }
 
-    virtual bool Update(const ii_time delta_time);
+    virtual bool Init() {
+        return inner_process_->Init();
+    }
+
+    virtual void Update(const ii_time delta_time);
 
 private:    
     shared_ptr<Process> inner_process_;

@@ -25,8 +25,8 @@ public:
         return Animate::TYPE;
     }
     
-    virtual bool PreUpdate();
-    virtual bool Update(ii_time delta_time);
+    virtual bool Init();
+    virtual void Update(ii_time delta_time);
 
 private:
     shared_ptr<Sprite> target_;

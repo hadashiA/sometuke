@@ -7,91 +7,55 @@
 
 namespace kawaii {
 
-const HashedString ProcessTimer::TYPE("timer process");
-const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
-
 // ProcessTimer
 
-ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process)
-    : inner_process_(inner_process),
-      elapsed_(-1),
-      interval_(0),
-      delay_(0),
-      use_delay_(false),
-      repeat_(REPEAT_FOREVER),
-      run_forever_(true) {
-}
+const HashedString ProcessTimer::TYPE("timer");
+const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
-ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval)
-    : inner_process_(inner_process),
-      elapsed_(-1),
-      interval_(interval),
-      delay_(0),
-      use_delay_(false),
-      repeat_(REPEAT_FOREVER),
-      run_forever_(true) {
-}
-
-ProcessTimer::ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
-                           const unsigned int repeat, const ii_time delay)
-    : inner_process_(inner_process),
-      elapsed_(-1),
-      interval_(interval),
-      delay_(delay),
-      use_delay_(delay > 0),
-      repeat_(repeat),
-      run_forever_(repeat == REPEAT_FOREVER) {
-}
-
-bool ProcessTimer::Update(const ii_time delta_time) {
-    // first frame
-    if (elapsed_ == -1) {
-        elapsed_ = 0;
-        num_executed_ = 0;
-
+void ProcessTimer::Update(const ii_time delta_time) {
+    // standard timer usage
+    if (run_forever_ && !use_delay_) {
+        elapsed_ += delta_time;
+        if (elapsed_ >= interval_) {
+            inner_process_->Update(elapsed_);
+            elapsed_ = 0;
+        }
+        
+        // advanced usage
     } else {
-        // standard timer usage
-        if (run_forever_ && !use_delay_) {
-            elapsed_ += delta_time;
+        elapsed_ += delta_time;
+        if (use_delay_) {
+            if (elapsed_ >= delay_) {
+                inner_process_->Update(elapsed_);
+                elapsed_ -= delay_;
+                num_executed_++;
+                use_delay_ = false;
+            }
+        } else {
             if (elapsed_ >= interval_) {
                 inner_process_->Update(elapsed_);
                 elapsed_ = 0;
-            }
-            
-        // advanced usage
-        } else {
-            elapsed_ += delta_time;
-            if (use_delay_) {
-                if (elapsed_ >= delay_) {
-                    inner_process_->Update(elapsed_);
-                    elapsed_ -= delay_;
-                    num_executed_++;
-                    use_delay_ = false;
-                }
-            } else {
-                if (elapsed_ >= interval_) {
-                    inner_process_->Update(elapsed_);
-                    elapsed_ = 0;
-                    num_executed_++;
-                }
-            }
-            
-            if (num_executed_ >= repeat_) {
-                inner_process_->Kill();
+                num_executed_++;
             }
         }
-
-        if (inner_process_->dead()) {
-            shared_ptr<Process> next = inner_process_->next();
-            if (next) {
-                inner_process_->set_next(NULL);
-                inner_process_ = next;
-            } else {
-                return false;
-            }
+            
+        if (num_executed_ >= repeat_) {
+            inner_process_->Kill();
         }
     }
-    return true;
+
+    if (inner_process_->dead()) {
+        shared_ptr<Process> next = inner_process_->next();
+        if (next) {
+            inner_process_->set_next(NULL);
+            inner_process_ = next;
+            if (!inner_process_->Init()) {
+                Kill();
+            }
+        } else {
+            Kill();
+        }
+    }
 }
 
 // ProcessScheduler
@@ -141,7 +105,7 @@ void ProcessScheduler::Update(const ii_time delta_time) {
             }
             UnScheduleFor(p);
         } else if (p->is_active() && !p->paused()) {
-            p->Tick(delta_time);
+            p->Visit(delta_time);
         }
     }
 

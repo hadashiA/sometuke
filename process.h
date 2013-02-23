@@ -61,23 +61,18 @@ public:
         next_ = value;
     }
 
-    void Tick(const ii_time delta_time) {
+    void Visit(const ii_time delta_time) {
         if (!initialized_) {
-            if (!(initialized_ = PreUpdate())) {
+            if (!(initialized_ = Init())) {
                 Kill();
+                return;
             }
         }
-        bool result = Update(delta_time);
-        if (!result) {
-            Kill();
-        }
+        Update(delta_time);
     }
 
-    virtual bool PreUpdate() {
-        return true;
-    }
-
-    virtual bool Update(const ii_time delta) = 0;
+    virtual bool Init() { return true; }
+    virtual void Update(const ii_time delta) = 0;
     virtual void Kill()   { killed_ = true; }
     virtual void Pauce()  { paused_ = true; }
     virtual void Resume() { paused_ = false; }
