@@ -34,7 +34,7 @@ public:
 
     // virtual void Update(const ii_time delta_time) = 0;
     virtual bool HandleEvent(const Event& e) = 0;
-
+    
     unique_ptr<ProcessScheduler>& scheduler() {
         return scheduler_;
     }
@@ -52,7 +52,7 @@ public:
     // void PopScene();
 
     // void SetNextScene(shared_ptr<Scene> scene);
-    shared_ptr<Scene> running_scene() {
+    shared_ptr<Scene> scene() {
         return running_scene_;
     }
 

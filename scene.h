@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include "event_dispatcher.h"
+#include "matrix_stack.h"
 
 #include <memory>
 #include <map>

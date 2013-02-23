@@ -21,8 +21,11 @@ public:
         return __instance;
     }
 
-    bool Init(Director *director,
-              Assets *assets);
+    // static unique_ptr<Director>& Director() {
+    //     return Current()->director();
+    // }
+
+    bool Init(Director *director, Assets *assets);
 
     void Resize(const float point_width, const float point_height);
 
