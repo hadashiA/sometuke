@@ -1,9 +1,6 @@
 #include "director.h"
 
 #include "application.h"
-#include "assets.h"
-#include "shader_cache.h"
-#include "texture_2d.h"
 #include "process_scheduler.h"
 #include "event_dispatcher.h"
 #include "matrix_stack.h"
