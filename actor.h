@@ -11,8 +11,9 @@ namespace kawaii {
 typedef unsigned int actor_id;
 
 class Actor;
+class Node;
 
-struct ActorStatus {
+struct ActorStatus : public enable_shared_from_this<ActorStatus> {
     static int NextId() {
         static int __last_id = 0;
         return ++__last_id;
@@ -24,6 +25,10 @@ struct ActorStatus {
         id = ActorStatus::NextId();
     }
 
+    virtual ~ActorStatus() {}
+
+    virtual bool Generate() = 0;  // create Actor,Node,
+
     actor_id id;
     HashedString type;
     vec3 position;
@@ -31,16 +36,20 @@ struct ActorStatus {
 
 class Actor {
 public:
+    Actor(shared_ptr<ActorStatus> status) :
+        status_(status) {
+    }
+
     const actor_id id() const {
         return status_->id;
     }
 
-    const unique_ptr<ActorStatus>& status() const {
+    const shared_ptr<ActorStatus>& status() const {
         return status_;
     }
 
 private:
-    unique_ptr<ActorStatus> status_;
+    shared_ptr<ActorStatus> status_;
 };
 
 }

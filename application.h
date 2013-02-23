@@ -21,7 +21,9 @@ public:
         return __instance;
     }
 
-    bool Init(Assets *assets);
+    bool Init(Director *director,
+              Assets *assets);
+
     void Resize(const float point_width, const float point_height);
 
     const vec2& size_in_points() {

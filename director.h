@@ -1,7 +1,7 @@
 #ifndef __kawaii__director__
 #define __kawaii__director__
 
-#include "types.h"
+#include "actor.h"
 #include "process_scheduler.h"
 #include "event_dispatcher.h"
 
@@ -15,14 +15,22 @@ namespace kawaii {
 using namespace std;
 
 class Scene;
+class Actor;
 
-class Director {
+typedef map<actor_id, shared_ptr<Actor> > ActorTable;
+
+class Director : public EventListener {
 public:
     Director()
         : scheduler_(new ProcessScheduler),
           event_dispatcher_(new EventDispatcher),
           display_stats_(true) {
     }
+
+    virtual ~Director() {}
+    virtual bool Init() = 0;
+    virtual bool End() { return true; }
+    virtual bool HandleEvent(const Event& e) = 0;
 
     unique_ptr<ProcessScheduler>& scheduler() {
         return scheduler_;
@@ -41,8 +49,18 @@ public:
     // void PopScene();
 
     // void SetNextScene(shared_ptr<Scene> scene);
+    shared_ptr<Scene> running_scene() {
+        return running_scene_;
+    }
 
-    void End();
+    void AddActor(shared_ptr<Actor> actor) {
+        actor_id id = actor->id();
+        actor_table_[id] = actor;
+    }
+    
+    const shared_ptr<Actor> ActorById(const actor_id id) {
+        return actor_table_[id];
+    }
 
 private:
     void ShowStats();
@@ -50,8 +68,14 @@ private:
     unique_ptr<ProcessScheduler> scheduler_;
     unique_ptr<EventDispatcher> event_dispatcher_;
     vector<shared_ptr<Scene> > scene_stack_;
+
+    // scene staff
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
+
+    // actor staff
+    ActorTable actor_table_;
+    std::map<actor_id, shared_ptr<Node> > node_for_actor_id_;
 
     // stats
     bool display_stats_;

@@ -7,14 +7,16 @@
 
 namespace kawaii {
 
-bool Application::Init(Assets *assets) {
+bool Application::Init(Director *director, Assets *assets) {
     assets_.reset(assets);
-    // assets_ = assets;
     if (!assets_) {
         return false;
     }
 
-    director_.reset(new Director);
+    director_.reset(director);
+    if (director_->Init()) {
+        return false;
+    }
 
     return true;
 }
