@@ -14,8 +14,7 @@ using namespace std;
 class Node : public enable_shared_from_this<Node> {
 public:
     Node()
-        : initialized_(false),
-          local_position_(0, 0, 0),
+        : local_position_(0, 0, 0),
           scale_(1, 1),
           rotation_(0),
           skew_(0, 0),
@@ -29,10 +28,6 @@ public:
     }
     
     virtual ~Node() {}
-
-    const bool initialized() const {
-        return initialized_;
-    }
 
     const vec3& local_position() const {
         return local_position_;
@@ -188,8 +183,6 @@ public:
     vec3 LocalPositionAt(const vec3& world_position);
 
 private:    
-    bool initialized_;
-
     vec3 local_position_;
     vec2 scale_;
     float rotation_;
