@@ -39,15 +39,17 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     return true;
 }
 
-bool EventDispatcher::Trigger(const Event& event) {
-    if (!IsValidType(event.type) || !IsListerningType(event.type)) {
+bool EventDispatcher::Trigger(shared_ptr<Event> event) {
+    const EventType& type = event->type;
+
+    if (!IsValidType(type) || !IsListerningType(type)) {
         return false;
     }
 
     bool emitted = false;
 
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-        listeners_.equal_range(event.type);
+        listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
         weak_ptr<EventListener> listener_ref = i->second;
         if (shared_ptr<EventListener> listener = listener_ref.lock()) {
@@ -62,11 +64,11 @@ bool EventDispatcher::Trigger(const Event& event) {
     return emitted;
 }
 
-bool EventDispatcher::Queue(const Event& event) {
+bool EventDispatcher::Queue(shared_ptr<Event> event) {
     assert(active_queue_index_ >= 0);
     assert(active_queue_index_ < NUM_QUEUES);
 
-    if (!IsValidType(event.type) || !IsListerningType(event.type)) {
+    if (!IsValidType(event->type) || !IsListerningType(event->type)) {
         return false;
     }
 
@@ -76,18 +78,18 @@ bool EventDispatcher::Queue(const Event& event) {
 }
 
 bool EventDispatcher::Tick(const ii_time max_time) {
-    std::list<Event> queue = queues_[active_queue_index_];
+    std::list<shared_ptr<Event> > queue = queues_[active_queue_index_];
 
     // swap active queues, make sure new queue is empty after the swap..
     active_queue_index_ = (active_queue_index_ + 1) % NUM_QUEUES;
     queues_[active_queue_index_].clear();
 
     while (!queue.empty()) {
-        const Event event = queue.front();
+        shared_ptr<Event> event = queue.front();
         queue.pop_front();
 
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-            listeners_.equal_range(event.type);
+            listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
             weak_ptr<EventListener> listener_ref = i->second;
             if (shared_ptr<EventListener> listener = listener_ref.lock()) {

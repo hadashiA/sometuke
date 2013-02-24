@@ -33,7 +33,7 @@ public:
     virtual bool End() { return true; }
 
     // virtual void Update(const ii_time delta_time) = 0;
-    virtual bool HandleEvent(const Event& e) = 0;
+    virtual bool HandleEvent(shared_ptr<Event> e) = 0;
     
     unique_ptr<ProcessScheduler>& scheduler() {
         return scheduler_;

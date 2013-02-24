@@ -23,7 +23,7 @@ public:
     virtual bool Init() { return true; }
     virtual void OnEnter() {}
     virtual void OnExit() {}
-    virtual bool HandleEvent(const Event& event) { return true; }
+    virtual bool HandleEvent(shared_ptr<Event> event) { return true; }
 
     void Render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

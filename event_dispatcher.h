@@ -41,7 +41,7 @@ public:
 class EventListener {
 public:
     virtual ~EventListener() {}
-    virtual bool HandleEvent(const Event& e) = 0;
+    virtual bool HandleEvent(shared_ptr<Event> e) = 0;
 };
 
 class EventDispatcher {
@@ -56,8 +56,8 @@ public:
     bool On(const EventType& type, weak_ptr<EventListener> listener);
     bool Off(const EventType& type);
     bool Off(shared_ptr<EventListener> listener);
-    bool Trigger(const Event& event);
-    bool Queue(const Event& event);
+    bool Trigger(shared_ptr<Event> event);
+    bool Queue(shared_ptr<Event> event);
     bool Tick(const ii_time max_time);
 
 private:
@@ -68,7 +68,7 @@ private:
         NUM_QUEUES = 2
     };
 
-    std::list<Event> queues_[NUM_QUEUES];
+    list<shared_ptr<Event> > queues_[NUM_QUEUES];
     int active_queue_index_;
 
     // EventTypeTable types_;
