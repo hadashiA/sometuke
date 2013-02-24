@@ -21,6 +21,10 @@ public:
         return __instance;
     }
 
+    static unique_ptr<Director>& CurrentDirector() {
+        return Current()->director();
+    }
+
     // static unique_ptr<Director>& Director() {
     //     return Current()->director();
     // }

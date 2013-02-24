@@ -14,6 +14,7 @@ namespace kawaii {
 class Texture2D;
 class GLProgram;
 class SpriteFrame;
+class Animation;
 
 class Sprite : public Node {
 public:
@@ -80,6 +81,8 @@ public:
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
     void set_display_frame(shared_ptr<SpriteFrame> sprite_frame);
+
+    void RunAnimation(shared_ptr<Animation> animation);
 
 private:
     void UpdateQuadColor();

@@ -5,6 +5,7 @@
 #include "texture_2d.h"
 #include "sprite_frame.h"
 #include "application.h"
+#include "animate.h"
 
 #include "OpenGL_Internal.h"
 
@@ -242,6 +243,12 @@ void Sprite::UpdateQuadTexCoords() {
         quad_.top_right.tex_coord.u    = right;
         quad_.top_right.tex_coord.v    = top;
     }
+}
+
+void Sprite::RunAnimation(shared_ptr<Animation> animation) {
+    shared_ptr<Sprite> sprite = static_pointer_cast<Sprite>(shared_from_this());
+    shared_ptr<Animate> animate = make_shared<Animate>(animation, sprite);
+    Application::CurrentDirector()->scheduler()->ScheduleFor(animate);
 }
 
 }
