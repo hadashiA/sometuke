@@ -2,6 +2,7 @@
 #define __kawaii__animation__
 
 #include "types.h"
+#include "event_dispatcher.h"
 
 #include <vector>
 #include <memory>
@@ -12,13 +13,15 @@ using namespace std;
 class SpriteFrame;
 
 struct AnimationFrame {
-    AnimationFrame(shared_ptr<SpriteFrame> f, ii_time t)
+    AnimationFrame(shared_ptr<SpriteFrame> f, ii_time t, const char *e = "")
         : sprite_frame(f),
-          time(t) {
+          time(t),
+          event_type(e) {
     }
 
     shared_ptr<SpriteFrame> sprite_frame;
     ii_time time;
+    EventType event_type;
 };
 
 struct Animation {

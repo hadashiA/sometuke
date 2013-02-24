@@ -38,7 +38,7 @@ public:
     unsigned int target_id;
 };
 
-class EventListener {
+class EventListener : public enable_shared_from_this<EventListener> {
 public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;

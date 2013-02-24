@@ -13,11 +13,11 @@ class HashedString {
 public:
     static void *HashName(const char *ident_c_str);
 
-    explicit HashedString(const char *const ident_c_str)
+    HashedString(const char *const ident_c_str)
         : ident_(HashName(ident_c_str)),
           ident_string_(ident_c_str) {}
 
-    explicit HashedString(const string& ident_string)
+    HashedString(const string& ident_string)
         : ident_(HashName(ident_string.c_str())),
           ident_string_(ident_string) {}
 
@@ -27,6 +27,10 @@ public:
 
     const string& string() const {
         return ident_string_;
+    }
+
+    bool empty() const {
+        return string().empty();
     }
 
     bool operator<(const HashedString& rhs) const {
