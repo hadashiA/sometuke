@@ -4,6 +4,8 @@
 #include "hashed_string.h"
 #include "types.h"
 
+#include "MemoryMaster/MemoryPool.h"
+
 #include <memory>
 #include <list>
 #include <map>
@@ -27,15 +29,22 @@ struct EventTypeMetadata {
 
 struct Event {
 public:
-    Event(const EventType t, unsigned int tid = 0) :
-        type(t),
-        target_id(tid) {
+    static mm::GeneralMemoryPool POOL;
+
+    Event(const EventType t) : type(t) {
         timestamp = std::time(NULL);
+    }
+
+    void *operator new(size_t size) {
+        return POOL.poolAlloc(size);
+    }
+
+    void operator delete(void *doomed, size_t size) {
+        POOL.poolFree(doomed, size);
     }
 
     EventType type;
     time_t timestamp;
-    unsigned int target_id;
 };
 
 class EventListener : public enable_shared_from_this<EventListener> {
