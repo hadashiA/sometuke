@@ -1,6 +1,8 @@
 #ifndef __kawaii__
 #define __kawaii__
 
+#include "MemoryMaster/MemoryMaster.h"
+
 #include "kawaii/application.h"
 #include "kawaii/director.h"
 
