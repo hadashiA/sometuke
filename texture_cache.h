@@ -2,7 +2,7 @@
 #define __kawaii__texture_cache__
 
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 namespace kawaii {
 using namespace std;
@@ -19,7 +19,7 @@ public:
     shared_ptr<Texture2D> FetchFromPath(const string& path);
 
 private:
-    typedef std::map<unsigned int, shared_ptr<Texture2D> > TextureTable;
+    typedef unordered_map<unsigned int, shared_ptr<Texture2D> > TextureTable;
 
     TextureCache() {}
     TextureTable textures_;

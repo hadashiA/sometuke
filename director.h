@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -18,7 +18,7 @@ using namespace std;
 class Scene;
 class Actor;
 
-typedef map<actor_id, shared_ptr<Actor> > ActorTable;
+typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director : public EventListener {
 public:
@@ -78,7 +78,7 @@ private:
 
     // actor staff
     ActorTable actor_table_;
-    std::map<actor_id, shared_ptr<Node> > node_for_actor_id_;
+    unordered_map<actor_id, shared_ptr<Node> > node_for_actor_id_;
 
     // stats
     bool display_stats_;

@@ -5,8 +5,8 @@
 
 #include "picojson/picojson.h"
 
-#include <map>
-#include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <memory>
 
 namespace kawaii {
@@ -25,7 +25,7 @@ public:
 
     shared_ptr<SpriteFrame> get(const char* sprite_frame_name) {
         HashedString hashed_name(sprite_frame_name);
-        return sprite_frames_[hashed_name];
+        return sprite_frames_[hashed_name.id()];
     }
 
     shared_ptr<SpriteFrame> operator[](const char* sprite_frame_name) {
@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    typedef std::map<HashedString, shared_ptr<SpriteFrame> > SpriteFrameTable;
+    typedef unordered_map<unsigned long, shared_ptr<SpriteFrame> > SpriteFrameTable;
 
     SpriteFrameCache() {}
     void AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
@@ -41,7 +41,7 @@ private:
                                 const picojson::value& frame_json);
 
     SpriteFrameTable sprite_frames_;
-    std::set<HashedString> loaded_filenames_;
+    unordered_set<unsigned long> loaded_filenames_;
 };
 
 }

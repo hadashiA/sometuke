@@ -6,7 +6,7 @@
 #include "matrix_stack.h"
 
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 namespace kawaii {
 using namespace std;
@@ -45,7 +45,7 @@ public:
 
 protected:
     shared_ptr<Node> root_node_;
-    std::map<actor_id, shared_ptr<Node> > node_for_actor_id_;
+    unordered_map<actor_id, shared_ptr<Node> > node_for_actor_id_;
 };
 
 }
