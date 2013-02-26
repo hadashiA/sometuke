@@ -6,8 +6,6 @@
 
 namespace kawaii {
 
-mm::GeneralMemoryPool Event::POOL;
-
 bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener) {
     if (!IsValidType(type)) {
         return false;

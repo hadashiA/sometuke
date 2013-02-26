@@ -4,8 +4,6 @@
 #include "hashed_string.h"
 #include "types.h"
 
-#include "MemoryMaster/MemoryPool.h"
-
 #include <memory>
 #include <list>
 #include <map>
@@ -29,18 +27,8 @@ struct EventTypeMetadata {
 
 struct Event {
 public:
-    static mm::GeneralMemoryPool POOL;
-
     Event(const EventType t) : type(t) {
         timestamp = std::time(NULL);
-    }
-
-    void *operator new(size_t size) {
-        return POOL.poolAlloc(size);
-    }
-
-    void operator delete(void *doomed, size_t size) {
-        POOL.poolFree(doomed, size);
     }
 
     EventType type;
