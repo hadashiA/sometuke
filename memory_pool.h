@@ -61,12 +61,38 @@ private:
 template <class T, std::size_t Size = MM_DEFAULT_EXPAND_SIZE>
 class Poolable {
 public:
-    void *operator new(std::size_t size) { return pool->Alloc(size); }
-    void operator delete(void* deletePtr, std::size_t) { pool->Free(deletePtr); }
-    void *operator new[](std::size_t size) { return pool->Alloc(size); }
-    void operator delete[](void* deletePtr, std::size_t) { pool->Free(deletePtr); }
+    void *operator new(std::size_t size) {
+        if (size == 0) {
+            size = 1;
+        }
+        return pool->Alloc(size);
+    }
+
+    void operator delete(void *doomed, std::size_t) {
+        if (doomed == NULL) {
+            return;
+        }
+        pool->Free(doomed);
+    }
+
+    void *operator new[](std::size_t size) {
+        if (size == 0) {
+            size = 1;
+        }
+        return pool->Alloc(size);
+    }
+
+    void operator delete[](void *doomed, std::size_t) {
+        if (doomed == NULL) {
+            return;
+        }
+        pool->Free(deletePtr);
+    }
         
-    static void Init() { pool.reset(new MemoryPool<T, Size>); }
+    static void Init() {
+        pool.reset(new MemoryPool<T, Size>);
+    }
+
 private:
     static unique_ptr<MemoryPool<T, Size> > pool;
 };
