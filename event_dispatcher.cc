@@ -6,15 +6,12 @@
 
 namespace kawaii {
 
-bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener) {
+bool EventDispatcher::On(const EventType& type, EventListenerInterface *listener) {
     if (!IsValidType(type)) {
         return false;
     }
 
-    weak_ptr<EventListener> listener_ref = listener;
-    std::pair<EventType, weak_ptr<EventListener> > pair(type, listener_ref);
-    listeners_.insert(pair);
-
+    listeners_.insert(std::make_pair(type, listener));
     return true;
 }
 
@@ -27,10 +24,9 @@ bool EventDispatcher::Off(const EventType& type) {
     return true;
 }
 
-bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
+bool EventDispatcher::Off(EventListenerInterface *listener) {
     for (EventListenerTable::iterator i = listeners_.begin(); i != listeners_.end();) {
-        weak_ptr<EventListener> ref = i->second;
-        if (listener == ref.lock()) {
+        if (listener == i->second) {
             listeners_.erase(i++);
         } else {
             ++i;
@@ -51,14 +47,10 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
     std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        weak_ptr<EventListener> listener_ref = i->second;
-        if (shared_ptr<EventListener> listener = listener_ref.lock()) {
-            emitted = true;
-            listener->HandleEvent(event);
-            ++i;
-        } else {
-            listeners_.erase(i++);
-        }
+        emitted = true;
+        
+        (i->second)->HandleEvent(event);
+        ++i;
     }
 
     return emitted;
@@ -91,15 +83,11 @@ bool EventDispatcher::Tick(const ii_time max_time) {
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            weak_ptr<EventListener> listener_ref = i->second;
-            if (shared_ptr<EventListener> listener = listener_ref.lock()) {
-                if (listener->HandleEvent(event)) {
-                    break;
-                }
-                ++i;
-            } else {
-                listeners_.erase(i++);
+            EventListenerInterface *listener = i->second;
+            if (listener->HandleEvent(event)) {
+                break;
             }
+            ++i;
         }
     }
 

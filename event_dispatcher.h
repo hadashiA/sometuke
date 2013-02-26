@@ -36,24 +36,24 @@ public:
     time_t timestamp;
 };
 
-class EventListener : public enable_shared_from_this<EventListener> {
+class EventListenerInterface {
 public:
-    virtual ~EventListener() {}
+    virtual ~EventListenerInterface() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
 };
 
 class EventDispatcher {
 public:
     // typedef std::map<EventType, EventTypeMetadata> EventTypeTable;
-    typedef std::multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
+    typedef std::multimap<EventType, EventListenerInterface *> EventListenerTable;
 
     EventDispatcher() :
         active_queue_index_(0) {
     }
 
-    bool On(const EventType& type, weak_ptr<EventListener> listener);
+    bool On(const EventType& type, EventListenerInterface *listener);
     bool Off(const EventType& type);
-    bool Off(shared_ptr<EventListener> listener);
+    bool Off(EventListenerInterface *listener);
     bool Trigger(shared_ptr<Event> event);
     bool Queue(shared_ptr<Event> event);
     bool Tick(const ii_time max_time);

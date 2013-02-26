@@ -20,7 +20,7 @@ class Actor;
 
 typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
 
-class Director : public EventListener {
+class Director : public EventListenerInterface {
 public:
     Director()
         : scheduler_(new ProcessScheduler),
