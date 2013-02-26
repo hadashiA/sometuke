@@ -65,36 +65,36 @@ public:
         if (size == 0) {
             size = 1;
         }
-        return pool->Alloc(size);
+        return POOL->Alloc(size);
     }
 
     void operator delete(void *doomed, std::size_t) {
         if (doomed == NULL) {
             return;
         }
-        pool->Free(doomed);
+        POOL->Free(doomed);
     }
 
     void *operator new[](std::size_t size) {
         if (size == 0) {
             size = 1;
         }
-        return pool->Alloc(size);
+        return POOL->Alloc(size);
     }
 
     void operator delete[](void *doomed, std::size_t) {
         if (doomed == NULL) {
             return;
         }
-        pool->Free(deletePtr);
+        POOL->Free(doomed);
     }
         
     static void Init() {
-        pool.reset(new MemoryPool<T, Size>);
+        POOL.reset(new MemoryPool<T, Size>);
     }
 
 private:
-    static unique_ptr<MemoryPool<T, Size> > pool;
+    static unique_ptr<MemoryPool<T, Size> > POOL;
 };
     
 template <class T, std::size_t Size = MM_DEFAULT_EXPAND_SIZE>
@@ -125,9 +125,11 @@ struct DataPool256 { char data[256]; };
     
 class GeneralMemoryPool {
 public:
-    GeneralMemoryPool() {}
-    ~GeneralMemoryPool() {}
-        
+    static unique_ptr<GeneralMemoryPool>& Shared() {
+        static unique_ptr<GeneralMemoryPool> __shared(new GeneralMemoryPool);
+        return __shared;
+    }
+
     void *Alloc(std::size_t size) {
         void *allocated = NULL;
         if (size < 16) { allocated = mp16.Alloc(size); }
@@ -147,15 +149,48 @@ public:
     }
         
 private:
+    GeneralMemoryPool() {}
+        
     MemoryPool<DataPool16> mp16;
     MemoryPool<DataPool32> mp32;
     MemoryPool<DataPool64> mp64;
     MemoryPool<DataPool128> mp128;
     MemoryPool<DataPool256> mp256;
 };
-    
+
+class GeneralPoolable {
+public:
+    void *operator new(std::size_t size) {
+        if (size == 0) {
+            size = 1;
+        }
+        return GeneralMemoryPool::Shared()->Alloc(size);
+    }
+
+    void operator delete(void *doomed, std::size_t size) {
+        if (doomed == NULL) {
+            return;
+        }
+        GeneralMemoryPool::Shared()->Free(doomed, size);
+    }
+
+    void *operator new[](std::size_t size) {
+        if (size == 0) {
+            size = 1;
+        }
+        return GeneralMemoryPool::Shared()->Alloc(size);
+    }
+
+    void operator delete[](void *doomed, std::size_t size) {
+        if (doomed == NULL) {
+            return;
+        }
+        GeneralMemoryPool::Shared()->Free(doomed, size);
+    }
+};
+
 template <class T, std::size_t Size>
-unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::pool;
+unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
     
 }
 

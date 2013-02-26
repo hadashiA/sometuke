@@ -3,6 +3,7 @@
 
 #include "hashed_string.h"
 #include "types.h"
+#include "memory_pool.h"
 
 #include <memory>
 #include <list>
@@ -25,7 +26,7 @@ struct EventTypeMetadata {
     EventCallable callable;
 };
 
-struct Event {
+struct Event : public GeneralPoolable {
 public:
     Event(const EventType t) : type(t) {
         timestamp = std::time(NULL);

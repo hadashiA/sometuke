@@ -3,13 +3,14 @@
 
 #include "hashed_string.h"
 #include "types.h"
+#include "memory_pool.h"
 
 #include <memory>
 
 namespace kawaii {
 using namespace std;
 
-class Process {
+class Process : public GeneralPoolable {
 public:
     // typedef enum {
     //     ATTACHED = 0x00000001,
