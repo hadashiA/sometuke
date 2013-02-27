@@ -11,7 +11,7 @@
 namespace kawaii {
 using namespace std;
 
-class Scene : public EventListenerInterface {
+class Scene : public EventListener {
 public:
     Scene()
         : root_node_(new Node),
