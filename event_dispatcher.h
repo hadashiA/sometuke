@@ -52,8 +52,25 @@ public:
     }
 
     bool On(const EventType& type, weak_ptr<EventListener> listener);
+    bool Off(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type);
     bool Off(shared_ptr<EventListener> listener);
+
+    template <typename E>
+    bool On(weak_ptr<EventListener> listener) {
+        return On(E::TYPE, listener);
+    }
+
+    template <typename E>
+    bool Off() {
+        return Off(E::TYPE);
+    }
+
+    template <typename E>
+    bool Off(weak_ptr<EventListener> listener) {
+        return Off(E::TYPE, listener);
+    }
+
     bool Trigger(shared_ptr<Event> event);
     bool Queue(shared_ptr<Event> event);
     bool Tick(const ii_time max_time);

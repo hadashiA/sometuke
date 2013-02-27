@@ -39,6 +39,20 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     return true;
 }
 
+bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> listener) {
+    std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
+        listeners_.equal_range(type);
+    for (EventListenerTable::iterator i = range.first; i != range.second;) {
+        weak_ptr<EventListener> ref = i->second;
+        if (listener == ref.lock()) {
+            listeners_.erase(i++);
+        } else {
+            ++i;
+        }
+    }
+    return true;
+}
+
 bool EventDispatcher::Trigger(shared_ptr<Event> event) {
     const EventType& type = event->type;
 
