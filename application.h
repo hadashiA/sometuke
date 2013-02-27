@@ -21,13 +21,9 @@ public:
         return __instance;
     }
 
-    static unique_ptr<Director>& CurrentDirector() {
+    static shared_ptr<Director> CurrentDirector() {
         return Current()->director();
     }
-
-    // static unique_ptr<Director>& Director() {
-    //     return Current()->director();
-    // }
 
     bool Init(Director *director, Assets *assets);
 
@@ -61,7 +57,7 @@ public:
         return assets_;
     }
 
-    unique_ptr<Director>& director() {
+    shared_ptr<Director> director() {
         return director_;
     }
 
@@ -82,7 +78,7 @@ private:
     float total_time_;
 
     unique_ptr<Assets> assets_;
-    unique_ptr<Director> director_;
+    shared_ptr<Director> director_;
 };
 
 } // namespace kawaii
