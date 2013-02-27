@@ -1,10 +1,33 @@
 #include "event_dispatcher.h"
 
+#include "application.h"
+
 #include <functional>
 #include <cassert>
-// #include <cstring>
 
 namespace kawaii {
+
+// EventListener
+
+bool EventListener::On(const EventType& type) {
+    shared_ptr<EventListener> listener = shared_from_this();
+    Application::CurrentDirector()->dispatcher()->On(type, listener);
+    return true;
+}
+
+bool EventListener::Off(const EventType& type) {
+    shared_ptr<EventListener> listener = shared_from_this();
+    Application::CurrentDirector()->dispatcher()->Off(type, listener);
+    return true;
+}
+
+bool EventListener::Off() {
+    shared_ptr<EventListener> listener = shared_from_this();
+    Application::CurrentDirector()->dispatcher()->Off(listener);
+    return true;
+}
+
+// EventDispatcher
 
 bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener) {
     if (!IsValidType(type)) {

@@ -28,9 +28,11 @@ struct EventTypeMetadata {
 
 struct Event : public GeneralPoolable {
 public:
-    Event(const EventType t) : type(t) {
+    Event(const EventType& t) : type(t) {
         timestamp = std::time(NULL);
     }
+
+    ~Event() {}
 
     EventType type;
     time_t timestamp;
@@ -40,6 +42,20 @@ class EventListener : public enable_shared_from_this<EventListener> {
 public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
+
+    bool On(const EventType& type);
+    bool Off(const EventType& type);
+    bool Off();
+
+    template <typename E>
+    bool On() {
+        return On(E::TYPE);
+    }
+
+    template <typename E>
+    bool Off() {
+        return Off(E::TYPE);
+    }
 };
 
 class EventDispatcher {
