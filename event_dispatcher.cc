@@ -153,7 +153,7 @@ bool EventDispatcher::Tick(const ii_time max_time) {
 }
 
 bool EventDispatcher::IsValidType(const EventType& type) const {
-    return !type.string().empty();
+    return !type.str().empty();
 }
 
 bool EventDispatcher::IsListerningType(const EventType& type) const {

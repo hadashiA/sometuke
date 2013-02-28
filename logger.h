@@ -150,7 +150,7 @@ static inline string Inspect(const Quad_P3F_C4B_T2F& quad) {
 
 static inline string Inspect(const HashedString& hashed_string) {
     stringstream ss;
-    ss << "{string:" << hashed_string.string() << ", id:" << hashed_string.id() << "}";
+    ss << "{string:" << hashed_string.str() << ", id:" << hashed_string.id() << "}";
     return ss.str();
 }
 
@@ -174,7 +174,7 @@ static inline string Inspect(const SpriteFrame& v) {
         "{rect:" << Inspect(v.rect) <<
         ", rotated:" << Inspect(v.rotated) <<
         ", original_size:" << Inspect(v.original_size) <<
-        ", name:\"" << v.name.string() << "\"" <<
+        ", name:\"" << v.name.str() << "\"" <<
         "}";
     return ss.str();
 }
