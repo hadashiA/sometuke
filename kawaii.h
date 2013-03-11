@@ -12,7 +12,7 @@
 
 
 // process
-#include "kawaii/process_scheduler.h"
+#include "kawaii/process/process_scheduler.h"
 #include "kawaii/event_dispatcher.h"
 
 // resource
@@ -28,7 +28,7 @@
 #include "kawaii/sprite.h"
 
 // process
-#include "kawaii/animate.h"
+#include "kawaii/process/animate.h"
 
 // structs
 #include "kawaii/vector.h"

@@ -3,8 +3,8 @@
 
 #include "types.h"
 #include "actor.h"
-#include "process_scheduler.h"
 #include "event_dispatcher.h"
+#include "process/process_scheduler.h"
 
 #include <vector>
 #include <memory>
@@ -17,7 +17,7 @@ using namespace std;
 
 class Scene;
 class Actor;
-
+    
 typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
 
 class Director : public EventListener {

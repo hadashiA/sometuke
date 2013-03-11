@@ -1,7 +1,6 @@
 #include "director.h"
 
 #include "application.h"
-#include "process_scheduler.h"
 #include "event_dispatcher.h"
 #include "matrix_stack.h"
 #include "logger.h"
