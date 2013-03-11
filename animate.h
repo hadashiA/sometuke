@@ -13,12 +13,13 @@ class Sprite;
 class Animate : public Process {
 public:
     static const HashedString TYPE;
-    Animate(shared_ptr<Animation> animation, shared_ptr<Sprite> target) :
+    Animate(shared_ptr<Sprite> target, shared_ptr<Animation> animation) :
         animation_(animation),
         frame_num_(0),
         elapsed_(0),
         target_(target),
-        original_frame_() {
+        original_frame_(),
+        executed_loops_(0) {
     }
 
     virtual const HashedString& type() {
@@ -34,6 +35,7 @@ private:
     unsigned int frame_num_;
     shared_ptr<Animation> animation_;
     ii_time elapsed_;
+    unsigned int executed_loops_;
 };
 
 }

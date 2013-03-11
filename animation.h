@@ -15,24 +15,22 @@ class SpriteFrame;
 struct AnimationFrame {
     AnimationFrame(shared_ptr<SpriteFrame> f, ii_time t, const char *e = "")
         : sprite_frame(f),
-          time(t),
-          event_type(e) {
+          time(t) {
     }
 
     shared_ptr<SpriteFrame> sprite_frame;
     ii_time time;
-    EventType event_type;
 };
 
 struct Animation {
-    explicit Animation(vector<AnimationFrame> f, bool l=false)
+    explicit Animation(vector<AnimationFrame> f, unsigned int l=1)
         : frame_size(f.size()),
           loops(l),
           frames(f) {
     }
 
     unsigned int frame_size;
-    bool loops;
+    unsigned int loops;
     vector<AnimationFrame> frames;
 };
 

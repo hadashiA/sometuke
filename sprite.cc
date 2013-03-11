@@ -247,7 +247,7 @@ void Sprite::UpdateQuadTexCoords() {
 
 void Sprite::RunAnimation(shared_ptr<Animation> animation) {
     shared_ptr<Sprite> sprite = static_pointer_cast<Sprite>(shared_from_this());
-    shared_ptr<Animate> animate = make_shared<Animate>(animation, sprite);
+    shared_ptr<Animate> animate = make_shared<Animate>(sprite, animation);
     Application::CurrentDirector()->scheduler()->ScheduleFor(animate);
 }
 
