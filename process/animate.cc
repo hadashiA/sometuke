@@ -5,7 +5,7 @@
 
 namespace kawaii {
 
-const HashedString Animate::TYPE("animate");
+const HashedString Animate::TYPE("process:animate");
 
 void Animate::OnEnter() {
     target_->set_display_frame(animation_->frames[frame_num_].sprite_frame);

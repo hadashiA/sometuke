@@ -1,5 +1,5 @@
-#ifndef __kawaii__process_scheduler__
-#define __kawaii__process_scheduler__
+#ifndef __kawaii__process_process_scheduler__
+#define __kawaii__process_process_scheduler__
 
 #include "types.h"
 #include "process.h"
@@ -98,4 +98,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_scheduler__) */
+#endif /* defined(__kawaii__process_process_scheduler__) */

@@ -1,5 +1,5 @@
-#ifndef __kawaii__process__
-#define __kawaii__process__
+#ifndef __kawaii__process_process__
+#define __kawaii__process_process__
 
 #include "hashed_string.h"
 #include "types.h"
@@ -96,4 +96,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process__) */
+#endif /* defined(__kawaii__process_process__) */

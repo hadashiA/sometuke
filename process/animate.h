@@ -1,5 +1,5 @@
-#ifndef __kawaii__animate__
-#define __kawaii__animate__
+#ifndef __kawaii__process_animate__
+#define __kawaii__process_animate__
 
 #include "process.h"
 #include "animation.h"
@@ -40,4 +40,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__animate__) */
+#endif /* defined(__kawaii__process_animate__) */
