@@ -9,10 +9,43 @@ namespace kawaii {
 
 // ProcessTimer
 
-const HashedString ProcessTimer::TYPE("timer");
+const HashedString ProcessTimer::TYPE("process:timer");
 const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
 void ProcessTimer::Update(const ii_time delta_time) {
+    if (!inner_process_->dead()) {
+        // standard timer usage
+        if (run_forever_ && !use_delay_) {
+            elapsed_ += delta_time;
+            if (elapsed_ >= interval_) {
+                inner_process_->Update(elapsed_);
+                elapsed_ = 0;
+            }
+        
+            // advanced usage
+        } else {
+            elapsed_ += delta_time;
+            if (use_delay_) {
+                if (elapsed_ >= delay_) {
+                    inner_process_->Update(elapsed_);
+                    elapsed_ -= delay_;
+                    num_executed_++;
+                    use_delay_ = false;
+                }
+            } else {
+                if (elapsed_ >= interval_) {
+                    inner_process_->Update(elapsed_);
+                    elapsed_ = 0;
+                    num_executed_++;
+                }
+            }
+            
+            if (num_executed_ >= repeat_) {
+                inner_process_->Kill();
+            }
+        }
+    }
+
     if (inner_process_->dead()) {
         shared_ptr<Process> next = inner_process_->next();
         if (next) {
@@ -22,37 +55,6 @@ void ProcessTimer::Update(const ii_time delta_time) {
         } else {
             Kill();
             return;
-        }
-    }
-
-    // standard timer usage
-    if (run_forever_ && !use_delay_) {
-        elapsed_ += delta_time;
-        if (elapsed_ >= interval_) {
-            inner_process_->Update(elapsed_);
-            elapsed_ = 0;
-        }
-        
-        // advanced usage
-    } else {
-        elapsed_ += delta_time;
-        if (use_delay_) {
-            if (elapsed_ >= delay_) {
-                inner_process_->Update(elapsed_);
-                elapsed_ -= delay_;
-                num_executed_++;
-                use_delay_ = false;
-            }
-        } else {
-            if (elapsed_ >= interval_) {
-                inner_process_->Update(elapsed_);
-                elapsed_ = 0;
-                num_executed_++;
-            }
-        }
-            
-        if (num_executed_ >= repeat_) {
-            inner_process_->Kill();
         }
     }
 }

@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <stdarg.h>
+#include <cstdarg>
 
 #if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
 #define IIINFO(...)  do {} while (0)
