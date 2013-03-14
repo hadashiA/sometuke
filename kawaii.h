@@ -29,6 +29,7 @@
 
 // process
 #include "kawaii/process/animate.h"
+#include "kawaii/process/sequence.h"
 
 // structs
 #include "kawaii/vector.h"
