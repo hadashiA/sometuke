@@ -3,6 +3,7 @@
 
 #include "vertices.h"
 #include "node.h"
+#include "sprite_frame.h"
 
 #include <memory>
 #include <string>
@@ -13,7 +14,6 @@ namespace kawaii {
 
 class Texture2D;
 class GLProgram;
-class SpriteFrame;
 class Animation;
 class Animate;
 
@@ -26,7 +26,7 @@ public:
     bool InitWithTexture(shared_ptr<Texture2D> texture);
     bool InitWithTexture(shared_ptr<Texture2D> texture,
                          const Rect& rect, bool rotated = false);
-    bool InitWithSpriteFrame(shared_ptr<SpriteFrame> sprite_frame);
+    bool InitWithSpriteFrame(weak_ptr<SpriteFrame> sprite_frame);
 
     virtual void Render();
 
@@ -45,6 +45,8 @@ public:
     shared_ptr<Texture2D> texture() const {
         return texture_;
     }
+
+    const SpriteFrame& display_frame() const;
 
     const Color3B color() const {
         return (does_opacity_modify_rgb_ ? color_unmodified_ : color_);
@@ -81,7 +83,7 @@ public:
     void set_texture_rect(const Rect& rect);
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
-    void set_display_frame(shared_ptr<SpriteFrame> sprite_frame);
+    void set_display_frame(weak_ptr<SpriteFrame> sprite_frame);
 
     shared_ptr<Animate> CreateAnimate(shared_ptr<Animation> animation);
     void RunAnimation(shared_ptr<Animation> animation);
