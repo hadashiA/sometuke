@@ -45,20 +45,23 @@ bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture,
     return true;
 }
 
-bool Sprite::InitWithSpriteFrame(weak_ptr<SpriteFrame> weak_sprite_frame) {
-    if (shared_ptr<SpriteFrame> sprite_frame = weak_sprite_frame.lock()) {
-        bool result = InitWithTexture(sprite_frame->texture,
-                                      sprite_frame->rect,
-                                      sprite_frame->rotated);
-        if (!result) {
-            return false;
-        }
-        set_display_frame(weak_sprite_frame);
-        
+bool Sprite::InitWithSpriteFrame(weak_ptr<SpriteFrame> weak_frame) {
+    if (shared_ptr<SpriteFrame> frame = weak_frame.lock()) {
+        return InitWithSpriteFrame(*frame.get());
     } else {
         return false;
     }
+}
 
+bool Sprite::InitWithSpriteFrame(const SpriteFrame& frame) {
+    bool result = InitWithTexture(frame.texture,
+                                  frame.rect,
+                                  frame.rotated);
+    if (!result) {
+        return false;
+    }
+    set_display_frame(frame);
+    
     return true;
 }
 
@@ -136,16 +139,27 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     quad_.top_left.pos     = vec3(x1, y2, 0);
     quad_.top_right.pos    = vec3(x2, y2, 0);
 }
-    :
 
-void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_sprite_frame) {
-    if (shared_ptr<SpriteFrame> frame = weak_sprite_frame.lock()) {
-        unflipped_offset_position_from_center_ = frame->offset;
-        texture_ = frame->texture;
-        vertex_rect_rotated_ = frame->rotated;
-        
-        set_texture_rect(frame->rect, vertex_rect_rotated_, frame->original_size);
+SpriteFrame Sprite::display_frame() const {
+    return SpriteFrame(texture_, vertex_rect_,
+                       vertex_rect_rotated_,
+                       unflipped_offset_position_from_center_,
+                       content_size(),
+                       "");
+}
+
+void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_frame) {
+    if (shared_ptr<SpriteFrame> frame = weak_frame.lock()) {
+        set_display_frame(*frame.get());
     }
+}
+
+void Sprite::set_display_frame(const SpriteFrame& frame) {
+    unflipped_offset_position_from_center_ = frame.offset;
+    texture_ = frame.texture;
+    vertex_rect_rotated_ = frame.rotated;
+        
+    set_texture_rect(frame.rect, vertex_rect_rotated_, frame.original_size);
 }
 
 void Sprite::Render() {

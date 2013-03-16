@@ -30,4 +30,9 @@ void Animate::Update(ii_time delta_time) {
     elapsed_ += delta_time;
 }
 
+void Animate::Kill() {
+    Process::Kill();
+    
+}
+
 }

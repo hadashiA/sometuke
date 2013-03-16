@@ -28,6 +28,7 @@ public:
     
     virtual void OnEnter();
     virtual void Update(const ii_time delta_time);
+    virtual void Kill();
 
 private:
     shared_ptr<Sprite> target_;
