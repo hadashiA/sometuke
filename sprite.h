@@ -15,6 +15,7 @@ class Texture2D;
 class GLProgram;
 class SpriteFrame;
 class Animation;
+class Animate;
 
 class Sprite : public Node {
 public:
@@ -82,6 +83,7 @@ public:
                           const vec2& untrimmed_size);
     void set_display_frame(shared_ptr<SpriteFrame> sprite_frame);
 
+    shared_ptr<Animate> CreateAnimate(shared_ptr<Animation> animation);
     void RunAnimation(shared_ptr<Animation> animation);
 
 private:
