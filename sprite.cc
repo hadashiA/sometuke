@@ -140,14 +140,6 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     quad_.top_right.pos    = vec3(x2, y2, 0);
 }
 
-SpriteFrame Sprite::display_frame() const {
-    return SpriteFrame(texture_, vertex_rect_,
-                       vertex_rect_rotated_,
-                       unflipped_offset_position_from_center_,
-                       content_size(),
-                       "");
-}
-
 void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_frame) {
     if (shared_ptr<SpriteFrame> frame = weak_frame.lock()) {
         set_display_frame(*frame.get());

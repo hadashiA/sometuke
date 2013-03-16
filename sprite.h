@@ -47,7 +47,13 @@ public:
         return texture_;
     }
 
-    SpriteFrame display_frame() const;
+    SpriteFrame display_frame() const {
+        return SpriteFrame(texture_, vertex_rect_,
+                           vertex_rect_rotated_,
+                           unflipped_offset_position_from_center_,
+                           content_size(),
+                           "");
+    }
 
     const Color3B color() const {
         return (does_opacity_modify_rgb_ ? color_unmodified_ : color_);

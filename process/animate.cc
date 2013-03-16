@@ -32,7 +32,7 @@ void Animate::Update(ii_time delta_time) {
 
 void Animate::Kill() {
     Process::Kill();
-    
+    target_->set_display_frame(original_frame_);
 }
 
 }

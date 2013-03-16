@@ -3,6 +3,7 @@
 
 #include "process.h"
 #include "animation.h"
+#include "sprite.h"
 
 #include <memory>
 
@@ -18,7 +19,7 @@ public:
         frame_num_(0),
         elapsed_(0),
         target_(target),
-        original_frame_(),
+        original_frame_(target->display_frame()),
         executed_loops_(0) {
     }
 
@@ -32,11 +33,12 @@ public:
 
 private:
     shared_ptr<Sprite> target_;
-    shared_ptr<SpriteFrame> original_frame_;
     unsigned int frame_num_;
     shared_ptr<Animation> animation_;
     ii_time elapsed_;
     unsigned int executed_loops_;
+
+    SpriteFrame original_frame_;
 };
 
 }
