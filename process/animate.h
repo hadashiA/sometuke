@@ -27,9 +27,20 @@ public:
         return Animate::TYPE;
     }
     
-    virtual void OnEnter();
-    virtual void Update(const ii_time delta_time);
-    virtual void Kill();
+    virtual void OnEnter() {
+        frame_num_ = 0;
+        elapsed_ = 0;
+        executed_loops_ = 0;
+        killed_ = false;
+        target_->set_display_frame(animation_->frames[frame_num_].sprite_frame);
+    }
+    
+    virtual void Kill() {
+        Process::Kill();
+        target_->set_display_frame(original_frame_);
+    }
+
+    virtual void Update(const ii_time delta);
 
 private:
     shared_ptr<Sprite> target_;

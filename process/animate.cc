@@ -7,10 +7,6 @@ namespace kawaii {
 
 const HashedString Animate::TYPE("process:animate");
 
-void Animate::OnEnter() {
-    target_->set_display_frame(animation_->frames[frame_num_].sprite_frame);
-}
-
 void Animate::Update(ii_time delta_time) {
     ii_time current_frame_time = animation_->frames[frame_num_].time;
     if (elapsed_ > current_frame_time) {
@@ -28,11 +24,6 @@ void Animate::Update(ii_time delta_time) {
         target_->set_display_frame(sprite_frame);
     }
     elapsed_ += delta_time;
-}
-
-void Animate::Kill() {
-    Process::Kill();
-    target_->set_display_frame(original_frame_);
 }
 
 }
