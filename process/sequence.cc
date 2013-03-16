@@ -5,6 +5,8 @@ namespace kawaii {
 const HashedString Sequence::TYPE("process:sequence");
 
 void Sequence::OnEnter() {
+    shared_ptr<Process> process = processes_.front();
+    process->OnEnter();
 }
 
 void Sequence::Update(const ii_time delta_time) {
@@ -20,6 +22,7 @@ void Sequence::Update(const ii_time delta_time) {
             return;
         }
         process = processes_.front();
+        process->OnEnter();
     }
 }
 
