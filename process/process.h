@@ -19,9 +19,8 @@ public:
     Process()
         : killed_(false),
           paused_(false),
-          is_active_(true),
-          entered_(false),
-          next_(NULL) {
+          initialized_(false),
+          sleeping_(false) {
     }
     
     virtual ~Process() {}
@@ -34,58 +33,50 @@ public:
         return killed_;
     }
 
-    const bool is_active() const {
-        return is_active_;
-    }
-
-    void Activate() {
-        is_active_ = true;
-    }
-
-    void Deactivate() {
-        is_active_ = false;
-    }
-
     const bool paused() const {
         return paused_;
     }
 
-    const bool entered() const {
-        return entered_;
+    const bool initialized() const {
+        return initialized_;
     }
 
-    const shared_ptr<Process> next() const {
-        return next_;
+    const bool sleeping() const {
+        return sleeping_;
     }
 
-    void set_next(shared_ptr<Process> value) {
-        next_ = value;
-    }
-
-    void Visit(const ii_time delta_time) {
-        if (!entered_) {
+    bool Visit(const ii_time delta_time) {
+        if (!initialized_) {
             OnEnter();
-            entered_ = true;
+            initialized_ = true;
         }
         if (!dead()) {
-            Update(delta_time);
+            return Update(delta_time);
         }
+        return false;
     }
     
+    void Kill() {
+        killed_ = true;
+        OnExit();
+    }
+
+    void Sleep()  { sleeping_ = true; }
+    void Wakeup() { sleeping_ = false; }
+    void Pause()  { paused_ = true; }
+    void Resume() { paused_ = false; }
+
     virtual void OnEnter() {}
-    virtual void Update(const ii_time delta) = 0;
-    virtual void Kill()   { killed_ = true; }
-    virtual void Pauce()  { paused_ = true; }
-    virtual void Resume() { paused_ = false; }
+    virtual void OnExit() {}
+    virtual bool Update(const ii_time delta) = 0;
+    
     virtual const HashedString& type() = 0;
 
 protected:
     bool killed_;
     bool paused_;
-    bool is_active_;
+    bool sleeping_;
     bool initialized_;
-    bool entered_;
-    shared_ptr<Process> next_;
 
 private:
     Process(const Process&);

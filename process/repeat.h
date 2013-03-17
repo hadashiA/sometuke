@@ -22,18 +22,21 @@ public:
         inner_process_->OnEnter();
     }
 
-    virtual void Update(const ii_time delta) {
-        if (!inner_process_->dead()) {
-            inner_process_->Update(delta);
-        }
+    virtual void OnExit() {
+        inner_process_->OnExit();
+    }
 
-        if (inner_process_->dead()) {
+    virtual bool Update(const ii_time delta) {
+        bool continued = inner_process_->Visit(delta);
+        if (continued) {
+            return true;
+        } else {
             if (is_forever() || ++num_repeated_ < repeat_) {
                 inner_process_->OnEnter();
-            } else {
-                Kill();
+                return true;
             }
         }
+        return false;
     }
 
     bool is_forever() const {

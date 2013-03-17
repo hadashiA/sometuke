@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <list>
+#include <cassert>
 
 namespace kawaii {
 using namespace std;
@@ -57,13 +58,17 @@ public:
         return inner_process_;
     }
 
+private:    
     virtual void OnEnter() {
-        return inner_process_->OnEnter();
+        inner_process_->OnEnter();
     }
 
-    virtual void Update(const ii_time delta_time);
+    virtual void OnExit() {
+        inner_process_->OnExit();
+    }
 
-private:    
+    virtual bool Update(const ii_time delta_time);
+
     shared_ptr<Process> inner_process_;
     ii_time elapsed_;
     ii_time interval_;
@@ -74,26 +79,49 @@ private:
     int num_executed_;
 };
 
-typedef std::list<shared_ptr<Process> > ProcessList;
+typedef list<shared_ptr<Process> > ProcessList;
 
 class Node;
 
 class ProcessScheduler {
 public:
-    void ScheduleFor(shared_ptr<Process> process);
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval);
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
-                     const unsigned int repeat, const ii_time delay);
-    void ScheduleFor(weak_ptr<Node> node);
+    void ScheduleFor(shared_ptr<Process> process) {
+        processes_.push_back(process);
+    }
 
-    void UnScheduleFor(shared_ptr<Process> process);
-    void UnScheduleFor(weak_ptr<Node> node);
+    void ScheduleFor(shared_ptr<Process> process, const ii_time interval) {
+        Process *timer_ptr = new ProcessTimer(process, interval);
+        shared_ptr<Process> timer(timer_ptr);
+        processes_.push_back(timer);
+    }
+    
+    void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
+                     const unsigned int repeat, const ii_time delay) {
+        Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
+        shared_ptr<Process> timer(timer_ptr);
+        processes_.push_back(timer);
+    }
+
+    void ScheduleFor(weak_ptr<Node> node) {
+        if (!node.expired()) {
+            nodes_.push_back(node);
+        }
+    }
+
+    void UnScheduleFor(shared_ptr<Process> process) {
+        processes_.remove(process);
+    }
+
+    void UnScheduleFor(weak_ptr<Node> node) {
+        assert(false);              // no implemented yet
+        // nodes_.remove(node);
+    }
 
     void Update(const ii_time delta_time);
 
 private:
     ProcessList processes_;
-    std::list<weak_ptr<Node> > nodes_;
+    list<weak_ptr<Node> > nodes_;
 };
 
 }
