@@ -3,6 +3,8 @@
 
 #include "process.h"
 
+#include "logger.h"
+
 #include <memory>
 
 namespace kawaii {
@@ -17,6 +19,10 @@ public:
           num_repeated_(0) {
     }
 
+    virtual const HashedString& type() {
+        return Repeat::TYPE;
+    }
+
     virtual void OnEnter() {
         num_repeated_ = 0;
         inner_process_->OnEnter();
@@ -28,6 +34,7 @@ public:
 
     virtual bool Update(const ii_time delta) {
         bool continued = inner_process_->Visit(delta);
+        
         if (continued) {
             return true;
         } else {

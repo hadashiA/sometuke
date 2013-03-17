@@ -12,12 +12,12 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <cstdarg>
+#include <stdarg.h>
 
 #if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
 #define IIINFO(...)  do {} while (0)
 #define IIWARN(...)  do {} while (0)
-#define IIERROR(...) do {} while (0)
+#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
 
 #elif KAWAII_DEBUG == 1
 #define IIINFO(...)     do {} while (0)

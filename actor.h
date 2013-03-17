@@ -27,7 +27,7 @@ struct ActorStatus : public enable_shared_from_this<ActorStatus> {
 
     virtual ~ActorStatus() {}
 
-    virtual bool Generate() = 0;  // create Actor,Node,
+    virtual bool Appear() = 0;  // create Actor,Node,
 
     actor_id id;
     HashedString type;

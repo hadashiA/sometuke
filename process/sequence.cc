@@ -1,5 +1,7 @@
 #include "sequence.h"
 
+#include "logger.h"
+
 namespace kawaii {
 
 const HashedString Sequence::TYPE("process:sequence");

@@ -30,6 +30,7 @@
 // process
 #include "kawaii/process/animate.h"
 #include "kawaii/process/sequence.h"
+#include "kawaii/process/repeat.h"
 
 // structs
 #include "kawaii/vector.h"
