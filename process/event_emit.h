@@ -3,6 +3,8 @@
 
 #include "event_dispatcher.h"
 
+#include "application.h"
+
 namespace kawaii {
 
 class EventEmit : public Process {
