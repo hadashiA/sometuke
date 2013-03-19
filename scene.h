@@ -11,7 +11,7 @@
 namespace kawaii {
 using namespace std;
 
-class Scene : public EventListener {
+class Scene : public enable_shared_from_this<Scene> {
 public:
     Scene()
         : root_node_(new Node),

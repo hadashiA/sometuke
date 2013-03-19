@@ -38,42 +38,53 @@ public:
     time_t timestamp;
 };
 
-class EventListener : public enable_shared_from_this<EventListener> {
+class EventListener {
 public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
+    virtual bool Enabled() = 0;
+};
 
-    bool On(const EventType& type);
-    bool Off(const EventType& type);
-    bool Off();
-
-    template <typename E>
-    bool On() {
-        return On(E::TYPE);
+template <typename T>
+class EventDelegator : public EventListener {
+public:
+    EventDelegator(weak_ptr<T> handler)
+        : handler_(handler) {
     }
 
-    template <typename E>
-    bool Off() {
-        return Off(E::TYPE);
+    virtual ~EventDelegator() {}
+
+    virtual bool HandleEvent(shared_ptr<Event> e) {
+        if (shared_ptr<T> handler_ptr = handler_.lock()) {
+            return handler_ptr->HandleEvent(e);
+        } else {
+            return false;
+        }
     }
+
+    virtual bool Enabled() {
+        return !!handler_.lock();
+    }
+
+private:
+    weak_ptr<T> handler_;
 };
 
 class EventDispatcher {
 public:
-    // typedef std::map<EventType, EventTypeMetadata> EventTypeTable;
-    typedef std::multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
+    typedef multimap<EventType, shared_ptr<EventListener> > EventListenerTable;
 
     EventDispatcher() :
         active_queue_index_(0) {
     }
 
-    bool On(const EventType& type, weak_ptr<EventListener> listener);
+    bool On(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type);
     bool Off(shared_ptr<EventListener> listener);
 
     template <typename E>
-    bool On(weak_ptr<EventListener> listener) {
+    bool On(shared_ptr<EventListener> listener) {
         return On(E::TYPE, listener);
     }
 
@@ -83,7 +94,7 @@ public:
     }
 
     template <typename E>
-    bool Off(weak_ptr<EventListener> listener) {
+    bool Off(shared_ptr<EventListener> listener) {
         return Off(E::TYPE, listener);
     }
 

@@ -7,35 +7,12 @@
 
 namespace kawaii {
 
-// EventListener
-
-bool EventListener::On(const EventType& type) {
-    shared_ptr<EventListener> listener = shared_from_this();
-    Application::CurrentDirector()->dispatcher()->On(type, listener);
-    return true;
-}
-
-bool EventListener::Off(const EventType& type) {
-    shared_ptr<EventListener> listener = shared_from_this();
-    Application::CurrentDirector()->dispatcher()->Off(type, listener);
-    return true;
-}
-
-bool EventListener::Off() {
-    shared_ptr<EventListener> listener = shared_from_this();
-    Application::CurrentDirector()->dispatcher()->Off(listener);
-    return true;
-}
-
-// EventDispatcher
-
-bool EventDispatcher::On(const EventType& type, weak_ptr<EventListener> listener) {
+bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
     if (!IsValidType(type)) {
         return false;
     }
 
-    weak_ptr<EventListener> listener_ref = listener;
-    std::pair<EventType, weak_ptr<EventListener> > pair(type, listener_ref);
+    pair<EventType, shared_ptr<EventListener> > pair(type, listener);
     listeners_.insert(pair);
 
     return true;
@@ -52,8 +29,7 @@ bool EventDispatcher::Off(const EventType& type) {
 
 bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     for (EventListenerTable::iterator i = listeners_.begin(); i != listeners_.end();) {
-        weak_ptr<EventListener> ref = i->second;
-        if (listener == ref.lock()) {
+        if (listener == i->second) {
             listeners_.erase(i++);
         } else {
             ++i;
@@ -63,11 +39,10 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
 }
 
 bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> listener) {
-    std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
+    pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        weak_ptr<EventListener> ref = i->second;
-        if (listener == ref.lock()) {
+        if (listener == i->second) {
             listeners_.erase(i++);
         } else {
             ++i;
@@ -85,11 +60,11 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
 
     bool emitted = false;
 
-    std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
+    pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        weak_ptr<EventListener> listener_ref = i->second;
-        if (shared_ptr<EventListener> listener = listener_ref.lock()) {
+        shared_ptr<EventListener> listener = i->second;
+        if (listener->Enabled()) {
             emitted = true;
             listener->HandleEvent(event);
             ++i;
@@ -128,8 +103,8 @@ bool EventDispatcher::Tick(const ii_time max_time) {
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            weak_ptr<EventListener> listener_ref = i->second;
-            if (shared_ptr<EventListener> listener = listener_ref.lock()) {
+            shared_ptr<EventListener> listener = i->second;
+            if (listener->Enabled()) {
                 if (listener->HandleEvent(event)) {
                     break;
                 }
