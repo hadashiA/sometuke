@@ -102,6 +102,14 @@ public:
     bool Queue(shared_ptr<Event> event);
     bool Tick(const ii_time max_time);
 
+    template <typename T>
+    shared_ptr<EventListener> CreateListener(T *handler) {
+        shared_ptr<T> handler_ptr =
+            static_pointer_cast<T>(handler->shared_from_this());
+        shared_ptr<EventListener> listener(new EventDelegator<T>(handler_ptr));
+        return listener;
+    }
+
 private:
     bool IsValidType(const EventType& type) const;
     bool IsListerningType(const EventType& type) const;
