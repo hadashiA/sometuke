@@ -45,7 +45,7 @@ public:
         return sleeping_;
     }
 
-    bool Visit(const ii_time delta_time) {
+    virtual bool Visit(const ii_time delta_time) {
         if (!initialized_) {
             OnEnter();
             initialized_ = true;
