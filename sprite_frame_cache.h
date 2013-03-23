@@ -36,6 +36,10 @@ private:
     typedef unordered_map<unsigned long, shared_ptr<SpriteFrame> > SpriteFrameTable;
 
     SpriteFrameCache() {}
+
+    SpriteFrameCache(const SpriteFrameCache&);
+    SpriteFrameCache& operator=(const SpriteFrameCache&);
+
     void AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
                                 const string& name,
                                 const picojson::value& frame_json);

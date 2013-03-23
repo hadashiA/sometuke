@@ -50,6 +50,9 @@ public:
 private:
     ShaderCache() {}
 
+    ShaderCache(const ShaderCache&);
+    ShaderCache& operator=(const ShaderCache&);
+
     shared_ptr<GLProgram> shaders_[kShaderLabel_Max];
 };
 

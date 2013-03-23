@@ -22,9 +22,16 @@ private:
     typedef unordered_map<unsigned int, shared_ptr<Texture2D> > TextureTable;
 
     TextureCache() {}
+
+    TextureCache(const TextureCache&);
+    TextureCache& operator=(const TextureCache&);
+
     TextureTable textures_;
 };
 
 }
 
 #endif /* defined(__kawaii__texture_cache__) */
+
+
+

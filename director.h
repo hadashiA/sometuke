@@ -66,6 +66,9 @@ public:
     }
 
 private:
+    Director(const Director&);
+    Director& operator=(const Director&);
+
     void ShowStats();
 
     unique_ptr<ProcessScheduler> scheduler_;

@@ -40,6 +40,9 @@ private:
         stack_.push_back(mat4::Identity());
     }
 
+    MatrixStack(const MatrixStack&);
+    MatrixStack& operator=(const MatrixStack&);
+
     vector<mat4> stack_;
 };
 

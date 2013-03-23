@@ -65,6 +65,9 @@ private:
           content_scale_factor_(1) {
         set_animation_interval(1.0 / 60);
     };
+
+    Application(const Application&);
+    Application& operator=(const Application&);
     
     vec2 size_in_points_;
     vec2 size_in_pixels_;
