@@ -81,7 +81,7 @@ public:
     }
 
     const vec2 content_size() const {
-        return content_size_ / Application::Current()->content_scale_factor();
+        return content_size_ / Application::Instance().content_scale_factor();
     }
 
     bool LoadData(const void* data, PixelFormat pixel_format,

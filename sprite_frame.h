@@ -54,7 +54,7 @@ public:
 
 private:
     void UpdatePixelSize() {
-        float content_scale_factor = Application::Current()->content_scale_factor();
+        float content_scale_factor = Application::Instance().content_scale_factor();
         rect_in_pixels = rect * content_scale_factor;
         offset_in_pixels = offset * content_scale_factor;
         original_size_in_pixels = original_size * content_scale_factor;

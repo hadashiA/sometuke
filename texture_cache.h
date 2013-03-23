@@ -11,9 +11,9 @@ class Texture2D;
 
 class TextureCache {
 public:
-    static unique_ptr<TextureCache>& Shared() {
-        static unique_ptr<TextureCache> __shared(new TextureCache);
-        return __shared;
+    static TextureCache& Instance() {
+        static unique_ptr<TextureCache> __instance(new TextureCache);
+        return *__instance;
     }
 
     shared_ptr<Texture2D> FetchFromPath(const string& path);

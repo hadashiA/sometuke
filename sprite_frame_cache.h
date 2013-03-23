@@ -16,9 +16,9 @@ class Texture2D;
 
 class SpriteFrameCache {
 public:
-    static unique_ptr<SpriteFrameCache>& Shared() {
+    static SpriteFrameCache& Instance() {
         static unique_ptr<SpriteFrameCache> __shared(new SpriteFrameCache);
-        return __shared;
+        return *__shared;
     }
 
     bool AddSpriteFramesWithFile(const string& json_path);

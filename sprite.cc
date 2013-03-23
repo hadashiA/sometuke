@@ -23,7 +23,7 @@ Sprite::Sprite()
       fliped_(false, false),
       offset_position_(0, 0),
       unflipped_offset_position_from_center_(0, 0) {
-    shader_program_ = ShaderCache::Shared()->get(kShader_PositionTextureColor);
+    shader_program_ = ShaderCache::Instance()[kShader_PositionTextureColor];
 
     std::memset(&quad_, 0, sizeof(quad_));
 
@@ -207,7 +207,7 @@ void Sprite::UpdateQuadColor() {
 }
 
 void Sprite::UpdateQuadTexCoords() {
-    Rect rect = vertex_rect_ * Application::Current()->content_scale_factor();
+    Rect rect = vertex_rect_ * Application::Instance().content_scale_factor();
     float atlas_width  = texture_->pixel_size().x;
     float atlas_height = texture_->pixel_size().y;
     float left, right, top, bottom;
@@ -268,7 +268,7 @@ shared_ptr<Animate> Sprite::CreateAnimate(shared_ptr<Animation> animation) {
 void Sprite::RunAnimation(shared_ptr<Animation> animation) {
     shared_ptr<Sprite> sprite = static_pointer_cast<Sprite>(shared_from_this());
     shared_ptr<Animate> animate(new Animate(sprite, animation));
-    Application::CurrentDirector()->scheduler()->ScheduleFor(animate);
+    Application::Instance().director().scheduler().ScheduleFor(animate);
 }
 
 }

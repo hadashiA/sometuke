@@ -19,7 +19,7 @@ public:
     }
 
     virtual bool Update(const ii_time delta) {
-        Application::CurrentDirector()->dispatcher()->Queue(event_);
+        Application::Instance().director().dispatcher().Queue(event_);
         return false;
     }
 

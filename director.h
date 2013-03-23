@@ -35,12 +35,12 @@ public:
     // virtual void Update(const ii_time delta_time) = 0;
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
     
-    unique_ptr<ProcessScheduler>& scheduler() {
-        return scheduler_;
+    ProcessScheduler& scheduler() {
+        return *scheduler_;
     }
 
-    unique_ptr<EventDispatcher>& dispatcher() {
-        return event_dispatcher_;
+    EventDispatcher& dispatcher() {
+        return *event_dispatcher_;
     }
 
     void ReshapeProjection();

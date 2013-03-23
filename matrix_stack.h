@@ -10,19 +10,19 @@ using namespace std;
 
 class MatrixStack {
 public:
-    static unique_ptr<MatrixStack>& GLProjection() {
+    static MatrixStack& GLProjection() {
         static unique_ptr<MatrixStack> __gl_projection(new MatrixStack);
-        return __gl_projection;
+        return *__gl_projection;
     }
 
-    static unique_ptr<MatrixStack>& GLModelView() {
+    static MatrixStack& GLModelView() {
         static unique_ptr<MatrixStack> __gl_model_view(new MatrixStack);
-        return __gl_model_view;
+        return* __gl_model_view;
     }
 
-    static unique_ptr<MatrixStack>& GLTexture() {
+    static MatrixStack& GLTexture() {
         static unique_ptr<MatrixStack> __gl_texture(new MatrixStack);
-        return __gl_texture;
+        return *__gl_texture;
     }
 
     mat4& Push() {

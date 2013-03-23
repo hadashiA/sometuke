@@ -118,9 +118,9 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        std::unique_ptr<kawaii::Application>& kawaii_app = kawaii::Application::Current();
-        kawaii_app->set_content_scale_factor(scale);
-        kawaii_app->Resize(size.width, size.height);
+        kawaii::Application& app = kawaii::Application::Instance();
+        app.set_content_scale_factor(scale);
+        app.Resize(size.width, size.height);
 
         // [self mainLoop:nil];
     }
@@ -250,7 +250,7 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    kawaii::Application::Current()->Resize(backingWidth_, backingHeight_);
+    kawaii::Application::Instance().Resize(backingWidth_, backingHeight_);
 
     [self mainLoop:nil];
 }
@@ -262,7 +262,7 @@
     [EAGLContext setCurrentContext:context_];
 
     [self calculateDeltaTime];
-    kawaii::Application::Current()->director()->MainLoop(dt_);
+    kawaii::Application::Instance().director().MainLoop(dt_);
     [self swapBuffers];
 }
 
@@ -271,7 +271,7 @@
         return;
     }
 
-    int frameInterval = (int)floor(kawaii::Application::Current()->animation_interval() * 60.0f);
+    int frameInterval = (int)floor(kawaii::Application::Instance().animation_interval() * 60.0f);
     displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
     [displayLink_ setFrameInterval:frameInterval];
 

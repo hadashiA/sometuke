@@ -38,9 +38,9 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    unique_ptr<Application>& application = Application::Current();
-    string vShaderSource = application->assets()->ReadString(vShaderFilename);
-    string fShaderSource = application->assets()->ReadString(fShaderFilename);
+    Application& application = Application::Instance();
+    string vShaderSource = application.assets().ReadString(vShaderFilename);
+    string fShaderSource = application.assets().ReadString(fShaderFilename);
     
     return LoadShaderSources(vShaderSource.c_str(), fShaderSource.c_str());
 }
@@ -135,8 +135,8 @@ void GLProgram::UpdateUniformLocations() {
 }
 
 void GLProgram::SetUniformsForBuiltins() {
-    mat4& projection = MatrixStack::GLProjection()->Top();
-    mat4& model_view = MatrixStack::GLModelView()->Top();
+    mat4& projection = MatrixStack::GLProjection().Top();
+    mat4& model_view = MatrixStack::GLModelView().Top();
     mat4 model_view_projection = model_view * projection;
 
     SetUniformMatrix4fv(kUniform_MVPMatrix, model_view_projection.Pointer());

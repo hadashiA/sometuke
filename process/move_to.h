@@ -9,7 +9,7 @@ namespace kawaii {
 
 class MoveTo : public Process {
 public:
-    MoveTo(actor_id id, const vec3 to, const ii_time duration)
+    MoveTo(actor_id id, const vec3 to, const ii_time duration);
 
 private:
     vec3 from_;

@@ -16,13 +16,9 @@ class Assets;
 
 class Application {
 public:
-    static unique_ptr<Application>& Current() {
+    static Application& Instance() {
         static unique_ptr<Application> __instance(new Application);
-        return __instance;
-    }
-
-    static shared_ptr<Director> CurrentDirector() {
-        return Current()->director();
+        return *__instance;
     }
 
     bool Init(Director *director, Assets *assets);
@@ -53,12 +49,12 @@ public:
         animation_interval_ = value;
     }
 
-    unique_ptr<Assets>& assets() {
-        return assets_;
+    Assets& assets() {
+        return *assets_;
     }
 
-    shared_ptr<Director> director() {
-        return director_;
+    Director& director() {
+        return *director_;
     }
 
 private:

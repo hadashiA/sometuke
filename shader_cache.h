@@ -25,14 +25,14 @@ typedef enum {
 
 class ShaderCache {
 public:
-    static unique_ptr<ShaderCache>& Shared() {
+    static ShaderCache& Instance() {
         static unique_ptr<ShaderCache> __instance;
         if (!__instance) {
             __instance.reset(new ShaderCache);
             __instance->LoadDefaultShaders();
         }
 
-        return __instance;
+        return *__instance;
     }
 
     shared_ptr<GLProgram> operator[](ShaderLabel key) {

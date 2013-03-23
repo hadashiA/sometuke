@@ -23,8 +23,8 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
     loaded_filenames_.insert(hashed_json_path.id());
 
-    unique_ptr<Assets>& assets = Application::Current()->assets();
-    const string& path = assets->FullPathFromRelativePath(json_path);
+    Assets& assets = Application::Instance().assets();
+    const string& path = assets.FullPathFromRelativePath(json_path);
     ifstream io(path);
 
     picojson::value json;
@@ -54,7 +54,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
     }
 
     const string& texture_filename = metadata.get("image").get<string>();
-    shared_ptr<Texture2D> texture = TextureCache::Shared()->FetchFromPath(texture_filename);
+    shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(texture_filename);
 
     picojson::value frames = json.get("frames");
     if (frames.is<picojson::array>()) {

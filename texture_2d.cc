@@ -124,7 +124,7 @@ bool Texture2D::LoadData(const void* data, PixelFormat pixel_format,
 
     has_premultipled_alpha_ = false;
 
-    shader_program_ = ShaderCache::Shared()->get(kShader_PositionTexture);
+    shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
     return true;
 }
 
