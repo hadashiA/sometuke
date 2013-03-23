@@ -8,21 +8,16 @@
 namespace kawaii {
 using namespace std;
 
+struct GLProjection {};
+struct GLModelView {};
+struct GLTexture {};
+
+template <typename T>
 class MatrixStack {
 public:
-    static MatrixStack& GLProjection() {
-        static unique_ptr<MatrixStack> __gl_projection(new MatrixStack);
-        return *__gl_projection;
-    }
-
-    static MatrixStack& GLModelView() {
-        static unique_ptr<MatrixStack> __gl_model_view(new MatrixStack);
-        return* __gl_model_view;
-    }
-
-    static MatrixStack& GLTexture() {
-        static unique_ptr<MatrixStack> __gl_texture(new MatrixStack);
-        return *__gl_texture;
+    static MatrixStack& Instance() {
+        static unique_ptr<MatrixStack<T> > __instance(new MatrixStack);
+        return *__instance;
     }
 
     mat4& Push() {

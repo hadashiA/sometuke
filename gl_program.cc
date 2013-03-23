@@ -135,8 +135,8 @@ void GLProgram::UpdateUniformLocations() {
 }
 
 void GLProgram::SetUniformsForBuiltins() {
-    mat4& projection = MatrixStack::GLProjection().Top();
-    mat4& model_view = MatrixStack::GLModelView().Top();
+    mat4& projection = MatrixStack<GLProjection>::Instance().Top();
+    mat4& model_view = MatrixStack<GLModelView>::Instance().Top();
     mat4 model_view_projection = model_view * projection;
 
     SetUniformMatrix4fv(kUniform_MVPMatrix, model_view_projection.Pointer());

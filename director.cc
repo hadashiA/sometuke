@@ -18,12 +18,12 @@ void Director::ReshapeProjection() {
     
     glViewport(0, 0, size_in_points.x, size_in_points.y);
 
-    mat4& projection = MatrixStack::GLProjection().Push();
+    mat4& projection = MatrixStack<GLProjection>::Instance().Push();
     float zeye = size_in_pixels.y / 1.1566f / content_scale_factor;
     projection = mat4::Perspective(60, size_in_points.x / size_in_points.y,
                                    0.1f, zeye * 2);
 
-    mat4& model_view = MatrixStack::GLModelView().Push();
+    mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
     vec3 eye(size_in_points.x / 2, size_in_points.y / 2, zeye);
     vec3 center(size_in_points.x / 2, size_in_points.y / 2, 0);
     vec3 up(0, 1, 0);

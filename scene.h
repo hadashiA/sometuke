@@ -27,11 +27,11 @@ public:
 
     void Render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        MatrixStack::GLModelView().Push();
+        MatrixStack<GLModelView>::Instance().Push();
 
         root_node_->Visit();
 
-        MatrixStack::GLModelView().Pop();
+        MatrixStack<GLModelView>::Instance().Pop();
     }
 
     void AddChild(actor_id id, shared_ptr<Node> node) {

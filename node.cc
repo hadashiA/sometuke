@@ -93,7 +93,7 @@ void Node::AddChild(shared_ptr<Node> child) {
 void Node::Visit() {
     if (!is_visible_) return;
 
-    mat4& model_view = MatrixStack::GLModelView().Push();
+    mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
 
     model_view *= LocalTransform();
 
@@ -117,7 +117,7 @@ void Node::Visit() {
         Render();
     }
 
-    MatrixStack::GLModelView().Pop();
+    MatrixStack<GLModelView>::Instance().Pop();
 }
 
 }
