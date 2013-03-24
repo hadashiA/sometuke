@@ -61,7 +61,11 @@ public:
         actor_table_[id] = actor;
     }
     
-    const shared_ptr<Actor> ActorById(const actor_id id) {
+    const shared_ptr<Actor> ActorForId(const actor_id id) {
+        return actor_table_[id];
+    }
+
+    const shared_ptr<Actor> operator[](const actor_id id) {
         return actor_table_[id];
     }
 
