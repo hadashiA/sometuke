@@ -31,9 +31,7 @@ public:
         Director& director = Application::Instance().director();
         shared_ptr<Actor> actor = director.ActorForId(actor_id_);
         if (actor) {
-            vec3 pos(from_.x + delta_.x * progress,
-                     from_.y + delta_.y * progress,
-                     from_.z + delta_.z * progress);
+            vec3 pos = from_ + (delta_ * progress);
             IIINFO("%s", IIINSPECT(pos));
         } else {
             return false;
