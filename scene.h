@@ -11,7 +11,7 @@
 namespace kawaii {
 using namespace std;
 
-typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
+typedef unordered_map<ActorId, shared_ptr<Actor> > ActorTable;
 
 class Scene : public Node {
 public:
@@ -34,11 +34,11 @@ public:
         AddChild(actor);
     }
 
-    shared_ptr<Actor> GetActor(const actor_id id) {
+    shared_ptr<Actor> GetActor(const ActorId id) {
         return actors_[id];
     }
 
-    shared_ptr<Actor> operator[](const actor_id id) {
+    shared_ptr<Actor> operator[](const ActorId id) {
         return actors_[id];
     }
 

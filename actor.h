@@ -9,7 +9,7 @@
 
 namespace kawaii {
 
-typedef unsigned int actor_id;
+typedef unsigned int ActorId;
 typedef HashedString ActorType;
 
 class Actor : public Node {
@@ -26,7 +26,7 @@ public:
 
     virtual ~Actor() {}
 
-    const actor_id id() const {
+    const ActorId id() const {
         return id_;
     }
 
@@ -35,7 +35,7 @@ public:
     }
 
 protected:
-    actor_id id_;
+    ActorId id_;
     HashedString type_;
 };
 

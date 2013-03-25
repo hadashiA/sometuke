@@ -10,9 +10,9 @@ namespace kawaii {
 
 class MoveTo : public Interval {
 public:
-    MoveTo(actor_id id, const vec3 to, const ii_time duration)
+    MoveTo(ActorId id, const vec3 to, const ii_time duration)
         : Interval(duration),
-          actor_id_(id),
+          ActorId_(id),
           to_(to) {
         OnEnter();
     }
@@ -20,7 +20,7 @@ public:
     virtual ~MoveTo() {}
 
     virtual void OnEnter() {
-        //shared_ptr<Actor> actor = Application::Instance().director()[actor_id_];
+        //shared_ptr<Actor> actor = Application::Instance().director()[ActorId_];
         //if (actor) {
             // from_  = actor->position;
             // delta_ = to_ - from_;
@@ -29,7 +29,7 @@ public:
 
     virtual bool Update(const float progress) {
         //Director& director = Application::Instance().director();
-        //shared_ptr<Actor> actor = director.ActorForId(actor_id_);
+        //shared_ptr<Actor> actor = director.ActorForId(ActorId_);
         //if (actor) {
         //    vec3 pos = from_ + (delta_ * progress);
         //    IIINFO("%s", IIINSPECT(pos));
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    actor_id actor_id_;
+    ActorId ActorId_;
     vec3 from_;
     vec3 to_;
     vec3 delta_;
