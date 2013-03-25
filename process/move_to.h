@@ -20,22 +20,22 @@ public:
     virtual ~MoveTo() {}
 
     virtual void OnEnter() {
-        shared_ptr<Actor> actor = Application::Instance().director()[actor_id_];
-        if (actor) {
+        //shared_ptr<Actor> actor = Application::Instance().director()[actor_id_];
+        //if (actor) {
             // from_  = actor->position;
             // delta_ = to_ - from_;
-        }
+        //}
     }
 
     virtual bool Update(const float progress) {
-        Director& director = Application::Instance().director();
-        shared_ptr<Actor> actor = director.ActorForId(actor_id_);
-        if (actor) {
-            vec3 pos = from_ + (delta_ * progress);
-            IIINFO("%s", IIINSPECT(pos));
-        } else {
+        //Director& director = Application::Instance().director();
+        //shared_ptr<Actor> actor = director.ActorForId(actor_id_);
+        //if (actor) {
+        //    vec3 pos = from_ + (delta_ * progress);
+        //    IIINFO("%s", IIINSPECT(pos));
+        //} else {
             return false;
-        }
+        //}
     }
 
 private:

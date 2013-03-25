@@ -1,8 +1,8 @@
 #ifndef __kawaii__scene__
 #define __kawaii__scene__
 
-#include "node.h"
-#include "event_dispatcher.h"
+#include "actor.h"
+#include "application.h"
 #include "matrix_stack.h"
 
 #include <memory>
@@ -11,41 +11,39 @@
 namespace kawaii {
 using namespace std;
 
-class Scene : public enable_shared_from_this<Scene> {
-public:
-    Scene()
-        : root_node_(new Node),
-          node_for_actor_id_() {
-    }
+typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
 
+class Scene : public Node {
+public:
     virtual ~Scene() {}
 
-    virtual bool Init() { return true; }
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
     virtual bool HandleEvent(shared_ptr<Event> event) { return true; }
 
-    void Render() {
+    virtual void Render() {
+        glClearColor(0.5, 0.5, 0.5, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        MatrixStack<GLModelView>::Instance().Push();
+        // MatrixStack<GLModelView>::Instance().Push();
 
-        root_node_->Visit();
+        // Visit();
 
-        MatrixStack<GLModelView>::Instance().Pop();
+        // MatrixStack<GLModelView>::Instance().Pop();
     }
 
-    void AddChild(actor_id id, shared_ptr<Node> node) {
-        node_for_actor_id_[id] = node;
-        root_node_->AddChild(node);
+    void AddActor(shared_ptr<Actor> actor) {
+        actors_[actor->id()] = actor;
+        AddChild(actor);
     }
 
-    shared_ptr<Node> ActorForId(const actor_id aid) {
-        return node_for_actor_id_[aid];
+    shared_ptr<Actor> GetActor(const actor_id id) {
+        return actors_[id];
+    }
+
+    shared_ptr<Actor> operator[](const actor_id id) {
+        return actors_[id];
     }
 
 protected:
-    shared_ptr<Node> root_node_;
-    unordered_map<actor_id, shared_ptr<Node> > node_for_actor_id_;
+    ActorTable actors_;
 };
 
 }

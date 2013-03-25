@@ -3,53 +3,40 @@
 
 #include "vector.h"
 #include "hashed_string.h"
+#include "node.h"
 
 #include <memory>
 
 namespace kawaii {
 
 typedef unsigned int actor_id;
+typedef HashedString ActorType;
 
-class Actor;
-class Node;
-
-struct ActorStatus : public enable_shared_from_this<ActorStatus> {
+class Actor : public Node {
+public:
     static int NextId() {
         static int __last_id = 0;
         return ++__last_id;
     }
 
-    ActorStatus(const HashedString& t, const vec3 p = vec3(0, 0, 0))
-        : type(t),
-          position(p) {
-        id = ActorStatus::NextId();
+    Actor(const HashedString& t)
+        : type_(t),
+          id_(Actor::NextId()) {
     }
 
-    virtual ~ActorStatus() {}
-
-    virtual bool Appear() = 0;  // create Actor,Node,
-
-    actor_id id;
-    HashedString type;
-    vec3 position;
-};
-
-class Actor {
-public:
-    Actor(shared_ptr<ActorStatus> status) :
-        status_(status) {
-    }
+    virtual ~Actor() {}
 
     const actor_id id() const {
-        return status_->id;
+        return id_;
     }
 
-    const shared_ptr<ActorStatus>& status() const {
-        return status_;
+    const HashedString type() const {
+        return type_;
     }
 
-private:
-    shared_ptr<ActorStatus> status_;
+protected:
+    actor_id id_;
+    HashedString type_;
 };
 
 }

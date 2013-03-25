@@ -1,7 +1,7 @@
 #include "node.h"
 
 #include "matrix_stack.h"
-
+#include "application.h"
 #include "logger.h"
 
 #include <cassert>
@@ -118,6 +118,11 @@ void Node::Visit() {
     }
 
     MatrixStack<GLModelView>::Instance().Pop();
+}
+
+void Node::ScheduleUpdate() {
+    ProcessScheduler& scheduler = Application::Instance().director().scheduler();
+    scheduler.ScheduleFor(shared_from_this());
 }
 
 }

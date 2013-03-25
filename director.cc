@@ -37,7 +37,7 @@ void Director::MainLoop(const ii_time delta_time) {
     scheduler_->Update(delta_time);
 
     if (running_scene_) {
-        running_scene_->Render();
+        running_scene_->Visit();
     }
 
     // Update(delta_time);

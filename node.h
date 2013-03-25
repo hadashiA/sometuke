@@ -177,12 +177,12 @@ public:
     mat4 WorldTransform();
 
     vec3 WorldPosition();
-    void SetWorldPosition(const vec3& world_position);
+    // void SetWorldPosition(const vec3& world_position);
 
     vec3 WorldPositionAt(const vec3& local_position);
     vec3 LocalPositionAt(const vec3& world_position);
 
-private:    
+protected:    
     vec3 local_position_;
     vec2 scale_;
     float rotation_;

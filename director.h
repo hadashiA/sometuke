@@ -18,8 +18,6 @@ using namespace std;
 class Scene;
 class Actor;
     
-typedef unordered_map<actor_id, shared_ptr<Actor> > ActorTable;
-
 class Director : public enable_shared_from_this<Director> {
 public:
     Director()
@@ -55,20 +53,7 @@ public:
     shared_ptr<Scene> scene() {
         return running_scene_;
     }
-
-    void AddActor(shared_ptr<Actor> actor) {
-        actor_id id = actor->id();
-        actor_table_[id] = actor;
-    }
     
-    const shared_ptr<Actor> ActorForId(const actor_id id) {
-        return actor_table_[id];
-    }
-
-    const shared_ptr<Actor> operator[](const actor_id id) {
-        return actor_table_[id];
-    }
-
 private:
     Director(const Director&);
     Director& operator=(const Director&);
@@ -82,10 +67,6 @@ private:
     // scene staff
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
-
-    // actor staff
-    ActorTable actor_table_;
-    unordered_map<actor_id, shared_ptr<Node> > node_for_actor_id_;
 
     // stats
     bool display_stats_;
