@@ -57,7 +57,7 @@ public:
         processes_.push_back(five);
     }
 
-    virtual const HashedString& type() {
+    virtual const HashedString& type() const {
         return Sequence::TYPE;
     }
 

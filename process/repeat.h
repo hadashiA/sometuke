@@ -19,7 +19,7 @@ public:
           num_repeated_(0) {
     }
 
-    virtual const HashedString& type() {
+    virtual const HashedString& type() const {
         return Repeat::TYPE;
     }
 

@@ -23,7 +23,7 @@ public:
         executed_loops_(0) {
     }
 
-    virtual const HashedString& type() {
+    virtual const HashedString& type() const {
         return Animate::TYPE;
     }
 

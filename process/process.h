@@ -70,7 +70,7 @@ public:
     virtual void OnExit() {}
     virtual bool Update(const ii_time delta) = 0;
     
-    virtual const HashedString& type() = 0;
+    virtual const HashedString& type() const = 0;
 
 protected:
     bool killed_;

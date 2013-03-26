@@ -50,7 +50,7 @@ public:
           run_forever_(repeat == REPEAT_FOREVER) {
     }
 
-    virtual const HashedString& type() {
+    virtual const HashedString& type() const {
         return ProcessTimer::TYPE;
     }
 

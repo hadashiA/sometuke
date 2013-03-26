@@ -14,7 +14,7 @@ public:
     EventEmit(shared_ptr<Event> event)
         : event_(event){}
 
-    const HashedString& type() {
+    const HashedString& type() const {
         return TYPE;
     }
 

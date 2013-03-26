@@ -3,43 +3,47 @@
 
 #include "interval.h"
 
-#include "application.h"
-#include "logger.h"
+#include "node.h"
+
+#include <memory>
 
 namespace kawaii {
 
 class MoveTo : public Interval {
 public:
-    MoveTo(ActorId id, const vec3 to, const ii_time duration)
+    static const HashedString TYPE;
+
+    MoveTo(weak_ptr<Node> target, const ii_time duration, const vec3 to)
         : Interval(duration),
-          ActorId_(id),
+          target_(target),
           to_(to) {
         OnEnter();
     }
 
     virtual ~MoveTo() {}
 
-    virtual void OnEnter() {
-        //shared_ptr<Actor> actor = Application::Instance().director()[ActorId_];
-        //if (actor) {
-            // from_  = actor->position;
-            // delta_ = to_ - from_;
-        //}
+    virtual const HashedString& type() const {
+        return MoveTo::TYPE;
     }
 
-    virtual bool Update(const float progress) {
-        //Director& director = Application::Instance().director();
-        //shared_ptr<Actor> actor = director.ActorForId(ActorId_);
-        //if (actor) {
-        //    vec3 pos = from_ + (delta_ * progress);
-        //    IIINFO("%s", IIINSPECT(pos));
-        //} else {
-            return false;
-        //}
+    virtual void OnEnter() {
+        if (shared_ptr<Node> node = target_.lock()) {
+            from_  = node->local_position();
+            delta_ = to_ - from_;
+        }
+    }
+
+    virtual bool Update(const ii_time progress) {
+        if (shared_ptr<Node> node = target_.lock()) {
+            vec3 pos = from_ + (delta_ * progress);
+            node->set_local_position(pos);
+            return true;
+        }
+        return false;
     }
 
 private:
-    ActorId ActorId_;
+    weak_ptr<Node> target_;
     vec3 from_;
     vec3 to_;
     vec3 delta_;
