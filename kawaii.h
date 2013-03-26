@@ -33,6 +33,7 @@
 #include "kawaii/process/repeat.h"
 #include "kawaii/process/event_emit.h"
 #include "kawaii/process/move_to.h"
+#include "kawaii/process/move_by.h"
 
 // structs
 #include "kawaii/vector.h"
