@@ -12,7 +12,7 @@ namespace kawaii {
 class Node;
 class Sequence;
 
-class NodeProcessRelation : public GeneralPoolable {
+class NodeProcessRelation {
 public:
     NodeProcessRelation(weak_ptr<Node> target)
         : target_(target),
