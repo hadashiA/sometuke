@@ -34,6 +34,7 @@
 #include "kawaii/process/event_emit.h"
 #include "kawaii/process/move_to.h"
 #include "kawaii/process/move_by.h"
+#include "kawaii/process/node_process_relation.h"
 
 // structs
 #include "kawaii/vector.h"

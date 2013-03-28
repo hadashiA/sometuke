@@ -13,6 +13,11 @@ class Sequence : public Process {
 public:
     static const HashedString TYPE;
 
+    Sequence()
+        : processes_(),
+          current_(0) {
+    }
+
     Sequence(vector<shared_ptr<Process> > list)
         : processes_(list),
           current_(0) {
@@ -73,13 +78,13 @@ public:
 
     virtual bool Update(const ii_time delta_time);
 
-    shared_ptr<Sequence> Add(shared_ptr<Process> process) {
+    shared_ptr<Sequence> Push(shared_ptr<Process> process) {
         processes_.push_back(process);
         return static_pointer_cast<Sequence>(shared_from_this());
     }
 
     shared_ptr<Sequence> operator<<(shared_ptr<Process> process) {
-        return Add(process);
+        return Push(process);
     }
 
 private:
