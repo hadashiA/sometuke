@@ -17,7 +17,7 @@ public:
         : target_(target) {}
 
     virtual ~NodeProcessRelation() {
-        Application::Instance().director().scheduler().ScheduleFor(sequence_);
+        Application::Instance().director().scheduler().Attach(sequence_);
     }
 
 private:

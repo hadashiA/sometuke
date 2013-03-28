@@ -53,13 +53,13 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         ++iter;
             
         if (p->dead()) {
-            UnScheduleFor(p);
+            Detach(p);
         }
 
         if (!p->paused() && !p->sleeping()) {
             if (!p->Visit(delta_time)) {
                 p->Kill();
-                UnScheduleFor(p);
+                Detach(p);
             }
         }
     }

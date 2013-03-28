@@ -85,34 +85,34 @@ class Node;
 
 class ProcessScheduler {
 public:
-    void ScheduleFor(shared_ptr<Process> process) {
+    void Attach(shared_ptr<Process> process) {
         processes_.push_back(process);
     }
 
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval) {
+    void Attach(shared_ptr<Process> process, const ii_time interval) {
         Process *timer_ptr = new ProcessTimer(process, interval);
         shared_ptr<Process> timer(timer_ptr);
         processes_.push_back(timer);
     }
     
-    void ScheduleFor(shared_ptr<Process> process, const ii_time interval,
+    void Attach(shared_ptr<Process> process, const ii_time interval,
                      const unsigned int repeat, const ii_time delay) {
         Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
         shared_ptr<Process> timer(timer_ptr);
         processes_.push_back(timer);
     }
 
-    void ScheduleFor(weak_ptr<Node> node) {
+    void Attach(weak_ptr<Node> node) {
         if (!node.expired()) {
             nodes_.push_back(node);
         }
     }
 
-    void UnScheduleFor(shared_ptr<Process> process) {
+    void Detach(shared_ptr<Process> process) {
         processes_.remove(process);
     }
 
-    void UnScheduleFor(weak_ptr<Node> node) {
+    void Detach(weak_ptr<Node> node) {
         assert(false);              // no implemented yet
         // nodes_.remove(node);
     }
