@@ -10,7 +10,8 @@
 namespace kawaii {
 using namespace std;
 
-class Process : public GeneralPoolable {
+class Process : public GeneralPoolable,
+                public enable_shared_from_this<Process> {
 public:
     // typedef enum {
     //     ATTACHED = 0x00000001,

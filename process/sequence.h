@@ -73,6 +73,15 @@ public:
 
     virtual bool Update(const ii_time delta_time);
 
+    shared_ptr<Sequence> Add(shared_ptr<Process> process) {
+        processes_.push_back(process);
+        return static_pointer_cast<Sequence>(shared_from_this());
+    }
+
+    shared_ptr<Sequence> operator<<(shared_ptr<Process> process) {
+        return Add(process);
+    }
+
 private:
     unsigned int current_;
     vector<shared_ptr<Process> > processes_;
