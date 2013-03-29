@@ -4,6 +4,7 @@
 #include "hashed_string.h"
 #include "types.h"
 #include "memory_pool.h"
+#include "process_scheduler.h"
 
 #include <memory>
 
@@ -67,6 +68,9 @@ public:
     void Pause()  { paused_ = true; }
     void Resume() { paused_ = false; }
 
+    void Run() { scheduler().Attach(shared_from_this()); }
+
+    virtual ProcessScheduler& scheduler();
     virtual void OnEnter() {}
     virtual void OnExit() {}
     virtual bool Update(const ii_time delta) = 0;
