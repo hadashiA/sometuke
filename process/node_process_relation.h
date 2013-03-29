@@ -22,13 +22,14 @@ public:
     virtual ~NodeProcessRelation() {}
 
     void Run();
+    void Repeat(int n = -1);
 
     NodeProcessRelation MoveTo(const ii_time duration, const vec3& to);
     NodeProcessRelation MoveBy(const ii_time duration, const vec3& delta);
 
 private:
     weak_ptr<Node> target_;
-    shared_ptr<Process> sequence_;
+    shared_ptr<Sequence> sequence_;
 };
 
 }
