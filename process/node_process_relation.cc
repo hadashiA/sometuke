@@ -16,13 +16,15 @@ void NodeProcessRelation::Repeat(int n) {
     Application::Instance().director().scheduler().Attach(repeat);
 }
 
-NodeProcessRelation NodeProcessRelation::MoveTo(const ii_time duration, const vec3& to) {
+NodeProcessRelation NodeProcessRelation::MoveTo(const ii_time duration,
+                                                const vec3& to) {
     shared_ptr<Process> move_to(new class MoveTo(target_, duration, to));
     sequence_->Push(move_to);
     return *this;
 }
 
-NodeProcessRelation NodeProcessRelation::MoveBy(const ii_time duration, const vec3& delta) {
+NodeProcessRelation NodeProcessRelation::MoveBy(const ii_time duration,
+                                                const vec3& delta) {
     shared_ptr<Process> move_by(new class MoveBy(target_, duration, delta));
     sequence_->Push(move_by);
     return *this;

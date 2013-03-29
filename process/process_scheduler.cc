@@ -1,51 +1,27 @@
 #include "process_scheduler.h"
 
 #include "node.h"
+#include "process_timer.h"
 
 #include <climits>
 
 namespace kawaii {
 
-// ProcessTimer
-
-const HashedString ProcessTimer::TYPE("process:timer");
-const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
-
-bool ProcessTimer::Update(const ii_time delta_time) {
-    // standard timer usage
-    if (run_forever_ && !use_delay_) {
-        elapsed_ += delta_time;
-        if (elapsed_ >= interval_) {
-            elapsed_ = 0;
-            return inner_process_->Visit(elapsed_);
-        }
-        
-    // advanced usage
-    } else {
-        elapsed_ += delta_time;
-        if (use_delay_) {
-            if (elapsed_ >= delay_) {
-                elapsed_ -= delay_;
-                num_executed_++;
-                use_delay_ = false;
-                return inner_process_->Visit(elapsed_);
-            }
-        } else {
-            if (elapsed_ >= interval_) {
-                elapsed_ = 0;
-                num_executed_++;
-                return inner_process_->Visit(elapsed_);
-            }
-        }
-        
-        if (num_executed_ >= repeat_) {
-            return false;
-        }
-    }
-    return true;
+void ProcessScheduler::Attach(shared_ptr<Process> process,
+                              const ii_time interval) {
+    Process *timer_ptr = new ProcessTimer(process, interval);
+    shared_ptr<Process> timer(timer_ptr);
+    processes_.push_back(timer);
 }
-
-// ProcessScheduler
+    
+void ProcessScheduler::Attach(shared_ptr<Process> process,
+                              const ii_time interval,
+                              const unsigned int repeat,
+                              const ii_time delay) {
+    Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
+    shared_ptr<Process> timer(timer_ptr);
+    processes_.push_back(timer);
+}
 
 void ProcessScheduler::Update(const ii_time delta_time) {
     for (ProcessList::iterator iter = processes_.begin(); iter != processes_.end();) {
