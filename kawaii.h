@@ -6,15 +6,11 @@
 #include "kawaii/application.h"
 #include "kawaii/director.h"
 
-// actor
+
 #include "kawaii/types.h"
-#include "kawaii/actor.h"
-
-
-// event
 #include "kawaii/event_dispatcher.h"
 
-// resource
+
 #include "kawaii/assets.h"
 #include "kawaii/texture_2d.h"
 #include "kawaii/texture_cache.h"
@@ -23,8 +19,8 @@
 #include "kawaii/animation_cache.h"
 
 // node
-#include "kawaii/scene.h"
-#include "kawaii/sprite.h"
+#include "kawaii/node/scene.h"
+#include "kawaii/node/sprite.h"
 
 // process
 #include "kawaii/process/process_scheduler.h"

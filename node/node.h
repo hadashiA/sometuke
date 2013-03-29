@@ -4,7 +4,7 @@
 #include "types.h"
 #include "vector.h"
 #include "matrix.h"
-#include "process/node_process_relation.h"
+#include "kawaii/process/node_process_relation.h"
 
 #include <vector>
 #include <memory>
