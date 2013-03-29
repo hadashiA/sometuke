@@ -1,5 +1,5 @@
-#ifndef __kawaii__sprite__
-#define __kawaii__sprite__
+#ifndef __kawaii__node_sprite__
+#define __kawaii__node_sprite__
 
 #include "vertices.h"
 #include "node.h"
@@ -125,4 +125,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__sprite__) */
+#endif /* defined(__kawaii__node_sprite__) */

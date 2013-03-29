@@ -1,5 +1,5 @@
-#ifndef __kawaii__node__
-#define __kawaii__node__
+#ifndef __kawaii__node_node__
+#define __kawaii__node_node__
 
 #include "types.h"
 #include "vector.h"
@@ -209,4 +209,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__node__) */
+#endif /* defined(__kawaii__node_node__) */

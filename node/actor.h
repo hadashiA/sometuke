@@ -1,5 +1,5 @@
-#ifndef __kawaii__actor__
-#define __kawaii__actor__
+#ifndef __kawaii__node_actor__
+#define __kawaii__node_actor__
 
 #include "vector.h"
 #include "hashed_string.h"
@@ -41,4 +41,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__actor__) */
+#endif /* defined(__kawaii__node_actor__) */

@@ -1,5 +1,5 @@
-#ifndef __kawaii__scene__
-#define __kawaii__scene__
+#ifndef __kawaii__node_scene__
+#define __kawaii__node_scene__
 
 #include "actor.h"
 #include "application.h"
@@ -48,4 +48,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__scene__) */
+#endif /* defined(__kawaii__node_scene__) */
