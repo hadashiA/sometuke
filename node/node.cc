@@ -125,8 +125,12 @@ void Node::ScheduleUpdate() {
     scheduler.Attach(shared_from_this());
 }
 
-// ProcessScheduler& scheduler() {
-//     return Application::Instance().director().scheduler();
-// }
+ProcessScheduler& Node::scheduler() const {
+    return Application::Instance().director().scheduler();
+}
+
+EventDispatcher& Node::dispatcher() const {
+    return Application::Instance().director().dispatcher();
+}
 
 }
