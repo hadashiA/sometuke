@@ -12,6 +12,8 @@
 namespace kawaii {
 using namespace std;
 
+// class ProcessScheduler;
+
 class Node : public enable_shared_from_this<Node> {
 public:
     Node()
@@ -158,6 +160,8 @@ public:
     }
 
     virtual void AddChild(shared_ptr<Node> child);
+
+    // virtual ProcessScheduler& scheduler();
 
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);

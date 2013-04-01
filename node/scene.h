@@ -2,48 +2,35 @@
 #define __kawaii__node_scene__
 
 #include "actor.h"
-#include "application.h"
+#include "layer.h"
 #include "matrix_stack.h"
 
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 namespace kawaii {
 using namespace std;
 
-typedef unordered_map<ActorId, shared_ptr<Actor> > ActorTable;
-
 class Scene : public Node {
 public:
     virtual ~Scene() {}
 
-    virtual bool HandleEvent(shared_ptr<Event> event) { return true; }
-
+    virtual bool Init() { return true; }
+    
     virtual void Render() {
         glClearColor(0.5, 0.5, 0.5, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // MatrixStack<GLModelView>::Instance().Push();
-
-        // Visit();
-
-        // MatrixStack<GLModelView>::Instance().Pop();
     }
 
-    void AddActor(shared_ptr<Actor> actor) {
-        actors_[actor->id()] = actor;
-        AddChild(actor);
-    }
-
-    shared_ptr<Actor> GetActor(const ActorId id) {
-        return actors_[id];
-    }
-
-    shared_ptr<Actor> operator[](const ActorId id) {
-        return actors_[id];
+    void AddLayer(shared_ptr<Layer> layer) {
+        AddChild(layer);
     }
 
 protected:
-    ActorTable actors_;
+    virtual void AddChild(shared_ptr<Node> child) {
+        Node::AddChild(child);
+    }
 };
 
 }

@@ -20,6 +20,7 @@
 
 // node
 #include "kawaii/node/scene.h"
+#include "kawaii/node/layer.h"
 #include "kawaii/node/sprite.h"
 
 // process
