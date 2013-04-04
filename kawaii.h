@@ -38,9 +38,10 @@
 #include "kawaii/matrix.h"
 #include "kawaii/vertices.h"
 
-#include "kawaii/logger.h"
-
 #include "kawaii/OpenGL_Internal.h"
+#include "kawaii/drawing_primitives.h"
+
+#include "kawaii/logger.h"
 
 namespace kawaii {
 using namespace std;
