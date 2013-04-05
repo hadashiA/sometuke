@@ -24,10 +24,10 @@ static void __lazy_init() {
     }    
 }
 
-void DrawLine(const vec2& origin, const vec2& destination) {
+void DrawLine(const vec3& origin, const vec3& destination) {
     __lazy_init();
 
-    vec2 vertices[2] = { origin, destination} ;
+    vec3 vertices[2] = { origin, destination} ;
 
     gl_program_->Use();
     gl_program_->SetUniformsForBuiltins();
@@ -36,7 +36,7 @@ void DrawLine(const vec2& origin, const vec2& destination) {
     CHECK_GL_ERROR();
 
     glEnableVertexAttribArray(kVertexAttrib_Position);
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
     glDrawArrays(GL_LINES, 0, 2);
 }

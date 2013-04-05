@@ -5,7 +5,7 @@
 
 namespace kawaii {
 
-void DrawLine(const vec2& origin, const vec2& destination);
+void DrawLine(const vec3& origin, const vec3& destination);
 
 }
 
