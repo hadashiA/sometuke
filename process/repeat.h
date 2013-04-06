@@ -11,7 +11,7 @@ namespace kawaii {
 
 class Repeat : public kawaii::Process {
 public:
-    static const HashedString TYPE;
+    static const HashedString TYPE; // = "process:repeat";
 
     Repeat(shared_ptr<Process> inner_process, int repeat = -1)
         : inner_process_(inner_process),

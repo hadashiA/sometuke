@@ -27,12 +27,11 @@ struct EventTypeMetadata {
 };
 
 struct Event : public GeneralPoolable {
-public:
     Event(const EventType& t) : type(t) {
         timestamp = std::time(NULL);
     }
 
-    ~Event() {}
+    virtual ~Event() {}
 
     EventType type;
     time_t timestamp;

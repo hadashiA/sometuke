@@ -7,7 +7,6 @@
 namespace kawaii {
 
 struct Color3B {
-public:
     Color3B() {}
     Color3B(GLubyte red, GLubyte green, GLubyte blue)
         : r(red), g(green), b(blue) {}
@@ -18,7 +17,6 @@ public:
 };
 
 struct Color4B {
-public:
     Color4B() {}
     Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
         : r(red), g(green), b(blue), a(alpha) {}
@@ -32,13 +30,16 @@ public:
 };
 
 struct Color4F {
-public:
     Color4F() {}
     Color4F(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
         : r(red), g(green), b(blue), a(alpha) {}
 
     explicit Color4F(Color3B c) : r(c.r/255.f), g(c.g/255.f), b(c.b/255.f), a(1.f) {};
     explicit Color4F(Color4B c) : r(c.r/255.f), g(c.g/255.f), b(c.b/255.f), a(c.a/255.f) {};
+
+    const GLfloat *Pointer() const {
+        return &r;
+    }
 
     GLfloat r;
     GLfloat g;
