@@ -41,5 +41,15 @@ void DrawLine(const vec3& origin, const vec3& destination) {
     glDrawArrays(GL_LINES, 0, 2);
 }
 
+void DrawRect(const Rect& rect) {
+    vec2 origin(rect.pos);
+    vec2 dest(rect.pos + rect.size);
+
+    DrawLine(origin, vec2(dest.x, origin.y));
+    DrawLine(vec2(dest.x, origin.y), dest);
+    DrawLine(dest, vec2(origin.x, dest.y));
+    DrawLine(vec2(origin.x, dest.y), origin);
+}
+
 }
 

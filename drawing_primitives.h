@@ -6,6 +6,7 @@
 namespace kawaii {
 
 void DrawLine(const vec3& origin, const vec3& destination);
+void DrawRect(const Rect& rect);
 
 }
 
