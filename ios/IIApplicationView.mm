@@ -286,6 +286,21 @@
 }
 
 #pragma mark -
+#pragma mark Pass the touches to the superview
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+}
+
+#pragma mark -
 #pragma mark Private Methods
 
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat {
