@@ -11,7 +11,7 @@
 #include "kawaii/event_dispatcher.h"
 
 
-#include "kawaii/assets.h"
+#include "kawaii/assets_loader.h"
 #include "kawaii/texture_2d.h"
 #include "kawaii/texture_cache.h"
 #include "kawaii/sprite_frame_cache.h"

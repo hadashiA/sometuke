@@ -1,7 +1,5 @@
-#ifndef __kawaii__assets__
-#define __kawaii__assets__
-
-#include "picojson/picojson.h"
+#ifndef __kawaii__assets_loader__
+#define __kawaii__assets_loader__
 
 #include <vector>
 #include <memory>
@@ -12,9 +10,9 @@ using namespace std;
 
 class Texture2D;
 
-class Assets {
+class AssetsLoader {
 public:
-    virtual ~Assets() {}
+    virtual ~AssetsLoader() {}
     virtual vector<char> ReadBytes(const string& relative_path) = 0;
     virtual shared_ptr<Texture2D> ReadTexture(const string &relative_path) = 0;
     virtual string ReadString(const string &relative_path) = 0;
@@ -23,4 +21,4 @@ public:
 
 }
 
-#endif /* defined(__kawaii__resource_loader__) */
+#endif /* defined(__kawaii__assets_loader__) */

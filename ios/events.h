@@ -20,7 +20,13 @@ struct TouchesMovedEvent : public Event {
 struct TouchesEndedEvent : public Event {
     static const EventType TYPE;
 
-    
+    TouchesEndedEvent() : Event(TYPE) {}
+};
+
+struct TouchesCancelledEvent : public Event {
+    static const EventType TYPE;
+
+    TouchesCancelledEvent() : Event(TYPE) {}
 };
 
 }

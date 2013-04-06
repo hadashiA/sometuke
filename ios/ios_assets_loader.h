@@ -1,16 +1,16 @@
-#ifndef __kawaii__ios_assets__
-#define __kawaii__ios_assets__
+#ifndef __kawaii__ios_assets_loader__
+#define __kawaii__ios_assets_loader__
 
-#include "kawaii/assets.h"
-#include "kawaii/ios/platform.h"
+#include "kawaii/assets_loader.h"
+#include "kawaii/ios/devices.h"
 
 namespace kawaii {
 
 using namespace std;
 
-class IOSAssets : public Assets {
+class IOSAssetsLoader : public AssetsLoader {
 public:
-    IOSAssets() {
+    IOSAssetsLoader() {
         suffixes_[kiPhone]              = "";
         suffixes_[kiPhoneRetinaDisplay] = "@x2";
         suffixes_[kiPad]                = "-ipad";
@@ -36,4 +36,4 @@ private:
 
 } 
 
-#endif /* defined(__kawaii__ios_assets__) */
+#endif /* defined(__kawaii__ios_assets_loader__) */

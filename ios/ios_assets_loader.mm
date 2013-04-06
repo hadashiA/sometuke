@@ -1,4 +1,4 @@
-#include "ios_assets.h"
+#include "ios_assets_loader.h"
 #include "logger.h"
 #include "texture_2d.h"
 
@@ -7,7 +7,7 @@
 
 namespace kawaii {
 
-const string IOSAssets::FullPathFromRelativePath(const string& relative_path) {
+const string IOSAssetsLoader::FullPathFromRelativePath(const string& relative_path) {
     DeviceType d = RunningDevice();
 
     string suffix = suffixes_[d];
@@ -58,7 +58,7 @@ const string IOSAssets::FullPathFromRelativePath(const string& relative_path) {
     }
 }
 
-vector<char> IOSAssets::ReadBytes(const string &relative_path) {
+vector<char> IOSAssetsLoader::ReadBytes(const string &relative_path) {
     ifstream io(FullPathFromRelativePath(relative_path));
     size_t size = io.seekg(0, ios::end).tellg();
     vector<char> buf(size);
@@ -68,7 +68,7 @@ vector<char> IOSAssets::ReadBytes(const string &relative_path) {
     return buf;
 }
 
-shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
+shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) {
     string full_path = FullPathFromRelativePath(relative_path);
     NSString *full_path_ns = [NSString stringWithUTF8String:full_path.c_str()];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:full_path_ns];
@@ -265,7 +265,7 @@ shared_ptr<Texture2D> IOSAssets::ReadTexture(const string &relative_path) {
     return texture;
 }
 
-string IOSAssets::ReadString(const string &relative_path) {
+string IOSAssetsLoader::ReadString(const string &relative_path) {
     vector<char> buf = ReadBytes(relative_path);
     return string(buf.begin(), buf.end());
 }

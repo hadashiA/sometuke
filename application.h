@@ -4,7 +4,7 @@
 #include "vector.h"
 #include "vertices.h"
 #include "director.h"
-#include "assets.h"
+#include "assets_loader.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
@@ -12,7 +12,17 @@
 namespace kawaii {
 using namespace std;
 
-class Assets;
+class AssetsLoader;
+class ControlDispatcher;
+
+class ApplicationComponentFactory {
+public:
+    virtual ~ApplicationComponentFactory() {}
+
+    virtual Director *CreateDirector() = 0;
+    virtual AssetsLoader *CreateAssetsLoader() = 0;
+    // virtual ControlDispatcher *CreateControlDispatcher() = 0;
+};
 
 class Application {
 public:
@@ -21,7 +31,7 @@ public:
         return *__instance;
     }
 
-    bool Init(Director *director, Assets *assets);
+    bool Init(ApplicationComponentFactory& factory);
 
     void Resize(const float point_width, const float point_height);
 
@@ -49,13 +59,17 @@ public:
         animation_interval_ = value;
     }
 
-    Assets& assets() {
-        return *assets_;
-    }
-
     Director& director() {
         return *director_;
     }
+
+    AssetsLoader& loader() {
+        return *loader_;
+    }
+
+    //ControlDispatcher& control() {
+    //    return *control_;
+    //}
 
 private:
     Application()
@@ -76,8 +90,9 @@ private:
     double animation_interval_;
     float total_time_;
 
-    unique_ptr<Assets> assets_;
     shared_ptr<Director> director_;
+    unique_ptr<AssetsLoader> loader_;
+    // unique_ptr<ControlDispatcher> control_;
 };
 
 } // namespace kawaii

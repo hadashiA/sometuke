@@ -1,5 +1,5 @@
-#ifndef __kawaii__ios__platform__
-#define __kawaii__ios__platform__
+#ifndef __kawaii__ios__devices__
+#define __kawaii__ios__devices__
 
 #include "kawaii/logger.h"
 

@@ -2,7 +2,7 @@
 
 #include "sprite_frame.h"
 #include "application.h"
-#include "assets.h"
+#include "assets_loader.h"
 #include "texture_cache.h"
 #include "logger.h"
 
@@ -23,8 +23,8 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
     loaded_filenames_.insert(hashed_json_path.id());
 
-    Assets& assets = Application::Instance().assets();
-    const string& path = assets.FullPathFromRelativePath(json_path);
+    AssetsLoader& loader = Application::Instance().loader();
+    const string& path = loader.FullPathFromRelativePath(json_path);
     ifstream io(path);
 
     picojson::value json;
