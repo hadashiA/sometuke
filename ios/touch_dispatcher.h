@@ -4,6 +4,7 @@
 #include "kawaii/ios/events.h"
 
 #include <vector>
+#include <list>
 #include <memory>
 
 namespace kawaii {
@@ -23,14 +24,18 @@ public:
         return *__instance;
     }
 
-    void Trigger(vector<TouchEvent> touches);
+    TouchDispatcher() : enabled_(true) {
+    }
+    void Enable()  { enabled_ = true; }
+    void Disable() { enabled_ = false; }
+    void Trigger(TouchPhase phase, vector<TouchEvent> touches);
+
+private:
+    bool enabled_;
+    list<shared_ptr<TouchListener> > targeted_listeners_;
+    list<shared_ptr<TouchListener> > standard_listeners_;
 };
 
 }
 
 #endif /* defined(__kawaii__ios_touch_dispatcher__) */
-
-
-
-
-
