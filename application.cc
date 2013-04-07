@@ -9,7 +9,6 @@ namespace kawaii {
 
 bool Application::Init(ApplicationComponentFactory& factory) {
     loader_.reset(factory.CreateAssetsLoader());
-    control_.reset(factory.CreateControlDispatcher());
 
     director_.reset(factory.CreateDirector());
     if (director_->Init()) {

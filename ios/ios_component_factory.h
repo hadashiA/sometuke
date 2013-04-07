@@ -3,7 +3,6 @@
 
 #include "application.h"
 #include "ios_assets_loader.h"
-#include "ios_control_dispatcher.h"
 
 namespace kawaii {
 
@@ -11,10 +10,6 @@ class IOSComponentFactory : public ApplicationComponentFactory {
 public:
     virtual AssetsLoader *CreateAssetsLoader() {
         return new IOSAssetsLoader;
-    }
-
-    virtual ControlDispatcher *CreateControlDispatcher() {
-        return new IOSControlDispatcher;
     }
 };
 

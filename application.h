@@ -14,18 +14,12 @@ using namespace std;
 
 class AssetsLoader;
 
-class ControlDispatcher {
-public:
-    virtual ~ControlDispatcher() {}
-};
-
 class ApplicationComponentFactory {
 public:
     virtual ~ApplicationComponentFactory() {}
 
     virtual Director *CreateDirector() = 0;
     virtual AssetsLoader *CreateAssetsLoader() = 0;
-    virtual ControlDispatcher *CreateControlDispatcher() = 0;
 };
 
 class Application {
@@ -71,10 +65,6 @@ public:
         return *loader_;
     }
 
-    ControlDispatcher& control() {
-       return *control_;
-    }
-
 private:
     Application()
         : total_time_(0),
@@ -96,7 +86,6 @@ private:
 
     shared_ptr<Director> director_;
     unique_ptr<AssetsLoader> loader_;
-    unique_ptr<ControlDispatcher> control_;
 };
 
 } // namespace kawaii
