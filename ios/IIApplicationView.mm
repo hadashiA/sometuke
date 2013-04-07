@@ -1,12 +1,15 @@
 #import "IIApplicationView.h"
 #import "OpenGL_Internal.h"
 
-#import "director.h"
-#import "logger.h"
+#import "kawaii/director.h"
+#import "kawaii/logger.h"
+#import "kawaii/ios/touch_dispatcher.h"
+
 
 @interface IIApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
 - (void)calculateDeltaTime;
+- (void)touchDelegate:(NSSet *)touches phase:(kawaii::TouchPhase)phase;
 @end
 
 @implementation IIApplicationView
@@ -289,15 +292,19 @@
 #pragma mark Pass the touches to the superview
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchDelegate:touches phase:kawaii::kTouchBegan];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchDelegate:touches phase:kawaii::kTouchMoved];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchDelegate:touches phase:kawaii::kTouchEnded];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchDelegate:touches phase:kawaii::kTouchCancelled];
 }
 
 #pragma mark -
@@ -321,6 +328,26 @@
     }
     lastDisplayTime_ = displayLink_.timestamp;
 }
+
+- (void)touchDelegate:(NSSet *)touches phase:(kawaii::TouchPhase)phase {
+    kawaii::TouchDispatcher& dispatcher = kawaii::TouchDispatcher::Instance();
+
+    if (dispatcher.enabled()) {
+        std::vector<std::shared_ptr<kawaii::TouchEvent> > events(touches.count);
+        for (UITouch *touch in touches) {
+            CGPoint pos  = [touch locationInView:nil];
+            CGPoint prev = [touch previousLocationInView:nil];
+            kawaii::TouchEvent *e = new kawaii::TouchEvent(phase,
+                                                           kawaii::vec2(pos.x, pos.y),
+                                                           kawaii::vec2(prev.x, prev.y),
+                                                           touch.tapCount);
+            std::shared_ptr<kawaii::TouchEvent> event(e);
+            events.push_back(event);
+        }
+        dispatcher.Trigger(phase, events);
+    }
+}
+
 
 #pragma mark -
 #pragma mark Memory Managements

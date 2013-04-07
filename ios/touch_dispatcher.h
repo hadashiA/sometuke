@@ -26,9 +26,11 @@ public:
 
     TouchDispatcher() : enabled_(true) {
     }
+
+    bool enabled() { return enabled_; }
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
-    void Trigger(TouchPhase phase, vector<TouchEvent> touches);
+    void Trigger(TouchPhase phase, vector<shared_ptr<TouchEvent> > touches);
 
 private:
     bool enabled_;
