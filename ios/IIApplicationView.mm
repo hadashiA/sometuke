@@ -5,7 +5,6 @@
 #import "kawaii/logger.h"
 #import "kawaii/ios/touch_dispatcher.h"
 
-
 @interface IIApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
 - (void)calculateDeltaTime;
@@ -333,7 +332,7 @@
     kawaii::TouchDispatcher& dispatcher = kawaii::TouchDispatcher::Instance();
 
     if (dispatcher.enabled()) {
-        std::vector<std::shared_ptr<kawaii::TouchEvent> > events(touches.count);
+        std::vector<std::shared_ptr<kawaii::TouchEvent> > events;
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:nil];
             CGPoint prev = [touch previousLocationInView:nil];

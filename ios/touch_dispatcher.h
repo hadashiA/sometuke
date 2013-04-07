@@ -10,6 +10,8 @@
 namespace kawaii {
 using namespace std;
 
+typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
+
 class TouchListener {
 public:
 };
@@ -30,7 +32,7 @@ public:
     bool enabled() { return enabled_; }
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
-    void Trigger(TouchPhase phase, vector<shared_ptr<TouchEvent> > touches);
+    void Trigger(TouchPhase phase, TouchEventSet touches);
 
 private:
     bool enabled_;
