@@ -12,8 +12,22 @@ using namespace std;
 
 typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
 
-class TouchListener {
+class TargetTouchListener {
 public:
+    virtual ~TargetTouchListener() {}
+    virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
+    virtual bool TouchMoved(shared_ptr<TouchEvent> touch) = 0;
+    virtual bool TouchEnded(shared_ptr<TouchEvent> touch) = 0;
+    virtual bool TouchCancelled(shared_ptr<TouchEvent> touch) = 0;
+};
+
+class StandardTouchListener {
+public:
+    virtual ~StandardTouchListener() {}
+    virtual bool TouchesBegan(TouchEventSet touches) = 0;
+    virtual bool TouchesMoved(TouchEventSet touches) = 0;
+    virtual bool TouchesEnded(TouchEventSet touches) = 0;
+    virtual bool TouchesCancelled(TouchEventSet touches) = 0;
 };
 
 class TouchDispatcher {
@@ -32,12 +46,16 @@ public:
     bool enabled() { return enabled_; }
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
+
+    void AddStandardListener(weak_ptr<StandardTouchListener> listener);
+    void AddTargetListener(weak_ptr<TargetTouchListener> listener);
+
     void Trigger(TouchPhase phase, TouchEventSet touches);
 
 private:
     bool enabled_;
-    list<shared_ptr<TouchListener> > targeted_listeners_;
-    list<shared_ptr<TouchListener> > standard_listeners_;
+    list<shared_ptr<TargetTouchListener> > targeted_listeners_;
+    list<shared_ptr<StandardTouchListener> > standard_listeners_;
 };
 
 }
