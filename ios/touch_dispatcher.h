@@ -4,7 +4,7 @@
 #include "kawaii/ios/events.h"
 
 #include <vector>
-#include <list>
+#include <map>
 #include <memory>
 
 namespace kawaii {
@@ -12,9 +12,9 @@ using namespace std;
 
 typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
 
-class TargetTouchListener {
+class TargetedTouchListener {
 public:
-    virtual ~TargetTouchListener() {}
+    virtual ~TargetedTouchListener() {}
     virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
     virtual bool TouchMoved(shared_ptr<TouchEvent> touch) = 0;
     virtual bool TouchEnded(shared_ptr<TouchEvent> touch) = 0;
@@ -47,15 +47,19 @@ public:
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
 
-    void AddStandardListener(weak_ptr<StandardTouchListener> listener);
-    void AddTargetListener(weak_ptr<TargetTouchListener> listener);
+    void AddStandardListener(weak_ptr<StandardTouchListener> listener, int priority);
+    void AddTargetedListener(weak_ptr<TargetedTouchListener> listener, int priority);
+
+    void RemoveAllListeners();
+    void RemoveListener(weak_ptr<StandardTouchListener> listener);
+    void RemoveListener(weak_ptr<TargetedTouchListener> listener);
 
     void Trigger(TouchPhase phase, TouchEventSet touches);
 
 private:
     bool enabled_;
-    list<shared_ptr<TargetTouchListener> > targeted_listeners_;
-    list<shared_ptr<StandardTouchListener> > standard_listeners_;
+    map<int, weak_ptr<TargetedTouchListener> > targeted_listeners_;
+    map<int, weak_ptr<StandardTouchListener> > standard_listeners_;
 };
 
 }

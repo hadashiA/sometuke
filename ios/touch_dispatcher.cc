@@ -3,11 +3,25 @@
 
 namespace kawaii {
 
-void TouchDispatcher::AddStandardListener(weak_ptr<StandardTouchListener> listener) {
+void TouchDispatcher::AddStandardListener(weak_ptr<StandardTouchListener> listener,
+                                          int priority) {
+    pair<int, weak_ptr<StandardTouchListener> > val(priority, listener);
+    standard_listeners_.insert(val);
 }
 
-void TouchDispatcher::AddTargetListener(weak_ptr<TargetTouchListener> listener) {
-    
+void TouchDispatcher::AddTargetedListener(weak_ptr<TargetedTouchListener> listener,
+                                          int priority) {
+    pair<int, weak_ptr<TargetedTouchListener> > val(priority, listener);
+    targeted_listeners_.insert(val);
+}
+
+void TouchDispatcher::RemoveAllListeners() {
+}
+
+void RemoveListener(weak_ptr<StandardTouchListener> listener) {
+}
+
+void RemoveListener(weak_ptr<TargetedTouchListener> listener) {
 }
 
 void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
