@@ -16,12 +16,34 @@ void TouchDispatcher::AddTargetedListener(weak_ptr<TargetedTouchListener> listen
 }
 
 void TouchDispatcher::RemoveAllListeners() {
+    standard_listeners_.clear();
+    targeted_listeners_.clear();
 }
 
-void RemoveListener(weak_ptr<StandardTouchListener> listener) {
+void TouchDispatcher::RemoveListener(weak_ptr<StandardTouchListener> listener) {
+    shared_ptr<StandardTouchListener> listener_ptr = listener.lock();
+    for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
+         i != standard_listeners_.end();) {
+        shared_ptr<StandardTouchListener> table_listener_ptr = i->second.lock();
+        if (!table_listener_ptr || listener_ptr == table_listener_ptr) {
+            standard_listeners_.erase(i++);
+        } else {
+            ++i;
+        }
+    }
 }
 
-void RemoveListener(weak_ptr<TargetedTouchListener> listener) {
+void TouchDispatcher::RemoveListener(weak_ptr<TargetedTouchListener> listener) {
+    shared_ptr<TargetedTouchListener> listener_ptr = listener.lock();
+    for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
+         i != targeted_listeners_.end();) {
+        shared_ptr<TargetedTouchListener> table_listener_ptr = i->second.lock();
+        if (!table_listener_ptr || listener_ptr == table_listener_ptr) {
+            targeted_listeners_.erase(i++);
+        } else {
+            ++i;
+        }
+    }
 }
 
 void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
@@ -35,8 +57,3 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
 }
 
 }
-
-
-
-
-

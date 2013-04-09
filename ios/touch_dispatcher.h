@@ -11,7 +11,7 @@ namespace kawaii {
 using namespace std;
 
 typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
-
+    
 class TargetedTouchListener {
 public:
     virtual ~TargetedTouchListener() {}
@@ -29,6 +29,9 @@ public:
     virtual bool TouchesEnded(TouchEventSet touches) = 0;
     virtual bool TouchesCancelled(TouchEventSet touches) = 0;
 };
+    
+typedef multimap<int, weak_ptr<StandardTouchListener> > StandardTouchListenerTable;
+typedef multimap<int, weak_ptr<TargetedTouchListener> > TargetedTouchListenerTable;    
 
 class TouchDispatcher {
 public:    
@@ -58,8 +61,8 @@ public:
 
 private:
     bool enabled_;
-    map<int, weak_ptr<TargetedTouchListener> > targeted_listeners_;
-    map<int, weak_ptr<StandardTouchListener> > standard_listeners_;
+    TargetedTouchListenerTable targeted_listeners_;
+    StandardTouchListenerTable standard_listeners_;
 };
 
 }
