@@ -10,6 +10,8 @@
 #include <map>
 #include <ctime>
 
+#include <uuid/uuid.h>
+
 namespace kawaii {
 using namespace std;
 
@@ -29,12 +31,18 @@ struct EventTypeMetadata {
 struct Event : public GeneralPoolable {
     Event(const EventType& t) : type(t) {
         timestamp = std::time(NULL);
+        uuid_generate(uuid);
     }
 
     virtual ~Event() {}
 
+    bool operator==(const Event& rhs) {
+        type == rhs.type && uuid_compare(uuid, rhs.uuid);
+    }
+
     EventType type;
     time_t timestamp;
+    uuid_t uuid;
 };
 
 class EventListener {
