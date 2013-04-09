@@ -1,8 +1,9 @@
 #ifndef __kawaii__ios_events__
 #define __kawaii__ios_events__
 
-#include "event_dispatcher.h"
-#include "vector.h"
+#include "kawaii/event_dispatcher.h"
+#include "kawaii/utils.h"
+#include "kawaii/vector.h"
 
 namespace kawaii {
 
@@ -21,9 +22,11 @@ struct TouchEvent : public Event {
           phase(_phase),
           location(loc),
           prev_location(prev),
-          tap_count(cnt) {
+          tap_count(cnt),
+          id(kawaii::generate_id()) {
     }
 
+    unsigned int id;
     TouchPhase phase;
     vec2 location;
     vec2 prev_location;
