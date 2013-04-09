@@ -15,8 +15,6 @@ typedef HashedString ActorType;
 
 class Actor : public Node {
 public:
-    static hash<string> __hash_func;
-
     Actor(const HashedString& t)
         : type_(t),
           id_(kawaii::generate_id()) {
