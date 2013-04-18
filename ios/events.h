@@ -7,6 +7,8 @@
 
 namespace kawaii {
 
+typedef unsigned long TouchId;
+
 typedef enum {
     kTouchBegan,
     kTouchMoved,
@@ -26,7 +28,7 @@ struct TouchEvent : public Event {
           id(kawaii::generate_id()) {
     }
 
-    unsigned int id;
+    TouchId id;
     TouchPhase phase;
     vec2 location;
     vec2 prev_location;
