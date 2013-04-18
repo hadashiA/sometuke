@@ -5,20 +5,20 @@
 
 namespace kawaii {
 
-void TouchDispatcher::AddStandardListener(const StandardTouchListener& listener, int priority) {
-    pair<int, weak_ptr<StandardTouchListener> > val(priority, listener);
+void TouchDispatcher::AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority) {
+    pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);
     standard_listeners_.insert(val);
 }
 
-void TouchDispatcher::AddTargetedListener(const TargetedTouchListener& listener, int priority) {
-    pair<int, weak_ptr<TargetedTouchListener> > val(priority, listener);
+void TouchDispatcher::AddTargetedListener(shared_ptr<TargetedTouchListener> listener, int priority) {
+    pair<int, shared_ptr<TargetedTouchListener> > val(priority, listener);
     targeted_listeners_.insert(val);
 }
 
-void TouchDispatcher::RemoveListener(const StandardTouchListener& listener) {
+void TouchDispatcher::RemoveListener(shared_ptr<StandardTouchListener> listener) {
     for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
          i != standard_listeners_.end();) {
-        if (listener.handler() == i->second.handler()) {
+        if (listener == i->second) {
             standard_listeners_.erase(i++);
         } else {
             ++i;
@@ -26,10 +26,10 @@ void TouchDispatcher::RemoveListener(const StandardTouchListener& listener) {
     }
 }
 
-void TouchDispatcher::RemoveListener(const TargetedTouchListener& listener) {
+void TouchDispatcher::RemoveListener(shared_ptr<TargetedTouchListener> listener) {
     for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
          i != targeted_listeners_.end();) {
-        if (listener.handler() == i->second.handler()) {
+        if (listener == i->second) {
             targeted_listeners_.erase(i++);
         } else {
             ++i;
@@ -44,11 +44,11 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
         // process the target handlers 1st
         for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
              i != targeted_listeners_.end();) {
-            TargetedTouchListener& listener = i->second;
-            if (listener.handler()) {
+            shared_ptr<TargetedTouchListener> listener = i->second;
+            if (listener->handler()) {
                 bool claimed = false;
                 if (phase == kTouchBegan) {
-                    listener.TouchStart(touch);
+                    listener->TouchStart(touch);
                 } else {
                 }
 

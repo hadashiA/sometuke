@@ -24,17 +24,17 @@ public:
 
     virtual ~TargetedTouchListener() {}
 
-    shared_ptr<Node> handler() { return handler_.lock(); }
+    shared_ptr<Node> handler() const { return handler_.lock(); }
 
     void TouchStart(shared_ptr<TouchEvent> touch) {
         bool claimed = TouchBegan(touch);
         if (claimed) {
-            claimed_touch_ids_.insert(touch.id);
+            claimed_touch_ids_.insert(touch->id);
         }
     }
 
     void TouchNext(shared_ptr<TouchEvent> touch, TouchPhase phase) {
-        claimed_touch_ids_.find(touch.id);
+        claimed_touch_ids_.find(touch->id);
     }
 
     virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
@@ -53,7 +53,7 @@ public:
     StandardTouchListener(shared_ptr<Node> handler) : handler_(handler) {}
     virtual ~StandardTouchListener() {}
 
-    shared_ptr<Node> handler() { return handler_.lock(); }
+    shared_ptr<Node> handler() const { return handler_.lock(); }
 
     virtual void TouchesBegan(TouchEventSet touches) = 0;
     virtual void TouchesMoved(TouchEventSet touches) = 0;
@@ -64,8 +64,8 @@ private:
     weak_ptr<Node> handler_;
 };
     
-typedef multimap<int, StandardTouchListener> StandardTouchListenerTable;
-typedef multimap<int, TargetedTouchListener> TargetedTouchListenerTable;    
+typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;
+typedef multimap<int, shared_ptr<TargetedTouchListener> > TargetedTouchListenerTable;
 
 class TouchDispatcher {
 public:    
@@ -84,15 +84,15 @@ public:
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
 
-    void AddStandardListener(const StandardTouchListener& listener, int priority);
-    void AddTargetedListener(const TargetedTouchListener& listener, int priority);
+    void AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority);
+    void AddTargetedListener(shared_ptr<TargetedTouchListener> listener, int priority);
 
     void RemoveAllListeners() {
         standard_listeners_.clear();
         targeted_listeners_.clear();
     }
-    void RemoveListener(const StandardTouchListener& listener);
-    void RemoveListener(const TargetedTouchListener& listener);
+    void RemoveListener(shared_ptr<StandardTouchListener> listener);
+    void RemoveListener(shared_ptr<TargetedTouchListener> listener);
 
     void Trigger(TouchPhase phase, TouchEventSet touches);
 
