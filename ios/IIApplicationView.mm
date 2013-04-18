@@ -336,7 +336,8 @@
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:nil];
             CGPoint prev = [touch previousLocationInView:nil];
-            kawaii::TouchEvent *e = new kawaii::TouchEvent(phase,
+            kawaii::TouchEvent *e = new kawaii::TouchEvent((kawaii::TouchId)touch,
+                                                           phase,
                                                            kawaii::vec2(pos.x, pos.y),
                                                            kawaii::vec2(prev.x, prev.y),
                                                            touch.tapCount);

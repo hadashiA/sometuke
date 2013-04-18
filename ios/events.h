@@ -2,7 +2,6 @@
 #define __kawaii__ios_events__
 
 #include "kawaii/event_dispatcher.h"
-#include "kawaii/utils.h"
 #include "kawaii/vector.h"
 
 namespace kawaii {
@@ -19,13 +18,13 @@ typedef enum {
 struct TouchEvent : public Event {
     static const EventType TYPE;
 
-    TouchEvent(TouchPhase _phase, const vec2& loc, const vec2& prev, size_t cnt)
+    TouchEvent(TouchId touch_id, TouchPhase _phase, const vec2& loc, const vec2& prev, size_t cnt)
         : Event(TYPE),
+          id(touch_id),
           phase(_phase),
           location(loc),
           prev_location(prev),
-          tap_count(cnt),
-          id(kawaii::generate_id()) {
+          tap_count(cnt) {
     }
 
     TouchId id;
