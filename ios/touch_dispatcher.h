@@ -25,22 +25,41 @@ public:
     virtual ~TargetedTouchListener() {}
 
     shared_ptr<Node> handler() const { return handler_.lock(); }
+    bool shallows_touches() const { return shallows_touches_; }
 
-    void TouchStart(shared_ptr<TouchEvent> touch) {
+    bool TouchStart(shared_ptr<TouchEvent> touch) {
         bool claimed = TouchBegan(touch);
         if (claimed) {
             claimed_touch_ids_.insert(touch->id);
         }
+        return claimed;
     }
 
     void TouchNext(shared_ptr<TouchEvent> touch, TouchPhase phase) {
-        claimed_touch_ids_.find(touch->id);
+        unordered_set<TouchId>::iterator iter = claimed_touch_ids_.find(touch->id);
+        if (iter != claimed_touch_ids_.end()) {
+            switch (phase) {
+            case kTouchMoved:
+                TouchMoved(touch);
+                break;
+            case kTouchEnded:
+                TouchEnded(touch);
+                claimed_touch_ids_.erase(iter);
+                break;
+            case kTouchCancelled:
+                TouchCancelled(touch);
+                claimed_touch_ids_.erase(iter);
+                break;
+            default:
+                break;
+            }
+        }
     }
 
     virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
-    virtual bool TouchMoved(shared_ptr<TouchEvent> touch) = 0;
-    virtual bool TouchEnded(shared_ptr<TouchEvent> touch) = 0;
-    virtual bool TouchCancelled(shared_ptr<TouchEvent> touch) = 0;
+    virtual void TouchMoved(shared_ptr<TouchEvent> touch) = 0;
+    virtual void TouchEnded(shared_ptr<TouchEvent> touch) = 0;
+    virtual void TouchCancelled(shared_ptr<TouchEvent> touch) = 0;
 
 private:
     weak_ptr<Node> handler_;
