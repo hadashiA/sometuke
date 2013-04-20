@@ -17,15 +17,7 @@ typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
     
 class TargetedTouchListener {
 public:
-    TargetedTouchListener(shared_ptr<Node> handler, bool shallows_touches = false)
-        : handler_(handler),
-          shallows_touches_(shallows_touches) {
-    }
-
     virtual ~TargetedTouchListener() {}
-
-    shared_ptr<Node> handler() const { return handler_.lock(); }
-    bool shallows_touches() const { return shallows_touches_; }
 
     bool TouchStart(shared_ptr<TouchEvent> touch) {
         bool claimed = TouchBegan(touch);
@@ -56,31 +48,27 @@ public:
         }
     }
 
+    virtual bool listening() const = 0;
+    virtual bool shallows_touches() const = 0;
+
     virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
     virtual void TouchMoved(shared_ptr<TouchEvent> touch) = 0;
     virtual void TouchEnded(shared_ptr<TouchEvent> touch) = 0;
     virtual void TouchCancelled(shared_ptr<TouchEvent> touch) = 0;
 
 private:
-    weak_ptr<Node> handler_;
     unordered_set<TouchId> claimed_touch_ids_;
-    bool shallows_touches_;
 };
 
 class StandardTouchListener {
 public:
-    StandardTouchListener(shared_ptr<Node> handler) : handler_(handler) {}
     virtual ~StandardTouchListener() {}
 
-    shared_ptr<Node> handler() const { return handler_.lock(); }
-
+    virtual bool listening() const = 0;
     virtual void TouchesBegan(TouchEventSet touches) = 0;
     virtual void TouchesMoved(TouchEventSet touches) = 0;
     virtual void TouchesEnded(TouchEventSet touches) = 0;
     virtual void TouchesCancelled(TouchEventSet touches) = 0;
-
-private:
-    weak_ptr<Node> handler_;
 };
     
 typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;
