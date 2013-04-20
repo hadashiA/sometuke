@@ -44,28 +44,31 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
         unordered_set<TouchId> shallows_touch_ids;
 
         // process the target handlers 1st
-        for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
-             i != targeted_listeners_.end();) {
-            shared_ptr<TargetedTouchListener> listener = i->second;
-            if (listener->handler()) {
-                bool claimed = false;
-                if (phase == kTouchBegan) {
-                    claimed = listener->TouchStart(touch);
-                } else {
-                    listener->TouchNext(touch, phase);
-                }
-                if (claimed && listener->shallows_touches()) {
-                    shallows_touch_ids.insert(touch->id);
-                }
+        if (!targeted_listeners_.empty()) {
+            for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
+                 i != targeted_listeners_.end();) {
+                shared_ptr<TargetedTouchListener> listener = i->second;
+                if (listener->handler()) {
+                    bool claimed = false;
+                    if (phase == kTouchBegan) {
+                        claimed = listener->TouchStart(touch);
+                    } else {
+                        listener->TouchNext(touch, phase);
+                    }
+                    if (claimed && listener->shallows_touches()) {
+                        shallows_touch_ids.insert(touch->id);
+                    }
                 
-                ++i;
-            } else {
-                targeted_listeners_.erase(i++);
+                    ++i;
+                } else {
+                    targeted_listeners_.erase(i++);
+                }
             }
         }
 
         // process standard handlers 2nd
-        if (shallows_touch_ids.find(touch->id) == shallows_touch_ids.end()) {
+        if (!standard_listeners_.empty() &&
+            shallows_touch_ids.find(touch->id) == shallows_touch_ids.end()) {
             for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
                  i != standard_listeners_.end();) {
                 shared_ptr<StandardTouchListener> listener = i->second;
