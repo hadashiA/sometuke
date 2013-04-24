@@ -51,7 +51,7 @@ const string IOSAssetsLoader::FullPathFromRelativePath(const string& relative_pa
                                    inDirectory:[NSString stringWithUTF8String:dirname.c_str()]];
 
     if (!result_ns) {
-        IIWARN("file_utils: file not found: %s", relative_path_with_suffix.c_str());
+        IIWARN("ios_assets_loader: file not found: %s", relative_path_with_suffix.c_str());
         return string("");
     } else {
         return string([result_ns UTF8String]);
