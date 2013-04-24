@@ -84,8 +84,7 @@ public:
         return *__instance;
     }
 
-    TouchDispatcher() : enabled_(true) {
-    }
+    TouchDispatcher() : enabled_(true) {}
 
     bool enabled() { return enabled_; }
     void Enable()  { enabled_ = true; }
@@ -102,6 +101,8 @@ public:
     void RemoveListener(shared_ptr<TargetedTouchListener> listener);
 
     void Trigger(TouchPhase phase, TouchEventSet touches);
+
+    vec2 ConvertToGL(const vec2 touch_location);
 
 private:
     bool enabled_;

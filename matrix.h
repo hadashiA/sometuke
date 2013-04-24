@@ -134,7 +134,7 @@ struct Matrix4 {
     }
 
     Matrix4 Inverse() const {
-        float *a = Pointer();
+        float *a = Matrix4(*this).Pointer();
         float *b = Identity().Pointer();
         if (gaussj(a, b) == false) {
             return Identity();
@@ -143,7 +143,7 @@ struct Matrix4 {
         }
     }
 
-    const T* Pointer() const {
+    T* Pointer() {
         return &x.x;
     }
 

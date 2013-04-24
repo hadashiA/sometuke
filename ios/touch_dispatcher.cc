@@ -2,6 +2,8 @@
 
 #include "kawaii/logger.h"
 #include "kawaii/node/node.h"
+#include "kawaii/matrix_stack.h"
+#include "kawaii/application.h"
 
 namespace kawaii {
 
@@ -94,6 +96,27 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
             }
         }
     }
+}
+
+vec2 TouchDispatcher::ConvertToGL(const vec2 touch_location) {
+    mat4& projection = MatrixStack<GLProjection>::Instance().Top();
+    mat4& model_view = MatrixStack<GLModelView>::Instance().Top();
+    mat4 transform = model_view * projection;
+    mat4 inversed  = transform.Inverse();
+
+    float z_clip = transform.w.z / transform.w.w;
+    vec2 gl_size = Application::Instance().size_in_points();
+
+    vec3 clip_coord(2.0 * touch_location.x / gl_size.x - 1.0,
+                    1.0 - 2.0 * touch_location.y / gl_size.y,
+                    z_clip);
+
+    vec4 gl_coord = vec4(clip_coord, 1) * inversed;
+    vec3 result(gl_coord.x / gl_coord.w,
+                gl_coord.y / gl_coord.w,
+                gl_coord.z / gl_coord.w);
+
+    return vec2(result.x, result.y);
 }
 
 }
