@@ -334,8 +334,8 @@
     if (dispatcher.enabled()) {
         std::vector<std::shared_ptr<kawaii::TouchEvent> > events;
         for (UITouch *touch in touches) {
-            CGPoint pos  = [touch locationInView:nil];
-            CGPoint prev = [touch previousLocationInView:nil];
+            CGPoint pos  = [touch locationInView:self];
+            CGPoint prev = [touch previousLocationInView:self];
             kawaii::TouchEvent *e = new kawaii::TouchEvent((kawaii::TouchId)touch,
                                                            phase,
                                                            kawaii::vec2(pos.x, pos.y),

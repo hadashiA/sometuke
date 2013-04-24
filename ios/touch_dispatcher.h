@@ -2,6 +2,7 @@
 #define __kawaii__ios_touch_dispatcher__
 
 #include "kawaii/ios/events.h"
+#include "kawaii/application.h"
 
 #include <unordered_set>
 #include <vector>
@@ -102,6 +103,10 @@ public:
 
     void Trigger(TouchPhase phase, TouchEventSet touches);
 
+    // vec2 ConvertToGL(const vec2 touch_location) {
+    //     vec2 win_size = Application::Instance().size_in_points();
+    //     return vec2(touch_location.x, win_size.y - touch_location.y);
+    // }
     vec2 ConvertToGL(const vec2 touch_location);
 
 private:
