@@ -58,6 +58,8 @@ struct Matrix3 {
     vec3 z;
 };
 
+bool gaussj(float *a, float *b);
+
 template <typename T>
 struct Matrix4 {
     Matrix4() : x(1, 0, 0, 0),
@@ -129,6 +131,16 @@ struct Matrix4 {
         return Matrix3<T>(x.x, x.y, x.z,
                           y.x, y.y, y.z,
                           z.x, z.y, z.z);
+    }
+
+    Matrix4 Inverse() const {
+        float *a = Pointer();
+        float *b = Identity().Pointer();
+        if (gaussj(a, b) == false) {
+            return Identity();
+        } else {
+            return Matrix4(a);
+        }
     }
 
     const T* Pointer() const {
