@@ -125,8 +125,8 @@ public:
     void set_anchor_point(const vec2& value) {
         if (anchor_point_ != value) {
             anchor_point_ = value;
-            anchor_point_ = vec2(content_size_.x * anchor_point_.x,
-                                 content_size_.y * anchor_point_.y);
+            anchor_point_in_points_ = vec2(content_size_.x * anchor_point_.x,
+                                           content_size_.y * anchor_point_.y);
             is_transform_dirty_ = is_inverse_dirty_ = true;
         }
     }
@@ -134,8 +134,8 @@ public:
     void set_content_size(const vec2& value) {
         if (content_size_ != value) {
             content_size_ = value;
-            anchor_point_ = vec2(content_size_.x * anchor_point_.x,
-                                 content_size_.y * anchor_point_.y);
+            anchor_point_in_points_ = vec2(content_size_.x * anchor_point_.x,
+                                           content_size_.y * anchor_point_.y);
             is_transform_dirty_ = is_inverse_dirty_ = true;
         }
     }
@@ -199,6 +199,7 @@ protected:
     float rotation_;
     vec2 skew_;
     vec2 anchor_point_;
+    vec2 anchor_point_in_points_;
     vec2 content_size_;
     int z_order_;
     bool is_visible_;

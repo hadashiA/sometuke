@@ -27,8 +27,8 @@ const mat4& Node::LocalTransform() {
         // inline anchor point calculation if skew is not needed
         bool needs_skew_matrix = (skew_.x || skew_.y);
         if (!needs_skew_matrix && !anchor_point_is_zero()) {
-            x += c * -anchor_point_.x * scale_.x + -s * -anchor_point_.y * scale_.y;
-            y += s * -anchor_point_.x * scale_.x +  c * -anchor_point_.y * scale_.y;
+            x += c * -anchor_point_in_points_.x * scale_.x + -s * -anchor_point_in_points_.y * scale_.y;
+            y += s * -anchor_point_in_points_.x * scale_.x +  c * -anchor_point_in_points_.y * scale_.y;
         }
 
         // Build Transform Matrix
@@ -52,7 +52,7 @@ const mat4& Node::LocalTransform() {
 
             // adjust anchor point
             if (!anchor_point_is_zero()) {
-                local_transform_ = local_transform_.Translate(-anchor_point_.x, -anchor_point_.y, 0);
+                local_transform_ = local_transform_.Translate(-anchor_point_in_points_.x, -anchor_point_in_points_.y, 0);
             }
         }
 
