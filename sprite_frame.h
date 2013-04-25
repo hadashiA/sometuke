@@ -28,16 +28,16 @@ public:
     }
 
     SpriteFrame(shared_ptr<Texture2D> _texture,
-                const Rect& _rect,
+                const Rect& _rect_in_pixels,
                 bool _rotated,
-                const vec2& _offset,
-                const vec2& _original_size,
+                const vec2& _offset_in_pixels,
+                const vec2& _original_size_in_pixels,
                 const string& _name)
         : texture(_texture),
-          rect(_rect),
+          rect_in_pixels(_rect_in_pixels),
           rotated(_rotated),
-          offset(_offset),
-          original_size(_original_size),
+          offset(_offset_in_pixels),
+          original_size(_original_size_in_pixels),
           name(_name) {
         UpdatePixelSize();
     }
@@ -55,9 +55,9 @@ public:
 private:
     void UpdatePixelSize() {
         float content_scale_factor = Application::Instance().content_scale_factor();
-        rect_in_pixels = rect * content_scale_factor;
-        offset_in_pixels = offset * content_scale_factor;
-        original_size_in_pixels = original_size * content_scale_factor;
+        rect          = rect_in_pixels / content_scale_factor;
+        offset        = offset_in_pixels / content_scale_factor;
+        original_size = original_size_in_pixels / content_scale_factor;
     }
 };
 

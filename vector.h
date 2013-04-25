@@ -238,6 +238,10 @@ public:
         return Rect(pos * factor, size * factor);
     }
 
+    Rect operator/(float factor) const {
+        return Rect(pos / factor, size / factor);
+    }
+
     vec2 pos;
     vec2 size;
 };
