@@ -11,7 +11,7 @@ bool Application::Init(ApplicationComponentFactory& factory) {
     loader_.reset(factory.CreateAssetsLoader());
 
     director_.reset(factory.CreateDirector());
-    if (director_->Init()) {
+    if (!director_->Init()) {
         IIERROR("Director::Init() failed.");
         return false;
     }
