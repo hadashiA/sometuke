@@ -19,9 +19,12 @@ class Node : public enable_shared_from_this<Node> {
 public:
     Node()
         : local_position_(0, 0, 0),
-          scale_(1, 1),
-          rotation_(0),
-          skew_(0, 0),
+          scale_x_(1),
+          scale_y_(1),
+          rotation_x_(0),
+          rotation_y_(0),
+          skew_x_(0),
+          skew_y_(0),
           anchor_point_(0, 0),
           content_size_(0, 0),
           z_order_(0),
@@ -37,16 +40,28 @@ public:
         return local_position_;
     }
 
-    const vec2& scale() const {
-        return scale_;
+    const float scale_x() const {
+        return scale_x_;
     }
 
-    const float rotation() const {
-        return rotation_;
+    const float scale_y() const {
+        return scale_y_;
     }
 
-    const vec2& skew() const {
-        return skew_;
+    const float rotation_x() const {
+        return rotation_x_;
+    }
+
+    const float rotation_y() const {
+        return rotation_y_;
+    }
+
+    const float skew_x() const {
+        return skew_x_;
+    }
+
+    const float skew_y() const {
+        return skew_y_;
     }
 
     const int z_order() const {
@@ -92,28 +107,28 @@ public:
     }
 
     void set_scale_x(const float scale_x) {
-        scale_.x = scale_x;
+        scale_x_ = scale_x;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
     void set_scale_y(const float scale_y) {
-        scale_.y = scale_y;
+        scale_y_ = scale_y;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
     void set_scale(const float scale) {
-        scale_.x = scale;
-        scale_.y = scale;
+        scale_x_ = scale;
+        scale_y_ = scale;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
     void set_skew_x(const float skew_x) {
-        skew_.x = skew_x;
+        skew_x_ = skew_x;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
     void set_skew_y(const float skew_y) {
-        skew_.y = skew_y;
+        skew_y_ = skew_y;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
@@ -195,9 +210,12 @@ public:
 
 protected:    
     vec3 local_position_;
-    vec2 scale_;
-    float rotation_;
-    vec2 skew_;
+    float scale_x_;
+    float scale_y_;
+    float rotation_x_;
+    float rotation_y_;
+    float skew_x_;
+    float skew_y_;
     vec2 anchor_point_;
     vec2 anchor_point_in_points_;
     vec2 content_size_;
