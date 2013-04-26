@@ -31,8 +31,12 @@ public:
 
     virtual void Render();
 
-    const bvec2& fliped() const {
-        return fliped_;
+    const bool fliped_x() const {
+        return fliped_x_;
+    }
+
+    const bool fliped_y() const {
+        return fliped_y_;
     }
 
     const GLubyte blend_func_src() const {
@@ -67,12 +71,12 @@ public:
         return does_opacity_modify_rgb_;
     }
 
-    void set_fliped_x(bool value) {
-        fliped_.x = value;
+    void flip_x(bool value) {
+        fliped_x_ = value;
     }
 
-    void set_fliped_y(bool value) {
-        fliped_.y = value;
+    void flip_y(bool value) {
+        fliped_y_ = value;
     }
 
     void set_blend_func_src(GLubyte value) {
@@ -103,7 +107,8 @@ private:
     shared_ptr<Texture2D> texture_;
     shared_ptr<GLProgram> shader_program_;
 
-    bvec2 fliped_;
+    bool fliped_x_;
+    bool fliped_y_;
 
     // renderer stuff
     Quad_P3F_C4B_T2F quad_;

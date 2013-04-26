@@ -20,7 +20,8 @@ Sprite::Sprite()
       opacity_(255),
       does_opacity_modify_rgb_(false),
       vertex_rect_rotated_(false),
-      fliped_(false, false),
+      fliped_x_(false),
+      fliped_y_(false),
       offset_position_(0, 0),
       unflipped_offset_position_from_center_(0, 0) {
     shader_program_ = ShaderCache::Instance()[kShader_PositionTextureColor];
@@ -119,10 +120,10 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
 
     // TODO: offset_position calculate
     vec2 relative_offset(unflipped_offset_position_from_center_);
-    if (fliped_.x) {
+    if (fliped_x_) {
         relative_offset.x = -relative_offset.x;
     }
-    if (fliped_.y) {
+    if (fliped_y_) {
         relative_offset.y = -relative_offset.y;
     }
     offset_position_.x = relative_offset.x + (content_size().x - rect.size.x) / 2;
@@ -219,10 +220,10 @@ void Sprite::UpdateQuadTexCoords() {
         top    = rect.pos.y / atlas_height;
         bottom = (rect.pos.y + rect.size.x) / atlas_height;
         
-        if (fliped_.x) {
+        if (fliped_x_) {
             std::swap(top, bottom);
         }
-        if (fliped_.y) {
+        if (fliped_y_) {
             std::swap(left, right);
         }
         
@@ -242,10 +243,10 @@ void Sprite::UpdateQuadTexCoords() {
         top    = rect.pos.y / atlas_height;
         bottom = (rect.pos.y + rect.size.y) / atlas_height;
 
-        if (fliped_.x) {
+        if (fliped_x_) {
             std::swap(left, right);
         }
-        if (fliped_.y) {
+        if (fliped_y_) {
             std::swap(top, bottom);
         }
 
