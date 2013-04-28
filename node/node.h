@@ -4,16 +4,45 @@
 #include "types.h"
 #include "vector.h"
 #include "matrix.h"
+#include "color.h"
 #include "kawaii/process/node_process_relation.h"
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace kawaii {
 using namespace std;
 
 class ProcessScheduler;
 class EventDispatcher;
+class Texture2D;
+
+class LabelInterface {
+public:
+    virtual ~LabelInterface() {}
+    virtual void set_text(const string& text) = 0;
+    virtual const string& text() const = 0;
+};
+
+class TextureInterface {
+public:
+    virtual ~TextureInterface() {}
+    virtual shared_ptr<Texture2D> texture() const = 0;
+    virtual void set_texture(shared_ptr<Texture2D> value) = 0;
+};
+
+class RGBAInterface {
+public:    
+    virtual ~RGBAInterface() {}
+    virtual const Color3B color() const = 0;
+    virtual const GLubyte opacity() const = 0;
+    virtual bool does_opacity_modify_rgb() const = 0;
+    virtual 
+    virtual void set_color(const Color3B& value) = 0;
+    virtual void set_opacity(GLubyte value) = 0;
+    virtual void set_opacity_modify_rgb(bool value) = 0;
+};
 
 class Node : public enable_shared_from_this<Node> {
 public:

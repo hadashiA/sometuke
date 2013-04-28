@@ -17,7 +17,7 @@ class GLProgram;
 class Animation;
 class Animate;
 
-class Sprite : public Node {
+class Sprite : public Node, public TextureInterface, public RGBAInterface {
 public:
     Sprite();
     virtual ~Sprite() {}
