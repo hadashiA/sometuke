@@ -1,6 +1,15 @@
-#ifndef __Hitasura__label_interface__
-#define __Hitasura__label_interface__
+#ifndef __kawaii__node_label_atlas__
+#define __kawaii__node_label_atlas__
 
-#include <iostream>
+namespace kawaii {
+using namespace std;
+
+class LabelInterface {
+public:
+    void set_text(const string& text) = 0;
+    const string& text() const = 0;
+};
+
+}
 
 #endif /* defined(__Hitasura__label_interface__) */
