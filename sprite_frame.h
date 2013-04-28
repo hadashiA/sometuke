@@ -36,8 +36,8 @@ public:
         : texture(_texture),
           rect_in_pixels(_rect_in_pixels),
           rotated(_rotated),
-          offset(_offset_in_pixels),
-          original_size(_original_size_in_pixels),
+          offset_in_pixels(_offset_in_pixels),
+          original_size_in_pixels(_original_size_in_pixels),
           name(_name) {
         UpdatePixelSize();
     }
