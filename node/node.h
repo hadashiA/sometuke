@@ -55,6 +55,7 @@ public:
           skew_x_(0),
           skew_y_(0),
           anchor_point_(0, 0),
+          anchor_point_in_points_(0, 0),
           content_size_(0, 0),
           z_order_(0),
           is_visible_(true),
@@ -236,8 +237,13 @@ public:
 
     vec3 WorldPositionAt(const vec3& local_position);
     vec3 LocalPositionAt(const vec3& world_position);
+    
+    const Rect bounding_box() {
+        Rect rect(0, 0, content_size_.x, content_size_.y);
+        return rect * LocalTransform();
+    }
 
-protected:    
+protected:
     vec3 local_position_;
     float scale_x_;
     float scale_y_;

@@ -222,18 +222,19 @@ struct Matrix4 {
 };
 
 template <typename T>
-Vector4<T> operator * (const Vector4<T>& v, const Matrix4<T>& m)  {
+Vector4<T> operator *(const Vector4<T>& v, const Matrix4<T>& m)  {
     return Vector4<T>((v.x * m.x.x) + (v.y * m.y.x) + (v.z * m.z.x) + (v.w * m.w.x),
                       (v.x * m.x.y) + (v.y * m.y.y) + (v.z * m.z.y) + (v.w * m.w.y),
                       (v.x * m.x.z) + (v.y * m.y.z) + (v.z * m.z.z) + (v.w * m.w.z),
                       (v.x * m.x.w) + (v.y * m.y.w) + (v.z * m.z.w) + (v.w * m.w.w));
 }
 
-
-
 typedef Matrix2<float> mat2;
 typedef Matrix3<float> mat3;
 typedef Matrix4<float> mat4;
+
+Rect operator *(const Rect& rect, const mat4& m);
+
 
 } // namespace kawaii
 

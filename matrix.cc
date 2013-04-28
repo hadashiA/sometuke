@@ -91,6 +91,17 @@ bool gaussj(float *a, float *b) {
     return true;
 }
 
+Rect operator *(const Rect& rect, const mat4& m)  {
+    vec4 pos1(rect.pos.x, rect.pos.y, 0, 1);
+    vec4 pos2(rect.pos.x + rect.size.x, rect.pos.y + rect.size.y, 0, 1);
+
+    vec4 new_pos1 = pos1 * m;
+    vec4 new_pos2 = pos2 * m;
+    vec2 new_size(new_pos2.x - new_pos1.x, new_pos2.y - new_pos1.y);
+
+    return Rect(new_pos1.x, new_pos1.y, new_size.x, new_size.y);
+}
+
 }
 
 
