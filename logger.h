@@ -81,7 +81,7 @@ static inline string Inspect(const vec3& v) {
 
 static inline string Inspect(const Rect& rect) {
     stringstream ss;
-    ss << "{x" << rect.pos.x << ", y:" << rect.pos.y <<
+    ss << "{x:" << rect.pos.x << ", y:" << rect.pos.y <<
         ", w:" << rect.size.x << ", h:" << rect.size.y << "}";
     return ss.str();
 }
