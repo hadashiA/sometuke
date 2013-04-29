@@ -225,9 +225,23 @@ public:
 
     virtual bool Init() { return true; }
     virtual void Update(const ii_time delta_time) {}   // Is not called by default
-    virtual void OnEnter() {}
     virtual void Render()  {}
-    virtual void OnExit()  {}
+
+    virtual void OnEnter() {
+        for (vector<shared_ptr<Node> >::iterator i = children_.begin();
+             i != children_.end(); ++i) {
+            (*i)->OnEnter();
+        }
+        is_running_ = true;
+    }
+
+    virtual void OnExit()  {
+        for (vector<shared_ptr<Node> >::iterator i = children_.begin();
+             i != children_.end(); ++i) {
+            (*i)->OnExit();
+        }
+        is_running_ = false;
+    }
 
     virtual NodeProcessRelation Does() {
         return NodeProcessRelation(shared_from_this());

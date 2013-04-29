@@ -93,6 +93,10 @@ void Node::AddChild(shared_ptr<Node> child) {
 
     child->set_parent(shared_from_this());
     children_.push_back(child);
+
+    if (is_running_) {
+        child->OnEnter();
+    }
 }
 
 void Node::Visit() {
