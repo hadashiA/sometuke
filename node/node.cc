@@ -11,9 +11,9 @@ using namespace std;
 
 const mat4& Node::LocalTransform() {
     if (is_transform_dirty_) {
-        float x = local_position_.x;
-        float y = local_position_.y;
-        float z = local_position_.z;
+        float x = position_.x;
+        float y = position_.y;
+        float z = position_.z;
 
         float cx = 1;
         float sx = 0;
@@ -76,11 +76,11 @@ mat4 Node::WorldTransform() {
 }
 
 vec3 Node::WorldPosition() {
-    return WorldPositionAt(local_position_);
+    return WorldPositionAt(position_);
 }
 
-vec3 Node::WorldPositionAt(const vec3& local_position) {
-    vec4 pos = vec4(local_position, 1) * WorldTransform();
+vec3 Node::WorldPositionAt(const vec3& position) {
+    vec4 pos = vec4(position, 1) * WorldTransform();
     return vec3(pos.x, pos.y, pos.z);
 }
 

@@ -28,7 +28,7 @@ public:
 
     virtual void OnEnter() {
         if (shared_ptr<Node> node = target_.lock()) {
-            from_  = node->local_position();
+            from_  = node->position();
             delta_ = to_ - from_;
         }
     }
@@ -36,7 +36,7 @@ public:
     virtual bool Update(const ii_time progress) {
         if (shared_ptr<Node> node = target_.lock()) {
             vec3 pos = from_ + (delta_ * progress);
-            node->set_local_position(pos);
+            node->set_position(pos);
             return true;
         }
         return false;

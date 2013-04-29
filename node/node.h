@@ -47,7 +47,7 @@ public:
 class Node : public enable_shared_from_this<Node> {
 public:
     Node()
-        : local_position_(0, 0, 0),
+        : position_(0, 0, 0),
           scale_x_(1),
           scale_y_(1),
           rotation_x_(0),
@@ -66,8 +66,8 @@ public:
     
     virtual ~Node() {}
 
-    const vec3& local_position() const {
-        return local_position_;
+    const vec3& position() const {
+        return position_;
     }
 
     const float scale_x() const {
@@ -118,17 +118,17 @@ public:
         return parent_.lock();
     }
 
-    void set_local_position(const vec3& position) {
-        local_position_ = position;
+    void set_position(const vec3& position) {
+        position_ = position;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
-    void set_local_position(const float x, const float y, const float z = 0) {
-        set_local_position(vec3(x, y, z));
+    void set_position(const float x, const float y, const float z = 0) {
+        set_position(vec3(x, y, z));
     }
 
     void add_position(const vec3& diff) {
-        local_position_ += diff;
+        position_ += diff;
         is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
@@ -243,7 +243,7 @@ public:
     vec3 WorldPosition();
     // void SetWorldPosition(const vec3& world_position);
 
-    vec3 WorldPositionAt(const vec3& local_position);
+    vec3 WorldPositionAt(const vec3& position);
     vec3 LocalPositionAt(const vec3& world_position);
     
     const Rect bounding_box() {
@@ -252,7 +252,7 @@ public:
     }
 
 protected:
-    vec3 local_position_;
+    vec3 position_;
     float scale_x_;
     float scale_y_;
     float rotation_x_;
