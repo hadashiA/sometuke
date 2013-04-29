@@ -76,6 +76,7 @@ public:
     virtual bool Update(const ii_time delta) = 0;
     
     virtual const HashedString& type() const = 0;
+    virtual size_t target_id() { return 0; }
 
 protected:
     bool killed_;

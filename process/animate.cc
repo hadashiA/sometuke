@@ -8,7 +8,7 @@ namespace kawaii {
 const HashedString Animate::TYPE("process:animate");
 
 bool Animate::Update(ii_time delta_time) {
-    shared_ptr<Sprite> sprite = target_.lock(); 
+    shared_ptr<Sprite> sprite = target();
     if (!sprite) {
         return false;
     }
