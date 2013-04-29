@@ -1,6 +1,5 @@
 #include "kawaii/process/process_scheduler.h"
 
-#include "kawaii/node/node.h"
 #include "kawaii/process/process_timer.h"
 
 #include <climits>
@@ -40,13 +39,14 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         }
     }
 
-    for (std::list<weak_ptr<Node> >::iterator iter = nodes_.begin(); iter != nodes_.end();) {
-        weak_ptr<Node> node_ref = *iter;
-        if (shared_ptr<Node> node = node_ref.lock()) {
-            node->Update(delta_time);
-            ++iter;
+    for (std::list<weak_ptr<UpdateInterface> >::iterator i = update_entries_.begin();
+         i != update_entries_.end();) {
+        weak_ptr<UpdateInterface> weak_entry = *i;
+        if (shared_ptr<UpdateInterface> entry = weak_entry.lock()) {
+            entry->Update(delta_time);
+            ++i;
         } else {
-            iter = nodes_.erase(iter);
+            i = update_entries_.erase(i);
         }
     }
 }

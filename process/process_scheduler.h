@@ -15,6 +15,12 @@ class Node;
 
 typedef list<shared_ptr<Process> > ProcessList;
 
+class UpdateInterface {
+public:
+    virtual ~UpdateInterface() {}
+    virtual void Update(const ii_time delta_time) = 0;
+};
+
 class ProcessScheduler {
 public:
     void Attach(shared_ptr<Process> process) {
@@ -25,9 +31,9 @@ public:
     void Attach(shared_ptr<Process> process, const ii_time interval,
                 const unsigned int repeat, const ii_time delay);
 
-    void Attach(weak_ptr<Node> node) {
-        if (!node.expired()) {
-            nodes_.push_back(node);
+    void Attach(weak_ptr<UpdateInterface> update_entry) {
+        if (!update_entry.expired()) {
+            update_entries_.push_back(update_entry);
         }
     }
 
@@ -35,7 +41,7 @@ public:
         processes_.remove(process);
     }
 
-    void Detach(weak_ptr<Node> node) {
+    void Detach(weak_ptr<UpdateInterface> update_entry) {
         assert(false);              // no implemented yet
         // nodes_.remove(node);
     }
@@ -44,7 +50,7 @@ public:
 
 private:
     ProcessList processes_;
-    list<weak_ptr<Node> > nodes_;
+    list<weak_ptr<UpdateInterface> > update_entries_;
 };
 
 }
