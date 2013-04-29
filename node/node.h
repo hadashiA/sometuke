@@ -110,6 +110,10 @@ public:
         return anchor_point_;
     }
 
+    const vec2& anchor_point_in_points() const {
+        return anchor_point_in_points_;
+    }
+
     const vec2& content_size() const {
         return content_size_;
     }
