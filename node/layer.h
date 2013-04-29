@@ -41,9 +41,9 @@ public:
     }
 
 protected:
-    virtual void AddChild(shared_ptr<Node> child) {
-        Node::AddChild(child);
-    }
+    // virtual void AddChild(shared_ptr<Node> child) {
+    //     Node::AddChild(child);
+    // }
 
     ActorTable actors_;
 };
