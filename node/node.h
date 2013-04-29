@@ -220,8 +220,14 @@ public:
 
     virtual void AddChild(shared_ptr<Node> child);
 
-    virtual ProcessScheduler& scheduler() const;
-    virtual EventDispatcher& dispatcher() const;
+
+    virtual ProcessScheduler& scheduler() const {
+        return Application::Instance().director().scheduler();
+    }
+    
+    virtual EventDispatcher& dispatcher() const {
+        return Application::Instance().director().dispatcher();
+    }
 
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);

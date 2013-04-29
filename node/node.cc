@@ -1,7 +1,6 @@
 #include "kawaii/node/node.h"
 
 #include "kawaii/matrix_stack.h"
-#include "kawaii/application.h"
 #include "kawaii/logger.h"
 
 #include <cassert>
@@ -131,14 +130,6 @@ void Node::Visit() {
 
 void Node::ScheduleUpdate() {
     scheduler().Attach(shared_from_this());
-}
-
-ProcessScheduler& Node::scheduler() const {
-    return Application::Instance().director().scheduler();
-}
-
-EventDispatcher& Node::dispatcher() const {
-    return Application::Instance().director().dispatcher();
 }
 
 }
