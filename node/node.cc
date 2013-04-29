@@ -128,8 +128,4 @@ void Node::Visit() {
     MatrixStack<GLModelView>::Instance().Pop();
 }
 
-void Node::ScheduleUpdate() {
-    scheduler().Attach(shared_from_this());
-}
-
 }

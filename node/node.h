@@ -229,6 +229,10 @@ public:
         return Application::Instance().director().dispatcher();
     }
 
+    void ScheduleUpdate() {
+        scheduler().Attach(shared_from_this());
+    }
+
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);
     //     return *this;
@@ -259,7 +263,6 @@ public:
     }
 
     void Visit();
-    void ScheduleUpdate();
 
     const mat4& LocalTransform();
 
