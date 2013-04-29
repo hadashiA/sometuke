@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_move_by__
 #define __kawaii__process_move_by__
 
-#include "interval.h"
+#include "kawaii/process/interval.h"
 
-#include "node.h"
+#include "kawaii/node/node.h"
 
 namespace kawaii {
 

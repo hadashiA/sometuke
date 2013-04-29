@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "kawaii/matrix.h"
 
 namespace kawaii {
 

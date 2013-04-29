@@ -1,9 +1,9 @@
 #ifndef __kawaii__event_dispatcher__
 #define __kawaii__event_dispatcher__
 
-#include "hashed_string.h"
-#include "types.h"
-#include "memory_pool.h"
+#include "kawaii/hashed_string.h"
+#include "kawaii/types.h"
+#include "kawaii/memory_pool.h"
 
 #include <memory>
 #include <list>

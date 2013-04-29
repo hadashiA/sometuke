@@ -1,9 +1,9 @@
-#include "application.h"
+#include "kawaii/application.h"
 
-#include "logger.h"
-#include "matrix_stack.h"
+#include "kawaii/logger.h"
+#include "kawaii/matrix_stack.h"
 
-#include "OpenGL_Internal.h"
+#include "kawaii/OpenGL_Internal.h"
 
 namespace kawaii {
 

@@ -1,7 +1,7 @@
 #ifndef __kawaii__process_process_scheduler__
 #define __kawaii__process_process_scheduler__
 
-#include "types.h"
+#include "kawaii/types.h"
 
 #include <memory>
 #include <list>

@@ -1,8 +1,8 @@
 #ifndef __kawaii__drawing_primitives__
 #define __kawaii__drawing_primitives__
 
-#include "vector.h"
-#include "color.h"
+#include "kawaii/vector.h"
+#include "kawaii/color.h"
 
 namespace kawaii {
 

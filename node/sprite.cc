@@ -1,14 +1,13 @@
-#include "sprite.h"
+#include "kawaii/node/sprite.h"
 
-#include "shader_cache.h"
-#include "texture_cache.h"
-#include "texture_2d.h"
-#include "sprite_frame.h"
-#include "application.h"
-#include "animate.h"
-#include "drawing_primitives.h"
-
-#include "OpenGL_Internal.h"
+#include "kawaii/shader_cache.h"
+#include "kawaii/texture_cache.h"
+#include "kawaii/texture_2d.h"
+#include "kawaii/sprite_frame.h"
+#include "kawaii/application.h"
+#include "kawaii/process/animate.h"
+#include "kawaii/drawing_primitives.h"
+#include "kawaii/OpenGL_Internal.h"
 
 #include <algorithm>
 #include <cassert>

@@ -1,6 +1,6 @@
-#include "ios_assets_loader.h"
-#include "logger.h"
-#include "texture_2d.h"
+#include "kawaii/ios/ios_assets_loader.h"
+#include "kawaii/logger.h"
+#include "kawaii/texture_2d.h"
 
 #include <UIKit/UIKit.h>
 #include <fstream>

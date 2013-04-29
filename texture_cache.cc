@@ -1,9 +1,9 @@
-#include "texture_cache.h"
+#include "kawaii/texture_cache.h"
 
-#include "texture_2d.h"
-#include "hashed_string.h"
-#include "application.h"
-#include "assets_loader.h"
+#include "kawaii/texture_2d.h"
+#include "kawaii/hashed_string.h"
+#include "kawaii/application.h"
+#include "kawaii/assets_loader.h"
 
 namespace kawaii {
 

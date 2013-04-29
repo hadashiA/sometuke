@@ -1,6 +1,6 @@
-#include "sequence.h"
+#include "kawaii/process/sequence.h"
 
-#include "logger.h"
+#include "kawaii/logger.h"
 
 namespace kawaii {
 

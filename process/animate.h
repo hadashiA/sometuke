@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_animate__
 #define __kawaii__process_animate__
 
-#include "process.h"
-#include "animation.h"
-#include "sprite.h"
+#include "kawaii/process/process.h"
+#include "kawaii/animation.h"
+#include "kawaii/node/sprite.h"
 
 #include <memory>
 

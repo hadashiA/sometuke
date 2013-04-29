@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_event_emit__
 #define __kawaii__process_event_emit__
 
-#include "event_dispatcher.h"
-
-#include "application.h"
+#include "kawaii/process/process.h"
+#include "kawaii/event_dispatcher.h"
+#include "kawaii/application.h"
 
 namespace kawaii {
 

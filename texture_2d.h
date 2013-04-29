@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "vector.h"
-#include "shader_cache.h"
-#include "application.h"
+#include "kawaii/vector.h"
+#include "kawaii/shader_cache.h"
+#include "kawaii/application.h"
 
 namespace kawaii {
 

@@ -1,9 +1,9 @@
 #ifndef __kawaii__sprite_frame_cache__
 #define __kawaii__sprite_frame_cache__
 
-#include "hashed_string.h"
+#include "kawaii/hashed_string.h"
 
-#include "picojson/picojson.h"
+#include "kawaii/picojson/picojson.h"
 
 #include <unordered_map>
 #include <unordered_set>

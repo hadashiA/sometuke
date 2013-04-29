@@ -1,9 +1,9 @@
-#include "gl_program.h"
+#include "kawaii/gl_program.h"
 
-#include "application.h"
-#include "assets_loader.h"
-#include "logger.h"
-#include "matrix_stack.h"
+#include "kawaii/application.h"
+#include "kawaii/assets_loader.h"
+#include "kawaii/logger.h"
+#include "kawaii/matrix_stack.h"
 
 #include <vector>
 #include <iostream>

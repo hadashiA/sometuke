@@ -1,7 +1,7 @@
 #ifndef __kawaii__process_process_timer__
 #define __kawaii__process_process_timer__
 
-#include "process.h"
+#include "kawaii/process/process.h"
 
 namespace kawaii {
 

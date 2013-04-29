@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_repeat__
 #define __kawaii__processr_epeat__
 
-#include "process.h"
+#include "kawaii/process/process.h"
 
-#include "logger.h"
+#include "kawaii/logger.h"
 
 #include <memory>
 

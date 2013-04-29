@@ -1,8 +1,8 @@
-#include "node.h"
+#include "kawaii/node/node.h"
 
-#include "matrix_stack.h"
-#include "application.h"
-#include "logger.h"
+#include "kawaii/matrix_stack.h"
+#include "kawaii/application.h"
+#include "kawaii/logger.h"
 
 #include <cassert>
 

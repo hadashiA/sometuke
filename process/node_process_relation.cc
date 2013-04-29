@@ -1,9 +1,9 @@
-#include "node_process_relation.h"
+#include "kawaii/process/node_process_relation.h"
 
-#include "application.h"
-#include "move_to.h"
-#include "move_by.h"
-#include "repeat.h"
+#include "kawaii/application.h"
+#include "kawaii/process/move_to.h"
+#include "kawaii/process/move_by.h"
+#include "kawaii/process/repeat.h"
 
 namespace kawaii {
 

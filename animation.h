@@ -1,8 +1,8 @@
 #ifndef __kawaii__animation__
 #define __kawaii__animation__
 
-#include "types.h"
-#include "event_dispatcher.h"
+#include "kawaii/types.h"
+#include "kawaii/event_dispatcher.h"
 
 #include <vector>
 #include <memory>

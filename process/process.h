@@ -1,10 +1,10 @@
 #ifndef __kawaii__process_process__
 #define __kawaii__process_process__
 
-#include "hashed_string.h"
-#include "types.h"
-#include "memory_pool.h"
-#include "process_scheduler.h"
+#include "kawaii/hashed_string.h"
+#include "kawaii/types.h"
+#include "kawaii/memory_pool.h"
+#include "kawaii/process/process_scheduler.h"
 
 #include <memory>
 

@@ -1,11 +1,12 @@
 #ifndef __kawaii__node_node__
 #define __kawaii__node_node__
 
-#include "types.h"
-#include "vector.h"
-#include "matrix.h"
-#include "color.h"
+#include "kawaii/types.h"
+#include "kawaii/vector.h"
+#include "kawaii/matrix.h"
+#include "kawaii/color.h"
 #include "kawaii/process/node_process_relation.h"
+#include "kawaii/application.h"
 
 #include <vector>
 #include <memory>

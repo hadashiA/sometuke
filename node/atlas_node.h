@@ -1,14 +1,8 @@
-//
-//  atlas_node.h
-//  Hitasura
-//
-//  Created by 久保田 竜自 on 2013/04/29.
-//  Copyright (c) 2013年 久保田 竜自. All rights reserved.
-//
+#ifndef __kawaii__node_atlas_node__
+#define __kawaii__node_atlas_node__
 
-#ifndef __Hitasura__atlas_node__
-#define __Hitasura__atlas_node__
+namespace kawaii {
+    
+}
 
-#include <iostream>
-
-#endif /* defined(__Hitasura__atlas_node__) */
+#endif /* defined(__kawaii__node_atlas_node__) */

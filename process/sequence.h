@@ -1,7 +1,7 @@
 #ifndef __kawaii__process_sequence__
 #define __kawaii__process_sequence__
 
-#include "process.h"
+#include "kawaii/process/process.h"
 
 #include <memory>
 #include <vector>

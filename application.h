@@ -1,10 +1,10 @@
 #ifndef __kawaii__application__
 #define __kawaii__application__
 
-#include "vector.h"
-#include "vertices.h"
-#include "director.h"
-#include "assets_loader.h"
+#include "kawaii/vector.h"
+#include "kawaii/vertices.h"
+#include "kawaii/director.h"
+#include "kawaii/assets_loader.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>

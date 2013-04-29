@@ -1,6 +1,6 @@
-#include "process.h"
+#include "kawaii/process/process.h"
 
-#include "application.h"
+#include "kawaii/application.h"
 
 namespace kawaii {
 

@@ -4,7 +4,7 @@
 #include <OpenGLES/ES2/gl.h>
 #include <string>
 
-#include "matrix.h"
+#include "kawaii/matrix.h"
 
 namespace kawaii {
 using namespace std;

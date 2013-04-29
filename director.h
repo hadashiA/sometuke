@@ -1,10 +1,9 @@
 #ifndef __kawaii__director__
 #define __kawaii__director__
 
-#include "types.h"
-#include "actor.h"
-#include "event_dispatcher.h"
-#include "process/process_scheduler.h"
+#include "kawaii/types.h"
+#include "kawaii/event_dispatcher.h"
+#include "kawaii/process/process_scheduler.h"
 
 #include <vector>
 #include <memory>

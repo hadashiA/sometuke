@@ -1,10 +1,10 @@
-#include "sprite_frame_cache.h"
+#include "kawaii/sprite_frame_cache.h"
 
-#include "sprite_frame.h"
-#include "application.h"
-#include "assets_loader.h"
-#include "texture_cache.h"
-#include "logger.h"
+#include "kawaii/sprite_frame.h"
+#include "kawaii/application.h"
+#include "kawaii/assets_loader.h"
+#include "kawaii/texture_cache.h"
+#include "kawaii/logger.h"
 
 #include <fstream>
 #include <memory>

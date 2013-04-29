@@ -1,7 +1,7 @@
-#include "process_scheduler.h"
+#include "kawaii/process/process_scheduler.h"
 
-#include "node.h"
-#include "process_timer.h"
+#include "kawaii/node/node.h"
+#include "kawaii/process/process_timer.h"
 
 #include <climits>
 

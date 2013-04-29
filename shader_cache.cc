@@ -1,5 +1,5 @@
-#include "shader_cache.h"
-#include "OpenGL_Internal.h"
+#include "kawaii/shader_cache.h"
+#include "kawaii/OpenGL_Internal.h"
 
 namespace kawaii {
 

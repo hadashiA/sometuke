@@ -1,6 +1,6 @@
-#include "event_dispatcher.h"
+#include "kawaii/event_dispatcher.h"
 
-#include "application.h"
+#include "kawaii/application.h"
 
 #include <functional>
 #include <cassert>

@@ -5,7 +5,7 @@
 
 #include <OpenGLES/ES2/gl.h>
 
-#include "gl_program.h"
+#include "kawaii/gl_program.h"
 
 namespace kawaii {
 using namespace std;

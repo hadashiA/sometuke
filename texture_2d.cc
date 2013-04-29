@@ -1,5 +1,5 @@
-#include "texture_2d.h"
-#include "logger.h"
+#include "kawaii/texture_2d.h"
+#include "kawaii/logger.h"
 
 #include <assert.h>
 

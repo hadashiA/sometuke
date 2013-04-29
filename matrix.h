@@ -1,7 +1,7 @@
 #ifndef __kawaii_matrix__
 #define __kawaii_matrix__
 
-#include "vector.h"
+#include "kawaii/vector.h"
 
 namespace kawaii {
 

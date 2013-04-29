@@ -1,11 +1,11 @@
 #ifndef __kawaii__sprite_frame__
 #define __kawaii__sprite_frame__
 
-#include "vertices.h"
-#include "application.h"
-#include "hashed_string.h"
+#include "kawaii/vertices.h"
+#include "kawaii/application.h"
+#include "kawaii/hashed_string.h"
 
-#include "picojson/picojson.h"
+#include "kawaii/picojson/picojson.h"
 
 #include <memory>
 #include <string>

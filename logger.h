@@ -1,11 +1,11 @@
 #ifndef __kawaii__logger__
 #define __kawaii__logger__
 
-#include "vector.h"
-#include "matrix.h"
-#include "vertices.h"
-#include "hashed_string.h"
-#include "sprite_frame.h"
+#include "kawaii/vector.h"
+#include "kawaii/matrix.h"
+#include "kawaii/vertices.h"
+#include "kawaii/hashed_string.h"
+#include "kawaii/sprite_frame.h"
 
 #include <string>
 #include <sstream>

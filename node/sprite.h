@@ -1,9 +1,9 @@
 #ifndef __kawaii__node_sprite__
 #define __kawaii__node_sprite__
 
-#include "vertices.h"
-#include "node.h"
-#include "sprite_frame.h"
+#include "kawaii/vertices.h"
+#include "kawaii/node/node.h"
+#include "kawaii/sprite_frame.h"
 
 #include <memory>
 #include <string>

@@ -1,9 +1,8 @@
 #ifndef __kawaii__node_scene__
 #define __kawaii__node_scene__
 
-#include "actor.h"
-#include "layer.h"
-#include "matrix_stack.h"
+#include "kawaii/node/layer.h"
+#include "kawaii/matrix_stack.h"
 
 #include <memory>
 #include <vector>

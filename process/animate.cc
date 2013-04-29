@@ -1,7 +1,7 @@
-#include "animate.h"
-#include "sprite.h"
+#include "kawaii/process/animate.h"
+#include "kawaii/node/sprite.h"
 
-#include "logger.h"
+#include "kawaii/logger.h"
 
 namespace kawaii {
 

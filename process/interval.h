@@ -1,7 +1,7 @@
 #ifndef __kawaii__process_interval__
 #define __kawaii__process_interval__
 
-#include "process.h"
+#include "kawaii/process/process.h"
 
 #include <algorithm>
 #include <cfloat>

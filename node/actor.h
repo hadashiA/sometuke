@@ -16,7 +16,7 @@ typedef HashedString ActorType;
 
 class Actor : public Node {
 public:
-    static ActorId GenerateId() {
+    static inline ActorId GenerateId() {
         unsigned long number;
         
         uuid_t uuid;

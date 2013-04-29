@@ -1,8 +1,8 @@
 #ifndef __kawaii__node_layer__
 #define __kawaii__node_layer__
 
-#include "actor.h"
-#include "logger.h"
+#include "kawaii/node/actor.h"
+#include "kawaii/logger.h"
 
 #include <unordered_map>
 

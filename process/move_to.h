@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_move_to__
 #define __kawaii__process_move_to__
 
-#include "interval.h"
+#include "kawaii/process/interval.h"
 
-#include "node.h"
+#include "kawaii/node/node.h"
 
 #include <memory>
 

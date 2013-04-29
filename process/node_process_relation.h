@@ -1,9 +1,9 @@
 #ifndef __kawaii__process_node_process_relation__
 #define __kawaii__process_node_process_relation__
 
-#include "sequence.h"
-#include "memory_pool.h"
-#include "vector.h"
+#include "kawaii/process/sequence.h"
+#include "kawaii/memory_pool.h"
+#include "kawaii/vector.h"
 
 #include <memory>
 

@@ -1,8 +1,8 @@
-#include "drawing_primitives.h"
+#include "kawaii/drawing_primitives.h"
 
-#include "shader_cache.h"
-#include "color.h"
-#include "OpenGL_Internal.h"
+#include "kawaii/shader_cache.h"
+#include "kawaii/color.h"
+#include "kawaii/OpenGL_Internal.h"
 
 #include <memory>
 
