@@ -23,7 +23,8 @@ public:
     Director()
         : scheduler_(new ProcessScheduler),
           event_dispatcher_(new EventDispatcher),
-          display_stats_(true) {
+          display_stats_(true),
+          debug_level_(0) {
     }
 
     virtual ~Director() {}
@@ -54,6 +55,18 @@ public:
         return running_scene_;
     }
     
+    void debug_off() {
+        debug_level_ = 0;
+    }
+
+    void debug_on(int debug_level) {
+        debug_level_ = debug_level;
+    }
+
+    int debug_level() {
+        return debug_level_;
+    }
+
 private:
     Director(const Director&);
     Director& operator=(const Director&);
@@ -74,6 +87,8 @@ private:
     unsigned int total_frames_;
     ii_time accum_dt_;
     float frame_rate_;
+
+    int debug_level_;
 };
 
 }

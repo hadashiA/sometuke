@@ -11,6 +11,7 @@ void DrawColor(const Color4F& color);
 
 void DrawLine(const vec3& origin, const vec3& destination);
 void DrawRect(const Rect& rect);
+void DrawPoly(const vec2 *poli, unsigned int num_points, bool close_polygon);
 
 }
 

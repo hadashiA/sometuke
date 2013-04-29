@@ -126,8 +126,7 @@ void Node::Visit() {
 }
 
 void Node::ScheduleUpdate() {
-    ProcessScheduler& scheduler = Application::Instance().director().scheduler();
-    scheduler.Attach(shared_from_this());
+    scheduler().Attach(shared_from_this());
 }
 
 ProcessScheduler& Node::scheduler() const {
