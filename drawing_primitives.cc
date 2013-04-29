@@ -24,6 +24,15 @@ static void __lazy_init() {
     }    
 }
 
+void DrawColor(const Color4B& color) {
+    color_ = Color4F(color);
+}
+
+void DrawColor(const Color4F& color) {
+    color_ = color;
+}
+
+
 void DrawLine(const vec3& origin, const vec3& destination) {
     __lazy_init();
 
