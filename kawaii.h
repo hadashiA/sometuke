@@ -44,7 +44,6 @@
 #include "kawaii/logger.h"
 
 namespace kawaii {
-using namespace std;
 }
 
 #endif  /* defined(__kawaii__) */
