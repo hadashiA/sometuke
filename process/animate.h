@@ -1,7 +1,7 @@
 #ifndef __kawaii__process_animate__
 #define __kawaii__process_animate__
 
-#include "kawaii/process/node_process.h"
+#include "kawaii/process/process.h"
 #include "kawaii/animation.h"
 #include "kawaii/node/sprite.h"
 
@@ -11,14 +11,14 @@ namespace kawaii {
     
 class Sprite;
 
-class Animate : public NodeProcess {
+class Animate : public Process {
 public:
     static const HashedString TYPE;
     Animate(weak_ptr<Sprite> target, shared_ptr<Animation> animation) :
-        NodeProcess(target),
         animation_(animation),
         frame_num_(0),
         elapsed_(0),
+        target_(target),
         original_frame_(target.lock()->display_frame()),
         executed_loops_(0) {
     }
@@ -26,23 +26,19 @@ public:
     virtual const HashedString& type() const {
         return Animate::TYPE;
     }
-    
-    shared_ptr<Sprite> target() const {
-        return static_pointer_cast<Sprite>(target_.lock());
-    }
 
     virtual void OnEnter() {
         frame_num_ = 0;
         elapsed_ = 0;
         executed_loops_ = 0;
         killed_ = false;
-        if (shared_ptr<Sprite> sprite = target()) {
+        if (shared_ptr<Sprite> sprite = target_.lock()) {
             sprite->set_display_frame(animation_->frames[frame_num_].sprite_frame);
         }
     }
     
     virtual void OnExit() {
-        if (shared_ptr<Sprite > sprite = target()) {
+        if (shared_ptr<Sprite > sprite = target_.lock()) {
             sprite->set_display_frame(original_frame_);
         }
     }
@@ -50,6 +46,7 @@ public:
     virtual bool Update(const ii_time delta);
 
 private:
+    weak_ptr<Sprite> target_;
     unsigned int frame_num_;
     shared_ptr<Animation> animation_;
     ii_time elapsed_;
