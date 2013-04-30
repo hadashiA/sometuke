@@ -45,7 +45,8 @@ public:
     virtual void set_opacity_modify_rgb(bool value) = 0;
 };
 
-class Node : public enable_shared_from_this<Node> {
+class Node : public UpdateInterface,
+             public enable_shared_from_this<Node> {
 public:
     Node()
         : position_(0, 0, 0),
@@ -59,8 +60,8 @@ public:
           anchor_point_in_points_(0, 0),
           content_size_(0, 0),
           z_order_(0),
+          paused_(false),
           is_visible_(true),
-          is_running_(false),
           is_transform_dirty_(true),
           is_inverse_dirty_(true) {
     }
@@ -101,10 +102,6 @@ public:
 
     const bool is_visible() const {
         return is_visible_;
-    }
-
-    const bool is_running() const {
-        return is_running_;
     }
 
     const vec2& anchor_point() const {
@@ -229,13 +226,22 @@ public:
         return Application::Instance().director().dispatcher();
     }
 
+    // void ScheduleUpdate() {
+    //     scheduler().Attach(shared_from_this());
+    // } 
+
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);
     //     return *this;
     // }
 
-    virtual bool Init() { return true; }
+    virtual const bool paused() const {
+        return paused_;
+    }
+
     virtual void Update(const ii_time delta_time) {}   // Is not called by default
+
+    virtual bool Init() { return true; }
     virtual void Render()  {}
 
     virtual void OnEnter() {
@@ -243,7 +249,7 @@ public:
              i != children_.end(); ++i) {
             (*i)->OnEnter();
         }
-        is_running_ = true;
+        paused_ = false;
     }
 
     virtual void OnExit()  {
@@ -251,7 +257,7 @@ public:
              i != children_.end(); ++i) {
             (*i)->OnExit();
         }
-        is_running_ = false;
+        paused_ = false;
     }
 
     virtual NodeProcessRelation Does() {
@@ -288,7 +294,7 @@ protected:
     vec2 content_size_;
     int z_order_;
     bool is_visible_;
-    bool is_running_;
+    bool paused_;
 
     mat4 local_transform_;
     mat4 local_inverse_;

@@ -93,7 +93,7 @@ void Node::AddChild(shared_ptr<Node> child) {
     child->set_parent(shared_from_this());
     children_.push_back(child);
 
-    if (is_running_) {
+    if (!paused_) {
         child->OnEnter();
     }
 }
