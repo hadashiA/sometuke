@@ -38,7 +38,7 @@ public:
     virtual bool Update(const ii_time delta) {
         if (shared_ptr<UpdateInterface> entry = entry_.lock()) {
             if (!entry->paused()) {
-                entry->Update();
+                entry->Update(delta);
             }
         } else {
             return false;
@@ -47,7 +47,7 @@ public:
 
 private:
     weak_ptr<UpdateInterface> entry_;
-}
+};
 
 }
 

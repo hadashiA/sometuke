@@ -11,15 +11,9 @@ namespace kawaii {
 using namespace std;
 
 class Process;
-class Node;
+class UpdateInterface;
 
 typedef list<shared_ptr<Process> > ProcessList;
-
-class UpdateInterface {
-public:
-    virtual ~UpdateInterface() {}
-    virtual void Update(const ii_time delta_time) = 0;
-};
 
 class ProcessScheduler {
 public:
@@ -31,20 +25,12 @@ public:
     void Attach(shared_ptr<Process> process, const ii_time interval,
                 const unsigned int repeat, const ii_time delay);
 
-    void Attach(weak_ptr<UpdateInterface> update_entry) {
-        if (!update_entry.expired()) {
-            update_entries_.push_back(update_entry);
-        }
-    }
-
     void Detach(shared_ptr<Process> process) {
         processes_.remove(process);
     }
 
-    void Detach(weak_ptr<UpdateInterface> update_entry) {
-        assert(false);              // no implemented yet
-        // nodes_.remove(node);
-    }
+    void ScheduleUpdateFor(weak_ptr<UpdateInterface> update_entry);
+    void UnScheduleUpdateFor(weak_ptr<UpdateInterface> update_entry);
 
     void Update(const ii_time delta_time);
 

@@ -38,17 +38,6 @@ void ProcessScheduler::Update(const ii_time delta_time) {
             }
         }
     }
-
-    for (std::list<weak_ptr<UpdateInterface> >::iterator i = update_entries_.begin();
-         i != update_entries_.end();) {
-        weak_ptr<UpdateInterface> weak_entry = *i;
-        if (shared_ptr<UpdateInterface> entry = weak_entry.lock()) {
-            entry->Update(delta_time);
-            ++i;
-        } else {
-            i = update_entries_.erase(i);
-        }
-    }
 }
 
 }

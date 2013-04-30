@@ -4,6 +4,7 @@
 #include "kawaii/process/process.h"
 #include "kawaii/animation.h"
 #include "kawaii/node/sprite.h"
+#include "kawaii/weak_ptr_hash.h"
 
 #include <memory>
 
@@ -25,6 +26,11 @@ public:
 
     virtual const HashedString& type() const {
         return Animate::TYPE;
+    }
+
+    virtual size_t target_id() {
+        WeakPtrHash<Sprite> hash_func;
+        return hash_func(target_);
     }
 
     virtual void OnEnter() {

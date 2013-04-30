@@ -4,6 +4,7 @@
 #include "kawaii/process/interval.h"
 
 #include "kawaii/node/node.h"
+#include "kawaii/weak_ptr_hash.h"
 
 #include <memory>
 
@@ -24,6 +25,11 @@ public:
 
     virtual const HashedString& type() const {
         return MoveTo::TYPE;
+    }
+
+    virtual size_t target_id() {
+        WeakPtrHash<Node> hash_func;
+        return hash_func(target_);
     }
 
     virtual void OnEnter() {

@@ -5,6 +5,7 @@
 #include "kawaii/vector.h"
 #include "kawaii/matrix.h"
 #include "kawaii/color.h"
+#include "kawaii/process/update_handler.h"
 #include "kawaii/process/node_process_relation.h"
 #include "kawaii/application.h"
 
@@ -235,7 +236,7 @@ public:
     //     return *this;
     // }
 
-    virtual const bool paused() const {
+    virtual const bool paused() {
         return paused_;
     }
 
