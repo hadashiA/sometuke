@@ -21,7 +21,7 @@ public:
 
     Process()
         : killed_(false),
-          paused_(false),
+          sleeping_(false),
           initialized_(false) {
     }
     
@@ -35,8 +35,8 @@ public:
         return killed_;
     }
 
-    const bool paused() const {
-        return paused_;
+    const bool sleeping() const {
+        return sleeping_;
     }
 
     const bool initialized() const {
@@ -48,10 +48,10 @@ public:
             OnEnter();
             initialized_ = true;
         }
-        if (dead()) {
+        if (killed_) {
             return false;
         }
-        if (paused()) {
+        if (sleeping_) {
             return true;
         }
         return Update(delta_time);
@@ -62,8 +62,8 @@ public:
     }
 
     void Kill()   { killed_ = true; }
-    void Pause()  { paused_ = true; }
-    void Resume() { paused_ = false; }
+    void Sleep()  { sleeping_ = true; }
+    void Wakeup() { sleeping_ = false; }
 
     void Run() { scheduler().Attach(shared_from_this()); }
 

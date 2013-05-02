@@ -35,11 +35,9 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         shared_ptr<Process> p = (*iter);
         ++iter;
             
-        if (!p->paused() && !p->sleeping()) {
-            if (!p->Visit(delta_time)) {
-                p->OnExit();
-                Detach(p);
-            }
+        if (!p->Visit(delta_time)) {
+            p->OnExit();
+            Detach(p);
         }
     }
 }
