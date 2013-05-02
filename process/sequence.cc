@@ -13,12 +13,12 @@ bool Sequence::Update(const ii_time delta_time) {
     if (continued) {
         return true;
     } else {
-        process->OnExit();
+        process->End();
         if (++current_ >= processes_.size()) {
             return false;
         } else {
             shared_ptr<Process> next = processes_[current_];
-            next->OnEnter();
+            next->Start();
             return true;
         }
     }

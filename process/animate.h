@@ -28,7 +28,7 @@ public:
         return Animate::TYPE;
     }
 
-    virtual void OnEnter() {
+    virtual void Start() {
         frame_num_ = 0;
         elapsed_ = 0;
         executed_loops_ = 0;
@@ -38,7 +38,7 @@ public:
         }
     }
     
-    virtual void OnExit() {
+    virtual void End() {
         if (shared_ptr<Sprite > sprite = target_.lock()) {
             sprite->set_display_frame(original_frame_);
         }

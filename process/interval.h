@@ -18,13 +18,13 @@ public:
 
     virtual ~Interval() {}
 
-    virtual void OnEnter() {
+    virtual void Start() {
         elapsed_ = 0;
     }
 
     virtual bool Visit(const ii_time delta) {
         if (!initialized_) {
-            OnEnter();
+            Start();
             initialized_ = true;
         }
         if (!dead()) {

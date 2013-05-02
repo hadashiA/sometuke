@@ -53,12 +53,12 @@ public:
     }
 
 private:    
-    virtual void OnEnter() {
-        inner_process_->OnEnter();
+    virtual void Start() {
+        inner_process_->Start();
     }
 
-    virtual void OnExit() {
-        inner_process_->OnExit();
+    virtual void End() {
+        inner_process_->End();
     }
 
     virtual bool Update(const ii_time delta_time);

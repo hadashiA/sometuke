@@ -36,7 +36,7 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         ++iter;
             
         if (!p->Visit(delta_time)) {
-            p->OnExit();
+            p->End();
             Detach(p);
         }
     }

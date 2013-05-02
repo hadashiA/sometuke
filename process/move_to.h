@@ -18,7 +18,7 @@ public:
         : Interval(duration),
           target_(target),
           to_(to) {
-        OnEnter();
+        Start();
     }
 
     virtual ~MoveTo() {}
@@ -27,7 +27,7 @@ public:
         return MoveTo::TYPE;
     }
 
-    virtual void OnEnter() {
+    virtual void Start() {
         if (shared_ptr<Node> node = target_.lock()) {
             from_  = node->position();
             delta_ = to_ - from_;

@@ -25,7 +25,7 @@ public:
         return MoveBy::TYPE;
     }
 
-    virtual void OnEnter() {
+    virtual void Start() {
         if (shared_ptr<Node> node = target_.lock()) {
             from_ = node->position();
         }

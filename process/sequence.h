@@ -66,13 +66,13 @@ public:
         return Sequence::TYPE;
     }
 
-    virtual void OnEnter() {
+    virtual void Start() {
         current_ = 0;
 
         for (vector<shared_ptr<Process> >::iterator i =  processes_.begin();
              i != processes_.end();
              ++i) {
-            (*i)->OnEnter();
+            (*i)->Start();
         }
     }
 

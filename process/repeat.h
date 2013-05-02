@@ -23,13 +23,13 @@ public:
         return Repeat::TYPE;
     }
 
-    virtual void OnEnter() {
+    virtual void Start() {
         num_repeated_ = 0;
-        inner_process_->OnEnter();
+        inner_process_->Start();
     }
 
-    virtual void OnExit() {
-        inner_process_->OnExit();
+    virtual void End() {
+        inner_process_->End();
     }
 
     virtual bool Update(const ii_time delta) {
@@ -39,7 +39,7 @@ public:
             return true;
         } else {
             if (is_forever() || ++num_repeated_ < repeat_) {
-                inner_process_->OnEnter();
+                inner_process_->Start();
                 return true;
             }
         }

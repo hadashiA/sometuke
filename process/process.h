@@ -45,7 +45,7 @@ public:
 
     virtual bool Visit(const ii_time delta_time) {
         if (!initialized_) {
-            OnEnter();
+            Start();
             initialized_ = true;
         }
         if (killed_) {
@@ -67,8 +67,8 @@ public:
 
     void Run() { scheduler().Attach(shared_from_this()); }
 
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
+    virtual void Start() {}
+    virtual void End() {}
     virtual bool Update(const ii_time delta) = 0;
     
     virtual const HashedString& type() const = 0;
