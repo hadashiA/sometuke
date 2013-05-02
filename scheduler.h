@@ -80,15 +80,12 @@ typedef list<shared_ptr<UpdateInterface> > UpdateList;
 
 class Scheduler {
 public:
-    void Attach(shared_ptr<UpdateInterface> delegate);
-    void Attach(shared_ptr<UpdateInterface> delegate, const ii_time interval);
-    void Attach(shared_ptr<UpdateInterface> delegate, const ii_time interval,
-                const unsigned int repeat, const ii_time delay);
+    void Schedule(shared_ptr<UpdateInterface> delegate);
+    void Schedule(shared_ptr<UpdateInterface> delegate, const ii_time interval);
+    void Schedule(shared_ptr<UpdateInterface> delegate, const ii_time interval,
+                  const unsigned int repeat, const ii_time delay);
 
-    void Detach(shared_ptr<UpdateInterface> delegate);
-
-    void ScheduleUpdateFor(shared_ptr<UpdateInterface> update_entry);
-    void UnScheduleUpdateFor(shared_ptr<UpdateInterface> update_entry);
+    void Unschedule(shared_ptr<UpdateInterface> delegate);
 
     bool Update(const ii_time delta_time);
 

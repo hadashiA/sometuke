@@ -39,24 +39,24 @@ bool Timer::Update(const ii_time delta_time) {
 }
 
 
-void Scheduler::Attach(shared_ptr<UpdateInterface> delegate) {
+void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate) {
     update_list_.push_back(delegate);
 }
 
-void Scheduler::Attach(shared_ptr<UpdateInterface> delegate, const ii_time interval) {
+void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate, const ii_time interval) {
     shared_ptr<UpdateInterface> timer = make_shared<Timer>(delegate, interval);
     Attach(timer);
 }
     
-void Scheduler::Attach(shared_ptr<UpdateInterface> delegate,
-                       const ii_time interval,
-                       const unsigned int repeat,
-                       const ii_time delay) {
+void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate,
+                         const ii_time interval,
+                         const unsigned int repeat,
+                         const ii_time delay) {
     shared_ptr<UpdateInterface> timer = make_shared<Timer>(delegate, interval, repeat, delay);
     Attach(timer);
 }
 
-void Scheduler::Detach(shared_ptr<UpdateInterface> delegate) {
+void Scheduler::Unschedule(shared_ptr<UpdateInterface> delegate) {
     update_list_.remove(delegate);
 }
 
