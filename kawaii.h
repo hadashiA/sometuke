@@ -23,15 +23,7 @@
 #include "kawaii/node/layer.h"
 #include "kawaii/node/sprite.h"
 
-// process
-#include "kawaii/process/process_scheduler.h"
-#include "kawaii/process/animate.h"
-#include "kawaii/process/sequence.h"
-#include "kawaii/process/repeat.h"
-#include "kawaii/process/event_emit.h"
-#include "kawaii/process/move_to.h"
-#include "kawaii/process/move_by.h"
-#include "kawaii/process/node_process_relation.h"
+// action
 
 // structs
 #include "kawaii/vector.h"

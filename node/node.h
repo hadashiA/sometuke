@@ -5,8 +5,6 @@
 #include "kawaii/vector.h"
 #include "kawaii/matrix.h"
 #include "kawaii/color.h"
-#include "kawaii/process/update_handler.h"
-#include "kawaii/process/node_process_relation.h"
 #include "kawaii/application.h"
 
 #include <vector>
@@ -16,7 +14,6 @@
 namespace kawaii {
 using namespace std;
 
-class ProcessScheduler;
 class EventDispatcher;
 class Texture2D;
 
@@ -217,11 +214,6 @@ public:
     }
 
     virtual void AddChild(shared_ptr<Node> child);
-
-
-    virtual ProcessScheduler& scheduler() const {
-        return Application::Instance().director().scheduler();
-    }
     
     virtual EventDispatcher& dispatcher() const {
         return Application::Instance().director().dispatcher();
@@ -240,7 +232,7 @@ public:
         return paused_;
     }
 
-    virtual void Update(const ii_time delta_time) {}   // Is not called by default
+    virtual bool Update(const ii_time delta_time) { return true; }   // Is not called by default
 
     virtual bool Init() { return true; }
     virtual void Render()  {}
@@ -259,10 +251,6 @@ public:
             (*i)->OnExit();
         }
         paused_ = false;
-    }
-
-    virtual NodeProcessRelation Does() {
-        return NodeProcessRelation(shared_from_this());
     }
 
     void Visit();

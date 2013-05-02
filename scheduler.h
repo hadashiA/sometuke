@@ -14,8 +14,8 @@ using namespace std;
 class UpdateInterface {
 public:
     virtual ~UpdateInterface() {}
-    virtual void Update(const ii_time delta) = 0;
-    virtual const bool sleeping() = 0;
+    virtual bool Update(const ii_time delta) = 0;
+    virtual bool sleeping() = 0;
 };
 
 class Timer : public UpdateInterface {

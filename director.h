@@ -3,7 +3,7 @@
 
 #include "kawaii/types.h"
 #include "kawaii/event_dispatcher.h"
-#include "kawaii/process/process_scheduler.h"
+#include "kawaii/scheduler.h"
 
 #include <vector>
 #include <memory>
@@ -20,7 +20,7 @@ class Actor;
 class Director : public enable_shared_from_this<Director> {
 public:
     Director()
-        : scheduler_(new ProcessScheduler),
+        : scheduler_(new Scheduler),
           event_dispatcher_(new EventDispatcher),
           display_stats_(true),
           debug_level_(0) {
@@ -33,7 +33,7 @@ public:
     // virtual void Update(const ii_time delta_time) = 0;
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
     
-    ProcessScheduler& scheduler() {
+    Scheduler& scheduler() {
         return *scheduler_;
     }
 
@@ -72,7 +72,7 @@ private:
 
     void ShowStats();
 
-    unique_ptr<ProcessScheduler> scheduler_;
+    unique_ptr<Scheduler> scheduler_;
     unique_ptr<EventDispatcher> event_dispatcher_;
     vector<shared_ptr<Scene> > scene_stack_;
 
