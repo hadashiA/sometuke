@@ -27,14 +27,6 @@ public:
         return UpdateHandler::TYPE;
     }
 
-    virtual size_t target_id() {
-        if (shared_ptr<UpdateInterface> entry = entry_.lock()) {
-            return reinterpret_cast<size_t>(entry.get());
-        } else {
-            return Process::target_id();
-        }
-    }
-
     virtual bool Update(const ii_time delta) {
         if (shared_ptr<UpdateInterface> entry = entry_.lock()) {
             if (!entry->paused()) {
@@ -43,6 +35,7 @@ public:
         } else {
             return false;
         }
+        return true;
     }
 
 private:

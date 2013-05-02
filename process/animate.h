@@ -28,11 +28,6 @@ public:
         return Animate::TYPE;
     }
 
-    virtual size_t target_id() {
-        WeakPtrHash<Sprite> hash_func;
-        return hash_func(target_);
-    }
-
     virtual void OnEnter() {
         frame_num_ = 0;
         elapsed_ = 0;

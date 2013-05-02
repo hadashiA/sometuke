@@ -6,11 +6,15 @@
 
 namespace kawaii {
 
+void ProcessScheduler::Attach(shared_ptr<Process> process) {
+    processes_.push_back(process);
+}
+
 void ProcessScheduler::Attach(shared_ptr<Process> process,
                               const ii_time interval) {
     Process *timer_ptr = new ProcessTimer(process, interval);
     shared_ptr<Process> timer(timer_ptr);
-    processes_.push_back(timer);
+    Attach(timer);
 }
     
 void ProcessScheduler::Attach(shared_ptr<Process> process,
@@ -19,7 +23,11 @@ void ProcessScheduler::Attach(shared_ptr<Process> process,
                               const ii_time delay) {
     Process *timer_ptr = new ProcessTimer(process, interval, repeat, delay);
     shared_ptr<Process> timer(timer_ptr);
-    processes_.push_back(timer);
+    Attach(timer);
+}
+
+void ProcessScheduler::Detach(shared_ptr<Process> process) {
+    processes_.remove(process);
 }
 
 void ProcessScheduler::Update(const ii_time delta_time) {
@@ -27,13 +35,9 @@ void ProcessScheduler::Update(const ii_time delta_time) {
         shared_ptr<Process> p = (*iter);
         ++iter;
             
-        if (p->dead()) {
-            Detach(p);
-        }
-
         if (!p->paused() && !p->sleeping()) {
             if (!p->Visit(delta_time)) {
-                p->Kill();
+                p->OnExit();
                 Detach(p);
             }
         }

@@ -5,6 +5,7 @@
 #include "kawaii/types.h"
 #include "kawaii/memory_pool.h"
 #include "kawaii/process/process_scheduler.h"
+#include "kawaii/application.h"
 
 #include <memory>
 
@@ -21,8 +22,7 @@ public:
     Process()
         : killed_(false),
           paused_(false),
-          initialized_(false),
-          sleeping_(false) {
+          initialized_(false) {
     }
     
     virtual ~Process() {}
@@ -52,31 +52,30 @@ public:
             OnEnter();
             initialized_ = true;
         }
-        if (!dead()) {
-            return Update(delta_time);
+        if (dead()) {
+            return false;
         }
-        return false;
+        if (paused()) {
+            return true;
+        }
+        return Update(delta_time);
     }
     
-    void Kill() {
-        killed_ = true;
-        OnExit();
+    virtual ProcessScheduler& scheduler(){
+        return Application::Instance().director().scheduler();
     }
 
-    void Sleep()  { sleeping_ = true; }
-    void Wakeup() { sleeping_ = false; }
+    void Kill()   { killed_ = true; }
     void Pause()  { paused_ = true; }
     void Resume() { paused_ = false; }
 
     void Run() { scheduler().Attach(shared_from_this()); }
 
-    virtual ProcessScheduler& scheduler();
     virtual void OnEnter() {}
     virtual void OnExit() {}
     virtual bool Update(const ii_time delta) = 0;
     
     virtual const HashedString& type() const = 0;
-    virtual size_t target_id() { return 0; }
 
 protected:
     bool killed_;

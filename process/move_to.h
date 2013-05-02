@@ -27,11 +27,6 @@ public:
         return MoveTo::TYPE;
     }
 
-    virtual size_t target_id() {
-        WeakPtrHash<Node> hash_func;
-        return hash_func(target_);
-    }
-
     virtual void OnEnter() {
         if (shared_ptr<Node> node = target_.lock()) {
             from_  = node->position();
