@@ -148,7 +148,7 @@ void Node::Run() {
     sequence().reset();
 }
 
-void Node::Repeat(int num) {
+void Node::Loop(int num) {
     shared_ptr<class Repeat> repeat(new class Repeat(sequence(), num));
     process_manager().Attach(shared_from_this(), repeat);
     sequence().reset();
@@ -175,6 +175,14 @@ shared_ptr<Node> Node::MoveBy(const ii_time duration, const vec3& delta) {
 shared_ptr<Node> Node::Delay(const ii_time duration) {
     shared_ptr<class Delay> delay(new class Delay(duration));
     sequence()->Push(delay);
+
+    return shared_from_this();
+}
+
+shared_ptr<Node> Node::Repeat(int num) {
+    shared_ptr<Process> last = sequence()->Pop();
+    shared_ptr<class Repeat> repeat(new class Repeat(last, num));
+    sequence()->Push(repeat);
 
     return shared_from_this();
 }

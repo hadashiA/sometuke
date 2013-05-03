@@ -78,6 +78,13 @@ public:
         return static_pointer_cast<Sequence>(shared_from_this());
     }
 
+    shared_ptr<Process> Pop() {
+        shared_ptr<Process> last = processes_.back();
+        processes_.pop_back();
+
+        return last;
+    }
+
     shared_ptr<Sequence> operator<<(shared_ptr<Process> process) {
         return Push(process);
     }
