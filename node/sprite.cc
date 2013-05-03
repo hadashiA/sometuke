@@ -9,6 +9,9 @@
 #include "kawaii/drawing_primitives.h"
 #include "kawaii/OpenGL_Internal.h"
 
+#include "kawaii/process/sequence.h"
+#include "kawaii/process/animate.h"
+
 #include <algorithm>
 #include <cassert>
 
@@ -268,6 +271,14 @@ void Sprite::UpdateQuadTexCoords() {
         quad_.top_right.tex_coord.v    = top;
     }
 }
+
+shared_ptr<Sprite> Sprite::Animate(shared_ptr<Animation> animation) {
+    shared_ptr<class Animate> animate(new class Animate(animation));
+    sequence()->Push(animate);
+
+    return static_pointer_cast<Sprite>(shared_from_this());
+}
+
 
 }
 

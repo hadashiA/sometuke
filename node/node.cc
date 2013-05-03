@@ -145,11 +145,13 @@ shared_ptr<Sequence> Node::sequence() {
 
 void Node::Run() {
     process_manager().Attach(shared_from_this(), sequence());
+    sequence().reset();
 }
 
 void Node::Repeat(int num) {
     shared_ptr<class Repeat> repeat(new class Repeat(sequence(), num));
     process_manager().Attach(shared_from_this(), repeat);
+    sequence().reset();
 }
 
 void Node::StopAllProcess() {

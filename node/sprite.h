@@ -97,6 +97,8 @@ public:
     void set_display_frame(const SpriteFrame& sprite_frame);
     void set_display_frame(weak_ptr<SpriteFrame> sprite_frame);
 
+    shared_ptr<Sprite> Animate(shared_ptr<Animation> animation);
+
 private:
     void UpdateQuadColor();
     void UpdateQuadTexCoords();
