@@ -1,4 +1,8 @@
-#include "scheduler.h"
+#include "kawaii/scheduler.h"
+
+#include "kawaii/process/process_manager.h"
+
+#include <climits>
 
 namespace kawaii {
 
@@ -45,7 +49,7 @@ void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate) {
 
 void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate, const ii_time interval) {
     shared_ptr<UpdateInterface> timer = make_shared<Timer>(delegate, interval);
-    Attach(timer);
+    Schedule(timer);
 }
     
 void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate,
@@ -53,7 +57,7 @@ void Scheduler::Schedule(shared_ptr<UpdateInterface> delegate,
                          const unsigned int repeat,
                          const ii_time delay) {
     shared_ptr<UpdateInterface> timer = make_shared<Timer>(delegate, interval, repeat, delay);
-    Attach(timer);
+    Schedule(timer);
 }
 
 void Scheduler::Unschedule(shared_ptr<UpdateInterface> delegate) {
@@ -63,10 +67,12 @@ void Scheduler::Unschedule(shared_ptr<UpdateInterface> delegate) {
 void Scheduler::Update(const ii_time delta_time) {
     for (UpdateList::iterator i = update_list_.begin(); i != update_list_.end();) {
         shared_ptr<UpdateInterface> p = (*i);
-        ++iter;
-            
+        
         if (!p->Update(delta_time)) {
-            Detach(p);
+            update_list_.erase(i);
+        } else {
+            ++i;
+
         }
     }
 }

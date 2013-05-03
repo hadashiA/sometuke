@@ -2,12 +2,12 @@
 #define __kawaii__director__
 
 #include "kawaii/types.h"
-#include "kawaii/event_dispatcher.h"
 #include "kawaii/scheduler.h"
+#include "kawaii/process/process_manager.h"
+#include "kawaii/event_dispatcher.h"
 
 #include <vector>
 #include <memory>
-#include <unordered_map>
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -15,26 +15,29 @@ namespace kawaii {
 using namespace std;
 
 class Scene;
-class Actor;
     
 class Director : public enable_shared_from_this<Director> {
 public:
     Director()
         : scheduler_(new Scheduler),
+          process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
           display_stats_(true),
           debug_level_(0) {
     }
-
+        
     virtual ~Director() {}
-    virtual bool Init() = 0;
-    virtual bool End() { return true; }
+    virtual bool Init() { return true; }
+    virtual bool End()  { return true; }
 
-    // virtual void Update(const ii_time delta_time) = 0;
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
     
     Scheduler& scheduler() {
         return *scheduler_;
+    }
+
+    ProcessManager& process_manager() {
+        return *process_manager_;
     }
 
     EventDispatcher& dispatcher() {
@@ -73,10 +76,11 @@ private:
     void ShowStats();
 
     unique_ptr<Scheduler> scheduler_;
+    unique_ptr<ProcessManager> process_manager_;
     unique_ptr<EventDispatcher> event_dispatcher_;
-    vector<shared_ptr<Scene> > scene_stack_;
 
     // scene staff
+    vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
 

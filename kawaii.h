@@ -8,6 +8,7 @@
 
 
 #include "kawaii/types.h"
+#include "kawaii/scheduler.h"
 #include "kawaii/event_dispatcher.h"
 
 
@@ -23,7 +24,14 @@
 #include "kawaii/node/layer.h"
 #include "kawaii/node/sprite.h"
 
-// action
+// process
+#include "kawaii/process/process_manager.h"
+#include "kawaii/process/animate.h"
+#include "kawaii/process/event_emit.h"
+#include "kawaii/process/move_by.h"
+#include "kawaii/process/move_to.h"
+#include "kawaii/process/repeat.h"
+#include "kawaii/process/sequence.h"
 
 // structs
 #include "kawaii/vector.h"

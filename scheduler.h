@@ -15,8 +15,9 @@ class UpdateInterface {
 public:
     virtual ~UpdateInterface() {}
     virtual bool Update(const ii_time delta) = 0;
-    virtual bool sleeping() = 0;
 };
+
+class ProcessManager;
 
 class Timer : public UpdateInterface {
 public:
@@ -57,9 +58,6 @@ public:
     }
 
     virtual bool Update(const ii_time delta);
-    virtual bool sleeping() {
-        return delegate_->sleeping();
-    }
 
     shared_ptr<UpdateInterface> delegate() {
         return delegate_;
@@ -87,12 +85,14 @@ public:
 
     void Unschedule(shared_ptr<UpdateInterface> delegate);
 
-    bool Update(const ii_time delta_time);
+    void Update(const ii_time delta_time);
 
 private:
     UpdateList update_list_;
+    shared_ptr<ProcessManager> process_manager_;
 };
 
 }
 
 #endif /* defined(__kawaii__scheduler__) */
+
