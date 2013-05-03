@@ -52,10 +52,13 @@ public:
     }
 
     SpriteFrame display_frame() const {
-        return SpriteFrame(texture_, vertex_rect_,
+        float content_scale_factor = Application::Instance().content_scale_factor();
+
+        return SpriteFrame(texture_,
+                           vertex_rect_ * content_scale_factor,
                            vertex_rect_rotated_,
-                           unflipped_offset_position_from_center_,
-                           content_size(),
+                           unflipped_offset_position_from_center_ * content_scale_factor,
+                           content_size() * content_scale_factor,
                            "");
     }
 
