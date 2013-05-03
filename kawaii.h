@@ -16,6 +16,7 @@
 #include "kawaii/texture_2d.h"
 #include "kawaii/texture_cache.h"
 #include "kawaii/sprite_frame_cache.h"
+#include "kawaii/animation_cache.h"
 #include "kawaii/shader_cache.h"
 #include "kawaii/animation_cache.h"
 
