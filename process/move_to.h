@@ -26,6 +26,8 @@ public:
     }
 
     virtual void Start() {
+        Interval::Start();
+
         if (shared_ptr<Node> node = target_.lock()) {
             from_  = node->position();
             delta_ = to_ - from_;

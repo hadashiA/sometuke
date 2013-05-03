@@ -2,6 +2,7 @@
 #define __kawaii__process_move_by__
 
 #include "kawaii/process/interval.h"
+#include "kawaii/logger.h"
 
 namespace kawaii {
 
@@ -22,6 +23,8 @@ public:
     }
 
     virtual void Start() {
+        Interval::Start();
+        
         if (shared_ptr<Node> node = target_.lock()) {
             from_ = node->position();
         }

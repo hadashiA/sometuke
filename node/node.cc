@@ -4,6 +4,7 @@
 #include "kawaii/logger.h"
 
 #include "kawaii/process/sequence.h"
+#include "kawaii/process/repeat.h"
 #include "kawaii/process/move_to.h"
 #include "kawaii/process/move_by.h"
 #include "kawaii/process/delay.h"
@@ -144,6 +145,11 @@ shared_ptr<Sequence> Node::sequence() {
 
 void Node::Run() {
     process_manager().Attach(shared_from_this(), sequence());
+}
+
+void Node::Repeat(int num) {
+    shared_ptr<class Repeat> repeat(new class Repeat(sequence(), num));
+    process_manager().Attach(shared_from_this(), repeat);
 }
 
 void Node::StopAllProcess() {

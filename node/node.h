@@ -280,6 +280,7 @@ public:
     shared_ptr<Node> MoveBy(const ii_time duration, const vec3& delta);
     shared_ptr<Node> Delay(const ii_time duration);
     void Run();
+    void Repeat(int repeat = -1);
     void StopAllProcess();
 
 protected:
