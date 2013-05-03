@@ -3,6 +3,11 @@
 #include "kawaii/matrix_stack.h"
 #include "kawaii/logger.h"
 
+#include "kawaii/process/sequence.h"
+#include "kawaii/process/move_to.h"
+#include "kawaii/process/move_by.h"
+#include "kawaii/process/delay.h"
+
 #include <cassert>
 
 namespace kawaii {
@@ -126,6 +131,44 @@ void Node::Visit() {
     }
 
     MatrixStack<GLModelView>::Instance().Pop();
+}
+
+
+// process helpers
+shared_ptr<Sequence> Node::sequence() {
+    if (!sequence_) {
+        sequence_.reset(new Sequence);
+    }
+    return sequence_;
+}
+
+void Node::Run() {
+    process_manager().Attach(shared_from_this(), sequence());
+}
+
+void Node::StopAllProcess() {
+    process_manager().Detach(shared_from_this());
+}
+
+shared_ptr<Node> Node::MoveTo(const ii_time duration, const vec3& to) {
+    shared_ptr<class MoveTo> move_to(new class MoveTo(duration, to));
+    sequence()->Push(move_to);
+
+    return shared_from_this();
+}
+
+shared_ptr<Node> Node::MoveBy(const ii_time duration, const vec3& delta) {
+    shared_ptr<class MoveBy> move_by(new class MoveBy(duration, delta));
+    sequence()->Push(move_by);
+
+    return shared_from_this();
+}
+
+shared_ptr<Node> Node::Delay(const ii_time duration) {
+    shared_ptr<class Delay> delay(new class Delay(duration));
+    sequence()->Push(delay);
+
+    return shared_from_this();
 }
 
 }

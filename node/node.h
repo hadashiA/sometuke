@@ -16,6 +16,7 @@ using namespace std;
 
 class EventDispatcher;
 class Texture2D;
+class Sequence;
 
 class LabelInterface {
 public:
@@ -270,7 +271,20 @@ public:
         return rect * LocalTransform();
     }
 
+    // process helpers
+    virtual ProcessManager& process_manager() const {
+        return Application::Instance().director().process_manager();
+    }
+
+    shared_ptr<Node> MoveTo(const ii_time duration, const vec3& to);
+    shared_ptr<Node> MoveBy(const ii_time duration, const vec3& delta);
+    shared_ptr<Node> Delay(const ii_time duration);
+    void Run();
+    void StopAllProcess();
+
 protected:
+    shared_ptr<Sequence> sequence();
+
     vec3 position_;
     float scale_x_;
     float scale_y_;
@@ -292,6 +306,9 @@ protected:
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;
+
+    shared_ptr<Sequence> sequence_;
+
 };
 
 }

@@ -14,7 +14,7 @@ class MoveTo : public Interval {
 public:
     static const HashedString TYPE;
 
-    MoveTo(const ii_time duration, const vec3 to)
+    MoveTo(const ii_time duration, const vec3& to)
         : Interval(duration),
           to_(to) {
     }
