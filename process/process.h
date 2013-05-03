@@ -7,6 +7,7 @@
 #include "kawaii/memory_pool.h"
 #include "kawaii/process/process_manager.h"
 #include "kawaii/node/node.h"
+#include "kawaii/logger.h"
 
 #include <memory>
 
@@ -49,9 +50,12 @@ public:
     void Sleep()  { sleeping_ = true; }
     void Wakeup() { sleeping_ = false; }
 
-    virtual void StartWithTarget(weak_ptr<Node> target) {
-        target_ = target;
+    void StartWithTarget(weak_ptr<Node> target) {
+        set_target(target);
         Start();
+    }
+    virtual void set_target(weak_ptr<Node> target) {
+        target_ = target;
     }
     virtual void Start() {}
     virtual void End() {}

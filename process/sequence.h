@@ -71,6 +71,11 @@ public:
         processes_.front()->StartWithTarget(target_);
     }
 
+    virtual void End() {
+        shared_ptr<Process> process = processes_[current_];        
+        process->End();
+    }
+
     virtual bool Step(const ii_time delta_time);
 
     shared_ptr<Sequence> Push(shared_ptr<Process> process) {

@@ -12,7 +12,10 @@ void ProcessManager::Attach(shared_ptr<Node> target, shared_ptr<Process> process
 void ProcessManager::Detach(weak_ptr<Node> target) {
     ProcessRange range = process_table_.equal_range(target);
     for (ProcessTable::iterator i = range.first; i != range.second; ++i) {
-        i->second->End();
+        // weak_ptr<Node> target_weak  = i->first;
+        shared_ptr<Process> process = i->second;
+
+        process->End();
     }
     process_table_.erase(range.first, range.second);
 }
