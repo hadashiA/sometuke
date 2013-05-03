@@ -34,7 +34,10 @@ struct Event : public GeneralPoolable {
           timestamp(std::time(NULL)) {
     }
 
-    Event
+    Event(const string& str)
+        : type(EventType(str)),
+          timestamp(std::time(NULL)) {
+    }
 
     virtual ~Event() {}
 
