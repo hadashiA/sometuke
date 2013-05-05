@@ -28,6 +28,10 @@ public:
         return ident_string_;
     }
 
+    const char *c_str() const {
+        return ident_string_.c_str();
+    }
+
     bool empty() const {
         return str().empty();
     }
