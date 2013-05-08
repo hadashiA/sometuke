@@ -206,6 +206,10 @@ void Sprite::Render() {
     //     vec2(quad_.top_left.pos.x, quad_.bottom_left.pos.y),
     // };
     // DrawPoly(vertices, 4, true);
+
+    glDisableVertexAttribArray(kVertexAttrib_Position);
+    glDisableVertexAttribArray(kVertexAttrib_Color);
+    glDisableVertexAttribArray(kVertexAttrib_TexCoords);
 }
 
 // private

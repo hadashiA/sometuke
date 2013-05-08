@@ -85,6 +85,10 @@ struct Vector2 {
         return &x;
     }
 
+    const T* data() const {
+        return &x;
+    }
+
     template <typename P>
     P* Write(P* pData) {
         Vector2* pVector = (Vector2*) pData;

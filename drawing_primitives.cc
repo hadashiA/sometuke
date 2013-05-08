@@ -48,6 +48,8 @@ void DrawLine(const vec3& origin, const vec3& destination) {
     glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
     glDrawArrays(GL_LINES, 0, 2);
+
+    glDisableVertexAttribArray(kVertexAttrib_Position);
 }
 
 void DrawRect(const Rect& rect) {
