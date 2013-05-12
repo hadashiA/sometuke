@@ -90,7 +90,6 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
         dirty_ = false;
     }
 
-
     // attributes
     glEnableVertexAttribArray(kVertexAttrib_Position);
     glEnableVertexAttribArray(kVertexAttrib_Color);
@@ -110,8 +109,8 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
                           (GLvoid *)offsetof(P3F_C4B_T2F, tex_coord));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
 #if II_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
     glDrawElements(GL_TRIANGLE_STRIP,
                    (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid *)(start * 6 * sizeof(indices_[0])));

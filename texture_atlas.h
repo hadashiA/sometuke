@@ -46,6 +46,10 @@ public:
         return texture_;
     }
 
+    void set_texture(shared_ptr<Texture2D> value) {
+        texture_ = value;
+    }
+
     void UpdateQuad(const Quad_P3F_C4B_T2F& quad, size_t index) {
         quads_[index] = quad;
         dirty_ = true;

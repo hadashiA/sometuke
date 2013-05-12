@@ -38,7 +38,6 @@ public:
     virtual const Color3B color() const = 0;
     virtual const GLubyte opacity() const = 0;
     virtual bool does_opacity_modify_rgb() const = 0;
-    virtual 
     virtual void set_color(const Color3B& value) = 0;
     virtual void set_opacity(GLubyte value) = 0;
     virtual void set_opacity_modify_rgb(bool value) = 0;
