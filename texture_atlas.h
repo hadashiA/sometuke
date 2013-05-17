@@ -41,7 +41,7 @@ public:
     }
 
     size_t capacity() const {
-        return quads_.capacity();
+        return capacity_;
     }
 
     shared_ptr<Texture2D> texture() const {
@@ -68,8 +68,9 @@ private:
     void MapBuffers();
     void SetupVbo();
 
+    size_t capacity_;
     Quads quads_;
-    Indicies indices_;
+    Indices indices_;
     shared_ptr<Texture2D> texture_;
 
     GLuint buffers_vbo_[2];      // 0:vertex 1:indices

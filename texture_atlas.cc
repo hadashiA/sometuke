@@ -19,6 +19,7 @@ bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
 }
 
 bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacity) {
+    capacity_ = capacity;
     texture_  = texture;
 
     quads_.reserve(capacity);
@@ -33,20 +34,27 @@ bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacit
 }
 
 void TextureAtlas::ResizeCapacity(size_t new_capacity) {
-    if (new_capacity == quads_.capacity()) {
-        return true;
+    if (new_capacity == capacity_) {
+        return;
     }
 
     if (new_capacity < quads_.capacity()) {
         Quads::iterator last = quads_.begin() + new_capacity;
         quads_.erase(last, quads_.end());
     }
+    if (new_capacity * 6 < indices_.capacity()) {
+        Indices::iterator last = indices_.begin() + (new_capacity * 6);
+        indices_.erase(last, indices_.end());
+    }
 
     quads_.reserve(new_capacity);
     indices_.reserve(new_capacity * 6);
 
     quads_.clear();
-    indicies_.clear();
+    indices_.clear();
+
+    SetupIndices();
+    MapBuffers();
 
     dirty_ = true;
 }

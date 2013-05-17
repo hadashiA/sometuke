@@ -30,9 +30,11 @@ public:
                           size_t tile_width, size_t tile_height,
                           size_t items_to_render);
 
-    virtual void UpdateAtlasValues() = 0;
-
     virtual void Render();
+
+    void set_quads_to_draw(size_t value) {
+        quads_to_draw_ = value;
+    }
 
     // RGBAInterface
     virtual const Color3B color() const {
@@ -79,7 +81,9 @@ public:
         texture_atlas_->set_texture(value);
     }
 
-private:
+    virtual void UpdateAtlasValues() = 0;
+
+protected:
     void CalculateMaxItems() {
         vec2 size = texture_atlas_->texture()->content_size();
         items_per_column_ = size.y / item_height_;
