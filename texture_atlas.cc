@@ -19,11 +19,10 @@ bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
 }
 
 bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacity) {
-    capacity_ = capacity;
     texture_  = texture;
 
     quads_.reserve(capacity);
-    indices_.reserve(capacity);
+    indices_.reserve(capacity * 6);
 
     SetupIndices();
     SetupVbo();
@@ -31,6 +30,25 @@ bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacit
     dirty_ = true;
 
     return true;
+}
+
+void TextureAtlas::ResizeCapacity(size_t new_capacity) {
+    if (new_capacity == quads_.capacity()) {
+        return true;
+    }
+
+    if (new_capacity < quads_.capacity()) {
+        Quads::iterator last = quads_.begin() + new_capacity;
+        quads_.erase(last, quads_.end());
+    }
+
+    quads_.reserve(new_capacity);
+    indices_.reserve(new_capacity * 6);
+
+    quads_.clear();
+    indicies_.clear();
+
+    dirty_ = true;
 }
 
 void TextureAtlas::SetupIndices() {

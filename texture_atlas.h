@@ -22,9 +22,11 @@ class Texture2D;
 
 class TextureAtlas {
 public:
+    typedef vector<Quad_P3F_C4B_T2F> Quads;
+    typedef vector<GLushort> Indices;
+
     TextureAtlas()
-        : capacity_(0),
-          dirty_(true) {
+        : dirty_(true) {
     }
 
     ~TextureAtlas() {
@@ -39,7 +41,7 @@ public:
     }
 
     size_t capacity() const {
-        return capacity_;
+        return quads_.capacity();
     }
 
     shared_ptr<Texture2D> texture() const {
@@ -49,6 +51,8 @@ public:
     void set_texture(shared_ptr<Texture2D> value) {
         texture_ = value;
     }
+
+    void ResizeCapacity(size_t new_capacity);
 
     void UpdateQuad(const Quad_P3F_C4B_T2F& quad, size_t index) {
         quads_[index] = quad;
@@ -64,9 +68,8 @@ private:
     void MapBuffers();
     void SetupVbo();
 
-    size_t capacity_;
-    vector<Quad_P3F_C4B_T2F> quads_;
-    vector<GLushort> indices_;
+    Quads quads_;
+    Indicies indices_;
     shared_ptr<Texture2D> texture_;
 
     GLuint buffers_vbo_[2];      // 0:vertex 1:indices
