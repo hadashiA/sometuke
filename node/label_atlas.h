@@ -4,15 +4,20 @@
 #include "kawaii/node/atlas_node.h"
 
 #include <string>
+#include <functional>
+#include <unordered_map>
 
 namespace kawaii {
 using namespace std;
 
 class LabelAtlas : public AtlasNode, public LabelInterface {
 public:
+    typedef unordered_map<string, Vector2<size_t> > CharMap;
+
     bool InitWithText(const string& text,
-              const string& char_map_file,
-              size_t width, size_t height, size_t start_char);
+                      const string& texture_path,
+                      size_t width, size_t height,
+                      char map_start_char);
 
     virtual void Render();
     virtual void UpdateAtlasValues();
@@ -25,7 +30,7 @@ public:
     }
 
 private:
-    size_t map_start_char_;
+    char map_start_char_;
     string text_;
 };
 

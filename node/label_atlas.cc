@@ -3,16 +3,23 @@
 namespace kawaii {
 
 bool LabelAtlas::InitWithText(const string& text,
-                      const string& char_map_file,
-                      size_t width, size_t height, size_t start_char) {
+                              const string& texture_path,
+                              size_t width, size_t height,
+                              char map_start_char) {
+    if (!AtlasNode::InitWithTileFile(texture_path, width, height, text.length())){
+        return false;
+    }
 
+    map_start_char_ = map_start_char;
+    set_text(text);
+    
     return true;
 }
 
 void LabelAtlas::UpdateAtlasValues() {
     size_t n = text_.length();
     Quad_P3F_C4B_T2F quad;
-    const unsigned char *s = text_.c_str();
+    const char *s = text_.c_str();
 
     shared_ptr<Texture2D> texture = texture_atlas_->texture();
     vec2 pixel_size = texture->pixel_size();
@@ -26,11 +33,10 @@ void LabelAtlas::UpdateAtlasValues() {
         float row = (a % items_per_row_);
         float col = (a / items_per_row_);
         
-        vec2 texture_size = texture->pixel_size();
-        float left   = row  * item_width_in_pixels / texture_size.x;
-        float right  = left + item_width_in_pixels / texture_size.x;
-        float top    = col  * item_width_in_pixels / texture_size.y;
-        float bottom = top  + item_width_in_pixels / texture_size.y;
+        float left   = row  * item_width_in_pixels / pixel_size.x;
+        float right  = left + item_width_in_pixels / pixel_size.x;
+        float top    = col  * item_height_in_pixels / pixel_size.y;
+        float bottom = top  + item_height_in_pixels / pixel_size.y;
 
         quad.top_left.tex_coord.u     = left;
         quad.top_left.tex_coord.v     = top;
