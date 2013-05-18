@@ -89,12 +89,14 @@ void TextureAtlas::MapBuffers() {
     // glBindVertexArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffers_vbo_[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * capacity_, quads_.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * capacity_, &quads_[0], GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * capacity_ * 6, indices_.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * capacity_ * 6, &indices_[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    CHECK_GL_ERROR_DEBUG();
 }
 
 void TextureAtlas::RenderQuads() {
@@ -108,7 +110,7 @@ void TextureAtlas::RenderQuads(size_t n) {
 void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glBindTexture(GL_TEXTURE_2D, texture_->id());
 
-#define kQuadSize sizeof(quads_[0].bl)
+#define QUAD_SIZE sizeof(quads_[0].bl)
     glBindBuffer(GL_ARRAY_BUFFER, buffers_vbo_[0]);
     if (dirty_) {
         glBufferSubData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * start, sizeof(quads_[0]) * n, &quads_[start]);
@@ -120,7 +122,6 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glEnableVertexAttribArray(kVertexAttrib_Color);
     glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
-#define QUAD_SIZE sizeof(quads_[0].bl)
     // position
     glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, QUAD_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, pos));
@@ -132,7 +133,6 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     // texCoord
     glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, QUAD_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, tex_coord));
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
@@ -144,10 +144,10 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glDrawElements(GL_TRIANGLES,
                    (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid *)(start*6*sizeof(indices_[0])));
 #endif
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERROR_DEBUG();
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glDisableVertexAttribArray(kVertexAttrib_Position);
     glDisableVertexAttribArray(kVertexAttrib_Color);
     glDisableVertexAttribArray(kVertexAttrib_TexCoords);

@@ -1,5 +1,7 @@
 #include "kawaii/node/atlas_node.h"
 
+#include "OpenGL_Internal.h"
+
 namespace kawaii {
 
 bool AtlasNode::InitWithTileFile(const string& path,
@@ -33,6 +35,7 @@ bool AtlasNode::InitWithTileFile(const string& path,
 void AtlasNode::Render() {
     shader_program_->Use();
     shader_program_->SetUniformsForBuiltins();
+
     glEnable(GL_BLEND);
     glBlendFunc(blend_func_src_, blend_func_dst_);
     
