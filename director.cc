@@ -12,8 +12,10 @@
 namespace kawaii {
 
 bool Director::Init() {
-    fps_label_ = make_shared<LabelAtlas>();
-    fps_label_->InitWithText("00.0", "fps_images.png", 12, 32, '.');
+    if (!CreateStatsLabel()) {
+        IIERROR("Fails CreateStatsLabel()");
+        return false;
+    }
 
     return true;
 }
@@ -45,6 +47,9 @@ void Director::MainLoop(const ii_time delta_time) {
     scheduler_->Update(delta_time);
     process_manager_->Update(delta_time);
 
+    glClearColor(0.5, 0.5, 0.5, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     if (running_scene_) {
         running_scene_->Visit();
     }
@@ -70,6 +75,17 @@ void Director::RunWithScene(shared_ptr<Scene> scene) {
 // }
 
 // private
+
+bool Director::CreateStatsLabel() {
+    fps_label_ = make_shared<LabelAtlas>();
+    if (!fps_label_->InitWithText("00.0", "fps_images.png", 12, 32, '.')) {
+        IIERROR("Faild init fps_label_.");
+        return false;
+    }
+
+    fps_label_->set_position(100, 100);
+    return true;
+}
 
 void Director::ShowStats() {
     fps_label_->Visit();

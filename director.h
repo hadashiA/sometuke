@@ -57,25 +57,31 @@ public:
         return running_scene_;
     }
     
-    void debug_off() {
-        debug_level_ = 0;
+    void stats_off() {
+        stats_shown_ = false;
     }
 
-    void debug_on(int debug_level) {
-        debug_level_ = debug_level;
+    void stats_on() {
+        stats_shown_ = true;
     }
 
-    int debug_level() {
-        return debug_level_;
+    bool stats_shown() const {
+        return stats_shown_;
+    }
+
+    bool debug_drawing() const {
+        return debug_drawing_;
     }
 
 protected:
-    void CreateStatsLabel();
-    void ShowStats();
+    
 
 private:
     Director(const Director&);
     Director& operator=(const Director&);
+
+    bool CreateStatsLabel();
+    void ShowStats();
 
     unique_ptr<Scheduler> scheduler_;
     unique_ptr<ProcessManager> process_manager_;
