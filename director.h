@@ -23,7 +23,8 @@ public:
         : scheduler_(new Scheduler),
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
-          debug_level_(0) {
+          stats_shown_(true),
+          debug_drawing_(true) {
     }
         
     virtual ~Director() {}
@@ -98,7 +99,8 @@ private:
     ii_time accum_dt_;
     float frame_rate_;
 
-    int debug_level_;
+    bool stats_shown_;
+    bool debug_drawing_;
 
     // debug
     shared_ptr<LabelAtlas> fps_label_;
