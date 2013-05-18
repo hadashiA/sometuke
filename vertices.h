@@ -9,6 +9,9 @@
 
 namespace kawaii {
 
+typedef Vector2<GLfloat> vec2gl;
+typedef Vector3<GLfloat> vec3gl;
+
 // XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
 //! Vertical text alignment type
 typedef enum {
@@ -31,51 +34,51 @@ struct Tex2F {
 };
 
 struct PointSprite {
-    vec2 pos;                   // 8 bytes
+    vec2gl pos;                   // 8 bytes
     Color4B color;              // 4 bytes
     GLfloat size;               // 4 bytes
 };
 
 // A 2D Quad. 4 * 2 floats
 struct Quad2 {
-    vec2 tl;
-    vec2 tr;
-    vec2 bl;
-    vec2 br;
+    vec2gl tl;
+    vec2gl tr;
+    vec2gl bl;
+    vec2gl br;
 };
 
 // A 3D Quad. 4 * 3 floats
 struct Quad3 {
-    vec3 bl;
-    vec3 br;
-    vec3 tl;
-    vec3 tr;
+    vec3gl bl;
+    vec3gl br;
+    vec3gl tl;
+    vec3gl tr;
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4B
 struct P2F_C4B_T2F {
-    vec2 pos;                   // 2F
+    vec2gl pos;                   // 2F
     Color4B color;              // 4B
     Tex2F tex_coord;             // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4F
 struct P2F_C4F_T2F {
-    vec2 pos;                    // 2F
+    vec2gl pos;                    // 2F
     Color4F color;               // 4F
     Tex2F tex_coord;              // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4F
 struct P3F_C4F_T2F {
-    vec3 pos;                   // 3F
+    vec3gl pos;                   // 3F
     Color4F color;              // 4F
     Tex2F tex_coord;             // 2F
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4B
 struct P3F_C4B_T2F {
-    vec3 pos;                   // 3F
+    vec3gl pos;                   // 3F
     Color4B color;              // 4B
     Tex2F tex_coord;             // 2F
 };
