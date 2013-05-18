@@ -32,10 +32,10 @@ Sprite::Sprite()
     std::memset(&quad_, 0, sizeof(quad_));
 
     Color4B tmp_color(255, 255, 255, 255);
-    quad_.bl.color  = tmp_color;
+    quad_.bl.color = tmp_color;
     quad_.br.color = tmp_color;
-    quad_.tl.color     = tmp_color;
-    quad_.tr.color    = tmp_color;
+    quad_.tl.color = tmp_color;
+    quad_.tr.color = tmp_color;
 }
 
 bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture) {
@@ -244,14 +244,14 @@ void Sprite::UpdateQuadTexCoords() {
             std::swap(left, right);
         }
         
-        quad_.bl.tex_coord.u  = left;
-        quad_.bl.tex_coord.v  = top;
+        quad_.bl.tex_coord.u = left;
+        quad_.bl.tex_coord.v = top;
         quad_.br.tex_coord.u = left;
         quad_.br.tex_coord.v = bottom;
-        quad_.tl.tex_coord.u     = right;
-        quad_.tl.tex_coord.v     = top;
-        quad_.tr.tex_coord.u    = right;
-        quad_.tr.tex_coord.v    = bottom;
+        quad_.tl.tex_coord.u = right;
+        quad_.tl.tex_coord.v = top;
+        quad_.tr.tex_coord.u = right;
+        quad_.tr.tex_coord.v = bottom;
 
     } else {
         // FIX_ARTIFACTS_BY_STRECHING_TEXEL ??
@@ -267,14 +267,14 @@ void Sprite::UpdateQuadTexCoords() {
             std::swap(top, bottom);
         }
 
-        quad_.bl.tex_coord.u  = left;
-        quad_.bl.tex_coord.v  = bottom;
+        quad_.bl.tex_coord.u = left;
+        quad_.bl.tex_coord.v = bottom;
         quad_.br.tex_coord.u = right;
         quad_.br.tex_coord.v = bottom;
-        quad_.tl.tex_coord.u     = left;
-        quad_.tl.tex_coord.v     = top;
-        quad_.tr.tex_coord.u    = right;
-        quad_.tr.tex_coord.v    = top;
+        quad_.tl.tex_coord.u = left;
+        quad_.tl.tex_coord.v = top;
+        quad_.tr.tex_coord.u = right;
+        quad_.tr.tex_coord.v = top;
     }
 }
 
