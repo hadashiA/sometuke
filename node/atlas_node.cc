@@ -15,7 +15,7 @@ bool AtlasNode::InitWithTileFile(const string& path,
     blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
 
     shared_ptr<TextureAtlas> atlas = make_shared<TextureAtlas>();
-    if (atlas->InitWithFile(path, items_to_render)) {
+    if (!atlas->InitWithFile(path, items_to_render)) {
         return false;
     }
     texture_atlas_ = atlas;
