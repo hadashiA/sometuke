@@ -6,6 +6,7 @@
 #include <OpenGLES/ES2/gl.h>
 
 #include "kawaii/gl_program.h"
+#include "kawaii/logger.h"
 
 namespace kawaii {
 using namespace std;
@@ -36,12 +37,14 @@ public:
     }
 
     shared_ptr<GLProgram> operator[](ShaderLabel key) {
-        shared_ptr<GLProgram> result = shaders_[key];
-        return result;
+        return get(key);
     }
 
     shared_ptr<GLProgram> get(ShaderLabel key) {
         shared_ptr<GLProgram> result = shaders_[key];
+        if (!result) {
+            IIERROR("shader not found key:%d", key);
+        }
         return result;
     }
 
