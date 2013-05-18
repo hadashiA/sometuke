@@ -199,13 +199,15 @@ void Sprite::Render() {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     CHECK_GL_ERROR_DEBUG();
 
-    // vec2 vertices[4] = {
-    //     vec2(quad_.top_left.pos.x, quad_.top_left.pos.y),
-    //     vec2(quad_.bottom_left.pos.x, quad_.bottom_left.pos.y),
-    //     vec2(quad_.top_right.pos.x, quad_.bottom_right.pos.y),
-    //     vec2(quad_.top_left.pos.x, quad_.bottom_left.pos.y),
-    // };
-    // DrawPoly(vertices, 4, true);
+#ifdef KAWAII_DEBUG
+    vec2 vertices[4] = {
+        vec2(quad_.bottom_left.pos.x, quad_.bottom_left.pos.y),
+        vec2(quad_.bottom_right.pos.x, quad_.bottom_right.pos.y),
+        vec2(quad_.top_right.pos.x, quad_.top_right.pos.y),
+        vec2(quad_.top_left.pos.x, quad_.top_left.pos.y),
+    };
+    DrawPoly(vertices, 4, true);
+#endif
 
     glDisableVertexAttribArray(kVertexAttrib_Position);
     glDisableVertexAttribArray(kVertexAttrib_Color);

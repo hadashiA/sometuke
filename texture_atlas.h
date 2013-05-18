@@ -55,7 +55,7 @@ public:
     void ResizeCapacity(size_t new_capacity);
 
     void UpdateQuad(const Quad_P3F_C4B_T2F& quad, size_t index) {
-        quads_[index] = quad;
+        quads_.insert(quads_.begin() + index, quad);
         dirty_ = true;
     }
 
