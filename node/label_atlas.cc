@@ -76,11 +76,13 @@ void LabelAtlas::Render() {
     AtlasNode::Render();
 
 #if KAWAII_DEBUG
-    vec2 size = content_size();
-    vec2 vertices[4] = {
-        vec2(0, 0), vec2(size.x, 0), vec2(size.x, size.y), vec2(0, size.y)
-    };
-    DrawPoly(vertices, 4, true);
+    if (Application::Instance().director().debug_drawing()) {
+        vec2 size = content_size();
+        vec2 vertices[4] = {
+            vec2(0, 0), vec2(size.x, 0), vec2(size.x, size.y), vec2(0, size.y)
+        };
+        DrawPoly(vertices, 4, true);
+    }
 #endif
 }
 

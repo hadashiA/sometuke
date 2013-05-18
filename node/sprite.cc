@@ -200,13 +200,15 @@ void Sprite::Render() {
     CHECK_GL_ERROR_DEBUG();
 
 #ifdef KAWAII_DEBUG
-    vec2 vertices[4] = {
-        vec2(quad_.bl.pos.x, quad_.bl.pos.y),
-        vec2(quad_.br.pos.x, quad_.br.pos.y),
-        vec2(quad_.tr.pos.x, quad_.tr.pos.y),
-        vec2(quad_.tl.pos.x, quad_.tl.pos.y),
-    };
-    DrawPoly(vertices, 4, true);
+    if (Application::Instance().director().debug_drawing()) {
+        vec2 vertices[4] = {
+            vec2(quad_.bl.pos.x, quad_.bl.pos.y),
+            vec2(quad_.br.pos.x, quad_.br.pos.y),
+            vec2(quad_.tr.pos.x, quad_.tr.pos.y),
+            vec2(quad_.tl.pos.x, quad_.tl.pos.y),
+        };
+        DrawPoly(vertices, 4, true);
+    }
 #endif
 
     glDisableVertexAttribArray(kVertexAttrib_Position);

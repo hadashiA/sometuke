@@ -24,7 +24,7 @@ public:
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
           stats_shown_(true),
-          debug_drawing_(true) {
+          debug_drawing_(false) {
     }
         
     virtual ~Director() {}
