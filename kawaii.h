@@ -24,6 +24,7 @@
 #include "kawaii/node/scene.h"
 #include "kawaii/node/layer.h"
 #include "kawaii/node/sprite.h"
+#include "kawaii/node/label_atlas.h"
 
 // process
 #include "kawaii/process/process_manager.h"
