@@ -1,7 +1,7 @@
-uniform mat4 u_MVPMatrix;
-
 attribute vec4 a_Position;
 attribute vec2 a_TexCoord;
+
+uniform mat4 u_MVPMatrix;
 
 #ifdef GL_ES
 varying mediump vec2 v_TexCoord;

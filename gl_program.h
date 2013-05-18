@@ -10,7 +10,7 @@ namespace kawaii {
 using namespace std;
 
 typedef enum {
-    kVertexAttrib_Position,
+    kVertexAttrib_Position = 0,
     kVertexAttrib_Color,
     kVertexAttrib_TexCoords,
 

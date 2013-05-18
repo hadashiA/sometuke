@@ -142,7 +142,7 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     
 #else
     glDrawElements(GL_TRIANGLES,
-                   (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid *)(start*6*sizeof(indices_[0])));
+                   (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid *)(start * 6 * sizeof(indices_[0])));
 #endif
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

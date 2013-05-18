@@ -62,6 +62,7 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
     }
     if (!CompileShader(&fragShader_, GL_FRAGMENT_SHADER, fShaderSource)) {
         IIERROR("Failed to compile fragment shader");
+        return false;
     }
 
     if (vertShader_) {
@@ -72,6 +73,7 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
     }
 
     if (!Link()) {
+        IIERROR("Failed to link shaders");
         return false;
     }
 
