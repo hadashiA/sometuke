@@ -219,9 +219,10 @@ public:
         return Application::Instance().director().dispatcher();
     }
 
-    // void ScheduleUpdate() {
-    //     scheduler().Attach(shared_from_this());
-    // } 
+    void ScheduleUpdate() {
+        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
+        Application::Instance().director().scheduler().Schedule(self);
+    }
 
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);
