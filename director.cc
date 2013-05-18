@@ -12,6 +12,16 @@
 namespace kawaii {
 
 bool Director::Init() {
+    glClearColor(0.5, 0.5, 0.5, 1);
+
+    glClearDepthf(1.0);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    glEnable(GL_BLEND);
+
+    CHECK_GL_ERROR_DEBUG();
+
     if (!CreateStatsLabel()) {
         IIERROR("Fails CreateStatsLabel()");
         return false;
@@ -47,7 +57,6 @@ void Director::MainLoop(const ii_time delta_time) {
     scheduler_->Update(delta_time);
     process_manager_->Update(delta_time);
 
-    glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (running_scene_) {

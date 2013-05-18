@@ -75,7 +75,7 @@ public:
     }
 
 protected:
-    
+
 
 private:
     Director(const Director&);
