@@ -32,10 +32,10 @@ Sprite::Sprite()
     std::memset(&quad_, 0, sizeof(quad_));
 
     Color4B tmp_color(255, 255, 255, 255);
-    quad_.bottom_left.color  = tmp_color;
-    quad_.bottom_right.color = tmp_color;
-    quad_.top_left.color     = tmp_color;
-    quad_.top_right.color    = tmp_color;
+    quad_.bl.color  = tmp_color;
+    quad_.br.color = tmp_color;
+    quad_.tl.color     = tmp_color;
+    quad_.tr.color    = tmp_color;
 }
 
 bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture) {
@@ -138,10 +138,10 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     float y2 = y1 + rect.size.y;
 
     // Don't update Z
-    quad_.bottom_left.pos  = vec3(x1, y1, 0);
-    quad_.bottom_right.pos = vec3(x2, y1, 0);
-    quad_.top_left.pos     = vec3(x1, y2, 0);
-    quad_.top_right.pos    = vec3(x2, y2, 0);
+    quad_.bl.pos  = vec3(x1, y1, 0);
+    quad_.br.pos = vec3(x2, y1, 0);
+    quad_.tl.pos     = vec3(x1, y2, 0);
+    quad_.tr.pos    = vec3(x2, y2, 0);
 }
 
 void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_frame) {
@@ -177,7 +177,7 @@ void Sprite::Render() {
     glEnableVertexAttribArray(kVertexAttrib_Color);
     glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
-#define VERTEX_SIZE sizeof(quad_.bottom_left)
+#define VERTEX_SIZE sizeof(quad_.bl)
     long offset = (long)&quad_;
     unsigned int diff;
 
@@ -201,10 +201,10 @@ void Sprite::Render() {
 
 #ifdef KAWAII_DEBUG
     vec2 vertices[4] = {
-        vec2(quad_.bottom_left.pos.x, quad_.bottom_left.pos.y),
-        vec2(quad_.bottom_right.pos.x, quad_.bottom_right.pos.y),
-        vec2(quad_.top_right.pos.x, quad_.top_right.pos.y),
-        vec2(quad_.top_left.pos.x, quad_.top_left.pos.y),
+        vec2(quad_.bl.pos.x, quad_.bl.pos.y),
+        vec2(quad_.br.pos.x, quad_.br.pos.y),
+        vec2(quad_.tr.pos.x, quad_.tr.pos.y),
+        vec2(quad_.tl.pos.x, quad_.tl.pos.y),
     };
     DrawPoly(vertices, 4, true);
 #endif
@@ -218,10 +218,10 @@ void Sprite::Render() {
 
 void Sprite::UpdateQuadColor() {
     Color4B color4(color_, opacity_);
-    quad_.bottom_left.color  = color4;
-    quad_.bottom_right.color = color4;
-    quad_.top_left.color     = color4;
-    quad_.top_right.color    = color4;
+    quad_.bl.color  = color4;
+    quad_.br.color = color4;
+    quad_.tl.color     = color4;
+    quad_.tr.color    = color4;
 }
 
 void Sprite::UpdateQuadTexCoords() {
@@ -244,14 +244,14 @@ void Sprite::UpdateQuadTexCoords() {
             std::swap(left, right);
         }
         
-        quad_.bottom_left.tex_coord.u  = left;
-        quad_.bottom_left.tex_coord.v  = top;
-        quad_.bottom_right.tex_coord.u = left;
-        quad_.bottom_right.tex_coord.v = bottom;
-        quad_.top_left.tex_coord.u     = right;
-        quad_.top_left.tex_coord.v     = top;
-        quad_.top_right.tex_coord.u    = right;
-        quad_.top_right.tex_coord.v    = bottom;
+        quad_.bl.tex_coord.u  = left;
+        quad_.bl.tex_coord.v  = top;
+        quad_.br.tex_coord.u = left;
+        quad_.br.tex_coord.v = bottom;
+        quad_.tl.tex_coord.u     = right;
+        quad_.tl.tex_coord.v     = top;
+        quad_.tr.tex_coord.u    = right;
+        quad_.tr.tex_coord.v    = bottom;
 
     } else {
         // FIX_ARTIFACTS_BY_STRECHING_TEXEL ??
@@ -267,14 +267,14 @@ void Sprite::UpdateQuadTexCoords() {
             std::swap(top, bottom);
         }
 
-        quad_.bottom_left.tex_coord.u  = left;
-        quad_.bottom_left.tex_coord.v  = bottom;
-        quad_.bottom_right.tex_coord.u = right;
-        quad_.bottom_right.tex_coord.v = bottom;
-        quad_.top_left.tex_coord.u     = left;
-        quad_.top_left.tex_coord.v     = top;
-        quad_.top_right.tex_coord.u    = right;
-        quad_.top_right.tex_coord.v    = top;
+        quad_.bl.tex_coord.u  = left;
+        quad_.bl.tex_coord.v  = bottom;
+        quad_.br.tex_coord.u = right;
+        quad_.br.tex_coord.v = bottom;
+        quad_.tl.tex_coord.u     = left;
+        quad_.tl.tex_coord.v     = top;
+        quad_.tr.tex_coord.u    = right;
+        quad_.tr.tex_coord.v    = top;
     }
 }
 

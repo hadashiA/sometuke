@@ -120,7 +120,7 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glEnableVertexAttribArray(kVertexAttrib_Color);
     glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
-#define QUAD_SIZE sizeof(quads_[0].bottom_left)
+#define QUAD_SIZE sizeof(quads_[0].bl)
     // position
     glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, QUAD_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, pos));

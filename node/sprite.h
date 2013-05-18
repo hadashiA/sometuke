@@ -113,7 +113,7 @@ private:
     bool fliped_y_;
 
     // renderer stuff
-    Quad_P3F_C4B_T2F quad_;
+    P3F_C4B_T2F_Quad quad_;
     GLenum blend_func_src_;
     GLenum blend_func_dst_;
 

@@ -38,18 +38,18 @@ struct PointSprite {
 
 // A 2D Quad. 4 * 2 floats
 struct Quad2 {
-    vec2 top_left;
-    vec2 top_right;
-    vec2 bottom_left;
-    vec2 bottom_right;
+    vec2 tl;
+    vec2 tr;
+    vec2 bl;
+    vec2 br;
 };
 
 // A 3D Quad. 4 * 3 floats
 struct Quad3 {
-    vec3 bottom_left;
-    vec3 bottom_right;
-    vec3 top_left;
-    vec3 top_right;
+    vec3 bl;
+    vec3 br;
+    vec3 tl;
+    vec3 tr;
 };
 
 //! a Point with a vertex point, a tex coord point and a color 4B
@@ -81,38 +81,38 @@ struct P3F_C4B_T2F {
 };
 
 
-struct Triangle_P2F_C4B_T2F {
+struct P2F_C4B_T2F_Triangle {
     P2F_C4B_T2F a;
     P2F_C4B_T2F b;
     P2F_C4B_T2F c;
 };
 
-struct Quad_P3F_C4F_T2F {
-    P3F_C4F_T2F top_left;
-    P3F_C4F_T2F bottom_left;
-    P3F_C4F_T2F top_right;
-    P3F_C4F_T2F bottom_right;
+struct P3F_C4F_T2F_Quad {
+    P3F_C4F_T2F tl;
+    P3F_C4F_T2F bl;
+    P3F_C4F_T2F tr;
+    P3F_C4F_T2F br;
 };
 
-struct Quad_P2F_C4B_T2F {
-    P2F_C4B_T2F bottom_left;
-    P2F_C4B_T2F bottom_right;
-    P2F_C4B_T2F top_left;
-    P2F_C4B_T2F top_right;
+struct P2F_C4B_T2F_Quad {
+    P2F_C4B_T2F bl;
+    P2F_C4B_T2F br;
+    P2F_C4B_T2F tl;
+    P2F_C4B_T2F tr;
 };
 
-struct Quad_P3F_C4B_T2F {
-    P3F_C4B_T2F top_left;
-    P3F_C4B_T2F bottom_left;
-    P3F_C4B_T2F top_right;
-    P3F_C4B_T2F bottom_right;
+struct P3F_C4B_T2F_Quad {
+    P3F_C4B_T2F tl;
+    P3F_C4B_T2F bl;
+    P3F_C4B_T2F tr;
+    P3F_C4B_T2F br;
 };
 
-struct Quad_P2F_C4F_T2F {
-    P2F_C4F_T2F bottom_left;
-    P2F_C4F_T2F bottom_right;
-    P2F_C4F_T2F top_left;
-    P2F_C4F_T2F top_right;
+struct P2F_C4F_T2F_Quad {
+    P2F_C4F_T2F bl;
+    P2F_C4F_T2F br;
+    P2F_C4F_T2F tl;
+    P2F_C4F_T2F tr;
 };
 
 }

@@ -135,14 +135,14 @@ static inline string Inspect(const P3F_C4F_T2F& vertex) {
     return ss.str();
 }
 
-static inline string Inspect(const Quad_P3F_C4B_T2F& quad) {
+static inline string Inspect(const P3F_C4B_T2F_Quad& quad) {
     stringstream ss;
 
     ss <<
-        "{top_left:"      << Inspect(quad.top_left) <<
-        ", bottom_left:"  << Inspect(quad.bottom_left) <<
-        ", top_left:"     << Inspect(quad.top_left) <<
-        ", borrom_right:" << Inspect(quad.bottom_right) << 
+        "{tl:"      << Inspect(quad.tl) <<
+        ", bl:"  << Inspect(quad.bl) <<
+        ", tl:"     << Inspect(quad.tl) <<
+        ", borrom_right:" << Inspect(quad.br) << 
         "}";
 
     return ss.str();

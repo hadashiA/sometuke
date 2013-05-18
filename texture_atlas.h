@@ -22,7 +22,7 @@ class Texture2D;
 
 class TextureAtlas {
 public:
-    typedef vector<Quad_P3F_C4B_T2F> Quads;
+    typedef vector<P3F_C4B_T2F_Quad> Quads;
     typedef vector<GLushort> Indices;
 
     TextureAtlas()
@@ -54,7 +54,7 @@ public:
 
     void ResizeCapacity(size_t new_capacity);
 
-    void UpdateQuad(const Quad_P3F_C4B_T2F& quad, size_t index) {
+    void UpdateQuad(const P3F_C4B_T2F_Quad& quad, size_t index) {
         quads_.insert(quads_.begin() + index, quad);
         dirty_ = true;
     }

@@ -20,7 +20,7 @@ bool LabelAtlas::InitWithText(const string& text,
 
 void LabelAtlas::UpdateAtlasValues() {
     size_t n = text_.length();
-    Quad_P3F_C4B_T2F quad;
+    P3F_C4B_T2F_Quad quad;
     const char *s = text_.c_str();
 
     shared_ptr<Texture2D> texture = texture_atlas_->texture();
@@ -40,33 +40,33 @@ void LabelAtlas::UpdateAtlasValues() {
         float top    = col  * item_height_in_pixels / pixel_size.y;
         float bottom = top  + item_height_in_pixels / pixel_size.y;
 
-        quad.top_left.tex_coord.u     = left;
-        quad.top_left.tex_coord.v     = top;
-        quad.top_right.tex_coord.u    = right;
-        quad.top_right.tex_coord.v    = top;
-        quad.bottom_left.tex_coord.u  = left;
-        quad.bottom_left.tex_coord.v  = bottom;
-        quad.bottom_right.tex_coord.u = right;
-        quad.bottom_right.tex_coord.v = bottom;
+        quad.tl.tex_coord.u     = left;
+        quad.tl.tex_coord.v     = top;
+        quad.tr.tex_coord.u    = right;
+        quad.tr.tex_coord.v    = top;
+        quad.bl.tex_coord.u  = left;
+        quad.bl.tex_coord.v  = bottom;
+        quad.br.tex_coord.u = right;
+        quad.br.tex_coord.v = bottom;
 
-        quad.bottom_left.pos.x  = (int)(i * item_width_);
-        quad.bottom_left.pos.y  = 0;
-        quad.bottom_left.pos.z  = 0.0f;
-        quad.bottom_right.pos.x = (int)(i * item_width_ + item_width_);
-        quad.bottom_right.pos.y = 0;
-        quad.bottom_right.pos.z = 0.0f;
-        quad.top_left.pos.x     = (int)(i * item_width_);
-        quad.top_left.pos.y     = (int)(item_height_);
-        quad.top_left.pos.z     = 0.0f;
-        quad.top_right.pos.x    = (int)(i * item_width_ + item_width_);
-        quad.top_right.pos.y    = (int)(item_height_);
-        quad.top_right.pos.z    = 0.0f;
+        quad.bl.pos.x  = (int)(i * item_width_);
+        quad.bl.pos.y  = 0;
+        quad.bl.pos.z  = 0.0f;
+        quad.br.pos.x = (int)(i * item_width_ + item_width_);
+        quad.br.pos.y = 0;
+        quad.br.pos.z = 0.0f;
+        quad.tl.pos.x     = (int)(i * item_width_);
+        quad.tl.pos.y     = (int)(item_height_);
+        quad.tl.pos.z     = 0.0f;
+        quad.tr.pos.x    = (int)(i * item_width_ + item_width_);
+        quad.tr.pos.y    = (int)(item_height_);
+        quad.tr.pos.z    = 0.0f;
 
         Color4B c(color_, opacity_);
-        quad.top_left.color     = c;
-        quad.top_right.color    = c;
-        quad.bottom_left.color  = c;
-        quad.bottom_right.color = c;
+        quad.tl.color     = c;
+        quad.tr.color    = c;
+        quad.bl.color  = c;
+        quad.br.color = c;
 
         texture_atlas_->UpdateQuad(quad, i);
     }
