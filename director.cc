@@ -5,10 +5,18 @@
 #include "kawaii/matrix_stack.h"
 #include "kawaii/logger.h"
 #include "kawaii/node/scene.h"
+#include "kawaii/node/label_atlas.h"
 
 #include "kawaii/OpenGL_Internal.h"
 
 namespace kawaii {
+
+bool Director::Init() {
+    fps_label_ = make_shared<LabelAtlas>();
+    fps_label_->InitWithText("00.0", "fps_images.png", 12, 32, '.');
+
+    return true;
+}
 
 void Director::ReshapeProjection() {
     Application& app = Application::Instance();
@@ -41,11 +49,7 @@ void Director::MainLoop(const ii_time delta_time) {
         running_scene_->Visit();
     }
 
-    // Update(delta_time);
-
-    if (display_stats_) {
-        ShowStats();
-    }
+    ShowStats();
 }
 
 void Director::RunWithScene(shared_ptr<Scene> scene) {
@@ -68,6 +72,7 @@ void Director::RunWithScene(shared_ptr<Scene> scene) {
 // private
 
 void Director::ShowStats() {
+    fps_label_->Visit();
 }
 
 }

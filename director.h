@@ -15,6 +15,7 @@ namespace kawaii {
 using namespace std;
 
 class Scene;
+class LabelAtlas;
     
 class Director : public enable_shared_from_this<Director> {
 public:
@@ -22,12 +23,11 @@ public:
         : scheduler_(new Scheduler),
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
-          display_stats_(true),
           debug_level_(0) {
     }
         
     virtual ~Director() {}
-    virtual bool Init() { return true; }
+    virtual bool Init();
     virtual bool End()  { return true; }
 
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
@@ -69,11 +69,13 @@ public:
         return debug_level_;
     }
 
+protected:
+    void CreateStatsLabel();
+    void ShowStats();
+
 private:
     Director(const Director&);
     Director& operator=(const Director&);
-
-    void ShowStats();
 
     unique_ptr<Scheduler> scheduler_;
     unique_ptr<ProcessManager> process_manager_;
@@ -85,13 +87,15 @@ private:
     shared_ptr<Scene> next_scene_;
 
     // stats
-    bool display_stats_;
     unsigned int frames_;
     unsigned int total_frames_;
     ii_time accum_dt_;
     float frame_rate_;
 
     int debug_level_;
+
+    // debug
+    shared_ptr<LabelAtlas> fps_label_;
 };
 
 }
