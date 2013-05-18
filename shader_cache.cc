@@ -26,13 +26,20 @@ void ShaderCache::LoadDefaultShaders() {
     CHECK_GL_ERROR_DEBUG();
     shaders_[kShader_PositionTexture] = p;
 
-    p.reset(new GLProgram);;
+    p.reset(new GLProgram);
     p->LoadShaderFiles("position_texture_color.vert", "position_texture_color.frag");
     p->AddAttribute(kVertexAttrib_Position);
     p->AddAttribute(kVertexAttrib_Color);
     p->AddAttribute(kVertexAttrib_TexCoords);
     CHECK_GL_ERROR_DEBUG();
     shaders_[kShader_PositionTextureColor] = p;
+
+    p.reset(new GLProgram);
+    p->LoadShaderFiles("position_texture_ucolor.vert", "position_texture_ucolor.frag");
+    p->AddAttribute(kVertexAttrib_Position);
+    p->AddAttribute(kVertexAttrib_TexCoords);
+    CHECK_GL_ERROR_DEBUG();
+    shaders_[kShader_PositionTexture_uColor] = p;
 }
 
 }
