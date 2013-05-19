@@ -102,7 +102,7 @@ bool Director::CreateStatsLabel() {
         return false;
     }
 
-    fps_label_->set_position(100, 100);
+    fps_label_->set_position(0, 0);
     return true;
 }
 
