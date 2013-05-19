@@ -52,6 +52,7 @@ void TextureAtlas::ResizeCapacity(size_t new_capacity) {
     quads_.resize(new_capacity);
     indices_.resize(new_capacity * 6);
 
+    capacity_ = new_capacity;
     SetupIndices();
     MapBuffers();
 
@@ -89,11 +90,13 @@ void TextureAtlas::MapBuffers() {
     // glBindVertexArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffers_vbo_[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * capacity_, &quads_[0], GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * capacity_,
+                 &quads_[0], GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * capacity_ * 6, &indices_[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * capacity_ * 6,
+                 &indices_[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERROR_DEBUG();
@@ -110,10 +113,12 @@ void TextureAtlas::RenderQuads(size_t n) {
 void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glBindTexture(GL_TEXTURE_2D, texture_->id());
 
-#define QUAD_SIZE sizeof(quads_[0].bl)
+#define VERTEX_SIZE sizeof(quads_[0].bl)
     glBindBuffer(GL_ARRAY_BUFFER, buffers_vbo_[0]);
     if (dirty_) {
-        glBufferSubData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * start, sizeof(quads_[0]) * n, &quads_[start]);
+        glBufferSubData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * start, sizeof(quads_[0]) * n,
+                        &quads_[start]);
+        CHECK_GL_ERROR_DEBUG();
         dirty_ = false;
     }
 
@@ -123,17 +128,18 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
     // position
-    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, QUAD_SIZE,
+    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, pos));
 
     // color
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, QUAD_SIZE,
+    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, color));
 
     // texCoord
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, QUAD_SIZE,
+    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
                           (GLvoid *)offsetof(P3F_C4B_T2F, tex_coord));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    CHECK_GL_ERROR_DEBUG();
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
 #if II_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
@@ -147,6 +153,7 @@ void TextureAtlas::RenderQuads(size_t n, size_t start) {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     CHECK_GL_ERROR_DEBUG();
+ 
 
     glDisableVertexAttribArray(kVertexAttrib_Position);
     glDisableVertexAttribArray(kVertexAttrib_Color);

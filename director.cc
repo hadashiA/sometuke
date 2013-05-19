@@ -9,6 +9,8 @@
 
 #include "kawaii/OpenGL_Internal.h"
 
+#include <sstream>
+
 namespace kawaii {
 
 bool Director::Init() {
@@ -105,6 +107,8 @@ bool Director::CreateStatsLabel() {
 }
 
 void Director::ShowStats(const ii_time delta) {
+    stringstream ss;
+
     frames_++;
     accum_dt_ += delta;
 
@@ -112,7 +116,9 @@ void Director::ShowStats(const ii_time delta) {
         frame_rate_ = frames_ / accum_dt_;
         frames_ = 0;
         accum_dt_ = 0;
-        IIINFO("%f", frame_rate_);
+
+        ss << frame_rate_;
+        fps_label_->set_text(ss.str());
     }
 
     fps_label_->Visit();
