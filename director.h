@@ -23,7 +23,10 @@ public:
         : scheduler_(new Scheduler),
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
+          frames_(0),
+          total_frames_(0),
           stats_shown_(true),
+          stats_interval_(0.1),
           debug_drawing_(false) {
     }
         
@@ -74,6 +77,10 @@ public:
         return debug_drawing_;
     }
 
+    void set_stats_interval(ii_time value) {
+        stats_interval_ = value;
+    }
+
 protected:
 
 
@@ -82,7 +89,8 @@ private:
     Director& operator=(const Director&);
 
     bool CreateStatsLabel();
-    void ShowStats();
+    void ShowStats(const ii_time delta);
+    
 
     unique_ptr<Scheduler> scheduler_;
     unique_ptr<ProcessManager> process_manager_;
@@ -100,6 +108,7 @@ private:
     float frame_rate_;
 
     bool stats_shown_;
+    ii_time stats_interval_;
     bool debug_drawing_;
 
     // debug

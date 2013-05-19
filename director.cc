@@ -59,11 +59,19 @@ void Director::MainLoop(const ii_time delta_time) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    MatrixStack<GLModelView>::Instance().Push();
+
     if (running_scene_) {
         running_scene_->Visit();
     }
 
-    ShowStats();
+    MatrixStack<GLModelView>::Instance().Pop();
+
+    if (stats_shown_) {
+        ShowStats(delta_time);
+    }
+
+    total_frames_++;
 }
 
 void Director::RunWithScene(shared_ptr<Scene> scene) {
@@ -96,7 +104,17 @@ bool Director::CreateStatsLabel() {
     return true;
 }
 
-void Director::ShowStats() {
+void Director::ShowStats(const ii_time delta) {
+    frames_++;
+    accum_dt_ += delta;
+
+    if (accum_dt_ > stats_interval_) {
+        frame_rate_ = frames_ / accum_dt_;
+        frames_ = 0;
+        accum_dt_ = 0;
+        IIINFO("%f", frame_rate_);
+    }
+
     fps_label_->Visit();
 }
 
