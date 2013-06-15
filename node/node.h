@@ -215,13 +215,17 @@ public:
 
     virtual void AddChild(shared_ptr<Node> child);
     
+    virtual Scheduler& scheduler() const {
+        return Application::Instance().director().scheduler();
+    }
+
     virtual EventDispatcher& dispatcher() const {
         return Application::Instance().director().dispatcher();
     }
 
     void ScheduleUpdate() {
         shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        Application::Instance().director().scheduler().Schedule(self);
+        scheduler().Schedule(self);
     }
 
     // Node& operator<<(shared_ptr<Node> child) { 
