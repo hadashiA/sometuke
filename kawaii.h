@@ -2,7 +2,7 @@
 #define __kawaii__
 
 #include "kawaii/memory_pool.h"
-#include "kawaii/object_id.h"
+#include "kawaii/uuid.h"
 
 #include "kawaii/application.h"
 #include "kawaii/director.h"

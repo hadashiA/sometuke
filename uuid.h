@@ -49,12 +49,25 @@ public:
         return (*this);
     }
 
-    bool operator==(const Uuid& rhs) {
+    bool operator==(const Uuid& rhs) const {
         return (uuid_compare(uuid_ptr_, rhs.handle()) == 0);
     }
 
 private:
     unsigned char *uuid_ptr_;
+};
+
+struct UuidHash : public unary_function<Uuid, size_t> {
+    size_t operator()(const Uuid& value) const {
+        std::hash<string> hash;
+        return hash(value.str());
+    }
+};
+
+struct UuidEqual : public unary_function<Uuid, bool> {
+    bool operator()(const Uuid& lhs, const Uuid& rhs) const {
+        return (lhs == rhs);
+    }
 };
 
 }

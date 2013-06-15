@@ -9,7 +9,7 @@
 namespace kawaii {
 using namespace std;
 
-typedef unordered_map<ActorId, weak_ptr<Actor> > ActorTable;
+typedef unordered_map<ActorId, weak_ptr<Actor>, UuidHash, UuidEqual> ActorTable;
 
 class Layer : public Node {
 public:
