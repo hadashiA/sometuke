@@ -24,8 +24,12 @@ public:
 
     virtual ~Actor() {}
 
-    const ActorId id() const {
+    const ActorId& id() const {
         return id_;
+    }
+
+    void *id_ptr() {
+        return static_cast<void *>(&id_);
     }
 
     const HashedString type() const {
