@@ -20,32 +20,27 @@ const mat4& Node::LocalTransform() {
         float y = position_.y;
         float z = position_.z;
 
-        float cx = 1;
-        float sx = 0;
-        float cy = 1;
-        float sy = 0;
-        if (rotation_x_ || rotation_y_) {
-            float radians_x_ = -DegreesToRadians(rotation_x_);
-            float radians_y_ = -DegreesToRadians(rotation_y_);
-            cx = cosf(radians_x_);
-            sx = sinf(radians_x_);
-            cy = cosf(radians_y_);
-            sy = sinf(radians_y_);
+        float c = 1;
+        float s = 0;
+        if (rotation_) {
+            float radians_ = -DegreesToRadians(rotation_);
+            c = cosf(radians_);
+            s = sinf(radians_);
         }
 
         // optimization:
         // inline anchor point calculation if skew is not needed
         bool needs_skew_matrix = (skew_x_ || skew_y_);
         if (!needs_skew_matrix && !anchor_point_is_zero()) {
-            x += cy * -anchor_point_in_points_.x * scale_x_ + -sx * -anchor_point_in_points_.y * scale_y_;
-            y += sy * -anchor_point_in_points_.x * scale_x_ +  cx * -anchor_point_in_points_.y * scale_y_;
+            x += c * -anchor_point_in_points_.x * scale_x_ + -s * -anchor_point_in_points_.y * scale_y_;
+            y += s * -anchor_point_in_points_.x * scale_x_ +  c * -anchor_point_in_points_.y * scale_y_;
         }
 
         // Build Transform Matrix
-        float a_a  = cy * scale_x_;
-        float a_b  = sy * scale_x_;
-        float a_c  = -sx * scale_y_;
-        float a_d  = cx * scale_y_;
+        float a_a  = c * scale_x_;
+        float a_b  = s * scale_x_;
+        float a_c  = -s * scale_y_;
+        float a_d  = c * scale_y_;
         local_transform_ = mat4(a_a, a_b, 0, 0,
                                 a_c, a_d, 0, 0,
                                   0,   0, 1, 0,

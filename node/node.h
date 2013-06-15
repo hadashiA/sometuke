@@ -50,8 +50,7 @@ public:
         : position_(0, 0, 0),
           scale_x_(1),
           scale_y_(1),
-          rotation_x_(0),
-          rotation_y_(0),
+          rotation_(0),
           skew_x_(0),
           skew_y_(0),
           anchor_point_(0, 0),
@@ -78,12 +77,8 @@ public:
         return scale_y_;
     }
 
-    const float rotation_x() const {
-        return rotation_x_;
-    }
-
-    const float rotation_y() const {
-        return rotation_y_;
+    const float rotation() const {
+        return rotation_;
     }
 
     const float skew_x() const {
@@ -134,6 +129,11 @@ public:
 
     void add_position(const float dx, const float dy, const float dz = 0) {
         add_position(vec3(dx, dy, dz));
+    }
+
+    void set_rotation(const float degrees) {
+        rotation_ = degrees;
+        is_transform_dirty_ = is_inverse_dirty_ = true;
     }
 
     void set_scale_x(const float scale_x) {
@@ -290,8 +290,7 @@ protected:
     vec3 position_;
     float scale_x_;
     float scale_y_;
-    float rotation_x_;
-    float rotation_y_;
+    float rotation_;
     float skew_x_;
     float skew_y_;
     vec2 anchor_point_;
