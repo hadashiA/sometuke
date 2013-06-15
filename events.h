@@ -3,10 +3,15 @@
 
 #include "kawaii/memory_pool.h"
 #include "kawaii/hashed_string.h"
+#include "kawaii/uuid.h"
+#include "kawaii/vector.h"
+
+#include <memory>
 
 namespace kawaii {
 
 typedef HashedString EventType;
+typedef Uuid ActorId;
 
 struct Event : public GeneralPoolable {
     Event(const EventType& t)
@@ -24,6 +29,44 @@ struct Event : public GeneralPoolable {
     EventType type;
     time_t timestamp;
 };
+
+struct MoveActorEvent : public Event {
+    static const EventType TYPE;
+
+    MoveActorEvent(const ActorId& id, const vec2& pos)
+        : Event(TYPE),
+          actor_id(id),
+          position(pos) {
+    }
+
+    ActorId actor_id;
+    vec2 position;
+};
+
+struct RotateActorEvent : public Event {
+    static const EventType TYPE;
+
+    RotateActorEvent(const ActorId& id, const float degrees)
+        : Event(TYPE),
+          actor_id(id),
+          rotate(degrees) {
+    }
+
+    ActorId actor_id;
+    float rotate;
+};
+
+template<class T>
+shared_ptr<T> CreateEvent() {
+    shared_ptr<T> ptr(new T);
+    return ptr;
+}
+
+template<class T, class Arg1, class... Args>
+shared_ptr<T> CreateEvent(Arg1& arg1, Args& ... args) {
+    shared_ptr<T> ptr(new T(arg1, args...));
+    return ptr;
+}
 
 }
 
