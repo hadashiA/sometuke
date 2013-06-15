@@ -2,10 +2,10 @@
 #define __kawaii__
 
 #include "kawaii/memory_pool.h"
+#include "kawaii/object_id.h"
 
 #include "kawaii/application.h"
 #include "kawaii/director.h"
-
 
 #include "kawaii/types.h"
 #include "kawaii/scheduler.h"
