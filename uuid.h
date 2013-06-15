@@ -1,5 +1,5 @@
-#ifndef __kawaii__object_id__
-#define __kawaii__object_id__
+#ifndef __kawaii__uuid__
+#define __kawaii__uuid__
 
 #include "kawaii/memory_pool.h"
 
@@ -14,18 +14,18 @@ using namespace std;
 
 namespace kawaii {
 
-class ObjectId {
+class Uuid {
 public:
-    ObjectId() {
+    Uuid() {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
         uuid_generate(uuid_ptr_);
     }
     
-    ~ObjectId() {
+    ~Uuid() {
         GeneralMemoryPool::Shared()->Free(uuid_ptr_, sizeof(uuid_t));
     }
 
-    ObjectId(const ObjectId& rhs) {
+    Uuid(const Uuid& rhs) {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
         uuid_copy(uuid_ptr_, rhs.handle());
     }
@@ -44,12 +44,12 @@ public:
         return str().c_str();
     }
 
-    bool operator=(const ObjectId& rhs) {
+    Uuid& operator=(const Uuid& rhs) {
         uuid_copy(uuid_ptr_, rhs.handle());
         return (*this);
     }
 
-    bool operator==(const ObjectId& rhs) {
+    bool operator==(const Uuid& rhs) {
         return (uuid_compare(uuid_ptr_, rhs.handle()) == 0);
     }
 
@@ -59,4 +59,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__object_id__) */
+#endif /* defined(__kawaii__uuid__) */

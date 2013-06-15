@@ -23,7 +23,7 @@ public:
             actors_[actor->id()] = actor;
             AddChild(actor);
         } else {
-            IIWARN("Actor already exists id:%ld", actor->id());
+            IIWARN("Actor already exists id:%ld", actor->id().c_str());
         }
     }
 
