@@ -1,8 +1,8 @@
 #ifndef __kawaii__event_dispatcher__
 #define __kawaii__event_dispatcher__
 
-#include "kawaii/hashed_string.h"
 #include "kawaii/types.h"
+#include "kawaii/events.h"
 #include "kawaii/memory_pool.h"
 
 #include <memory>
@@ -15,8 +15,6 @@
 namespace kawaii {
 using namespace std;
 
-typedef HashedString EventType;
-
 typedef enum {
     kScriptDefined,             // Event is defined in script.
     kCodeEventOnly,             // Event is defined by main code, and is NOT callable from script.
@@ -26,23 +24,6 @@ typedef enum {
 struct EventTypeMetadata {
     explicit EventTypeMetadata(EventCallable c) : callable(c) {}
     EventCallable callable;
-};
-
-struct Event : public GeneralPoolable {
-    Event(const EventType& t)
-        : type(t),
-          timestamp(std::time(NULL)) {
-    }
-
-    Event(const string& str)
-        : type(EventType(str)),
-          timestamp(std::time(NULL)) {
-    }
-
-    virtual ~Event() {}
-
-    EventType type;
-    time_t timestamp;
 };
 
 class EventListener {
