@@ -87,7 +87,33 @@ public:
     }
 
     bool Trigger(shared_ptr<Event> event);
+
+    template <class T>
+    bool Trigger() {
+        shared_ptr<T> event(new T);
+        return Trigger(event);
+    }
+
+    template <class T, class Arg1, class... Args>
+    bool Trigger(Arg1& arg1, Args& ... args) {
+        shared_ptr<T> event(new T(arg1, args...));
+        return Trigger(event);
+    }
+
     bool Queue(shared_ptr<Event> event);
+
+    template<class T>
+    bool Queue() {
+        shared_ptr<T> event(new T);
+        return Queue(event);
+    }
+
+    template<class T, class Arg1, class... Args>
+    bool Queue(Arg1& arg1, Args& ... args) {
+        shared_ptr<T> event(new T(arg1, args...));
+        return Queue(event);
+    }
+
     bool Tick(const ii_time max_time);
 
     template <typename T>
