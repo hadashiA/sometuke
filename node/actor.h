@@ -19,6 +19,7 @@ public:
     Actor(const HashedString& t)
         : type_(t),
           id_() {
+        id_.Generate();
     }
 
     virtual ~Actor() {}

@@ -18,7 +18,6 @@ class ActorId {
 public:
     ActorId() {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
-        uuid_generate(uuid_ptr_);
     }
     
     ~ActorId() {
@@ -27,7 +26,11 @@ public:
 
     ActorId(const ActorId& rhs) {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
-        uuid_copy(uuid_ptr_, rhs.handle());
+        uuid_copy(uuid_ptr_, rhs.uuid_ptr());
+    }
+
+    void Generate() {
+        uuid_generate(uuid_ptr_);
     }
 
     const string str() const {
@@ -36,7 +39,7 @@ public:
         return string(buf);
     }
     
-    const unsigned char *handle() const {
+    const unsigned char *uuid_ptr() const {
         return uuid_ptr_;
     }
 
@@ -44,13 +47,17 @@ public:
         return str().c_str();
     }
 
+    bool is_null() {
+        return uuid_is_null(uuid_ptr_);
+    }
+
     ActorId& operator=(const ActorId& rhs) {
-        uuid_copy(uuid_ptr_, rhs.handle());
+        uuid_copy(uuid_ptr_, rhs.uuid_ptr());
         return (*this);
     }
 
     bool operator==(const ActorId& rhs) const {
-        return (uuid_compare(uuid_ptr_, rhs.handle()) == 0);
+        return (uuid_compare(uuid_ptr_, rhs.uuid_ptr()) == 0);
     }
 
 private:
@@ -61,12 +68,6 @@ struct ActorIdHash : public unary_function<ActorId, size_t> {
     size_t operator()(const ActorId& value) const {
         std::hash<string> hash;
         return hash(value.str());
-    }
-};
-
-struct ActorIdEqual : public unary_function<ActorId, bool> {
-    bool operator()(const ActorId& lhs, const ActorId& rhs) const {
-        return (lhs == rhs);
     }
 };
 

@@ -36,6 +36,10 @@ public:
         return sleeping_;
     }
 
+    virtual EventDispatcher& dispatcher() const {
+        return Application::Instance().director().dispatcher();
+    }
+
     virtual bool Update(const ii_time delta_time) {
         if (killed_) {
             return false;
