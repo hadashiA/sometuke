@@ -1,8 +1,8 @@
 #ifndef __kawaii__ios_touch_dispatcher__
 #define __kawaii__ios_touch_dispatcher__
 
-#include "kawaii/ios/events.h"
 #include "kawaii/application.h"
+#include "kawaii/memory_pool.h"
 
 #include <unordered_set>
 #include <vector>
@@ -14,13 +14,42 @@ using namespace std;
 
 class Node;
 
-typedef vector<shared_ptr<TouchEvent> > TouchEventSet;
+typedef unsigned long TouchId;
+
+typedef enum {
+    kTouchBegan,
+    kTouchMoved,
+    kTouchEnded,
+    kTouchCancelled,
+} TouchPhase;
+
+struct Touch : public GeneralPoolable {
+    static const EventType TYPE;
+
+    Touch(TouchId touch_id, TouchPhase _phase, const vec2& loc, const vec2& prev, size_t cnt)
+        : id(touch_id),
+          phase(_phase),
+          location(loc),
+          prev_location(prev),
+          tap_count(cnt),
+          timestamp(std::time(NULL)) {
+    }
+
+    TouchId id;
+    TouchPhase phase;
+    vec2 location;
+    vec2 prev_location;
+    size_t tap_count;
+    time_t timestamp;
+};
+
+typedef vector<shared_ptr<Touch> > TouchSet;
     
 class TargetedTouchListener {
 public:
     virtual ~TargetedTouchListener() {}
 
-    bool TouchStart(shared_ptr<TouchEvent> touch) {
+    bool TouchStart(shared_ptr<Touch> touch) {
         bool claimed = TouchBegan(touch);
         if (claimed) {
             claimed_touch_ids_.insert(touch->id);
@@ -28,7 +57,7 @@ public:
         return claimed;
     }
 
-    void TouchNext(shared_ptr<TouchEvent> touch, TouchPhase phase) {
+    void TouchNext(shared_ptr<Touch> touch, TouchPhase phase) {
         unordered_set<TouchId>::iterator iter = claimed_touch_ids_.find(touch->id);
         if (iter != claimed_touch_ids_.end()) {
             switch (phase) {
@@ -52,10 +81,10 @@ public:
     virtual bool listening() const = 0;
     virtual bool shallows_touches() const = 0;
 
-    virtual bool TouchBegan(shared_ptr<TouchEvent> touch) = 0;
-    virtual void TouchMoved(shared_ptr<TouchEvent> touch) = 0;
-    virtual void TouchEnded(shared_ptr<TouchEvent> touch) = 0;
-    virtual void TouchCancelled(shared_ptr<TouchEvent> touch) = 0;
+    virtual bool TouchBegan(shared_ptr<Touch> touch) = 0;
+    virtual void TouchMoved(shared_ptr<Touch> touch) = 0;
+    virtual void TouchEnded(shared_ptr<Touch> touch) = 0;
+    virtual void TouchCancelled(shared_ptr<Touch> touch) = 0;
 
 private:
     unordered_set<TouchId> claimed_touch_ids_;
@@ -66,10 +95,10 @@ public:
     virtual ~StandardTouchListener() {}
 
     virtual bool listening() const = 0;
-    virtual void TouchesBegan(TouchEventSet touches) = 0;
-    virtual void TouchesMoved(TouchEventSet touches) = 0;
-    virtual void TouchesEnded(TouchEventSet touches) = 0;
-    virtual void TouchesCancelled(TouchEventSet touches) = 0;
+    virtual void TouchesBegan(TouchSet touches) = 0;
+    virtual void TouchesMoved(TouchSet touches) = 0;
+    virtual void TouchesEnded(TouchSet touches) = 0;
+    virtual void TouchesCancelled(TouchSet touches) = 0;
 };
     
 typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;
@@ -101,7 +130,7 @@ public:
     void RemoveListener(shared_ptr<StandardTouchListener> listener);
     void RemoveListener(shared_ptr<TargetedTouchListener> listener);
 
-    void Trigger(TouchPhase phase, TouchEventSet touches);
+    void Trigger(TouchPhase phase, TouchSet touches);
 
     // vec2 ConvertToGL(const vec2 touch_location) {
     //     vec2 win_size = Application::Instance().size_in_points();

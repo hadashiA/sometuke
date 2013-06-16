@@ -3,7 +3,7 @@
 
 #import "kawaii/director.h"
 #import "kawaii/logger.h"
-#import "kawaii/ios/touch_dispatcher.h"
+#import "kawaii/touch_dispatcher.h"
 
 @interface IIApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
@@ -332,16 +332,16 @@
     kawaii::TouchDispatcher& dispatcher = kawaii::TouchDispatcher::Instance();
 
     if (dispatcher.enabled()) {
-        std::vector<std::shared_ptr<kawaii::TouchEvent> > events;
+        std::vector<std::shared_ptr<kawaii::Touch> > events;
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:self];
             CGPoint prev = [touch previousLocationInView:self];
-            kawaii::TouchEvent *e = new kawaii::TouchEvent((kawaii::TouchId)touch,
+            kawaii::Touch *e = new kawaii::Touch((kawaii::TouchId)touch,
                                                            phase,
                                                            kawaii::vec2(pos.x, pos.y),
                                                            kawaii::vec2(prev.x, prev.y),
                                                            touch.tapCount);
-            std::shared_ptr<kawaii::TouchEvent> event(e);
+            std::shared_ptr<kawaii::Touch> event(e);
             events.push_back(event);
         }
         dispatcher.Trigger(phase, events);

@@ -1,4 +1,4 @@
-#include "kawaii/ios/touch_dispatcher.h"
+#include "kawaii/touch_dispatcher.h"
 
 #include "kawaii/logger.h"
 #include "kawaii/node/node.h"
@@ -39,9 +39,9 @@ void TouchDispatcher::RemoveListener(shared_ptr<TargetedTouchListener> listener)
     }
 }
 
-void TouchDispatcher::Trigger(TouchPhase phase, TouchEventSet touches) {
-    for (TouchEventSet::iterator touch_iter = touches.begin(); touch_iter != touches.end(); ++touch_iter) {
-        shared_ptr<TouchEvent> touch = *touch_iter;
+void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
+    for (TouchSet::iterator touch_iter = touches.begin(); touch_iter != touches.end(); ++touch_iter) {
+        shared_ptr<Touch> touch = *touch_iter;
 
         unordered_set<TouchId> shallows_touch_ids;
 
