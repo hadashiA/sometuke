@@ -9,7 +9,7 @@
 namespace kawaii {
 using namespace std;
 
-typedef unordered_map<ActorId, weak_ptr<Actor>, ActorIdHash> ActorTable;
+typedef unordered_map<ActorId, weak_ptr<Node>, ActorIdHash> ActorNodeTable;
 
 class Layer : public Node {
 public:
@@ -17,35 +17,23 @@ public:
 
     bool Init() { return true; }
 
-    void AddActor(shared_ptr<Actor> actor) {
-        ActorTable::iterator i = actors_.find(actor->id());
-        if (i == actors_.end()) {
-            actors_[actor->id()] = actor;
-            AddChild(actor);
-        } else {
-            IIWARN("Actor already exists id:%ld", actor->id().c_str());
+    virtual void AddChild(shared_ptr<Node> child) {
+        Node::AddChild(child);
+
+        ActorId& actor_id = child->actor_id();
+        if (!actor_id.is_null()) {
+            ActorNodeTable::iterator i
         }
     }
 
-    shared_ptr<Actor> FindActor(const ActorId& id) {
-        weak_ptr<Actor> actor_weak = actors_[id];
-        if (shared_ptr<Actor> actor = actor_weak.lock()) {
-            return actor;
-        } else {
-            return NULL;
-        }
-    }
-
+    shared_ptr<Actor> FindNodeByActorId(const ActorId& id);
+    
     shared_ptr<Actor> operator[](const ActorId& id) {
-        return FindActor(id);
+        return FindNodeByActorId(id);
     }
 
 protected:
-    // virtual void AddChild(shared_ptr<Node> child) {
-    //     Node::AddChild(child);
-    // }
-
-    ActorTable actors_;
+    ActorNodeTable actor_node_table_;
 };
 
 }

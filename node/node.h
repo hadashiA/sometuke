@@ -2,6 +2,7 @@
 #define __kawaii__node_node__
 
 #include "kawaii/types.h"
+#include "kawaii/actor_id.h"
 #include "kawaii/vector.h"
 #include "kawaii/matrix.h"
 #include "kawaii/color.h"
@@ -109,6 +110,10 @@ public:
         return content_size_;
     }
 
+    const ActorId& actor_id() const {
+        return actor_id_;
+    }
+
     shared_ptr<Node> parent() {
         return parent_.lock();
     }
@@ -191,6 +196,10 @@ public:
 
     void set_content_size(const float x, const float y) {
         set_content_size(vec2(x, y));
+    }
+
+    void set_actor_id(const ActorId& actor_id) {
+        actor_id_ = actor_id;
     }
 
     void show() {
@@ -313,6 +322,8 @@ protected:
     mat4 local_inverse_;
     bool is_transform_dirty_;
     bool is_inverse_dirty_;
+
+    ActorId actor_id_;
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;

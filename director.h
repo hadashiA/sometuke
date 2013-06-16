@@ -51,6 +51,14 @@ public:
     void ReshapeProjection();
     void MainLoop(const ii_time delta_time);
 
+    // actor stuff
+
+    shared_ptr<Actor> operator[](const ActorId& id) {
+        return FindNodeByActorId(id);
+    }
+
+    // scene stuff
+
     void RunWithScene(shared_ptr<Scene> scene);
     // void ReplaceScene(shared_ptr<Scene> scene);
     // void PushScene(shared_ptr<Scene> scene);
@@ -96,7 +104,9 @@ private:
     unique_ptr<ProcessManager> process_manager_;
     unique_ptr<EventDispatcher> event_dispatcher_;
 
-    // scene staff
+    ActorTable actor_table_;
+
+    // scene stuff
     vector<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
