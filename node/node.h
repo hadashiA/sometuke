@@ -228,6 +228,11 @@ public:
         scheduler().Schedule(self);
     }
 
+    void ScheduleUpdate(const ii_time interval) {
+        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
+        scheduler().Schedule(self, interval);
+    }
+
     // Node& operator<<(shared_ptr<Node> child) { 
     //     AddChild(child);
     //     return *this;
