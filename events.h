@@ -3,7 +3,7 @@
 
 #include "kawaii/memory_pool.h"
 #include "kawaii/hashed_string.h"
-#include "kawaii/uuid.h"
+#include "kawaii/actor_id.h"
 #include "kawaii/vector.h"
 
 #include <memory>
@@ -11,7 +11,6 @@
 namespace kawaii {
 
 typedef HashedString EventType;
-typedef Uuid ActorId;
 
 struct Event : public GeneralPoolable {
     Event(const EventType& t)

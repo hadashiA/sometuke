@@ -9,7 +9,7 @@
 namespace kawaii {
 using namespace std;
 
-typedef unordered_map<ActorId, weak_ptr<Actor>, UuidHash, UuidEqual> ActorTable;
+typedef unordered_map<ActorId, weak_ptr<Actor>, ActorIdHash, ActorIdEqual> ActorTable;
 
 class Layer : public Node {
 public:
@@ -27,16 +27,16 @@ public:
         }
     }
 
-    shared_ptr<Actor> FindActor(const ActorId id) {
-        weak_ptr<Actor> actor_ref = actors_[id];
-        if (shared_ptr<Actor> actor = actor_ref.lock()) {
+    shared_ptr<Actor> FindActor(const ActorId& id) {
+        weak_ptr<Actor> actor_weak = actors_[id];
+        if (shared_ptr<Actor> actor = actor_weak.lock()) {
             return actor;
         } else {
             return NULL;
         }
     }
 
-    shared_ptr<Actor> operator[](const ActorId id) {
+    shared_ptr<Actor> operator[](const ActorId& id) {
         return FindActor(id);
     }
 

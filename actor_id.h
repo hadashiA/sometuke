@@ -1,5 +1,5 @@
-#ifndef __kawaii__uuid__
-#define __kawaii__uuid__
+#ifndef __kawaii__actor_id__
+#define __kawaii__actor_id__
 
 #include "kawaii/memory_pool.h"
 
@@ -14,18 +14,18 @@ using namespace std;
 
 namespace kawaii {
 
-class Uuid {
+class ActorId {
 public:
-    Uuid() {
+    ActorId() {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
         uuid_generate(uuid_ptr_);
     }
     
-    ~Uuid() {
+    ~ActorId() {
         GeneralMemoryPool::Shared()->Free(uuid_ptr_, sizeof(uuid_t));
     }
 
-    Uuid(const Uuid& rhs) {
+    ActorId(const ActorId& rhs) {
         uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
         uuid_copy(uuid_ptr_, rhs.handle());
     }
@@ -44,12 +44,12 @@ public:
         return str().c_str();
     }
 
-    Uuid& operator=(const Uuid& rhs) {
+    ActorId& operator=(const ActorId& rhs) {
         uuid_copy(uuid_ptr_, rhs.handle());
         return (*this);
     }
 
-    bool operator==(const Uuid& rhs) const {
+    bool operator==(const ActorId& rhs) const {
         return (uuid_compare(uuid_ptr_, rhs.handle()) == 0);
     }
 
@@ -57,19 +57,19 @@ private:
     unsigned char *uuid_ptr_;
 };
 
-struct UuidHash : public unary_function<Uuid, size_t> {
-    size_t operator()(const Uuid& value) const {
+struct ActorIdHash : public unary_function<ActorId, size_t> {
+    size_t operator()(const ActorId& value) const {
         std::hash<string> hash;
         return hash(value.str());
     }
 };
 
-struct UuidEqual : public unary_function<Uuid, bool> {
-    bool operator()(const Uuid& lhs, const Uuid& rhs) const {
+struct ActorIdEqual : public unary_function<ActorId, bool> {
+    bool operator()(const ActorId& lhs, const ActorId& rhs) const {
         return (lhs == rhs);
     }
 };
 
 }
 
-#endif /* defined(__kawaii__uuid__) */
+#endif /* defined(__kawaii__actor_id__) */

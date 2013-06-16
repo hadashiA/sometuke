@@ -4,7 +4,7 @@
 #include "kawaii/vector.h"
 #include "kawaii/hashed_string.h"
 #include "kawaii/node/node.h"
-#include "kawaii/uuid.h"
+#include "kawaii/actor_id.h"
 
 #include <memory>
 
@@ -12,7 +12,6 @@
 
 namespace kawaii {
 
-typedef Uuid ActorId;
 typedef HashedString ActorType;
 
 class Actor : public Node {
