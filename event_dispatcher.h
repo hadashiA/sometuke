@@ -95,8 +95,8 @@ public:
     }
 
     template <class T, class Arg1, class... Args>
-    bool Trigger(Arg1& arg1, Args& ... args) {
-        shared_ptr<T> event(new T(arg1, args...));
+    bool Trigger(Arg1&& arg1, Args&& ... args) {
+        shared_ptr<T> event(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
         return Trigger(event);
     }
 
@@ -109,8 +109,8 @@ public:
     }
 
     template<class T, class Arg1, class... Args>
-    bool Queue(Arg1& arg1, Args& ... args) {
-        shared_ptr<T> event(new T(arg1, args...));
+    bool Queue(Arg1&& arg1, Args&& ... args) {
+        shared_ptr<T> event(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
         return Queue(event);
     }
 
