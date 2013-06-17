@@ -64,7 +64,7 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
         shared_ptr<EventListener> listener = i->second;
-        if (listener->Enabled()) {
+        if (listener->listening()) {
             emitted = true;
             listener->HandleEvent(event);
             ++i;
@@ -104,7 +104,7 @@ bool EventDispatcher::Tick(const ii_time max_time) {
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
             shared_ptr<EventListener> listener = i->second;
-            if (listener->Enabled()) {
+            if (listener->listening()) {
                 if (listener->HandleEvent(event)) {
                     break;
                 }

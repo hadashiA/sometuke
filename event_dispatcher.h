@@ -30,7 +30,7 @@ class EventListener {
 public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
-    virtual bool Enabled() = 0;
+    virtual bool listening() = 0;
 };
 
 template <typename T>
@@ -50,7 +50,7 @@ public:
         }
     }
 
-    virtual bool Enabled() {
+    virtual bool listening() {
         return !!handler_.lock();
     }
 

@@ -10,7 +10,6 @@
 #include "kawaii/scheduler.h"
 #include "kawaii/event_dispatcher.h"
 
-
 #include "kawaii/assets_loader.h"
 #include "kawaii/texture_2d.h"
 #include "kawaii/texture_cache.h"
@@ -19,8 +18,11 @@
 #include "kawaii/shader_cache.h"
 #include "kawaii/animation_cache.h"
 
+// actor
+#include "kawaii/actor.h"
+#include "kawaii/scene.h"
+
 // node
-#include "kawaii/node/scene.h"
 #include "kawaii/node/layer.h"
 #include "kawaii/node/sprite.h"
 #include "kawaii/node/label_atlas.h"

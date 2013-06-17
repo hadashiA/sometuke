@@ -1,8 +1,9 @@
 #ifndef __kawaii__node_layer__
 #define __kawaii__node_layer__
 
-#include "kawaii/node/actor.h"
+#include "kawaii/actor_id.h"
 #include "kawaii/logger.h"
+#include "kawaii/node/node.h"
 
 #include <unordered_map>
 
@@ -20,15 +21,16 @@ public:
     virtual void AddChild(shared_ptr<Node> child) {
         Node::AddChild(child);
 
-        ActorId& actor_id = child->actor_id();
+        const ActorId& actor_id = child->actor_id();
         if (!actor_id.is_null()) {
-            ActorNodeTable::iterator i
+            //ActorNodeTable::iterator i = actor_node_table_.find(actor_id);
+            actor_node_table_[actor_id] = child;
         }
     }
 
-    shared_ptr<Actor> FindNodeByActorId(const ActorId& id);
+    shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     
-    shared_ptr<Actor> operator[](const ActorId& id) {
+    shared_ptr<Node> operator[](const ActorId& id) {
         return FindNodeByActorId(id);
     }
 

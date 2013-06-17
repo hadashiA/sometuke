@@ -47,7 +47,7 @@ public:
         return str().c_str();
     }
 
-    bool is_null() {
+    bool is_null() const {
         return uuid_is_null(uuid_ptr_);
     }
 

@@ -4,7 +4,7 @@
 #include "kawaii/event_dispatcher.h"
 #include "kawaii/matrix_stack.h"
 #include "kawaii/logger.h"
-#include "kawaii/node/scene.h"
+#include "kawaii/scene.h"
 #include "kawaii/node/label_atlas.h"
 
 #include "kawaii/OpenGL_Internal.h"
