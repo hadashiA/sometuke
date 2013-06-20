@@ -254,7 +254,7 @@
     [self resizeFromLayer];
     kawaii::Application::Instance().Resize(backingWidth_, backingHeight_);
 
-    [self mainLoop:nil];
+    // [self mainLoop:nil];
 }
 
 #pragma mark -
