@@ -1,6 +1,14 @@
 #include "kawaii/node/layer.h"
 
+#include "kawaii/application.h"
+
 namespace kawaii {
+
+Layer::Layer() {
+    set_anchor_point(0.5, 0.5);
+    set_ignore_anchor_point_for_position(true);
+    set_content_size(Application::Instance().size_in_points());
+}
 
 shared_ptr<Node> Layer::FindNodeByActorId(const ActorId& id) {
     ActorNodeTable::iterator i = actor_node_table_.find(id);

@@ -20,12 +20,17 @@ const mat4& Node::LocalTransform() {
         float y = position_.y;
         float z = position_.z;
 
+        if (ignore_anchor_point_for_position_) {
+            x += anchor_point_in_points_.x;
+            y += anchor_point_in_points_.y;
+        }
+
         float c = 1;
         float s = 0;
         if (rotation_) {
-            float radians_ = -DegreesToRadians(rotation_);
-            c = cosf(radians_);
-            s = sinf(radians_);
+            float radians = -DegreesToRadians(rotation_);
+            c = cosf(radians);
+            s = sinf(radians);
         }
 
         // optimization:

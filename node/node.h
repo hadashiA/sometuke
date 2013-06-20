@@ -56,6 +56,7 @@ public:
           skew_y_(0),
           anchor_point_(0, 0),
           anchor_point_in_points_(0, 0),
+          ignore_anchor_point_for_position_(false),
           content_size_(0, 0),
           z_order_(0),
           paused_(false),
@@ -104,6 +105,10 @@ public:
 
     const vec2& anchor_point_in_points() const {
         return anchor_point_in_points_;
+    }
+
+    const bool ignore_anchor_point_for_position() const {
+        return ignore_anchor_point_for_position_;
     }
 
     const vec2& content_size() const {
@@ -183,6 +188,13 @@ public:
 
     void set_anchor_point(const float x, const float y) {
         set_anchor_point(vec2(x, y));
+    }
+
+    void set_ignore_anchor_point_for_position(bool value) {
+        if (ignore_anchor_point_for_position_ != value) {
+            ignore_anchor_point_for_position_ = value;
+            is_transform_dirty_ = is_inverse_dirty_ = true;
+        }
     }
 
     void set_content_size(const vec2& value) {
@@ -313,6 +325,7 @@ protected:
     float skew_y_;
     vec2 anchor_point_;
     vec2 anchor_point_in_points_;
+    bool ignore_anchor_point_for_position_;
     vec2 content_size_;
     int z_order_;
     bool is_visible_;

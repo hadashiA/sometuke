@@ -14,7 +14,10 @@ typedef unordered_map<ActorId, weak_ptr<Node>, ActorIdHash> ActorNodeTable;
 
 class Layer : public Node {
 public:
-    virtual ~Layer() {}
+    Layer();
+
+    virtual ~Layer() {
+    }
 
     bool Init() { return true; }
 
