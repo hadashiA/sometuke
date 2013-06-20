@@ -109,7 +109,7 @@ void Node::Visit() {
 
     mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
 
-    model_view *= LocalTransform();
+    model_view = LocalTransform() * model_view;
 
     if (!children_.empty()) {
         Render();
