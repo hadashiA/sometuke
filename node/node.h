@@ -235,6 +235,7 @@ public:
     }
 
     virtual void AddChild(shared_ptr<Node> child);
+    virtual void RemoveChild(shared_ptr<Node> child);
     
     virtual Scheduler& scheduler() const {
         return Application::Instance().director().scheduler();
