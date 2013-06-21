@@ -57,12 +57,24 @@ public:
         animation_interval_ = value;
     }
 
-    Director& director() {
+    AssetsLoader& loader() const {
+        return *loader_;
+    }
+
+    Director& director() const {
         return *director_;
     }
 
-    AssetsLoader& loader() {
-        return *loader_;
+    Scheduler& scheduler() const {
+        return director_->scheduler();
+    }
+
+    ProcessManager& process_manager() const {
+        return director_->process_manager();
+    }
+
+    EventDispatcher& dispatcher() const {
+        return director_->dispatcher();
     }
 
 private:
