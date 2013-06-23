@@ -106,12 +106,12 @@ void Node::AddChild(shared_ptr<Node> child) {
 
 void Node::RemoveChild(shared_ptr<Node> child) {
     if (child) {
-        for (vector<shared_ptr<Node> >i = children_.begin(); i != children_.end();) {
-            if (*it == child) {
-                it = children_.erase(it);
+        for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end();) {
+            if (*i == child) {
+                i = children_.erase(i);
                 break;
             } else {
-                ++it;
+                ++i;
             }
         }
     }
