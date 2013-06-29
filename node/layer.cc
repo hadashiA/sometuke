@@ -26,33 +26,4 @@ shared_ptr<Node> Layer::FindNodeByActorId(const ActorId& id) {
     }
 }
 
-bool Layer::InitEventListen() {
-    EventDispatcher& dispatcher = Application::Instance().director().dispatcher();
-
-    shared_ptr<EventListener> listener = dispatcher.CreateListener<Layer>(this);
-    dispatcher.On<MoveActorEvent>(listener);
-    dispatcher.On<RotateActorEvent>(listener);
-    
-    return true;
-}
-
-
-bool Layer::HandleEvent(shared_ptr<Event> event) {
-    if (event->type == MoveActorEvent::TYPE) {
-        shared_ptr<MoveActorEvent> move = static_pointer_cast<MoveActorEvent>(event);
-
-        if (shared_ptr<Node> node = FindNodeByActorId(move->actor_id)) {
-            node->set_position(move->position);
-        }
-        
-    } else if (event->type == RotateActorEvent::TYPE) {
-        shared_ptr<RotateActorEvent> rotate = static_pointer_cast<RotateActorEvent>(event);
-        if (shared_ptr<Node> node = FindNodeByActorId(rotate->actor_id)) {
-            node->set_rotation(rotate->rotate);
-        }
-    }
-
-    return true;
-}
-
 }

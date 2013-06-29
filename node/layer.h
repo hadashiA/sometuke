@@ -20,8 +20,6 @@ public:
 
     virtual bool Init() { return true; }
 
-    bool InitEventListen();
-
     virtual void AddChild(shared_ptr<Node> child) {
         Node::AddChild(child);
 
@@ -58,10 +56,7 @@ public:
         return FindNodeByActorId(id);
     }
 
-    virtual bool HandleEvent(shared_ptr<Event> event);
-
 protected:
-
     ActorNodeTable actor_node_table_;
 };
 
