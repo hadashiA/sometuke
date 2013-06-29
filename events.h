@@ -66,18 +66,6 @@ struct AccelerationEvent : public Event {
     vec3 gravity;
 };
 
-template<class T>
-shared_ptr<T> CreateEvent() {
-    shared_ptr<T> ptr(new T);
-    return ptr;
-}
-
-template<class T, class Arg1, class... Args>
-shared_ptr<T> CreateEvent(Arg1& arg1, Args& ... args) {
-    shared_ptr<T> ptr(new T(arg1, args...));
-    return ptr;
-}
-
 }
 
 #endif /* defined(__kawaii__events__) */

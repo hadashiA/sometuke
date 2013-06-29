@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cstdlib>
+#include <functional>
 
 #ifndef MM_DEFAULT_EXPAND_SIZE
 #define MM_DEFAULT_EXPAND_SIZE 10000
@@ -192,6 +193,19 @@ public:
 template <class T, std::size_t Size>
 unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
     
+template<class T>
+shared_ptr<T> New() {
+    shared_ptr<T> ptr(new T);
+    return ptr;
+}
+
+template<class T, class Arg1, class... Args>
+shared_ptr<T> New(Arg1&& arg1, Args&& ... args) {
+    shared_ptr<T> ptr(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
+    return ptr;
+}
+
+
 }
 
 #endif /* defined(__kawaii__memory_pool__) */
