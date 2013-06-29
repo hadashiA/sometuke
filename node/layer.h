@@ -45,7 +45,9 @@ public:
     virtual void RemoveChild(const ActorId& id) {
         ActorNodeTable::iterator i = actor_node_table_.find(id);
         if (i != actor_node_table_.end()) {
-            Node::RemoveChild(i->second);
+            if (shared_ptr<Node> node = i->second.lock()) {
+                Node::RemoveChild(node);
+            }
             actor_node_table_.erase(i);
         }
     }
