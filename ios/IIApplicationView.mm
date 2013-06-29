@@ -1,6 +1,7 @@
 #import "IIApplicationView.h"
 #import "OpenGL_Internal.h"
 
+#import "kawaii/events.h"
 #import "kawaii/director.h"
 #import "kawaii/logger.h"
 #import "kawaii/touch_dispatcher.h"
@@ -123,6 +124,11 @@
         kawaii::Application& app = kawaii::Application::Instance();
         app.set_content_scale_factor(scale);
         app.Resize(size.width, size.height);
+
+        motionManager_ = [[CMMotionManager alloc] init];
+        if (motionManager_.accelerometerAvailable) {
+            [motionManager_ startAccelerometerUpdates];
+        }
 
         // [self mainLoop:nil];
     }
@@ -264,6 +270,12 @@
     [EAGLContext setCurrentContext:context_];
 
     [self calculateDeltaTime];
+    if (motionManager_.accelerometerActive) {
+        CMAccelerometerData *data = motionManager_.accelerometerData;
+        kawaii::vec2 velocity = kawaii::vec2(data.acceleration.x, data.acceleration.y);
+        kawaii::Application::Instance().director().dispatcher().Queue<kawaii::AccelerationEvent>(velocity);
+    }
+
     kawaii::Application::Instance().director().MainLoop(dt_);
     [self swapBuffers];
 }

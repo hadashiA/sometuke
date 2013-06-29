@@ -5,6 +5,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <CoreMotion/CoreMotion.h>
 
 #import "IIProtocols.h"
 #import "kawaii/application.h"
@@ -47,6 +48,8 @@
     float dt_;
 
     BOOL isAnimating_;
+
+    CMMotionManager *motionManager_;
 }
 
 + (id)viewWithFrame:(CGRect)frame

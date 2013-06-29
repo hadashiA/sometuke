@@ -55,6 +55,17 @@ struct RotateActorEvent : public Event {
     float rotate;
 };
 
+struct AccelerationEvent : public Event {
+    static const EventType TYPE;
+
+    AccelerationEvent(const vec3& v)
+        : Event(TYPE),
+          gravity(v) {
+    }
+
+    vec3 gravity;
+};
+
 template<class T>
 shared_ptr<T> CreateEvent() {
     shared_ptr<T> ptr(new T);
