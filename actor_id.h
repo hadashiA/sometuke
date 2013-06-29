@@ -16,52 +16,72 @@ namespace kawaii {
 
 class ActorId {
 public:
-    ActorId() {
-        uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
+    ActorId()
+        : uuid_ptr(nullptr) {
+        Alloc();
+        uuid_generate(uuid_ptr);
     }
     
     ~ActorId() {
-        GeneralMemoryPool::Shared()->Free(uuid_ptr_, sizeof(uuid_t));
+        Free();
     }
 
-    ActorId(const ActorId& rhs) {
-        uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
-        uuid_copy(uuid_ptr_, rhs.uuid_ptr());
+    ActorId(const ActorId& rhs)
+        : uuid_ptr(nullptr) {
+        Alloc();
+        uuid_copy(uuid_ptr, rhs.uuid_ptr);
     }
 
-    void Generate() {
-        uuid_generate(uuid_ptr_);
+    ActorId(ActorId&& rhs) {
+        uuid_ptr = rhs.uuid_ptr;
+        rhs.uuid_ptr = nullptr;
     }
 
     const string str() const {
         char buf[37];
-        uuid_unparse(uuid_ptr_, buf);
+        uuid_unparse(uuid_ptr, buf);
         return string(buf);
     }
     
-    const unsigned char *uuid_ptr() const {
-        return uuid_ptr_;
-    }
-
     const char *c_str() const {
         return str().c_str();
     }
 
     bool is_null() const {
-        return uuid_is_null(uuid_ptr_);
+        return uuid_is_null(uuid_ptr);
     }
 
     ActorId& operator=(const ActorId& rhs) {
-        uuid_copy(uuid_ptr_, rhs.uuid_ptr());
+        uuid_copy(uuid_ptr, rhs.uuid_ptr);
+        return (*this);
+    }
+
+    ActorId& operator=(ActorId&& rhs) {
+        uuid_ptr = rhs.uuid_ptr;
+        rhs.uuid_ptr = nullptr;
         return (*this);
     }
 
     bool operator==(const ActorId& rhs) const {
-        return (uuid_compare(uuid_ptr_, rhs.uuid_ptr()) == 0);
+        return (uuid_compare(uuid_ptr, rhs.uuid_ptr) == 0);
     }
 
+
+    unsigned char *uuid_ptr;
+
 private:
-    unsigned char *uuid_ptr_;
+    void Alloc() {
+        if (uuid_ptr == nullptr) {
+            uuid_ptr = static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
+        }
+    }
+
+    void Free() {
+        if (uuid_ptr != nullptr) {
+            GeneralMemoryPool::Shared()->Free(uuid_ptr, sizeof(uuid_t));
+            uuid_ptr = nullptr;
+        }
+    }
 };
 
 struct ActorIdHash : public unary_function<ActorId, size_t> {
