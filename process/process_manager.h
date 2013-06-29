@@ -12,26 +12,17 @@
 namespace kawaii {
 using namespace std;
 
-class Node;
 class Process;
 
-typedef unordered_multimap<weak_ptr<Node>,
-                           shared_ptr<Process>,
-                           WeakPtrHash<Node>,
-                           WeakPtrEqual<Node> > ProcessTable;
-typedef pair<weak_ptr<Node>, shared_ptr<Process> > ProcessEntry;
-typedef pair<ProcessTable::iterator, ProcessTable::iterator> ProcessRange;
+typedef list<shared_ptr<Process> > ProcessList;
 
 class ProcessManager : public UpdateInterface {
 public:
-    void Attach(shared_ptr<Node> target, shared_ptr<Process> process);
-    void Detach(weak_ptr<Node> target);
-    void Detach(shared_ptr<Process> process);
-
+    void Attach(shared_ptr<Process> process);
     virtual bool Update(const ii_time delta_time);
 
 private:
-    ProcessTable process_table_;
+    ProcessList process_list_;
 };
 
 }

@@ -23,18 +23,18 @@ public:
     }
 
     virtual bool Update(const ii_time delta) {
-        if (!dead()) {
-            elapsed_ += delta;
-            // percentage of duration
-            float progress = elapsed_ / max<float>(duration_, FLT_EPSILON);
-            progress = max<float>(0, min<float>(1, progress));
-            bool result = Step(progress);
-            if (result && elapsed_ < duration_) {
-                return true;
-            }
+        elapsed_ += delta;
+        // percentage of duration
+        float progress = elapsed_ / max<float>(duration_, FLT_EPSILON);
+        progress = max<float>(0, min<float>(1, progress));
+        bool continued = Progress(progress);
+        if (continued && elapsed_ < duration_) {
+            return true;
         }
         return false;
     }
+
+    virtual bool Progress(const float progress) = 0;
 
 protected:
     ii_time duration_;

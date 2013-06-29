@@ -66,17 +66,17 @@ public:
         return Sequence::TYPE;
     }
 
-    virtual void Start() {
+    virtual void OnEnter() {
         current_ = 0;
-        processes_.front()->StartWithTarget(target_);
+        processes_.front()->OnEnter();
     }
 
-    virtual void End() {
+    virtual void OnExit() {
         shared_ptr<Process> process = processes_[current_];        
-        process->End();
+        process->OnExit();
     }
 
-    virtual bool Step(const ii_time delta_time);
+    virtual bool Update(const ii_time delta_time);
 
     shared_ptr<Sequence> Push(shared_ptr<Process> process) {
         processes_.push_back(process);

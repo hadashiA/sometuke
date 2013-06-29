@@ -156,48 +156,4 @@ shared_ptr<Sequence> Node::sequence() {
     return sequence_;
 }
 
-void Node::Run() {
-    process_manager().Attach(shared_from_this(), sequence());
-    sequence_ = NULL;
-}
-
-void Node::Loop(int num) {
-    shared_ptr<class Repeat> repeat(new class Repeat(sequence(), num));
-    process_manager().Attach(shared_from_this(), repeat);
-    sequence_ = NULL;
-}
-
-void Node::StopAllProcess() {
-    process_manager().Detach(shared_from_this());
-}
-
-shared_ptr<Node> Node::MoveTo(const ii_time duration, const vec3& to) {
-    shared_ptr<class MoveTo> move_to(new class MoveTo(duration, to));
-    sequence()->Push(move_to);
-
-    return shared_from_this();
-}
-
-shared_ptr<Node> Node::MoveBy(const ii_time duration, const vec3& delta) {
-    shared_ptr<class MoveBy> move_by(new class MoveBy(duration, delta));
-    sequence()->Push(move_by);
-
-    return shared_from_this();
-}
-
-shared_ptr<Node> Node::Delay(const ii_time duration) {
-    shared_ptr<class Delay> delay(new class Delay(duration));
-    sequence()->Push(delay);
-
-    return shared_from_this();
-}
-
-shared_ptr<Node> Node::Repeat(int num) {
-    shared_ptr<Process> last = sequence()->Pop();
-    shared_ptr<class Repeat> repeat(new class Repeat(last, num));
-    sequence()->Push(repeat);
-
-    return shared_from_this();
-}
-
 }

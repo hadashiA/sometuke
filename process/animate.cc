@@ -7,8 +7,31 @@ namespace kawaii {
 
 const HashedString Animate::TYPE("process:animate");
 
-bool Animate::Step(ii_time delta_time) {
-    shared_ptr<Sprite> sprite = target_sprite();
+void Animate::set_target(weak_ptr<Sprite> target) {
+    if (shared_ptr<Sprite> sprite = target.lock()) {
+        original_frame_ = sprite->display_frame();
+    }
+    target_ = target;
+}
+
+void Animate::OnEnter() {
+    frame_num_ = 0;
+    elapsed_ = 0;
+    executed_loops_ = 0;
+    killed_ = false;
+    if (shared_ptr<Sprite> sprite = target_.lock()) {
+        sprite->set_display_frame(animation_->frames[frame_num_].sprite_frame);
+    }
+}
+
+void Animate::OnExit() {
+    if (shared_ptr<Sprite > sprite = target_.lock()) {
+        sprite->set_display_frame(original_frame_);
+    }
+}
+
+bool Animate::Update(const ii_time delta_time) {
+    shared_ptr<Sprite> sprite = target_.lock();
     if (!sprite) {
         return false;
     }

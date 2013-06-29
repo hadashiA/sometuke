@@ -2,7 +2,7 @@
 #define __kawaii__process_move_by__
 
 #include "kawaii/process/interval.h"
-#include "kawaii/logger.h"
+#include "kawaii/node/node.h"
 
 namespace kawaii {
 
@@ -10,10 +10,10 @@ class MoveBy : public Interval {
 public:
     static const HashedString TYPE;
 
-    MoveBy(const ii_time duration, const vec3 delta)
-        : Interval(duration),
+    MoveBy(shared_ptr<Node> target, const ii_time duration, const vec3 delta)
+        : target_(target),
+          Interval(duration),
           delta_(delta) {
-
     }
 
     virtual ~MoveBy() {}
@@ -22,15 +22,15 @@ public:
         return MoveBy::TYPE;
     }
 
-    virtual void Start() {
-        Interval::Start();
+    virtual void OnEnter() {
+        Interval::OnEnter();
         
         if (shared_ptr<Node> node = target_.lock()) {
             from_ = node->position();
         }
     }
 
-    virtual bool Step(const ii_time progress) {
+    virtual bool Progress(const float progress) {
         if (shared_ptr<Node> node = target_.lock()) {
             vec3 pos = from_ + (delta_ * progress);
             node->set_position(pos);
@@ -40,6 +40,7 @@ public:
     }
 
 private:
+    weak_ptr<Node> target_;
     vec3 from_;
     vec3 delta_;
 };

@@ -4,43 +4,27 @@
 
 namespace kawaii {
 
-void ProcessManager::Attach(shared_ptr<Node> target, shared_ptr<Process> process) {
-    process->StartWithTarget(target);
-    process_table_.insert(make_pair(target, process));
-}
-
-void ProcessManager::Detach(weak_ptr<Node> target) {
-    ProcessRange range = process_table_.equal_range(target);
-    for (ProcessTable::iterator i = range.first; i != range.second; ++i) {
-        // weak_ptr<Node> target_weak  = i->first;
-        shared_ptr<Process> process = i->second;
-
-        process->End();
-    }
-    process_table_.erase(range.first, range.second);
-}
-
-void ProcessManager::Detach(shared_ptr<Process> process) {
-    for (ProcessTable::iterator i = process_table_.begin(); i != process_table_.end();) {
-        if (process == i->second) {
-            process->End();
-            process_table_.erase(i++);
-        } else {
-            ++i;
-        }
-    }
+void ProcessManager::Attach(shared_ptr<Process> process) {
+    process_list_.push_back(process);
 }
 
 bool ProcessManager::Update(const ii_time delta_time) {
-    for (ProcessTable::iterator i = process_table_.begin(); i != process_table_.end();) {
-        weak_ptr<Node> target_weak  = i->first;
-        shared_ptr<Process> process = i->second;
+    for (ProcessList::iterator i = process_list_.begin(); i != process_list_.end();) {
+        shared_ptr<Process> process = (*i);
             
-        if (target_weak.expired() || !process->Update(delta_time)) {
-            process->End();
-            process_table_.erase(i++);
-        } else {
-            ++i;
+        if (!process->sleeping()) {
+            if (!process->running()) {
+                process->OnEnter();
+                process->set_running(true);
+            }
+            
+            if (!process->Update(delta_time)) {
+                process->OnExit();
+                process->set_running(false);
+                process_list_.erase(i++);
+            } else {
+                ++i;
+            }
         }
     }
     return true;

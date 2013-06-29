@@ -280,13 +280,5 @@ void Sprite::UpdateQuadTexCoords() {
     }
 }
 
-shared_ptr<Sprite> Sprite::Animate(shared_ptr<Animation> animation) {
-    shared_ptr<class Animate> animate(new class Animate(animation));
-    sequence()->Push(animate);
-
-    return static_pointer_cast<Sprite>(shared_from_this());
-}
-
-
 }
 

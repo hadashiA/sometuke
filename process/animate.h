@@ -12,49 +12,28 @@ namespace kawaii {
 class Animate : public Process {
 public:
     static const HashedString TYPE;
-    explicit Animate(shared_ptr<Animation> animation) :
-        animation_(animation),
-        frame_num_(0),
-        elapsed_(0),
-        executed_loops_(0),
-        original_frame_(NULL, Rect(0, 0, 0, 0)) {
+    explicit Animate(weak_ptr<Sprite> target, shared_ptr<Animation> animation)
+        : target_(target),
+          animation_(animation),
+          frame_num_(0),
+          elapsed_(0),
+          executed_loops_(0),
+          original_frame_(NULL, Rect(0, 0, 0, 0)) {
+        set_target(target);
     }
 
     virtual const HashedString& type() const {
         return Animate::TYPE;
     }
 
-    virtual void set_target(weak_ptr<Node> target_weak) {
-        shared_ptr<Node> target = target_weak.lock();
-        if (target) {
-            shared_ptr<Sprite> sprite = static_pointer_cast<Sprite>(target);
-            if (sprite != target_sprite()) {
-                original_frame_ = sprite->display_frame();
-            }
-        }
-        target_ = target;
-    }
+    virtual void set_target(weak_ptr<Sprite> target_weak);
 
-    virtual void Start() {
-        frame_num_ = 0;
-        elapsed_ = 0;
-        executed_loops_ = 0;
-        killed_ = false;
-        if (shared_ptr<Sprite> sprite = target_sprite()) {
-            sprite->set_display_frame(animation_->frames[frame_num_].sprite_frame);
-        }
-    }
+    virtual void OnEnter();
+    virtual void OnExit();
+    virtual bool Update(const ii_time delta);
     
-    virtual void End() {
-        if (shared_ptr<Sprite > sprite = target_sprite()) {
-            sprite->set_display_frame(original_frame_);
-        }
-    }
-
-    virtual bool Step(const ii_time delta);
-
-    shared_ptr<Sprite> target_sprite() {
-        return static_pointer_cast<Sprite>(target_.lock());
+    shared_ptr<Sprite> target() {
+        return target_.lock();
     }
 
 private:
@@ -63,6 +42,7 @@ private:
     ii_time elapsed_;
     unsigned int executed_loops_;
 
+    weak_ptr<Sprite> target_;
     SpriteFrame original_frame_;
 };
 

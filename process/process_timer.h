@@ -52,15 +52,15 @@ public:
         return inner_process_;
     }
 
-    virtual void Start() {
-        inner_process_->StartWithTarget(target_);
+    virtual void OnEnter() {
+        inner_process_->OnEnter();
     }
 
-    virtual void End() {
-        inner_process_->End();
+    virtual void OnExit() {
+        inner_process_->OnExit();
     }
 
-    virtual bool Step(const ii_time delta_time);
+    virtual bool Update(const ii_time delta_time);
 
 private:    
     shared_ptr<Process> inner_process_;

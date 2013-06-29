@@ -22,23 +22,23 @@ public:
         return Repeat::TYPE;
     }
 
-    virtual void Start() {
+    virtual void OnEnter() {
         num_repeated_ = 0;
-        inner_process_->StartWithTarget(target_);
+        inner_process_->OnEnter();
     }
 
-    virtual void End() {
-        inner_process_->End();
+    virtual void OnExit() {
+        inner_process_->OnExit();
     }
 
-    virtual bool Step(const ii_time delta) {
+    virtual bool Update(const ii_time delta) {
         bool continued = inner_process_->Update(delta);
         
         if (continued) {
             return true;
         } else {
             if (is_forever() || ++num_repeated_ < repeat_) {
-                inner_process_->StartWithTarget(target_);
+                inner_process_->OnEnter();
                 return true;
             }
         }

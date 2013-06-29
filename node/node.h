@@ -307,14 +307,6 @@ public:
         return Application::Instance().director().process_manager();
     }
 
-    shared_ptr<Node> MoveTo(const ii_time duration, const vec3& to);
-    shared_ptr<Node> MoveBy(const ii_time duration, const vec3& delta);
-    shared_ptr<Node> Delay(const ii_time duration);
-    shared_ptr<Node> Repeat(int repeat = -1);
-    void Run();
-    void Loop(int repeat = -1);
-    void StopAllProcess();
-
 protected:
     shared_ptr<Sequence> sequence();
 

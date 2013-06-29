@@ -19,7 +19,7 @@ public:
     }
 
     virtual bool Step(const ii_time delta) {
-        Application::Instance().director().dispatcher().Queue(event_);
+        Application::Instance().dispatcher().Queue(event_);
         return false;
     }
 
