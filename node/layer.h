@@ -32,6 +32,26 @@ public:
         }
     }
 
+    virtual void RemoveChild(shared_ptr<Node> child) {
+        Node::RemoveChild(child);
+
+        const ActorId& actor_id = child->actor_id();
+        if (!actor_id.is_null()) {
+            ActorNodeTable::iterator i = actor_node_table_.find(actor_id);
+            if (i != actor_node_table_.end()) {
+                actor_node_table_.erase(i);
+            }
+        }
+    }
+
+    virtual void RemoveChild(const ActorId& id) {
+        ActorNodeTable::iterator i = actor_node_table_.find(id);
+        if (i != actor_node_table_.end()) {
+            Node::RemoveChild(i->second);
+            actor_node_table_.erase(i);
+        }
+    }
+
     shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     
     shared_ptr<Node> operator[](const ActorId& id) {
