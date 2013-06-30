@@ -302,8 +302,8 @@ public:
     }
 
     // process helpers
-    virtual ProcessManager& process_manager() const {
-        return Application::Instance().director().process_manager();
+    virtual ProcessManager& process() const {
+        return Application::Instance().director().process();
     }
 
 protected:

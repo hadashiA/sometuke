@@ -69,8 +69,8 @@ public:
         return director_->scheduler();
     }
 
-    ProcessManager& process_manager() const {
-        return director_->process_manager();
+    ProcessManager& process() const {
+        return director_->process();
     }
 
     EventDispatcher& dispatcher() const {

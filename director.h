@@ -40,7 +40,7 @@ public:
         return *scheduler_;
     }
 
-    ProcessManager& process_manager() {
+    ProcessManager& process() {
         return *process_manager_;
     }
 
