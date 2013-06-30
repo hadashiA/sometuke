@@ -2,7 +2,7 @@
 
 #include "kawaii/process/repeat.h"
 #include "kawaii/process/sequence.h"
-#include "kawaii/process/delay.h"
+#include "kawaii/process/process_timer.h"
 
 #include <functional>
 
@@ -13,12 +13,24 @@ shared_ptr<Process> Process::Repeat(int num) {
     return repeat;
 }
 
-shared_ptr<Sequence> Process::Delay(const ii_time duration) {
-    shared_ptr<Process> delay(new class Delay(duration));
-    shared_ptr<Sequence> sequence(new Sequence(delay, shared_from_this()));
-
-    return sequence;
+shared_ptr<Process> Process::Delay(const ii_time duration) {
+    shared_ptr<Process> timer(new class ProcessTimer(shared_from_this(),
+                                                     0, ProcessTimer::REPEAT_FOREVER, duration));
+    return timer;
 }
+
+shared_ptr<Process> Process::Interval(const ii_time interval) {
+    shared_ptr<Process> timer(new class ProcessTimer(shared_from_this(), interval));
+    return timer;
+}
+
+shared_ptr<Process> Process::Timer(const ii_time interval,
+                                   const unsigned int repeat, const ii_time delay) {
+    shared_ptr<Process> timer(new class ProcessTimer(shared_from_this(),
+                                                     interval, repeat, delay));
+    return timer;
+}
+
 
 template<class T>
 shared_ptr<Sequence> Process::Chain() {

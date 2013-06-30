@@ -57,8 +57,10 @@ public:
     virtual const HashedString& type() const = 0;
 
     shared_ptr<Process> Repeat(int repeat = -1);
-
-    shared_ptr<Sequence> Delay(const ii_time duration);
+    shared_ptr<Process> Delay(const ii_time duration);
+    shared_ptr<Process> Interval(const ii_time interval);
+    shared_ptr<Process> Timer(const ii_time interval,
+                              const unsigned int repeat, const ii_time delay);
 
     template<class T>
     shared_ptr<Sequence> Chain();
