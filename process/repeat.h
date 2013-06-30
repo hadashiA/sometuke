@@ -12,7 +12,7 @@ class Repeat : public Process {
 public:
     static const HashedString TYPE; // = "process:repeat";
 
-    Repeat(shared_ptr<Process> inner_process, int repeat = -1)
+    Repeat(const shared_ptr<Process>& inner_process, const int& repeat = -1)
         : inner_process_(inner_process),
           repeat_(repeat),
           num_repeated_(0) {

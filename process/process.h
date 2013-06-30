@@ -47,6 +47,14 @@ public:
     
     virtual const HashedString& type() const = 0;
 
+    shared_ptr<Process> Repeat(int repeat = -1);
+
+    template<class T>
+    shared_ptr<Process> Chain();
+    
+    template<class T, class Arg1, class... Args>
+    shared_ptr<Process> Chain(Arg1&& arg1, Args&& ... args);
+
 protected:
     bool running_;
     bool killed_;
