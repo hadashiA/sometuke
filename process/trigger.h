@@ -1,5 +1,5 @@
-#ifndef __kawaii__process_event_emit__
-#define __kawaii__process_event_emit__
+#ifndef __kawaii__process_trigger__
+#define __kawaii__process_trigger__
 
 #include "kawaii/process/process.h"
 #include "kawaii/event_dispatcher.h"
@@ -7,18 +7,18 @@
 
 namespace kawaii {
 
-class EventEmit : public Process {
+class Trigger : public Process {
 public:
     static const HashedString TYPE;
 
-    EventEmit(shared_ptr<Event> event)
+    Trigger(shared_ptr<Event> event)
         : event_(event){}
 
     const HashedString& type() const {
         return TYPE;
     }
 
-    virtual bool Step(const ii_time delta) {
+    virtual bool Update(const ii_time delta) {
         Application::Instance().dispatcher().Queue(event_);
         return false;
     }

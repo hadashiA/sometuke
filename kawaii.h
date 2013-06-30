@@ -30,7 +30,7 @@
 // process
 #include "kawaii/process/process_manager.h"
 #include "kawaii/process/animate.h"
-#include "kawaii/process/event_emit.h"
+#include "kawaii/process/trigger.h"
 #include "kawaii/process/move_by.h"
 #include "kawaii/process/move_to.h"
 #include "kawaii/process/repeat.h"
