@@ -19,10 +19,6 @@ typedef list<shared_ptr<Process> > ProcessList;
 class ProcessManager : public UpdateInterface {
 public:
     shared_ptr<Process> Attach(const shared_ptr<Process>& process);
-    
-    template<class Arg1, class... Args>
-    shared_ptr<Process> Attach(Arg1&& arg1, Args&& ... args);
-
     void Dettach(const shared_ptr<Process>& process);
     virtual bool Update(const ii_time delta_time);
 
