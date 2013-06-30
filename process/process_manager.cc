@@ -5,12 +5,12 @@
 
 namespace kawaii {
 
-void ProcessManager::Attach(const shared_ptr<Process>& process) {
+shared_ptr<Process> ProcessManager::Attach(const shared_ptr<Process>& process) {
     process_list_.push_back(process);
     return process;
 }
 
-void Dettach(const shared_ptr<Process>& process) {
+void ProcessManager::Dettach(const shared_ptr<Process>& process) {
     for (ProcessList::iterator i = process_list_.begin(); i != process_list_.end();) {
         if ((*i) == process) {
             process_list_.erase(i++);
