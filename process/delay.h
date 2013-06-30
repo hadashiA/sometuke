@@ -19,7 +19,7 @@ public:
         return Delay::TYPE;
     }
 
-    virtual bool Update(const ii_time progress) {
+    virtual bool Progress(const ii_time progress) {
         return true;
     }
 
