@@ -21,6 +21,7 @@ public:
     Actor(const ActorType& t)
         : type_(t),
           id_() {
+        id_.Generate();
     }
 
     virtual ~Actor() {}

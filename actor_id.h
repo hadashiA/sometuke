@@ -24,13 +24,20 @@ public:
         }
     };
 
-    ActorId() {
-        unsigned char *ptr =
-            static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
-
-        uuid_generate(ptr);
-        uuid_ptr_.reset(ptr, UuidDeleter());
+    ActorId()
+        : uuid_ptr_(nullptr) {
     }
+
+    void Generate() {
+        if (!uuid_ptr_) {
+            unsigned char *ptr =
+                static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
+            
+            uuid_generate(ptr);
+            uuid_ptr_.reset(ptr, UuidDeleter());
+        }
+    }
+
     const string str() const {
         char buf[37];
         uuid_unparse(uuid_ptr_.get(), buf);
@@ -50,6 +57,7 @@ public:
     }
 
 private:
+
     shared_ptr<unsigned char> uuid_ptr_;
 };
 
