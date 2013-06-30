@@ -1,11 +1,30 @@
 #include "kawaii/process/process_manager.h"
 
 #include "kawaii/process/process.h"
+#include "kawaii/process/sequence.h"
 
 namespace kawaii {
 
-void ProcessManager::Attach(shared_ptr<Process> process) {
+void ProcessManager::Attach(const shared_ptr<Process>& process) {
     process_list_.push_back(process);
+    return process;
+}
+
+template<class Arg1, class... Args>
+shared_ptr<Process> Attach(Arg1&& arg1, Args&& ... args) {
+    shared_ptr<Sequence> sequence = New<Sequence>();
+    return sequence;
+}
+
+void Dettach(const shared_ptr<Process>& process) {
+    for (ProcessList::iterator i = process_list_.begin(); i != process_list_.end();) {
+        if ((*i) == process) {
+            process_list_.erase(i++);
+            break;
+        } else {
+            ++i;
+        }
+    }
 }
 
 bool ProcessManager::Update(const ii_time delta_time) {

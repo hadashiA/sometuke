@@ -12,7 +12,7 @@ namespace kawaii {
 class Animate : public Process {
 public:
     static const HashedString TYPE;
-    explicit Animate(weak_ptr<Sprite> target, shared_ptr<Animation> animation)
+    Animate(const weak_ptr<Sprite>& target, const shared_ptr<Animation>& animation)
         : target_(target),
           animation_(animation),
           frame_num_(0),
