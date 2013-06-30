@@ -24,11 +24,11 @@ public:
 
     virtual void OnEnter() {
         num_repeated_ = 0;
-        inner_process_->OnEnter();
+        inner_process_->Enter();
     }
 
     virtual void OnExit() {
-        inner_process_->OnExit();
+        inner_process_->Exit();
     }
 
     virtual bool Update(const ii_time delta) {
@@ -38,7 +38,7 @@ public:
             return true;
         } else {
             if (is_forever() || ++num_repeated_ < repeat_) {
-                inner_process_->OnEnter();
+                inner_process_->Enter();
                 return true;
             }
         }

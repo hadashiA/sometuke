@@ -26,14 +26,10 @@ bool ProcessManager::Update(const ii_time delta_time) {
         shared_ptr<Process> process = (*i);
             
         if (!process->sleeping()) {
-            if (!process->running()) {
-                process->OnEnter();
-                process->set_running(true);
-            }
+            process->Enter();
             
             if (!process->Update(delta_time)) {
-                process->OnExit();
-                process->set_running(false);
+                process->Exit();
                 process_list_.erase(i++);
             } else {
                 ++i;

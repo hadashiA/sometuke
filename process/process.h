@@ -33,9 +33,6 @@ public:
         return sleeping_;
     }
 
-    void set_running(bool value) {
-        running_ = value;
-    }
     void Sleep()  { sleeping_ = true; }
     void Wakeup() { sleeping_ = false; }
 
@@ -43,8 +40,18 @@ public:
         return Application::Instance().director().dispatcher();
     }
 
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
+    void Enter() {
+        if (!running_) {
+            OnEnter();
+            running_ = true;
+        }
+    }
+
+    void Exit() {
+        OnExit();
+        running_ = false;
+    }
+
     virtual bool Update(const ii_time delta) = 0;
     
     virtual const HashedString& type() const = 0;
@@ -63,6 +70,9 @@ protected:
     bool running_;
     bool killed_;
     bool sleeping_;
+
+    virtual void OnEnter() {}
+    virtual void OnExit() {}
 
 private:
     Process(const Process&);

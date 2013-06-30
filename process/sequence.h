@@ -68,12 +68,12 @@ public:
 
     virtual void OnEnter() {
         current_ = 0;
-        processes_.front()->OnEnter();
+        processes_.front()->Enter();
     }
 
     virtual void OnExit() {
         shared_ptr<Process> process = processes_[current_];        
-        process->OnExit();
+        process->Exit();
     }
 
     virtual bool Update(const ii_time delta_time);
