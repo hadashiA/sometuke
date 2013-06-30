@@ -3,12 +3,6 @@
 #include "kawaii/matrix_stack.h"
 #include "kawaii/logger.h"
 
-#include "kawaii/process/sequence.h"
-#include "kawaii/process/repeat.h"
-#include "kawaii/process/move_to.h"
-#include "kawaii/process/move_by.h"
-#include "kawaii/process/delay.h"
-
 #include <cassert>
 
 namespace kawaii {
@@ -145,15 +139,6 @@ void Node::Visit() {
     }
 
     MatrixStack<GLModelView>::Instance().Pop();
-}
-
-
-// process helpers
-shared_ptr<Sequence> Node::sequence() {
-    if (!sequence_) {
-        sequence_.reset(new Sequence);
-    }
-    return sequence_;
 }
 
 }

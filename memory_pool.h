@@ -205,7 +205,6 @@ shared_ptr<T> New(Arg1&& arg1, Args&& ... args) {
     return ptr;
 }
 
-
 }
 
 #endif /* defined(__kawaii__memory_pool__) */

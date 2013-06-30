@@ -17,7 +17,6 @@ using namespace std;
 
 class EventDispatcher;
 class Texture2D;
-class Sequence;
 
 class LabelInterface {
 public:
@@ -308,8 +307,6 @@ public:
     }
 
 protected:
-    shared_ptr<Sequence> sequence();
-
     vec3 position_;
     float scale_x_;
     float scale_y_;
@@ -333,9 +330,6 @@ protected:
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;
-
-    shared_ptr<Sequence> sequence_;
-
 };
 
 }
