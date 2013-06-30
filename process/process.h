@@ -13,6 +13,8 @@
 namespace kawaii {
 using namespace std;
 
+class Sequence;
+
 class Process : public GeneralPoolable,
                 public enable_shared_from_this<Process> {
 public:
@@ -49,11 +51,13 @@ public:
 
     shared_ptr<Process> Repeat(int repeat = -1);
 
+    shared_ptr<Sequence> Delay(const ii_time duration);
+
     template<class T>
-    shared_ptr<Process> Chain();
+    shared_ptr<Sequence> Chain();
     
     template<class T, class Arg1, class... Args>
-    shared_ptr<Process> Chain(Arg1&& arg1, Args&& ... args);
+    shared_ptr<Sequence> Chain(Arg1&& arg1, Args&& ... args);
 
 protected:
     bool running_;

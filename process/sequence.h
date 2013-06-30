@@ -90,6 +90,18 @@ public:
         return last;
     }
 
+    template<class T>
+    shared_ptr<Sequence> Chain() {
+        shared_ptr<Process> next(new T);
+        return Push(next);
+    }
+    
+    template<class T, class Arg1, class... Args>
+    shared_ptr<Sequence> Chain(Arg1&& arg1, Args&& ... args) {
+        shared_ptr<Process> next(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
+        return Push(next);
+    }
+
     shared_ptr<Sequence> operator<<(shared_ptr<Process> process) {
         return Push(process);
     }
