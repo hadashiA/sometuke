@@ -34,6 +34,8 @@ bool ProcessManager::Update(const ii_time delta_time) {
             } else {
                 ++i;
             }
+        } else {
+            ++i;
         }
     }
     return true;
