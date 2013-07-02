@@ -40,11 +40,11 @@ void TextureAtlas::ResizeCapacity(size_t new_capacity) {
         return;
     }
 
-    if (new_capacity < quads_.capacity()) {
+    if (new_capacity < quads_.size()) {
         Quads::iterator last = quads_.begin() + new_capacity;
         quads_.erase(last, quads_.end());
     }
-    if (new_capacity * 6 < indices_.capacity()) {
+    if (new_capacity * 6 < indices_.size()) {
         Indices::iterator last = indices_.begin() + (new_capacity * 6);
         indices_.erase(last, indices_.end());
     }
