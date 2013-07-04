@@ -1,7 +1,7 @@
 #ifndef __kawaii__matrix_stack__
 #define __kawaii__matrix_stack__
 
-#include <vector>
+#include <stack>
 #include <memory>
 #include "kawaii/matrix.h"
 
@@ -21,29 +21,29 @@ public:
     }
 
     mat4& Push() {
-        stack_.push_back(stack_.empty() ? mat4::Identity() : Top());
-        return stack_.back();
+        stack_.push(stack_.empty() ? mat4::Identity() : Top());
+        return stack_.top();
     }
 
     mat4 Pop() {
-        mat4 result = stack_.back();
-        stack_.pop_back();
+        mat4 result = stack_.top();
+        stack_.pop();
         return result;
     }
 
     mat4& Top() {
-        return stack_.back();
+        return stack_.top();
     }
 
 private:
     MatrixStack() : stack_() {
-        stack_.push_back(mat4::Identity());
+        stack_.push(mat4::Identity());
     }
 
     MatrixStack(const MatrixStack&);
     MatrixStack& operator=(const MatrixStack&);
 
-    vector<mat4> stack_;
+    stack<mat4> stack_;
 };
 
 }
