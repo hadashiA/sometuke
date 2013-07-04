@@ -15,8 +15,7 @@ using namespace std;
 
 class Sequence;
 
-class Process : public GeneralPoolable,
-                public enable_shared_from_this<Process> {
+class Process : public enable_shared_from_this<Process> {
 public:
     Process()
         : running_(false),

@@ -104,13 +104,13 @@ public:
 
     template<class T>
     bool Queue() {
-        shared_ptr<T> event(new T);
+        shared_ptr<T> event = New<T>();
         return Queue(event);
     }
 
     template<class T, class Arg1, class... Args>
     bool Queue(Arg1&& arg1, Args&& ... args) {
-        shared_ptr<T> event(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
+        shared_ptr<T> event(New<T>(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
         return Queue(event);
     }
 

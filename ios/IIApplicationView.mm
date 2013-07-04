@@ -1,7 +1,6 @@
 #import "IIApplicationView.h"
 #import "OpenGL_Internal.h"
 
-#import "kawaii/events.h"
 #import "kawaii/director.h"
 #import "kawaii/logger.h"
 #import "kawaii/touch_dispatcher.h"
@@ -344,19 +343,20 @@
     kawaii::TouchDispatcher& dispatcher = kawaii::TouchDispatcher::Instance();
 
     if (dispatcher.enabled()) {
-        std::vector<std::shared_ptr<kawaii::Touch> > events;
+        std::vector<std::shared_ptr<kawaii::Touch> > touches_vec;
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:self];
             CGPoint prev = [touch previousLocationInView:self];
-            kawaii::Touch *e = new kawaii::Touch((kawaii::TouchId)touch,
-                                                           phase,
-                                                           kawaii::vec2(pos.x, pos.y),
-                                                           kawaii::vec2(prev.x, prev.y),
-                                                           touch.tapCount);
-            std::shared_ptr<kawaii::Touch> event(e);
-            events.push_back(event);
+
+            std::shared_ptr<kawaii::Touch> k_touch =
+                kawaii::New<kawaii::Touch>((kawaii::TouchId)touch,
+                                           phase,
+                                           kawaii::vec2(pos.x, pos.y),
+                                           kawaii::vec2(prev.x, prev.y),
+                                           touch.tapCount);
+            touches_vec.push_back(k_touch);
         }
-        dispatcher.Trigger(phase, events);
+        dispatcher.Trigger(phase, touches_vec);
     }
 }
 

@@ -193,16 +193,28 @@ public:
 template <class T, std::size_t Size>
 unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
     
+template<typename T>
+struct GeneralPoolDeleter {
+    void operator()(T* p) const {
+        GeneralMemoryPool::Shared()->Free(p, sizeof(T));
+        p = nullptr;
+    }
+};
+
 template<class T>
 shared_ptr<T> New() {
-    shared_ptr<T> ptr(new T);
-    return ptr;
+    T *ptr = static_cast<T *>(GeneralMemoryPool::Shared()->Alloc(sizeof(T)));
+    T *obj = new (ptr) T;
+    shared_ptr<T> s(obj, GeneralPoolDeleter<T>());
+    return s;
 }
 
 template<class T, class Arg1, class... Args>
 shared_ptr<T> New(Arg1&& arg1, Args&& ... args) {
-    shared_ptr<T> ptr(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
-    return ptr;
+    T *ptr = static_cast<T *>(GeneralMemoryPool::Shared()->Alloc(sizeof(T)));
+    T *obj = new (ptr) T(std::forward<Arg1>(arg1), std::forward<Args>(args)...);
+    shared_ptr<T> s(obj, GeneralPoolDeleter<T>());
+    return s;
 }
 
 }

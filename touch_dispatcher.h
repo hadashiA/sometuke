@@ -23,7 +23,7 @@ typedef enum {
     kTouchCancelled,
 } TouchPhase;
 
-struct Touch : public GeneralPoolable {
+struct Touch {
     static const EventType TYPE;
 
     Touch(TouchId touch_id, TouchPhase _phase, const vec2& loc, const vec2& prev, size_t cnt)

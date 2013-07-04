@@ -12,7 +12,7 @@ namespace kawaii {
 
 typedef HashedString EventType;
 
-struct Event : public GeneralPoolable {
+struct Event {
     Event(const EventType& t)
         : type(t),
           timestamp(std::time(NULL)) {
