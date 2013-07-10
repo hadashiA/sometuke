@@ -1,16 +1,16 @@
-#ifndef __kawaii__process_process__
-#define __kawaii__process_process__
+#ifndef __skidarak__process_process__
+#define __skidarak__process_process__
 
-#include "kawaii/application.h"
-#include "kawaii/hashed_string.h"
-#include "kawaii/types.h"
-#include "kawaii/memory_pool.h"
-#include "kawaii/process/process_manager.h"
-#include "kawaii/logger.h"
+#include "skidarak/application.h"
+#include "skidarak/hashed_string.h"
+#include "skidarak/types.h"
+#include "skidarak/memory_pool.h"
+#include "skidarak/process/process_manager.h"
+#include "skidarak/logger.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Sequence;
@@ -82,4 +82,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_process__) */
+#endif /* defined(__skidarak__process_process__) */

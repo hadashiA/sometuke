@@ -1,9 +1,9 @@
-#ifndef __kawaii__process_process_timer__
-#define __kawaii__process_process_timer__
+#ifndef __skidarak__process_process_timer__
+#define __skidarak__process_process_timer__
 
-#include "kawaii/process/process.h"
+#include "skidarak/process/process.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class ProcessTimer : public Process {
 public:

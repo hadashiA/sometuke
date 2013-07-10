@@ -1,14 +1,14 @@
-#ifndef __kawaii__scheduler__
-#define __kawaii__scheduler__
+#ifndef __skidarak__scheduler__
+#define __skidarak__scheduler__
 
-#include "kawaii/types.h"
+#include "skidarak/types.h"
 
 #include <memory>
 #include <list>
 #include <map>
 #include <cassert>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class UpdateInterface {
@@ -94,5 +94,5 @@ private:
 
 }
 
-#endif /* defined(__kawaii__scheduler__) */
+#endif /* defined(__skidarak__scheduler__) */
 

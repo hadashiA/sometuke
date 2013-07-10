@@ -1,13 +1,13 @@
-#ifndef __kawaii__node_label_atlas__
-#define __kawaii__node_label_atlas__
+#ifndef __skidarak__node_label_atlas__
+#define __skidarak__node_label_atlas__
 
-#include "kawaii/node/atlas_node.h"
+#include "skidarak/node/atlas_node.h"
 
 #include <string>
 #include <functional>
 #include <unordered_map>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class LabelAtlas : public AtlasNode, public LabelInterface {
@@ -36,4 +36,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__node_label_atlas__) */
+#endif /* defined(__skidarak__node_label_atlas__) */

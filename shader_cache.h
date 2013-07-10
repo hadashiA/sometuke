@@ -1,14 +1,14 @@
-#ifndef __kawaii__shader_cache__
-#define __kawaii__shader_cache__
+#ifndef __skidarak__shader_cache__
+#define __skidarak__shader_cache__
 
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
 
-#include "kawaii/gl_program.h"
-#include "kawaii/logger.h"
+#include "skidarak/gl_program.h"
+#include "skidarak/logger.h"
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 typedef enum {
@@ -61,4 +61,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__shader_cache__) */
+#endif /* defined(__skidarak__shader_cache__) */

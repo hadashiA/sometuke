@@ -1,9 +1,9 @@
-#ifndef __kawaii__vector__
-#define __kawaii__vector__
+#ifndef __skidarak__vector__
+#define __skidarak__vector__
 
 #include <cmath>
 
-namespace kawaii {
+namespace skidarak {
 
 const float PI           = 4 * std::atan(1.0f);
 const float TWO_PI       = 2 * PI;
@@ -250,7 +250,7 @@ public:
     vec2 size;
 };
 
-} // namespace kawaii
+} // namespace skidarak
 
 
-#endif /* defined(__kawaii__vector__) */
+#endif /* defined(__skidarak__vector__) */

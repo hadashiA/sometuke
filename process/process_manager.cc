@@ -1,9 +1,9 @@
-#include "kawaii/process/process_manager.h"
+#include "skidarak/process/process_manager.h"
 
-#include "kawaii/process/process.h"
-#include "kawaii/process/sequence.h"
+#include "skidarak/process/process.h"
+#include "skidarak/process/sequence.h"
 
-namespace kawaii {
+namespace skidarak {
 
 shared_ptr<Process> ProcessManager::Attach(const shared_ptr<Process>& process) {
     process_list_.push_back(process);

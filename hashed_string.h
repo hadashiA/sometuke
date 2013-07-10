@@ -1,11 +1,11 @@
-#ifndef __kawaii__hashed_string__
-#define __kawaii__hashed_string__
+#ifndef __skidarak__hashed_string__
+#define __skidarak__hashed_string__
 
 #include <string>
 #include <functional>
 #include <iostream>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class HashedString {
@@ -52,4 +52,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__hashed_string__) */
+#endif /* defined(__skidarak__hashed_string__) */

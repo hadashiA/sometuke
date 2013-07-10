@@ -1,12 +1,12 @@
-#ifndef __kawaii__process_sequence__
-#define __kawaii__process_sequence__
+#ifndef __skidarak__process_sequence__
+#define __skidarak__process_sequence__
 
-#include "kawaii/process/process.h"
+#include "skidarak/process/process.h"
 
 #include <memory>
 #include <vector>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Sequence : public Process {
@@ -113,4 +113,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_sequence__) */
+#endif /* defined(__skidarak__process_sequence__) */

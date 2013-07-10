@@ -1,16 +1,16 @@
-#ifndef __kawaii__node_scene__
-#define __kawaii__node_scene__
+#ifndef __skidarak__node_scene__
+#define __skidarak__node_scene__
 
-#include "kawaii/application.h"
-#include "kawaii/matrix_stack.h"
-#include "kawaii/actor.h"
-#include "kawaii/node/layer.h"
+#include "skidarak/application.h"
+#include "skidarak/matrix_stack.h"
+#include "skidarak/actor.h"
+#include "skidarak/node/layer.h"
 
 #include <memory>
 #include <vector>
 #include <unordered_map>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Actor;
@@ -100,4 +100,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__node_scene__) */
+#endif /* defined(__skidarak__node_scene__) */

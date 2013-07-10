@@ -1,8 +1,8 @@
-#include "kawaii/process/sequence.h"
+#include "skidarak/process/sequence.h"
 
-#include "kawaii/logger.h"
+#include "skidarak/logger.h"
 
-namespace kawaii {
+namespace skidarak {
 
 const HashedString Sequence::TYPE("process:sequence");
 

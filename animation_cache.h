@@ -1,13 +1,13 @@
-#ifndef __kawaii__animation_cache__
-#define __kawaii__animation_cache__
+#ifndef __skidarak__animation_cache__
+#define __skidarak__animation_cache__
 
-#include "kawaii/animation.h"
+#include "skidarak/animation.h"
 
 #include <memory>
 #include <string>
 #include <functional>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 typedef unordered_map<string, shared_ptr<Animation> > AnimationTable;
@@ -41,4 +41,4 @@ private:
     
 }
 
-#endif /* defined(__kawaii__animation_cache__) */
+#endif /* defined(__skidarak__animation_cache__) */

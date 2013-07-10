@@ -1,10 +1,10 @@
-#ifndef __kawaii__color__
-#define __kawaii__color__
+#ifndef __skidarak__color__
+#define __skidarak__color__
 
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 
-namespace kawaii {
+namespace skidarak {
 
 struct Color3B {
     Color3B() {}
@@ -53,4 +53,4 @@ struct Color4F {
 
 }
 
-#endif /* defined(__kawaii__color__) */
+#endif /* defined(__skidarak__color__) */

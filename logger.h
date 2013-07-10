@@ -1,11 +1,11 @@
-#ifndef __kawaii__logger__
-#define __kawaii__logger__
+#ifndef __skidarak__logger__
+#define __skidarak__logger__
 
-#include "kawaii/vector.h"
-#include "kawaii/matrix.h"
-#include "kawaii/vertices.h"
-#include "kawaii/hashed_string.h"
-#include "kawaii/sprite_frame.h"
+#include "skidarak/vector.h"
+#include "skidarak/matrix.h"
+#include "skidarak/vertices.h"
+#include "skidarak/hashed_string.h"
+#include "skidarak/sprite_frame.h"
 
 #include <string>
 #include <sstream>
@@ -17,28 +17,28 @@
 #if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
 #define IIINFO(...)  do {} while (0)
 #define IIWARN(...)  do {} while (0)
-#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
 
 #elif KAWAII_DEBUG == 1
 #define IIINFO(...)     do {} while (0)
-#define IIWARN(s, ...)  kawaii::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  skidarak::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
 
 #elif KAWAII_DEBUG > 1
-#define IIINFO(s, ...)  kawaii::Log("INFO", s, ##__VA_ARGS__)
-#define IIWARN(s, ...)  kawaii::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) kawaii::Log("ERROR", s, ##__VA_ARGS__)
+#define IIINFO(s, ...)  skidarak::Log("INFO", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  skidarak::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
 #endif
 
-#define IIINSPECT(obj) kawaii::Inspect(obj).c_str()
+#define IIINSPECT(obj) skidarak::Inspect(obj).c_str()
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 static inline void Log(const char *loglevel, const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
-    printf("kawaii - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+    printf("skidarak - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
            ts->tm_year + 1900,
            ts->tm_mon + 1,
            ts->tm_mday,
@@ -181,4 +181,4 @@ static inline string Inspect(const SpriteFrame& v) {
 
 }
 
-#endif  /* defined(__kawaii__logger__) */
+#endif  /* defined(__skidarak__logger__) */

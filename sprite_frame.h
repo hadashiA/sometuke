@@ -1,16 +1,16 @@
-#ifndef __kawaii__sprite_frame__
-#define __kawaii__sprite_frame__
+#ifndef __skidarak__sprite_frame__
+#define __skidarak__sprite_frame__
 
-#include "kawaii/vertices.h"
-#include "kawaii/application.h"
-#include "kawaii/hashed_string.h"
+#include "skidarak/vertices.h"
+#include "skidarak/application.h"
+#include "skidarak/hashed_string.h"
 
-#include "kawaii/picojson/picojson.h"
+#include "skidarak/picojson/picojson.h"
 
 #include <memory>
 #include <string>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Texture2D;
@@ -63,5 +63,5 @@ private:
 
 }
 
-#endif /* defined(__kawaii__sprite_frame__) */
+#endif /* defined(__skidarak__sprite_frame__) */
 

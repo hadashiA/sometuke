@@ -1,21 +1,21 @@
-#include "kawaii/node/sprite.h"
+#include "skidarak/node/sprite.h"
 
-#include "kawaii/shader_cache.h"
-#include "kawaii/texture_cache.h"
-#include "kawaii/texture_2d.h"
-#include "kawaii/sprite_frame.h"
-#include "kawaii/application.h"
-#include "kawaii/process/animate.h"
-#include "kawaii/drawing_primitives.h"
-#include "kawaii/OpenGL_Internal.h"
+#include "skidarak/shader_cache.h"
+#include "skidarak/texture_cache.h"
+#include "skidarak/texture_2d.h"
+#include "skidarak/sprite_frame.h"
+#include "skidarak/application.h"
+#include "skidarak/process/animate.h"
+#include "skidarak/drawing_primitives.h"
+#include "skidarak/OpenGL_Internal.h"
 
-#include "kawaii/process/sequence.h"
-#include "kawaii/process/animate.h"
+#include "skidarak/process/sequence.h"
+#include "skidarak/process/animate.h"
 
 #include <algorithm>
 #include <cassert>
 
-namespace kawaii {
+namespace skidarak {
 
 Sprite::Sprite()
     : color_(255, 255, 255),

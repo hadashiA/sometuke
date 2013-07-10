@@ -1,9 +1,9 @@
-#ifndef __kawaii_matrix__
-#define __kawaii_matrix__
+#ifndef __skidarak_matrix__
+#define __skidarak_matrix__
 
-#include "kawaii/vector.h"
+#include "skidarak/vector.h"
 
-namespace kawaii {
+namespace skidarak {
 
 template <typename T>
 struct Matrix2 {
@@ -236,6 +236,6 @@ typedef Matrix4<float> mat4;
 Rect operator *(const Rect& rect, const mat4& m);
 
 
-} // namespace kawaii
+} // namespace skidarak
 
-#endif /* defined(__kawaii_matrix__) */
+#endif /* defined(__skidarak_matrix__) */

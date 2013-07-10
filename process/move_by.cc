@@ -1,5 +1,5 @@
-#include "kawaii/process/move_by.h"
+#include "skidarak/process/move_by.h"
 
-namespace kawaii {
+namespace skidarak {
 const HashedString MoveBy::TYPE("process:moveby");
 }

@@ -1,11 +1,11 @@
-#include "kawaii/application.h"
+#include "skidarak/application.h"
 
-#include "kawaii/logger.h"
-#include "kawaii/matrix_stack.h"
+#include "skidarak/logger.h"
+#include "skidarak/matrix_stack.h"
 
-#include "kawaii/OpenGL_Internal.h"
+#include "skidarak/OpenGL_Internal.h"
 
-namespace kawaii {
+namespace skidarak {
 
 bool Application::Init(ApplicationComponentFactory& factory) {
     loader_.reset(factory.CreateAssetsLoader());
@@ -25,4 +25,4 @@ void Application::Resize(const float point_width, const float point_height) {
     director_->ReshapeProjection();
 }
 
-} // namespace kawaii
+} // namespace skidarak

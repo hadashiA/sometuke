@@ -1,10 +1,10 @@
-#ifndef __kawaii__ios_assets_loader__
-#define __kawaii__ios_assets_loader__
+#ifndef __skidarak__ios_assets_loader__
+#define __skidarak__ios_assets_loader__
 
-#include "kawaii/assets_loader.h"
-#include "kawaii/ios/devices.h"
+#include "skidarak/assets_loader.h"
+#include "skidarak/ios/devices.h"
 
-namespace kawaii {
+namespace skidarak {
 
 using namespace std;
 
@@ -36,4 +36,4 @@ private:
 
 } 
 
-#endif /* defined(__kawaii__ios_assets_loader__) */
+#endif /* defined(__skidarak__ios_assets_loader__) */

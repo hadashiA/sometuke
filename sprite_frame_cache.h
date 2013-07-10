@@ -1,15 +1,15 @@
-#ifndef __kawaii__sprite_frame_cache__
-#define __kawaii__sprite_frame_cache__
+#ifndef __skidarak__sprite_frame_cache__
+#define __skidarak__sprite_frame_cache__
 
-#include "kawaii/hashed_string.h"
+#include "skidarak/hashed_string.h"
 
-#include "kawaii/picojson/picojson.h"
+#include "skidarak/picojson/picojson.h"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 
 class SpriteFrame;
 class Texture2D;
@@ -50,4 +50,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__sprite_frame_cache__) */
+#endif /* defined(__skidarak__sprite_frame_cache__) */

@@ -1,8 +1,8 @@
-#include "kawaii/node/label_atlas.h"
+#include "skidarak/node/label_atlas.h"
 
-#include "kawaii/drawing_primitives.h"
+#include "skidarak/drawing_primitives.h"
 
-namespace kawaii {
+namespace skidarak {
 
 bool LabelAtlas::InitWithText(const string& text,
                               const string& texture_path,

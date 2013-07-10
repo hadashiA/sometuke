@@ -1,15 +1,15 @@
-#ifndef __kawaii__application__
-#define __kawaii__application__
+#ifndef __skidarak__application__
+#define __skidarak__application__
 
-#include "kawaii/vector.h"
-#include "kawaii/vertices.h"
-#include "kawaii/director.h"
-#include "kawaii/assets_loader.h"
+#include "skidarak/vector.h"
+#include "skidarak/vertices.h"
+#include "skidarak/director.h"
+#include "skidarak/assets_loader.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class AssetsLoader;
@@ -100,6 +100,6 @@ private:
     unique_ptr<AssetsLoader> loader_;
 };
 
-} // namespace kawaii
+} // namespace skidarak
 
-#endif /* defined(__kawaii__application__) */
+#endif /* defined(__skidarak__application__) */

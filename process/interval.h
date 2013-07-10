@@ -1,12 +1,12 @@
-#ifndef __kawaii__process_interval__
-#define __kawaii__process_interval__
+#ifndef __skidarak__process_interval__
+#define __skidarak__process_interval__
 
-#include "kawaii/process/process.h"
+#include "skidarak/process/process.h"
 
 #include <algorithm>
 #include <cfloat>
 
-namespace kawaii {
+namespace skidarak {
 using std::min;
 using std::max;
 
@@ -43,4 +43,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__process_interval__) */
+#endif /* defined(__skidarak__process_interval__) */

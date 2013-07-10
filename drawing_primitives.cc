@@ -1,12 +1,12 @@
-#include "kawaii/drawing_primitives.h"
+#include "skidarak/drawing_primitives.h"
 
-#include "kawaii/shader_cache.h"
-#include "kawaii/color.h"
-#include "kawaii/OpenGL_Internal.h"
+#include "skidarak/shader_cache.h"
+#include "skidarak/color.h"
+#include "skidarak/OpenGL_Internal.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 
 static bool __initialized = false;
 static shared_ptr<GLProgram> gl_program_;

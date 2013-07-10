@@ -1,4 +1,4 @@
-#include "kawaii/animation_cache.h"
+#include "skidarak/animation_cache.h"
 
-namespace kawaii {
+namespace skidarak {
 }

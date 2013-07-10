@@ -1,11 +1,11 @@
-#include "kawaii/touch_dispatcher.h"
+#include "skidarak/touch_dispatcher.h"
 
-#include "kawaii/logger.h"
-#include "kawaii/node/node.h"
-#include "kawaii/matrix_stack.h"
-#include "kawaii/application.h"
+#include "skidarak/logger.h"
+#include "skidarak/node/node.h"
+#include "skidarak/matrix_stack.h"
+#include "skidarak/application.h"
 
-namespace kawaii {
+namespace skidarak {
 
 void TouchDispatcher::AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority) {
     pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);

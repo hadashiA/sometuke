@@ -1,11 +1,11 @@
-#ifndef __kawaii__matrix_stack__
-#define __kawaii__matrix_stack__
+#ifndef __skidarak__matrix_stack__
+#define __skidarak__matrix_stack__
 
 #include <stack>
 #include <memory>
-#include "kawaii/matrix.h"
+#include "skidarak/matrix.h"
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 struct GLProjection {};
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__matrix_stack__) */
+#endif /* defined(__skidarak__matrix_stack__) */

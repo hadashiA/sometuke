@@ -1,12 +1,12 @@
-#ifndef __kawaii__gl_program__
-#define __kawaii__gl_program__
+#ifndef __skidarak__gl_program__
+#define __skidarak__gl_program__
 
 #include <OpenGLES/ES2/gl.h>
 #include <string>
 
-#include "kawaii/matrix.h"
+#include "skidarak/matrix.h"
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 typedef enum {
@@ -81,6 +81,6 @@ private:
 };
 
 
-} // namespace kawaii
+} // namespace skidarak
 
-#endif /* defined(__kawaii__gl_program__) */
+#endif /* defined(__skidarak__gl_program__) */

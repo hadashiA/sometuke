@@ -1,9 +1,9 @@
-#ifndef __kawaii__event_dispatcher__
-#define __kawaii__event_dispatcher__
+#ifndef __skidarak__event_dispatcher__
+#define __skidarak__event_dispatcher__
 
-#include "kawaii/types.h"
-#include "kawaii/events.h"
-#include "kawaii/memory_pool.h"
+#include "skidarak/types.h"
+#include "skidarak/events.h"
+#include "skidarak/memory_pool.h"
 
 #include <memory>
 #include <list>
@@ -12,7 +12,7 @@
 
 #include <uuid/uuid.h>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 typedef enum {
@@ -141,5 +141,5 @@ private:
 
 }
 
-#endif /* defined(__kawaii__event_dispacher__) */
+#endif /* defined(__skidarak__event_dispacher__) */
 

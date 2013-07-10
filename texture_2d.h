@@ -1,13 +1,13 @@
-#ifndef __kawaii__texture_2d__
-#define __kawaii__texture_2d__
+#ifndef __skidarak__texture_2d__
+#define __skidarak__texture_2d__
 
 #include <memory>
 
-#include "kawaii/vector.h"
-#include "kawaii/shader_cache.h"
-#include "kawaii/application.h"
+#include "skidarak/vector.h"
+#include "skidarak/shader_cache.h"
+#include "skidarak/application.h"
 
-namespace kawaii {
+namespace skidarak {
 
 static inline unsigned long NextPowerOf2(unsigned long x) {
     x = x - 1;
@@ -102,4 +102,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__texture_2d__) */
+#endif /* defined(__skidarak__texture_2d__) */

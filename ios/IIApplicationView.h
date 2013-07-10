@@ -8,7 +8,7 @@
 #import <CoreMotion/CoreMotion.h>
 
 #import "IIProtocols.h"
-#import "kawaii/application.h"
+#import "skidarak/application.h"
 
 // @interface IIApplicationView : UIView <UIKeyInput, UITextInput> {
 @interface IIApplicationView : UIView <IIGameLoop> {
@@ -72,7 +72,7 @@
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
 
-@property (nonatomic, readonly) kawaii::Application *application;
+@property (nonatomic, readonly) skidarak::Application *application;
 
 @property (nonatomic, readonly) GLint backingWidth;
 @property (nonatomic, readonly) GLint backingHeight;

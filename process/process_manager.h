@@ -1,15 +1,15 @@
-#ifndef __kawaii__process_process_manager__
-#define __kawaii__process_process_manager__
+#ifndef __skidarak__process_process_manager__
+#define __skidarak__process_process_manager__
 
-#include "kawaii/types.h"
-#include "kawaii/scheduler.h"
-#include "kawaii/weak_ptr_hash.h"
+#include "skidarak/types.h"
+#include "skidarak/scheduler.h"
+#include "skidarak/weak_ptr_hash.h"
 
 #include <memory>
 #include <list>
 #include <unordered_map>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Process;
@@ -28,4 +28,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_process_manager__) */
+#endif /* defined(__skidarak__process_process_manager__) */

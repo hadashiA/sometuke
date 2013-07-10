@@ -1,53 +1,53 @@
-#ifndef __kawaii__
-#define __kawaii__
+#ifndef __skidarak__
+#define __skidarak__
 
-#include "kawaii/memory_pool.h"
+#include "skidarak/memory_pool.h"
 
-#include "kawaii/application.h"
-#include "kawaii/director.h"
+#include "skidarak/application.h"
+#include "skidarak/director.h"
 
-#include "kawaii/types.h"
-#include "kawaii/scheduler.h"
-#include "kawaii/event_dispatcher.h"
+#include "skidarak/types.h"
+#include "skidarak/scheduler.h"
+#include "skidarak/event_dispatcher.h"
 
-#include "kawaii/assets_loader.h"
-#include "kawaii/texture_2d.h"
-#include "kawaii/texture_cache.h"
-#include "kawaii/sprite_frame_cache.h"
-#include "kawaii/animation_cache.h"
-#include "kawaii/shader_cache.h"
-#include "kawaii/animation_cache.h"
+#include "skidarak/assets_loader.h"
+#include "skidarak/texture_2d.h"
+#include "skidarak/texture_cache.h"
+#include "skidarak/sprite_frame_cache.h"
+#include "skidarak/animation_cache.h"
+#include "skidarak/shader_cache.h"
+#include "skidarak/animation_cache.h"
 
 // actor
-#include "kawaii/actor.h"
-#include "kawaii/scene.h"
+#include "skidarak/actor.h"
+#include "skidarak/scene.h"
 
 // node
-#include "kawaii/node/layer.h"
-#include "kawaii/node/sprite.h"
-#include "kawaii/node/label_atlas.h"
+#include "skidarak/node/layer.h"
+#include "skidarak/node/sprite.h"
+#include "skidarak/node/label_atlas.h"
 
 // process
-#include "kawaii/process/process_manager.h"
-#include "kawaii/process/animate.h"
-#include "kawaii/process/trigger.h"
-#include "kawaii/process/move_by.h"
-#include "kawaii/process/move_to.h"
-#include "kawaii/process/repeat.h"
-#include "kawaii/process/sequence.h"
-#include "kawaii/process/delay.h"
+#include "skidarak/process/process_manager.h"
+#include "skidarak/process/animate.h"
+#include "skidarak/process/trigger.h"
+#include "skidarak/process/move_by.h"
+#include "skidarak/process/move_to.h"
+#include "skidarak/process/repeat.h"
+#include "skidarak/process/sequence.h"
+#include "skidarak/process/delay.h"
 
 // structs
-#include "kawaii/vector.h"
-#include "kawaii/matrix.h"
-#include "kawaii/vertices.h"
+#include "skidarak/vector.h"
+#include "skidarak/matrix.h"
+#include "skidarak/vertices.h"
 
-#include "kawaii/OpenGL_Internal.h"
-#include "kawaii/drawing_primitives.h"
+#include "skidarak/OpenGL_Internal.h"
+#include "skidarak/drawing_primitives.h"
 
-#include "kawaii/logger.h"
+#include "skidarak/logger.h"
 
-namespace kawaii {
+namespace skidarak {
 }
 
-#endif  /* defined(__kawaii__) */
+#endif  /* defined(__skidarak__) */

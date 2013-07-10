@@ -1,11 +1,11 @@
-#include "kawaii/event_dispatcher.h"
+#include "skidarak/event_dispatcher.h"
 
-#include "kawaii/application.h"
+#include "skidarak/application.h"
 
 #include <functional>
 #include <cassert>
 
-namespace kawaii {
+namespace skidarak {
 
 bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
     if (!IsValidType(type)) {

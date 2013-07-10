@@ -1,11 +1,11 @@
-#ifndef __kawaii__assets_loader__
-#define __kawaii__assets_loader__
+#ifndef __skidarak__assets_loader__
+#define __skidarak__assets_loader__
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Texture2D;
@@ -21,4 +21,4 @@ public:
 
 }
 
-#endif /* defined(__kawaii__assets_loader__) */
+#endif /* defined(__skidarak__assets_loader__) */

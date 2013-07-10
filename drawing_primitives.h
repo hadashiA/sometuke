@@ -1,10 +1,10 @@
-#ifndef __kawaii__drawing_primitives__
-#define __kawaii__drawing_primitives__
+#ifndef __skidarak__drawing_primitives__
+#define __skidarak__drawing_primitives__
 
-#include "kawaii/vector.h"
-#include "kawaii/color.h"
+#include "skidarak/vector.h"
+#include "skidarak/color.h"
 
-namespace kawaii {
+namespace skidarak {
 
 void DrawColor(const Color4B& color);
 void DrawColor(const Color4F& color);
@@ -15,7 +15,7 @@ void DrawPoly(const vec2 *poli, unsigned int num_points, bool close_polygon);
 
 }
 
-#endif /* defined(__kawaii__drawing_primitives__) */
+#endif /* defined(__skidarak__drawing_primitives__) */
 
 
 

@@ -1,5 +1,5 @@
-#include "kawaii/process/trigger.h"
+#include "skidarak/process/trigger.h"
 
-namespace kawaii {
+namespace skidarak {
 const HashedString Trigger::TYPE("process:trigger");
 }

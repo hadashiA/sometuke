@@ -1,15 +1,15 @@
-#ifndef __kawaii__ios_touch_dispatcher__
-#define __kawaii__ios_touch_dispatcher__
+#ifndef __skidarak__ios_touch_dispatcher__
+#define __skidarak__ios_touch_dispatcher__
 
-#include "kawaii/application.h"
-#include "kawaii/memory_pool.h"
+#include "skidarak/application.h"
+#include "skidarak/memory_pool.h"
 
 #include <unordered_set>
 #include <vector>
 #include <map>
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Node;
@@ -146,4 +146,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__ios_touch_dispatcher__) */
+#endif /* defined(__skidarak__ios_touch_dispatcher__) */

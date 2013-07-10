@@ -1,18 +1,18 @@
-#ifndef __kawaii__node_node__
-#define __kawaii__node_node__
+#ifndef __skidarak__node_node__
+#define __skidarak__node_node__
 
-#include "kawaii/types.h"
-#include "kawaii/actor_id.h"
-#include "kawaii/vector.h"
-#include "kawaii/matrix.h"
-#include "kawaii/color.h"
-#include "kawaii/application.h"
+#include "skidarak/types.h"
+#include "skidarak/actor_id.h"
+#include "skidarak/vector.h"
+#include "skidarak/matrix.h"
+#include "skidarak/color.h"
+#include "skidarak/application.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class EventDispatcher;
@@ -334,4 +334,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__node_node__) */
+#endif /* defined(__skidarak__node_node__) */

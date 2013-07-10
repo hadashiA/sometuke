@@ -1,11 +1,11 @@
-#include "kawaii/texture_cache.h"
+#include "skidarak/texture_cache.h"
 
-#include "kawaii/texture_2d.h"
-#include "kawaii/hashed_string.h"
-#include "kawaii/application.h"
-#include "kawaii/assets_loader.h"
+#include "skidarak/texture_2d.h"
+#include "skidarak/hashed_string.h"
+#include "skidarak/application.h"
+#include "skidarak/assets_loader.h"
 
-namespace kawaii {
+namespace skidarak {
 
 shared_ptr<Texture2D> TextureCache::FetchFromPath(const string& path) {
     unsigned int texture_id = HashedString(path).id();

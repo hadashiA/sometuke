@@ -1,7 +1,7 @@
-#include "kawaii/shader_cache.h"
-#include "kawaii/OpenGL_Internal.h"
+#include "skidarak/shader_cache.h"
+#include "skidarak/OpenGL_Internal.h"
 
-namespace kawaii {
+namespace skidarak {
 
 void ShaderCache::LoadDefaultShaders() {
     shared_ptr<GLProgram> p;

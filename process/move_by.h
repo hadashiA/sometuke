@@ -1,10 +1,10 @@
-#ifndef __kawaii__process_move_by__
-#define __kawaii__process_move_by__
+#ifndef __skidarak__process_move_by__
+#define __skidarak__process_move_by__
 
-#include "kawaii/process/interval.h"
-#include "kawaii/node/node.h"
+#include "skidarak/process/interval.h"
+#include "skidarak/node/node.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class MoveBy : public Interval {
 public:
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_move_by__) */
+#endif /* defined(__skidarak__process_move_by__) */

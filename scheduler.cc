@@ -1,10 +1,10 @@
-#include "kawaii/scheduler.h"
+#include "skidarak/scheduler.h"
 
-#include "kawaii/process/process_manager.h"
+#include "skidarak/process/process_manager.h"
 
 #include <climits>
 
-namespace kawaii {
+namespace skidarak {
 
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
 

@@ -1,9 +1,9 @@
-#ifndef __kawaii__process_delay__
-#define __kawaii__process_delay__
+#ifndef __skidarak__process_delay__
+#define __skidarak__process_delay__
 
-#include "kawaii/process/interval.h"
+#include "skidarak/process/interval.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class Delay : public Interval {
 public:
@@ -29,4 +29,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_move_by__) */
+#endif /* defined(__skidarak__process_move_by__) */

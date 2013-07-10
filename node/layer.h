@@ -1,13 +1,13 @@
-#ifndef __kawaii__node_layer__
-#define __kawaii__node_layer__
+#ifndef __skidarak__node_layer__
+#define __skidarak__node_layer__
 
-#include "kawaii/actor_id.h"
-#include "kawaii/logger.h"
-#include "kawaii/node/node.h"
+#include "skidarak/actor_id.h"
+#include "skidarak/logger.h"
+#include "skidarak/node/node.h"
 
 #include <unordered_map>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 typedef unordered_map<ActorId, weak_ptr<Node>, ActorIdHash> ActorNodeTable;
@@ -64,4 +64,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__node_layer__) */
+#endif /* defined(__skidarak__node_layer__) */

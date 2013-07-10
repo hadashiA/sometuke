@@ -1,16 +1,16 @@
-#ifndef __kawaii__node_sprite__
-#define __kawaii__node_sprite__
+#ifndef __skidarak__node_sprite__
+#define __skidarak__node_sprite__
 
-#include "kawaii/vertices.h"
-#include "kawaii/node/node.h"
-#include "kawaii/sprite_frame.h"
+#include "skidarak/vertices.h"
+#include "skidarak/node/node.h"
+#include "skidarak/sprite_frame.h"
 
 #include <memory>
 #include <string>
 
 #include <OpenGLES/ES2/gl.h>
 
-namespace kawaii {
+namespace skidarak {
 
 class Texture2D;
 class GLProgram;
@@ -130,4 +130,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__node_sprite__) */
+#endif /* defined(__skidarak__node_sprite__) */

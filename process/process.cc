@@ -1,12 +1,12 @@
-#include "kawaii/process/process.h"
+#include "skidarak/process/process.h"
 
-#include "kawaii/process/repeat.h"
-#include "kawaii/process/sequence.h"
-#include "kawaii/process/process_timer.h"
+#include "skidarak/process/repeat.h"
+#include "skidarak/process/sequence.h"
+#include "skidarak/process/process_timer.h"
 
 #include <functional>
 
-namespace kawaii {
+namespace skidarak {
 
 shared_ptr<Process> Process::Repeat(int num) {
     shared_ptr<Process> repeat(new class Repeat(shared_from_this(), num));

@@ -1,13 +1,13 @@
-#ifndef __kawaii__process_animate__
-#define __kawaii__process_animate__
+#ifndef __skidarak__process_animate__
+#define __skidarak__process_animate__
 
-#include "kawaii/process/process.h"
-#include "kawaii/animation.h"
-#include "kawaii/node/sprite.h"
+#include "skidarak/process/process.h"
+#include "skidarak/animation.h"
+#include "skidarak/node/sprite.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
     
 class Animate : public Process {
 public:
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_animate__) */
+#endif /* defined(__skidarak__process_animate__) */

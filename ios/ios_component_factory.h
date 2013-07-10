@@ -1,10 +1,10 @@
-#ifndef __kawaii__ios_component_factory__
-#define __kawaii__ios_component_factory__
+#ifndef __skidarak__ios_component_factory__
+#define __skidarak__ios_component_factory__
 
-#include "kawaii/application.h"
-#include "kawaii/ios/ios_assets_loader.h"
+#include "skidarak/application.h"
+#include "skidarak/ios/ios_assets_loader.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class IOSComponentFactory : public ApplicationComponentFactory {
 public:
@@ -15,4 +15,4 @@ public:
 
 }
 
-#endif /* defined(__kawaii__ios_component_factory__) */
+#endif /* defined(__skidarak__ios_component_factory__) */

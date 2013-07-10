@@ -1,14 +1,14 @@
-#include "kawaii/gl_program.h"
+#include "skidarak/gl_program.h"
 
-#include "kawaii/application.h"
-#include "kawaii/assets_loader.h"
-#include "kawaii/logger.h"
-#include "kawaii/matrix_stack.h"
+#include "skidarak/application.h"
+#include "skidarak/assets_loader.h"
+#include "skidarak/logger.h"
+#include "skidarak/matrix_stack.h"
 
 #include <vector>
 #include <iostream>
 
-namespace kawaii {
+namespace skidarak {
 
 const GLchar *UNIFORM_NAMES[kUniform_MAX] = {
     "u_PMatrix",

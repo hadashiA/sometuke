@@ -1,4 +1,4 @@
 #include "scene.h"
 
-namespace kawaii {
+namespace skidarak {
 }

@@ -1,13 +1,13 @@
-#ifndef __kawaii_vertices__
-#define __kawaii_vertices__
+#ifndef __skidarak_vertices__
+#define __skidarak_vertices__
 
-#include "kawaii/vector.h"
-#include "kawaii/color.h"
+#include "skidarak/vector.h"
+#include "skidarak/color.h"
 
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 
-namespace kawaii {
+namespace skidarak {
 
 typedef Vector2<GLfloat> vec2gl;
 typedef Vector3<GLfloat> vec3gl;
@@ -120,4 +120,4 @@ struct P2F_C4F_T2F_Quad {
 
 }
 
-#endif /* defined(__kawaii_vertices_) */
+#endif /* defined(__skidarak_vertices_) */

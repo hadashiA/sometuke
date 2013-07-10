@@ -1,9 +1,9 @@
-#include "kawaii/process/animate.h"
-#include "kawaii/node/sprite.h"
+#include "skidarak/process/animate.h"
+#include "skidarak/node/sprite.h"
 
-#include "kawaii/logger.h"
+#include "skidarak/logger.h"
 
-namespace kawaii {
+namespace skidarak {
 
 const HashedString Animate::TYPE("process:animate");
 

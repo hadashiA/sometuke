@@ -1,15 +1,15 @@
-#include "kawaii/texture_atlas.h"
+#include "skidarak/texture_atlas.h"
 
-#include "kawaii/texture_cache.h"
-#include "kawaii/logger.h"
-#include "kawaii/texture_2d.h"
+#include "skidarak/texture_cache.h"
+#include "skidarak/logger.h"
+#include "skidarak/texture_2d.h"
 
 #include "OpenGL_Internal.h"
 
 #include <cassert>
 #include <cstdlib>
 
-namespace kawaii {
+namespace skidarak {
 
 bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
     shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(path);

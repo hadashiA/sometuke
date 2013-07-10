@@ -1,11 +1,11 @@
-#ifndef __kawaii__process_trigger__
-#define __kawaii__process_trigger__
+#ifndef __skidarak__process_trigger__
+#define __skidarak__process_trigger__
 
-#include "kawaii/process/process.h"
-#include "kawaii/event_dispatcher.h"
-#include "kawaii/application.h"
+#include "skidarak/process/process.h"
+#include "skidarak/event_dispatcher.h"
+#include "skidarak/application.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class Trigger : public Process {
 public:
@@ -29,4 +29,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_event_emit__) */
+#endif /* defined(__skidarak__process_event_emit__) */

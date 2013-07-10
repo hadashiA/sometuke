@@ -1,14 +1,14 @@
-#ifndef __kawaii__process_move_to__
-#define __kawaii__process_move_to__
+#ifndef __skidarak__process_move_to__
+#define __skidarak__process_move_to__
 
-#include "kawaii/process/interval.h"
+#include "skidarak/process/interval.h"
 
-#include "kawaii/node/node.h"
-#include "kawaii/weak_ptr_hash.h"
+#include "skidarak/node/node.h"
+#include "skidarak/weak_ptr_hash.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 
 class MoveTo : public Interval {
 public:
@@ -53,4 +53,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_move_to__) */
+#endif /* defined(__skidarak__process_move_to__) */

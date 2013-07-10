@@ -1,17 +1,17 @@
-#ifndef __kawaii__actor__
-#define __kawaii__actor__
+#ifndef __skidarak__actor__
+#define __skidarak__actor__
 
-#include "kawaii/application.h"
-#include "kawaii/vector.h"
-#include "kawaii/hashed_string.h"
-#include "kawaii/actor_id.h"
-#include "kawaii/scheduler.h"
+#include "skidarak/application.h"
+#include "skidarak/vector.h"
+#include "skidarak/hashed_string.h"
+#include "skidarak/actor_id.h"
+#include "skidarak/scheduler.h"
 
 #include <memory>
 
 #include <uuid/uuid.h>
 
-namespace kawaii {
+namespace skidarak {
 
 typedef HashedString ActorType;
 
@@ -91,4 +91,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__actor__) */
+#endif /* defined(__skidarak__actor__) */

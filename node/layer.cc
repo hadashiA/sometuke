@@ -1,9 +1,9 @@
-#include "kawaii/node/layer.h"
+#include "skidarak/node/layer.h"
 
-#include "kawaii/application.h"
-#include "kawaii/events.h"
+#include "skidarak/application.h"
+#include "skidarak/events.h"
 
-namespace kawaii {
+namespace skidarak {
 
 Layer::Layer() {
     set_anchor_point(0.5, 0.5);

@@ -1,14 +1,14 @@
-#ifndef __kawaii__events__
-#define __kawaii__events__
+#ifndef __skidarak__events__
+#define __skidarak__events__
 
-#include "kawaii/memory_pool.h"
-#include "kawaii/hashed_string.h"
-#include "kawaii/actor_id.h"
-#include "kawaii/vector.h"
+#include "skidarak/memory_pool.h"
+#include "skidarak/hashed_string.h"
+#include "skidarak/actor_id.h"
+#include "skidarak/vector.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 
 typedef HashedString EventType;
 
@@ -68,4 +68,4 @@ struct AccelerationEvent : public Event {
 
 }
 
-#endif /* defined(__kawaii__events__) */
+#endif /* defined(__skidarak__events__) */

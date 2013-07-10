@@ -1,12 +1,12 @@
-#ifndef __kawaii__process_repeat__
-#define __kawaii__processr_epeat__
+#ifndef __skidarak__process_repeat__
+#define __skidarak__processr_epeat__
 
-#include "kawaii/process/process.h"
-#include "kawaii/logger.h"
+#include "skidarak/process/process.h"
+#include "skidarak/logger.h"
 
 #include <memory>
 
-namespace kawaii {
+namespace skidarak {
 
 class Repeat : public Process {
 public:
@@ -57,4 +57,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__process_repeat__) */
+#endif /* defined(__skidarak__process_repeat__) */

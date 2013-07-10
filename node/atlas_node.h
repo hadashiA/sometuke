@@ -1,16 +1,16 @@
-#ifndef __kawaii__node_atlas_node__
-#define __kawaii__node_atlas_node__
+#ifndef __skidarak__node_atlas_node__
+#define __skidarak__node_atlas_node__
 
 #include <string>
 #include <memory>
 
-#include "kawaii/node/node.h"
-#include "kawaii/color.h"
-#include "kawaii/texture_2d.h"
-#include "kawaii/texture_atlas.h"
-#include "kawaii/gl_program.h"
+#include "skidarak/node/node.h"
+#include "skidarak/color.h"
+#include "skidarak/texture_2d.h"
+#include "skidarak/texture_atlas.h"
+#include "skidarak/gl_program.h"
 
-namespace kawaii {
+namespace skidarak {
 
 class AtlasNode : public Node, public TextureInterface, public RGBAInterface {
 public:
@@ -122,4 +122,4 @@ protected:
 
 }
 
-#endif /* defined(__kawaii__node_atlas_node__) */
+#endif /* defined(__skidarak__node_atlas_node__) */

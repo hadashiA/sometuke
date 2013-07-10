@@ -1,8 +1,8 @@
-#include "kawaii/node/atlas_node.h"
+#include "skidarak/node/atlas_node.h"
 
 #include "OpenGL_Internal.h"
 
-namespace kawaii {
+namespace skidarak {
 
 bool AtlasNode::InitWithTileFile(const string& path,
                                  size_t tile_width, size_t tile_height,

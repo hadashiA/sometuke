@@ -1,17 +1,17 @@
-#ifndef __kawaii__director__
-#define __kawaii__director__
+#ifndef __skidarak__director__
+#define __skidarak__director__
 
-#include "kawaii/types.h"
-#include "kawaii/scheduler.h"
-#include "kawaii/process/process_manager.h"
-#include "kawaii/event_dispatcher.h"
+#include "skidarak/types.h"
+#include "skidarak/scheduler.h"
+#include "skidarak/process/process_manager.h"
+#include "skidarak/event_dispatcher.h"
 
 #include <vector>
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 class Scene;
@@ -117,4 +117,4 @@ private:
 
 }
 
-#endif /* defined(__kawaii__director__) */
+#endif /* defined(__skidarak__director__) */

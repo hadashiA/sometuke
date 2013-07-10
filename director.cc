@@ -1,17 +1,17 @@
-#include "kawaii/director.h"
+#include "skidarak/director.h"
 
-#include "kawaii/application.h"
-#include "kawaii/event_dispatcher.h"
-#include "kawaii/matrix_stack.h"
-#include "kawaii/logger.h"
-#include "kawaii/scene.h"
-#include "kawaii/node/label_atlas.h"
+#include "skidarak/application.h"
+#include "skidarak/event_dispatcher.h"
+#include "skidarak/matrix_stack.h"
+#include "skidarak/logger.h"
+#include "skidarak/scene.h"
+#include "skidarak/node/label_atlas.h"
 
-#include "kawaii/OpenGL_Internal.h"
+#include "skidarak/OpenGL_Internal.h"
 
 #include <sstream>
 
-namespace kawaii {
+namespace skidarak {
 
 bool Director::Init() {
     glClearColor(0.5, 0.5, 0.5, 1);

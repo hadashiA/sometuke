@@ -1,16 +1,16 @@
-#ifndef __kawaii__animation__
-#define __kawaii__animation__
+#ifndef __skidarak__animation__
+#define __skidarak__animation__
 
-#include "kawaii/types.h"
-#include "kawaii/event_dispatcher.h"
-#include "kawaii/sprite_frame_cache.h"
-#include "kawaii/logger.h"
+#include "skidarak/types.h"
+#include "skidarak/event_dispatcher.h"
+#include "skidarak/sprite_frame_cache.h"
+#include "skidarak/logger.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 struct AnimationFrame {
@@ -54,4 +54,4 @@ struct Animation {
 
 }
 
-#endif /* defined(__kawaii__animation__) */
+#endif /* defined(__skidarak__animation__) */

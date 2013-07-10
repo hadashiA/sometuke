@@ -1,10 +1,10 @@
-#include "kawaii/sprite_frame_cache.h"
+#include "skidarak/sprite_frame_cache.h"
 
-#include "kawaii/sprite_frame.h"
-#include "kawaii/application.h"
-#include "kawaii/assets_loader.h"
-#include "kawaii/texture_cache.h"
-#include "kawaii/logger.h"
+#include "skidarak/sprite_frame.h"
+#include "skidarak/application.h"
+#include "skidarak/assets_loader.h"
+#include "skidarak/texture_cache.h"
+#include "skidarak/logger.h"
 
 #include <fstream>
 #include <memory>
@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <cassert>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {

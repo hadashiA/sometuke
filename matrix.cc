@@ -1,6 +1,6 @@
-#include "kawaii/matrix.h"
+#include "skidarak/matrix.h"
 
-namespace kawaii {
+namespace skidarak {
 
 float mat4_get(const float *mat, int row, int col) {
     return mat[row + 4*col];

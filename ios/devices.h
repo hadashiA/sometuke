@@ -1,7 +1,7 @@
-#ifndef __kawaii__ios__devices__
-#define __kawaii__ios__devices__
+#ifndef __skidarak__ios__devices__
+#define __skidarak__ios__devices__
 
-#include "kawaii/logger.h"
+#include "skidarak/logger.h"
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -10,7 +10,7 @@
 #define __II_PLATFORM_IOS 1
 #endif
 
-namespace kawaii {
+namespace skidarak {
 
 enum {
     kiOSVersion_4_0   = 0x04000000,

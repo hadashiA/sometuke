@@ -1,11 +1,11 @@
-#include "kawaii/node/node.h"
+#include "skidarak/node/node.h"
 
-#include "kawaii/matrix_stack.h"
-#include "kawaii/logger.h"
+#include "skidarak/matrix_stack.h"
+#include "skidarak/logger.h"
 
 #include <cassert>
 
-namespace kawaii {
+namespace skidarak {
 using namespace std;
 
 const mat4& Node::LocalTransform() {

@@ -1,9 +1,9 @@
-#include "kawaii/texture_2d.h"
-#include "kawaii/logger.h"
+#include "skidarak/texture_2d.h"
+#include "skidarak/logger.h"
 
 #include <assert.h>
 
-namespace kawaii {
+namespace skidarak {
 
 unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
     unsigned int ret = 0;
