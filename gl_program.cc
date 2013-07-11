@@ -1,14 +1,14 @@
-#include "skidarak/gl_program.h"
+#include "skidarake/gl_program.h"
 
-#include "skidarak/application.h"
-#include "skidarak/assets_loader.h"
-#include "skidarak/logger.h"
-#include "skidarak/matrix_stack.h"
+#include "skidarake/application.h"
+#include "skidarake/assets_loader.h"
+#include "skidarake/logger.h"
+#include "skidarake/matrix_stack.h"
 
 #include <vector>
 #include <iostream>
 
-namespace skidarak {
+namespace skidarake {
 
 const GLchar *UNIFORM_NAMES[kUniform_MAX] = {
     "u_PMatrix",

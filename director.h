@@ -1,17 +1,17 @@
-#ifndef __skidarak__director__
-#define __skidarak__director__
+#ifndef __skidarake__director__
+#define __skidarake__director__
 
-#include "skidarak/types.h"
-#include "skidarak/scheduler.h"
-#include "skidarak/process/process_manager.h"
-#include "skidarak/event_dispatcher.h"
+#include "skidarake/types.h"
+#include "skidarake/scheduler.h"
+#include "skidarake/process/process_manager.h"
+#include "skidarake/event_dispatcher.h"
 
 #include <vector>
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 class Scene;
@@ -117,4 +117,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__director__) */
+#endif /* defined(__skidarake__director__) */

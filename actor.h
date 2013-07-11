@@ -1,17 +1,17 @@
-#ifndef __skidarak__actor__
-#define __skidarak__actor__
+#ifndef __skidarake__actor__
+#define __skidarake__actor__
 
-#include "skidarak/application.h"
-#include "skidarak/vector.h"
-#include "skidarak/hashed_string.h"
-#include "skidarak/actor_id.h"
-#include "skidarak/scheduler.h"
+#include "skidarake/application.h"
+#include "skidarake/vector.h"
+#include "skidarake/hashed_string.h"
+#include "skidarake/actor_id.h"
+#include "skidarake/scheduler.h"
 
 #include <memory>
 
 #include <uuid/uuid.h>
 
-namespace skidarak {
+namespace skidarake {
 
 typedef HashedString ActorType;
 
@@ -91,4 +91,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarak__actor__) */
+#endif /* defined(__skidarake__actor__) */

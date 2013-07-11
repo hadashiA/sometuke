@@ -1,21 +1,21 @@
-#include "skidarak/node/sprite.h"
+#include "skidarake/node/sprite.h"
 
-#include "skidarak/shader_cache.h"
-#include "skidarak/texture_cache.h"
-#include "skidarak/texture_2d.h"
-#include "skidarak/sprite_frame.h"
-#include "skidarak/application.h"
-#include "skidarak/process/animate.h"
-#include "skidarak/drawing_primitives.h"
-#include "skidarak/OpenGL_Internal.h"
+#include "skidarake/shader_cache.h"
+#include "skidarake/texture_cache.h"
+#include "skidarake/texture_2d.h"
+#include "skidarake/sprite_frame.h"
+#include "skidarake/application.h"
+#include "skidarake/process/animate.h"
+#include "skidarake/drawing_primitives.h"
+#include "skidarake/OpenGL_Internal.h"
 
-#include "skidarak/process/sequence.h"
-#include "skidarak/process/animate.h"
+#include "skidarake/process/sequence.h"
+#include "skidarake/process/animate.h"
 
 #include <algorithm>
 #include <cassert>
 
-namespace skidarak {
+namespace skidarake {
 
 Sprite::Sprite()
     : color_(255, 255, 255),

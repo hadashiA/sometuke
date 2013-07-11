@@ -1,9 +1,9 @@
-#include "skidarak/process/animate.h"
-#include "skidarak/node/sprite.h"
+#include "skidarake/process/animate.h"
+#include "skidarake/node/sprite.h"
 
-#include "skidarak/logger.h"
+#include "skidarake/logger.h"
 
-namespace skidarak {
+namespace skidarake {
 
 const HashedString Animate::TYPE("process:animate");
 

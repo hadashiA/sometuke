@@ -1,11 +1,11 @@
-#ifndef __skidarak__logger__
-#define __skidarak__logger__
+#ifndef __skidarake__logger__
+#define __skidarake__logger__
 
-#include "skidarak/vector.h"
-#include "skidarak/matrix.h"
-#include "skidarak/vertices.h"
-#include "skidarak/hashed_string.h"
-#include "skidarak/sprite_frame.h"
+#include "skidarake/vector.h"
+#include "skidarake/matrix.h"
+#include "skidarake/vertices.h"
+#include "skidarake/hashed_string.h"
+#include "skidarake/sprite_frame.h"
 
 #include <string>
 #include <sstream>
@@ -17,28 +17,28 @@
 #if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
 #define IIINFO(...)  do {} while (0)
 #define IIWARN(...)  do {} while (0)
-#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
 
 #elif KAWAII_DEBUG == 1
 #define IIINFO(...)     do {} while (0)
-#define IIWARN(s, ...)  skidarak::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  skidarake::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
 
 #elif KAWAII_DEBUG > 1
-#define IIINFO(s, ...)  skidarak::Log("INFO", s, ##__VA_ARGS__)
-#define IIWARN(s, ...)  skidarak::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) skidarak::Log("ERROR", s, ##__VA_ARGS__)
+#define IIINFO(s, ...)  skidarake::Log("INFO", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  skidarake::Log("WARN", s, ##__VA_ARGS__)
+#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
 #endif
 
-#define IIINSPECT(obj) skidarak::Inspect(obj).c_str()
+#define IIINSPECT(obj) skidarake::Inspect(obj).c_str()
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 static inline void Log(const char *loglevel, const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
-    printf("skidarak - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+    printf("skidarake - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
            ts->tm_year + 1900,
            ts->tm_mon + 1,
            ts->tm_mday,
@@ -181,4 +181,4 @@ static inline string Inspect(const SpriteFrame& v) {
 
 }
 
-#endif  /* defined(__skidarak__logger__) */
+#endif  /* defined(__skidarake__logger__) */

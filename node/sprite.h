@@ -1,16 +1,16 @@
-#ifndef __skidarak__node_sprite__
-#define __skidarak__node_sprite__
+#ifndef __skidarake__node_sprite__
+#define __skidarake__node_sprite__
 
-#include "skidarak/vertices.h"
-#include "skidarak/node/node.h"
-#include "skidarak/sprite_frame.h"
+#include "skidarake/vertices.h"
+#include "skidarake/node/node.h"
+#include "skidarake/sprite_frame.h"
 
 #include <memory>
 #include <string>
 
 #include <OpenGLES/ES2/gl.h>
 
-namespace skidarak {
+namespace skidarake {
 
 class Texture2D;
 class GLProgram;
@@ -130,4 +130,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__node_sprite__) */
+#endif /* defined(__skidarake__node_sprite__) */

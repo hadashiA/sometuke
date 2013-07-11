@@ -1,11 +1,11 @@
-#include "skidarak/touch_dispatcher.h"
+#include "skidarake/touch_dispatcher.h"
 
-#include "skidarak/logger.h"
-#include "skidarak/node/node.h"
-#include "skidarak/matrix_stack.h"
-#include "skidarak/application.h"
+#include "skidarake/logger.h"
+#include "skidarake/node/node.h"
+#include "skidarake/matrix_stack.h"
+#include "skidarake/application.h"
 
-namespace skidarak {
+namespace skidarake {
 
 void TouchDispatcher::AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority) {
     pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);

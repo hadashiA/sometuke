@@ -1,16 +1,16 @@
-#ifndef __skidarak__animation__
-#define __skidarak__animation__
+#ifndef __skidarake__animation__
+#define __skidarake__animation__
 
-#include "skidarak/types.h"
-#include "skidarak/event_dispatcher.h"
-#include "skidarak/sprite_frame_cache.h"
-#include "skidarak/logger.h"
+#include "skidarake/types.h"
+#include "skidarake/event_dispatcher.h"
+#include "skidarake/sprite_frame_cache.h"
+#include "skidarake/logger.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 struct AnimationFrame {
@@ -54,4 +54,4 @@ struct Animation {
 
 }
 
-#endif /* defined(__skidarak__animation__) */
+#endif /* defined(__skidarake__animation__) */

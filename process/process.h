@@ -1,16 +1,16 @@
-#ifndef __skidarak__process_process__
-#define __skidarak__process_process__
+#ifndef __skidarake__process_process__
+#define __skidarake__process_process__
 
-#include "skidarak/application.h"
-#include "skidarak/hashed_string.h"
-#include "skidarak/types.h"
-#include "skidarak/memory_pool.h"
-#include "skidarak/process/process_manager.h"
-#include "skidarak/logger.h"
+#include "skidarake/application.h"
+#include "skidarake/hashed_string.h"
+#include "skidarake/types.h"
+#include "skidarake/memory_pool.h"
+#include "skidarake/process/process_manager.h"
+#include "skidarake/logger.h"
 
 #include <memory>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 class Sequence;
@@ -82,4 +82,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__process_process__) */
+#endif /* defined(__skidarake__process_process__) */

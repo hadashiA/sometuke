@@ -1,53 +1,53 @@
-#ifndef __skidarak__
-#define __skidarak__
+#ifndef __skidarake__
+#define __skidarake__
 
-#include "skidarak/memory_pool.h"
+#include "skidarake/memory_pool.h"
 
-#include "skidarak/application.h"
-#include "skidarak/director.h"
+#include "skidarake/application.h"
+#include "skidarake/director.h"
 
-#include "skidarak/types.h"
-#include "skidarak/scheduler.h"
-#include "skidarak/event_dispatcher.h"
+#include "skidarake/types.h"
+#include "skidarake/scheduler.h"
+#include "skidarake/event_dispatcher.h"
 
-#include "skidarak/assets_loader.h"
-#include "skidarak/texture_2d.h"
-#include "skidarak/texture_cache.h"
-#include "skidarak/sprite_frame_cache.h"
-#include "skidarak/animation_cache.h"
-#include "skidarak/shader_cache.h"
-#include "skidarak/animation_cache.h"
+#include "skidarake/assets_loader.h"
+#include "skidarake/texture_2d.h"
+#include "skidarake/texture_cache.h"
+#include "skidarake/sprite_frame_cache.h"
+#include "skidarake/animation_cache.h"
+#include "skidarake/shader_cache.h"
+#include "skidarake/animation_cache.h"
 
 // actor
-#include "skidarak/actor.h"
-#include "skidarak/scene.h"
+#include "skidarake/actor.h"
+#include "skidarake/scene.h"
 
 // node
-#include "skidarak/node/layer.h"
-#include "skidarak/node/sprite.h"
-#include "skidarak/node/label_atlas.h"
+#include "skidarake/node/layer.h"
+#include "skidarake/node/sprite.h"
+#include "skidarake/node/label_atlas.h"
 
 // process
-#include "skidarak/process/process_manager.h"
-#include "skidarak/process/animate.h"
-#include "skidarak/process/trigger.h"
-#include "skidarak/process/move_by.h"
-#include "skidarak/process/move_to.h"
-#include "skidarak/process/repeat.h"
-#include "skidarak/process/sequence.h"
-#include "skidarak/process/delay.h"
+#include "skidarake/process/process_manager.h"
+#include "skidarake/process/animate.h"
+#include "skidarake/process/trigger.h"
+#include "skidarake/process/move_by.h"
+#include "skidarake/process/move_to.h"
+#include "skidarake/process/repeat.h"
+#include "skidarake/process/sequence.h"
+#include "skidarake/process/delay.h"
 
 // structs
-#include "skidarak/vector.h"
-#include "skidarak/matrix.h"
-#include "skidarak/vertices.h"
+#include "skidarake/vector.h"
+#include "skidarake/matrix.h"
+#include "skidarake/vertices.h"
 
-#include "skidarak/OpenGL_Internal.h"
-#include "skidarak/drawing_primitives.h"
+#include "skidarake/OpenGL_Internal.h"
+#include "skidarake/drawing_primitives.h"
 
-#include "skidarak/logger.h"
+#include "skidarake/logger.h"
 
-namespace skidarak {
+namespace skidarake {
 }
 
-#endif  /* defined(__skidarak__) */
+#endif  /* defined(__skidarake__) */

@@ -1,8 +1,8 @@
-#include "skidarak/node/atlas_node.h"
+#include "skidarake/node/atlas_node.h"
 
 #include "OpenGL_Internal.h"
 
-namespace skidarak {
+namespace skidarake {
 
 bool AtlasNode::InitWithTileFile(const string& path,
                                  size_t tile_width, size_t tile_height,

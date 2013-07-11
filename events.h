@@ -1,14 +1,14 @@
-#ifndef __skidarak__events__
-#define __skidarak__events__
+#ifndef __skidarake__events__
+#define __skidarake__events__
 
-#include "skidarak/memory_pool.h"
-#include "skidarak/hashed_string.h"
-#include "skidarak/actor_id.h"
-#include "skidarak/vector.h"
+#include "skidarake/memory_pool.h"
+#include "skidarake/hashed_string.h"
+#include "skidarake/actor_id.h"
+#include "skidarake/vector.h"
 
 #include <memory>
 
-namespace skidarak {
+namespace skidarake {
 
 typedef HashedString EventType;
 
@@ -68,4 +68,4 @@ struct AccelerationEvent : public Event {
 
 }
 
-#endif /* defined(__skidarak__events__) */
+#endif /* defined(__skidarake__events__) */

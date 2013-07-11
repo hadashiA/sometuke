@@ -1,14 +1,14 @@
-#ifndef __skidarak__shader_cache__
-#define __skidarak__shader_cache__
+#ifndef __skidarake__shader_cache__
+#define __skidarake__shader_cache__
 
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
 
-#include "skidarak/gl_program.h"
-#include "skidarak/logger.h"
+#include "skidarake/gl_program.h"
+#include "skidarake/logger.h"
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 typedef enum {
@@ -61,4 +61,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__shader_cache__) */
+#endif /* defined(__skidarake__shader_cache__) */

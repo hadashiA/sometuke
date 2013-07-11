@@ -1,7 +1,7 @@
-#ifndef __skidarak__actor_id__
-#define __skidarak__actor_id__
+#ifndef __skidarake__actor_id__
+#define __skidarake__actor_id__
 
-#include "skidarak/memory_pool.h"
+#include "skidarake/memory_pool.h"
 
 #include <string>
 #include <memory>
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-namespace skidarak {
+namespace skidarake {
 
 class ActorId {
 public:
@@ -70,4 +70,4 @@ struct ActorIdHash : public unary_function<ActorId, size_t> {
 
 }
 
-#endif /* defined(__skidarak__actor_id__) */
+#endif /* defined(__skidarake__actor_id__) */

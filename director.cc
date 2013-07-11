@@ -1,17 +1,17 @@
-#include "skidarak/director.h"
+#include "skidarake/director.h"
 
-#include "skidarak/application.h"
-#include "skidarak/event_dispatcher.h"
-#include "skidarak/matrix_stack.h"
-#include "skidarak/logger.h"
-#include "skidarak/scene.h"
-#include "skidarak/node/label_atlas.h"
+#include "skidarake/application.h"
+#include "skidarake/event_dispatcher.h"
+#include "skidarake/matrix_stack.h"
+#include "skidarake/logger.h"
+#include "skidarake/scene.h"
+#include "skidarake/node/label_atlas.h"
 
-#include "skidarak/OpenGL_Internal.h"
+#include "skidarake/OpenGL_Internal.h"
 
 #include <sstream>
 
-namespace skidarak {
+namespace skidarake {
 
 bool Director::Init() {
     glClearColor(0.5, 0.5, 0.5, 1);

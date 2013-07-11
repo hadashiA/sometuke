@@ -1,10 +1,10 @@
-#include "skidarak/scheduler.h"
+#include "skidarake/scheduler.h"
 
-#include "skidarak/process/process_manager.h"
+#include "skidarake/process/process_manager.h"
 
 #include <climits>
 
-namespace skidarak {
+namespace skidarake {
 
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
 

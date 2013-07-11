@@ -1,9 +1,9 @@
-#ifndef __skidarak__event_dispatcher__
-#define __skidarak__event_dispatcher__
+#ifndef __skidarake__event_dispatcher__
+#define __skidarake__event_dispatcher__
 
-#include "skidarak/types.h"
-#include "skidarak/events.h"
-#include "skidarak/memory_pool.h"
+#include "skidarake/types.h"
+#include "skidarake/events.h"
+#include "skidarake/memory_pool.h"
 
 #include <memory>
 #include <list>
@@ -12,7 +12,7 @@
 
 #include <uuid/uuid.h>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 typedef enum {
@@ -141,5 +141,5 @@ private:
 
 }
 
-#endif /* defined(__skidarak__event_dispacher__) */
+#endif /* defined(__skidarake__event_dispacher__) */
 

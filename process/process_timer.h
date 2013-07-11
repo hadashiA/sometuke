@@ -1,9 +1,9 @@
-#ifndef __skidarak__process_process_timer__
-#define __skidarak__process_process_timer__
+#ifndef __skidarake__process_process_timer__
+#define __skidarake__process_process_timer__
 
-#include "skidarak/process/process.h"
+#include "skidarake/process/process.h"
 
-namespace skidarak {
+namespace skidarake {
 
 class ProcessTimer : public Process {
 public:

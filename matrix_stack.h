@@ -1,11 +1,11 @@
-#ifndef __skidarak__matrix_stack__
-#define __skidarak__matrix_stack__
+#ifndef __skidarake__matrix_stack__
+#define __skidarake__matrix_stack__
 
 #include <stack>
 #include <memory>
-#include "skidarak/matrix.h"
+#include "skidarake/matrix.h"
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 struct GLProjection {};
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__matrix_stack__) */
+#endif /* defined(__skidarake__matrix_stack__) */

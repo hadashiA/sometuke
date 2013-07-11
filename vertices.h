@@ -1,13 +1,13 @@
-#ifndef __skidarak_vertices__
-#define __skidarak_vertices__
+#ifndef __skidarake_vertices__
+#define __skidarake_vertices__
 
-#include "skidarak/vector.h"
-#include "skidarak/color.h"
+#include "skidarake/vector.h"
+#include "skidarake/color.h"
 
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 
-namespace skidarak {
+namespace skidarake {
 
 typedef Vector2<GLfloat> vec2gl;
 typedef Vector3<GLfloat> vec3gl;
@@ -120,4 +120,4 @@ struct P2F_C4F_T2F_Quad {
 
 }
 
-#endif /* defined(__skidarak_vertices_) */
+#endif /* defined(__skidarake_vertices_) */

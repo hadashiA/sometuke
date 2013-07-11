@@ -1,15 +1,15 @@
-#include "skidarak/texture_atlas.h"
+#include "skidarake/texture_atlas.h"
 
-#include "skidarak/texture_cache.h"
-#include "skidarak/logger.h"
-#include "skidarak/texture_2d.h"
+#include "skidarake/texture_cache.h"
+#include "skidarake/logger.h"
+#include "skidarake/texture_2d.h"
 
 #include "OpenGL_Internal.h"
 
 #include <cassert>
 #include <cstdlib>
 
-namespace skidarak {
+namespace skidarake {
 
 bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
     shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(path);

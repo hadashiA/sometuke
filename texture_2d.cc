@@ -1,9 +1,9 @@
-#include "skidarak/texture_2d.h"
-#include "skidarak/logger.h"
+#include "skidarake/texture_2d.h"
+#include "skidarake/logger.h"
 
 #include <assert.h>
 
-namespace skidarak {
+namespace skidarake {
 
 unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
     unsigned int ret = 0;

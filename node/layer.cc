@@ -1,9 +1,9 @@
-#include "skidarak/node/layer.h"
+#include "skidarake/node/layer.h"
 
-#include "skidarak/application.h"
-#include "skidarak/events.h"
+#include "skidarake/application.h"
+#include "skidarake/events.h"
 
-namespace skidarak {
+namespace skidarake {
 
 Layer::Layer() {
     set_anchor_point(0.5, 0.5);

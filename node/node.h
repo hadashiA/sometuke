@@ -1,18 +1,18 @@
-#ifndef __skidarak__node_node__
-#define __skidarak__node_node__
+#ifndef __skidarake__node_node__
+#define __skidarake__node_node__
 
-#include "skidarak/types.h"
-#include "skidarak/actor_id.h"
-#include "skidarak/vector.h"
-#include "skidarak/matrix.h"
-#include "skidarak/color.h"
-#include "skidarak/application.h"
+#include "skidarake/types.h"
+#include "skidarake/actor_id.h"
+#include "skidarake/vector.h"
+#include "skidarake/matrix.h"
+#include "skidarake/color.h"
+#include "skidarake/application.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 class EventDispatcher;
@@ -334,4 +334,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarak__node_node__) */
+#endif /* defined(__skidarake__node_node__) */

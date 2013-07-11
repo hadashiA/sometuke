@@ -1,13 +1,13 @@
-#ifndef __skidarak__process_animate__
-#define __skidarak__process_animate__
+#ifndef __skidarake__process_animate__
+#define __skidarake__process_animate__
 
-#include "skidarak/process/process.h"
-#include "skidarak/animation.h"
-#include "skidarak/node/sprite.h"
+#include "skidarake/process/process.h"
+#include "skidarake/animation.h"
+#include "skidarake/node/sprite.h"
 
 #include <memory>
 
-namespace skidarak {
+namespace skidarake {
     
 class Animate : public Process {
 public:
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__process_animate__) */
+#endif /* defined(__skidarake__process_animate__) */

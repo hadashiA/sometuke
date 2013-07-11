@@ -1,16 +1,16 @@
-#ifndef __skidarak__sprite_frame__
-#define __skidarak__sprite_frame__
+#ifndef __skidarake__sprite_frame__
+#define __skidarake__sprite_frame__
 
-#include "skidarak/vertices.h"
-#include "skidarak/application.h"
-#include "skidarak/hashed_string.h"
+#include "skidarake/vertices.h"
+#include "skidarake/application.h"
+#include "skidarake/hashed_string.h"
 
-#include "skidarak/picojson/picojson.h"
+#include "skidarake/picojson/picojson.h"
 
 #include <memory>
 #include <string>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 class Texture2D;
@@ -63,5 +63,5 @@ private:
 
 }
 
-#endif /* defined(__skidarak__sprite_frame__) */
+#endif /* defined(__skidarake__sprite_frame__) */
 

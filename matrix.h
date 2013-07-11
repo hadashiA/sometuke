@@ -1,9 +1,9 @@
-#ifndef __skidarak_matrix__
-#define __skidarak_matrix__
+#ifndef __skidarake_matrix__
+#define __skidarake_matrix__
 
-#include "skidarak/vector.h"
+#include "skidarake/vector.h"
 
-namespace skidarak {
+namespace skidarake {
 
 template <typename T>
 struct Matrix2 {
@@ -236,6 +236,6 @@ typedef Matrix4<float> mat4;
 Rect operator *(const Rect& rect, const mat4& m);
 
 
-} // namespace skidarak
+} // namespace skidarake
 
-#endif /* defined(__skidarak_matrix__) */
+#endif /* defined(__skidarake_matrix__) */

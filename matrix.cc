@@ -1,6 +1,6 @@
-#include "skidarak/matrix.h"
+#include "skidarake/matrix.h"
 
-namespace skidarak {
+namespace skidarake {
 
 float mat4_get(const float *mat, int row, int col) {
     return mat[row + 4*col];

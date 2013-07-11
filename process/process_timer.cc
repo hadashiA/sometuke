@@ -1,6 +1,6 @@
-#include "skidarak/process/process_timer.h"
+#include "skidarake/process/process_timer.h"
 
-namespace skidarak {
+namespace skidarake {
 
 const HashedString ProcessTimer::TYPE("process:timer");
 const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);

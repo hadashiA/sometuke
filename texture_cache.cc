@@ -1,11 +1,11 @@
-#include "skidarak/texture_cache.h"
+#include "skidarake/texture_cache.h"
 
-#include "skidarak/texture_2d.h"
-#include "skidarak/hashed_string.h"
-#include "skidarak/application.h"
-#include "skidarak/assets_loader.h"
+#include "skidarake/texture_2d.h"
+#include "skidarake/hashed_string.h"
+#include "skidarake/application.h"
+#include "skidarake/assets_loader.h"
 
-namespace skidarak {
+namespace skidarake {
 
 shared_ptr<Texture2D> TextureCache::FetchFromPath(const string& path) {
     unsigned int texture_id = HashedString(path).id();

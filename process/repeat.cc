@@ -1,5 +1,5 @@
-#include "skidarak/process/repeat.h"
+#include "skidarake/process/repeat.h"
 
-namespace skidarak {
+namespace skidarake {
 const HashedString Repeat::TYPE("process:repeat");
 }

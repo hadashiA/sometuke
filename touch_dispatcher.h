@@ -1,15 +1,15 @@
-#ifndef __skidarak__ios_touch_dispatcher__
-#define __skidarak__ios_touch_dispatcher__
+#ifndef __skidarake__ios_touch_dispatcher__
+#define __skidarake__ios_touch_dispatcher__
 
-#include "skidarak/application.h"
-#include "skidarak/memory_pool.h"
+#include "skidarake/application.h"
+#include "skidarake/memory_pool.h"
 
 #include <unordered_set>
 #include <vector>
 #include <map>
 #include <memory>
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 class Node;
@@ -146,4 +146,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__ios_touch_dispatcher__) */
+#endif /* defined(__skidarake__ios_touch_dispatcher__) */

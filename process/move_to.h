@@ -1,14 +1,14 @@
-#ifndef __skidarak__process_move_to__
-#define __skidarak__process_move_to__
+#ifndef __skidarake__process_move_to__
+#define __skidarake__process_move_to__
 
-#include "skidarak/process/interval.h"
+#include "skidarake/process/interval.h"
 
-#include "skidarak/node/node.h"
-#include "skidarak/weak_ptr_hash.h"
+#include "skidarake/node/node.h"
+#include "skidarake/weak_ptr_hash.h"
 
 #include <memory>
 
-namespace skidarak {
+namespace skidarake {
 
 class MoveTo : public Interval {
 public:
@@ -53,4 +53,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__process_move_to__) */
+#endif /* defined(__skidarake__process_move_to__) */

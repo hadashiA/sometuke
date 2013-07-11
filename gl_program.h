@@ -1,12 +1,12 @@
-#ifndef __skidarak__gl_program__
-#define __skidarak__gl_program__
+#ifndef __skidarake__gl_program__
+#define __skidarake__gl_program__
 
 #include <OpenGLES/ES2/gl.h>
 #include <string>
 
-#include "skidarak/matrix.h"
+#include "skidarake/matrix.h"
 
-namespace skidarak {
+namespace skidarake {
 using namespace std;
 
 typedef enum {
@@ -81,6 +81,6 @@ private:
 };
 
 
-} // namespace skidarak
+} // namespace skidarake
 
-#endif /* defined(__skidarak__gl_program__) */
+#endif /* defined(__skidarake__gl_program__) */

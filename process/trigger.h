@@ -1,11 +1,11 @@
-#ifndef __skidarak__process_trigger__
-#define __skidarak__process_trigger__
+#ifndef __skidarake__process_trigger__
+#define __skidarake__process_trigger__
 
-#include "skidarak/process/process.h"
-#include "skidarak/event_dispatcher.h"
-#include "skidarak/application.h"
+#include "skidarake/process/process.h"
+#include "skidarake/event_dispatcher.h"
+#include "skidarake/application.h"
 
-namespace skidarak {
+namespace skidarake {
 
 class Trigger : public Process {
 public:
@@ -29,4 +29,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__process_event_emit__) */
+#endif /* defined(__skidarake__process_event_emit__) */

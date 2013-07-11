@@ -1,5 +1,5 @@
-#include "skidarak/process/trigger.h"
+#include "skidarake/process/trigger.h"
 
-namespace skidarak {
+namespace skidarake {
 const HashedString Trigger::TYPE("process:trigger");
 }

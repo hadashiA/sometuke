@@ -1,13 +1,13 @@
-#ifndef __skidarak__texture_2d__
-#define __skidarak__texture_2d__
+#ifndef __skidarake__texture_2d__
+#define __skidarake__texture_2d__
 
 #include <memory>
 
-#include "skidarak/vector.h"
-#include "skidarak/shader_cache.h"
-#include "skidarak/application.h"
+#include "skidarake/vector.h"
+#include "skidarake/shader_cache.h"
+#include "skidarake/application.h"
 
-namespace skidarak {
+namespace skidarake {
 
 static inline unsigned long NextPowerOf2(unsigned long x) {
     x = x - 1;
@@ -102,4 +102,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__texture_2d__) */
+#endif /* defined(__skidarake__texture_2d__) */

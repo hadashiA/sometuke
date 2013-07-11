@@ -1,6 +1,6 @@
-#include "skidarak/process/move_to.h"
+#include "skidarake/process/move_to.h"
 
-namespace skidarak {
+namespace skidarake {
 
 const HashedString MoveTo::TYPE("process:moveto");
 

@@ -1,7 +1,7 @@
-#include "skidarak/shader_cache.h"
-#include "skidarak/OpenGL_Internal.h"
+#include "skidarake/shader_cache.h"
+#include "skidarake/OpenGL_Internal.h"
 
-namespace skidarak {
+namespace skidarake {
 
 void ShaderCache::LoadDefaultShaders() {
     shared_ptr<GLProgram> p;

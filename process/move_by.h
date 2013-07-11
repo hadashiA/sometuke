@@ -1,10 +1,10 @@
-#ifndef __skidarak__process_move_by__
-#define __skidarak__process_move_by__
+#ifndef __skidarake__process_move_by__
+#define __skidarake__process_move_by__
 
-#include "skidarak/process/interval.h"
-#include "skidarak/node/node.h"
+#include "skidarake/process/interval.h"
+#include "skidarake/node/node.h"
 
-namespace skidarak {
+namespace skidarake {
 
 class MoveBy : public Interval {
 public:
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__skidarak__process_move_by__) */
+#endif /* defined(__skidarake__process_move_by__) */

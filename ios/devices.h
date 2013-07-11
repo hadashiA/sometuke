@@ -1,7 +1,7 @@
-#ifndef __skidarak__ios__devices__
-#define __skidarak__ios__devices__
+#ifndef __skidarake__ios__devices__
+#define __skidarake__ios__devices__
 
-#include "skidarak/logger.h"
+#include "skidarake/logger.h"
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -10,7 +10,7 @@
 #define __II_PLATFORM_IOS 1
 #endif
 
-namespace skidarak {
+namespace skidarake {
 
 enum {
     kiOSVersion_4_0   = 0x04000000,

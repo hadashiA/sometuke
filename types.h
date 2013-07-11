@@ -1,6 +1,6 @@
-#ifndef __skidarak__types__
-#define __skidarak__types__
+#ifndef __skidarake__types__
+#define __skidarake__types__
 
 typedef float ii_time;
 
-#endif /* defined(__skidarak__types__) */
+#endif /* defined(__skidarake__types__) */
