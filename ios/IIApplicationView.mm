@@ -1,14 +1,14 @@
 #import "IIApplicationView.h"
 #import "OpenGL_Internal.h"
 
-#import "kawaii/director.h"
-#import "kawaii/logger.h"
-#import "kawaii/touch_dispatcher.h"
+#import "skidarake/director.h"
+#import "skidarake/logger.h"
+#import "skidarake/touch_dispatcher.h"
 
 @interface IIApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
 - (void)calculateDeltaTime;
-- (void)touchDelegate:(NSSet *)touches phase:(kawaii::TouchPhase)phase;
+- (void)touchDelegate:(NSSet *)touches phase:(skidarake::TouchPhase)phase;
 @end
 
 @implementation IIApplicationView
@@ -35,12 +35,12 @@
     numberOfSamples:(unsigned int)nSamples {
 
     return [[[[self class] alloc] initWithFrame:frame
-                                   colorFormat:format
-                                   depthFormat:depth
-                            preserveBackbuffer:preserveBackbuffer
-                                    sharegroup:sharegroup
-                                 multiSampling:sampling
-                               numberOfSamples:nSamples] autorelease];
+                                    colorFormat:format
+                                    depthFormat:depth
+                             preserveBackbuffer:preserveBackbuffer
+                                     sharegroup:sharegroup
+                                  multiSampling:sampling
+                                numberOfSamples:nSamples] autorelease];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -120,7 +120,7 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        kawaii::Application& app = kawaii::Application::Instance();
+        skidarake::Application& app = skidarake::Application::Instance();
         app.set_content_scale_factor(scale);
         app.Resize(size.width, size.height);
 
@@ -257,7 +257,7 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    kawaii::Application::Instance().Resize(backingWidth_, backingHeight_);
+    skidarake::Application::Instance().Resize(backingWidth_, backingHeight_);
 
     // [self mainLoop:nil];
 }
@@ -271,11 +271,11 @@
     [self calculateDeltaTime];
     if (motionManager_.accelerometerActive) {
         CMAccelerometerData *data = motionManager_.accelerometerData;
-        kawaii::vec2 velocity = kawaii::vec2(data.acceleration.x, data.acceleration.y);
-        kawaii::Application::Instance().director().dispatcher().Queue<kawaii::AccelerationEvent>(velocity);
+        skidarake::vec2 velocity = skidarake::vec2(data.acceleration.x, data.acceleration.y);
+        skidarake::Application::Instance().director().dispatcher().Queue<skidarake::AccelerationEvent>(velocity);
     }
 
-    kawaii::Application::Instance().director().MainLoop(dt_);
+    skidarake::Application::Instance().director().MainLoop(dt_);
     [self swapBuffers];
 }
 
@@ -284,7 +284,7 @@
         return;
     }
 
-    int frameInterval = (int)floor(kawaii::Application::Instance().animation_interval() * 60.0f);
+    int frameInterval = (int)floor(skidarake::Application::Instance().animation_interval() * 60.0f);
     displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
     [displayLink_ setFrameInterval:frameInterval];
 
@@ -302,19 +302,19 @@
 #pragma mark Pass the touches to the superview
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:kawaii::kTouchBegan];
+    [self touchDelegate:touches phase:skidarake::kTouchBegan];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:kawaii::kTouchMoved];
+    [self touchDelegate:touches phase:skidarake::kTouchMoved];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:kawaii::kTouchEnded];
+    [self touchDelegate:touches phase:skidarake::kTouchEnded];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:kawaii::kTouchCancelled];
+    [self touchDelegate:touches phase:skidarake::kTouchCancelled];
 }
 
 #pragma mark -
@@ -339,21 +339,21 @@
     lastDisplayTime_ = displayLink_.timestamp;
 }
 
-- (void)touchDelegate:(NSSet *)touches phase:(kawaii::TouchPhase)phase {
-    kawaii::TouchDispatcher& dispatcher = kawaii::TouchDispatcher::Instance();
+- (void)touchDelegate:(NSSet *)touches phase:(skidarake::TouchPhase)phase {
+    skidarake::TouchDispatcher& dispatcher = skidarake::TouchDispatcher::Instance();
 
     if (dispatcher.enabled()) {
-        std::vector<std::shared_ptr<kawaii::Touch> > touches_vec;
+        std::vector<std::shared_ptr<skidarake::Touch> > touches_vec;
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:self];
             CGPoint prev = [touch previousLocationInView:self];
 
-            std::shared_ptr<kawaii::Touch> k_touch =
-                kawaii::New<kawaii::Touch>((kawaii::TouchId)touch,
-                                           phase,
-                                           kawaii::vec2(pos.x, pos.y),
-                                           kawaii::vec2(prev.x, prev.y),
-                                           touch.tapCount);
+            std::shared_ptr<skidarake::Touch> k_touch =
+                skidarake::New<skidarake::Touch>((skidarake::TouchId)touch,
+                                                 phase,
+                                                 skidarake::vec2(pos.x, pos.y),
+                                                 skidarake::vec2(prev.x, prev.y),
+                                                 touch.tapCount);
             touches_vec.push_back(k_touch);
         }
         dispatcher.Trigger(phase, touches_vec);

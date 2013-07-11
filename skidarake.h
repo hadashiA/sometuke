@@ -47,7 +47,4 @@
 
 #include "skidarake/logger.h"
 
-namespace skidarake {
-}
-
 #endif  /* defined(__skidarake__) */

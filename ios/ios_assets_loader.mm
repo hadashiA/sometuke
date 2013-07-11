@@ -1,11 +1,11 @@
-#include "kawaii/ios/ios_assets_loader.h"
-#include "kawaii/logger.h"
-#include "kawaii/texture_2d.h"
+#include "skidarake/ios/ios_assets_loader.h"
+#include "skidarake/logger.h"
+#include "skidarake/texture_2d.h"
 
 #include <UIKit/UIKit.h>
 #include <fstream>
 
-namespace kawaii {
+namespace skidarake {
 
 const string IOSAssetsLoader::FullPathFromRelativePath(const string& relative_path) {
     DeviceType d = RunningDevice();
