@@ -3,6 +3,7 @@
 
 #include "skidarake/vertices.h"
 #include "skidarake/node/node.h"
+#include "skidarake/shader_cache.h"
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -32,11 +33,33 @@ private:
 };
 
 template<class Triangulator = SimpleTriangulator>
-class FilledPolygon : Node {
+class FilledPolygon : public Node {
 public:
     virtual ~FilledPolygon() {}
 
+    virtual void Render();
+
+    bool InitWithPoints(const vector<vec2gl>& vertices,
+                        const shared_ptr<Texture2D>& texture) {
+        set_vertices(vertices);
+        set_texture(texture);
+        
+        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
+        
+        return true;
+    }
+
+    shared_ptr<Texture2D> texture() {
+        return texture_;
+    }
+
+    void set_texture(const shared_ptr<Texture2D>& texture);
+    void set_vertices(const vector<vec2gl>& vertices);
+
 private:
+    void UpdateBlendFunc();
+    void CalculateTexCoords();
+    
     shared_ptr<Texture2D> texture_;
     GLenum blend_func_src_;
     GLenum blend_func_dst_;
@@ -45,6 +68,8 @@ private:
 
     vector<vec2gl> area_triangle_points_;
     vector<vec2gl> texture_coodinates_;
+
+    shared_ptr<GLProgram> shader_program_;
 };
 
 }
