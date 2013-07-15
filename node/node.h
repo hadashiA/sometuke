@@ -29,7 +29,7 @@ class TextureInterface {
 public:
     virtual ~TextureInterface() {}
     virtual shared_ptr<Texture2D> texture() const = 0;
-    virtual void set_texture(shared_ptr<Texture2D> value) = 0;
+    virtual void set_texture(const shared_ptr<Texture2D>& value) = 0;
 };
 
 class RGBAInterface {

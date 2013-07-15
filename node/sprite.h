@@ -23,13 +23,19 @@ public:
     virtual ~Sprite() {}
     virtual bool Init() { return true; }
 
-    bool InitWithTexture(shared_ptr<Texture2D> texture);
-    bool InitWithTexture(shared_ptr<Texture2D> texture,
+    bool InitWithTexture(const shared_ptr<Texture2D>& texture);
+    bool InitWithTexture(const shared_ptr<Texture2D>& texture,
                          const Rect& rect, bool rotated = false);
     bool InitWithSpriteFrame(const SpriteFrame& sprite_frame);
     bool InitWithSpriteFrame(weak_ptr<SpriteFrame> sprite_frame);
 
     virtual void Render();
+
+    virtual void set_texture(const shared_ptr<Texture2D>& value);
+
+    virtual shared_ptr<Texture2D> texture() const {
+        return texture_;
+    }
 
     const bool fliped_x() const {
         return fliped_x_;
@@ -45,10 +51,6 @@ public:
 
     const GLubyte blend_func_dst() const {
         return blend_func_dst_;
-    }
-
-    shared_ptr<Texture2D> texture() const {
-        return texture_;
     }
 
     SpriteFrame display_frame() const {
@@ -93,7 +95,6 @@ public:
     void set_color(const Color3B& value);
     void set_opacity(GLubyte value);
     void set_opacity_modify_rgb(bool value);
-    void set_texture(shared_ptr<Texture2D> value);
     void set_texture_rect(const Rect& rect);
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);

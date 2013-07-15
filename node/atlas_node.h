@@ -77,7 +77,7 @@ public:
         return texture_atlas_->texture();
     }
 
-    virtual void set_texture(shared_ptr<Texture2D> value) {
+    virtual void set_texture(const shared_ptr<Texture2D>& value) {
         texture_atlas_->set_texture(value);
     }
 

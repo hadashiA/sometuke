@@ -38,11 +38,11 @@ Sprite::Sprite()
     quad_.tr.color = tmp_color;
 }
 
-bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture) {
+bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture) {
     return InitWithTexture(texture, Rect(vec2(0, 0), texture->content_size()), false);
 }
 
-bool Sprite::InitWithTexture(shared_ptr<Texture2D> texture,
+bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture,
                              const Rect& rect, bool rotated) {
     set_texture(texture);
     set_texture_rect(rect, rotated, rect.size);
@@ -96,7 +96,7 @@ void Sprite::set_opacity_modify_rgb(bool value) {
     set_color(old_color);
 }
 
-void Sprite::set_texture(shared_ptr<Texture2D> value) {
+void Sprite::set_texture(const shared_ptr<Texture2D>& value) {
     texture_ = value;
 
     if (texture_->has_premultipled_alpha()) {
