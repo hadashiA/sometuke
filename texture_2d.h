@@ -56,8 +56,6 @@ public:
           pixel_size_(0, 0),
           content_size_(0, 0),
           format_(kPixelFormat_Default) {
-        glGenTextures(1, &id_);
-        glBindTexture(GL_TEXTURE_2D, id_);
     }
 
     const GLuint id() const {
@@ -83,6 +81,11 @@ public:
     const vec2 content_size() const {
         return content_size_ / Application::Instance().content_scale_factor();
     }
+
+    void set_tex_parameters(const GLuint min_filter,
+                            const GLuint map_filter,
+                            const GLuint wrap_s,
+                            const GLuint wrap_t);
 
     bool LoadData(const void* data, PixelFormat pixel_format,
                   ivec2 pixelSize_, vec2 contentSize_);

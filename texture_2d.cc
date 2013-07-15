@@ -50,9 +50,21 @@ unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
     return ret;
 }
 
+void Texture2D::set_tex_parameters(const GLuint min_filter,
+                                   const GLuint map_filter,
+                                   const GLuint wrap_s,
+                                   const GLuint wrap_t) {
+    glBindTexture(GL_TEXTURE2D, id_);
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min_filter );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, map_filter );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap_s);
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t);
+}
+
 bool Texture2D::LoadData(const void* data, PixelFormat pixel_format,
                          ivec2 pixel_size, vec2 content_size) {
-    
+    glGenTextures(1, &id_);
+    glBindTexture(GL_TEXTURE_2D, id_);
 
     int pixel_width  = pixel_size.x;
     int pixel_height = pixel_size.y;
