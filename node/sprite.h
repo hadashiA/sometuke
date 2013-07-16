@@ -23,6 +23,7 @@ public:
     virtual ~Sprite() {}
     virtual bool Init() { return true; }
 
+    bool InitWithTextureFile(const string& path);
     bool InitWithTexture(const shared_ptr<Texture2D>& texture);
     bool InitWithTexture(const shared_ptr<Texture2D>& texture,
                          const Rect& rect, bool rotated = false);

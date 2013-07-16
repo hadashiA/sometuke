@@ -38,6 +38,11 @@ Sprite::Sprite()
     quad_.tr.color = tmp_color;
 }
 
+bool Sprite::InitWithTextureFile(const string& path) {
+    shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(path);
+    return InitWithTexture(texture);
+}
+
 bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture) {
     return InitWithTexture(texture, Rect(vec2(0, 0), texture->content_size()), false);
 }
