@@ -20,7 +20,7 @@ public:
 
     virtual bool Init() { return true; }
 
-    virtual void AddChild(shared_ptr<Node> child) {
+    virtual void AddChild(const shared_ptr<Node>& child) {
         Node::AddChild(child);
 
         const ActorId& actor_id = child->actor_id();
@@ -30,7 +30,7 @@ public:
         }
     }
 
-    virtual void RemoveChild(shared_ptr<Node> child) {
+    virtual void RemoveChild(const shared_ptr<Node>& child) {
         Node::RemoveChild(child);
 
         const ActorId& actor_id = child->actor_id();

@@ -87,7 +87,7 @@ vec3 Node::LocalPositionAt(const vec3& world_position) {
     return WorldPosition() - world_position;
 }
 
-void Node::AddChild(shared_ptr<Node> child) {
+void Node::AddChild(const shared_ptr<Node>& child) {
     assert(!child->parent());
 
     child->set_parent(shared_from_this());
@@ -98,7 +98,7 @@ void Node::AddChild(shared_ptr<Node> child) {
     }
 }
 
-void Node::RemoveChild(shared_ptr<Node> child) {
+void Node::RemoveChild(const shared_ptr<Node>& child) {
     if (child) {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end();) {
             if (*i == child) {

@@ -221,7 +221,7 @@ public:
         is_visible_ = false;
     }
 
-    void set_parent(shared_ptr<Node> value) {
+    void set_parent(const shared_ptr<Node>& value) {
         parent_ = value;
     }
 
@@ -233,8 +233,8 @@ public:
         return children_;
     }
 
-    virtual void AddChild(shared_ptr<Node> child);
-    virtual void RemoveChild(shared_ptr<Node> child);
+    virtual void AddChild(const shared_ptr<Node>& child);
+    virtual void RemoveChild(const shared_ptr<Node>& child);
     
     virtual Scheduler& scheduler() const {
         return Application::Instance().director().scheduler();
