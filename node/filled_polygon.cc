@@ -126,26 +126,5 @@ bool SimpleTriangulator::Snip(const vector<vec2gl>& vertices,
     
     return true;
 }
-    
-template <class T>
-void FilledPolygon<T>::Render() {
-}
-
-template <class T>
-void FilledPolygon<T>::set_texture(const shared_ptr<Texture2D>& texture) {
-    
-}
-
-template <class T>
-void FilledPolygon<T>::set_vertices(const vector<vec2gl>& vertices) {
-}
-
-template <class T>
-void FilledPolygon<T>::CalculateTexCoords() {
-}
-
-template <class T>
-void FilledPolygon<T>::UpdateBlendFunc() {
-}
 
 }
