@@ -49,7 +49,7 @@ public:
     }
 
     bool is_null() const {
-        return uuid_is_null(uuid_ptr_.get());
+        return (!uuid_ptr_ || uuid_is_null(uuid_ptr_.get()));
     }
 
     bool operator==(const ActorId& rhs) const {
@@ -57,7 +57,6 @@ public:
     }
 
 private:
-
     shared_ptr<unsigned char> uuid_ptr_;
 };
 
