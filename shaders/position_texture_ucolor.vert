@@ -11,8 +11,6 @@ varying vec2 v_TexCoord;
 #endif
 
 void main() {
-    vec4 color = a_Color;
-
     gl_Position = u_MVPMatrix * a_Position;
     v_TexCoord = a_TexCoord;
 }
