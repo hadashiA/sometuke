@@ -85,7 +85,7 @@ public:
         set_vertices(vertices);
         set_texture(texture);
         
-        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
+        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture_uColor);
         
         return true;
     }
@@ -107,9 +107,7 @@ private:
         for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
              i != area_triangle_points_.end(); ++i) {
             const vec2gl& vertex = *i;
-            vec2gl tex_coord(vertex.x * scale,
-                             -(vertex.y * scale)
-                             );
+            vec2gl tex_coord(vertex.x * scale, 1 - (vertex.y * scale));
             tex_coords_.push_back(tex_coord);
         }
     }
