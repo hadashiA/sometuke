@@ -1,5 +1,5 @@
-#ifndef __skidarake__node_filled_polygon__
-#define __skidarake__node_filled_polygon__
+#ifndef __skidarake__node_polygon_sprite__
+#define __skidarake__node_polygon_sprite__
 
 #include "skidarake/vertices.h"
 #include "skidarake/node/node.h"
@@ -32,9 +32,9 @@ private:
 };
 
 template<class Triangulator = SimpleTriangulator>
-class FilledPolygon : public Node, public TextureInterface {
+class PolygonSprite : public Node, public TextureInterface {
 public:
-    virtual ~FilledPolygon() {}
+    virtual ~PolygonSprite() {}
 
     
     void Render() {
@@ -136,4 +136,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__node_filled_polygon__) */
+#endif /* defined(__skidarake__node_polygon_sprite__) */

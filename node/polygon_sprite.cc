@@ -1,4 +1,4 @@
-#include "skidarake/node/filled_polygon.h"
+#include "skidarake/node/polygon_sprite.h"
 
 #include "skidarake/logger.h"
 

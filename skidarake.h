@@ -26,7 +26,7 @@
 #include "skidarake/node/layer.h"
 #include "skidarake/node/sprite.h"
 #include "skidarake/node/label_atlas.h"
-#include "skidarake/node/filled_polygon.h"
+#include "skidarake/node/polygon_sprite.h"
 
 // process
 #include "skidarake/process/process_manager.h"
