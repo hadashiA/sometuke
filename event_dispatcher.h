@@ -118,10 +118,8 @@ public:
 
     template <typename T>
     shared_ptr<EventListener> CreateListener(T *handler) {
-        shared_ptr<T> handler_ptr =
-            static_pointer_cast<T>(handler->shared_from_this());
-        shared_ptr<EventListener> listener(new EventDelegator<T>(handler_ptr));
-        return listener;
+        shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
+        return make_shared<EventDelegator<T> >(handler_ptr);
     }
 
 private:

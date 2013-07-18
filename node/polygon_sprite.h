@@ -36,7 +36,6 @@ class PolygonSprite : public Node, public TextureInterface {
 public:
     virtual ~PolygonSprite() {}
 
-    
     void Render() {
         shader_program_->Use();
         shader_program_->SetUniformsForBuiltins();
