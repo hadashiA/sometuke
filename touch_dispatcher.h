@@ -95,10 +95,10 @@ public:
     virtual ~StandardTouchListener() {}
 
     virtual bool listening() const = 0;
-    virtual void TouchesBegan(TouchSet touches) = 0;
-    virtual void TouchesMoved(TouchSet touches) = 0;
-    virtual void TouchesEnded(TouchSet touches) = 0;
-    virtual void TouchesCancelled(TouchSet touches) = 0;
+    virtual void TouchesBegan(const TouchSet& touches) = 0;
+    virtual void TouchesMoved(const TouchSet& touches) = 0;
+    virtual void TouchesEnded(const TouchSet& touches) = 0;
+    virtual void TouchesCancelled(const TouchSet& touches) = 0;
 };
     
 typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;
