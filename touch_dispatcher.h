@@ -29,16 +29,16 @@ struct Touch {
     Touch(TouchId touch_id, TouchPhase _phase, const vec2& loc, const vec2& prev, size_t cnt)
         : id(touch_id),
           phase(_phase),
-          location(loc),
-          prev_location(prev),
+          point(loc),
+          prev_point(prev),
           tap_count(cnt),
           timestamp(std::time(NULL)) {
     }
 
     TouchId id;
     TouchPhase phase;
-    vec2 location;
-    vec2 prev_location;
+    vec2 point;
+    vec2 prev_point;
     size_t tap_count;
     time_t timestamp;
 };
@@ -132,11 +132,11 @@ public:
 
     void Trigger(TouchPhase phase, TouchSet touches);
 
-    // vec2 ConvertToGL(const vec2 touch_location) {
+    // vec2 ConvertToGL(const vec2 touch_point) {
     //     vec2 win_size = Application::Instance().size_in_points();
-    //     return vec2(touch_location.x, win_size.y - touch_location.y);
+    //     return vec2(touch_point.x, win_size.y - touch_point.y);
     // }
-    vec2 ConvertToGL(const vec2 touch_location);
+    vec2 ConvertToGL(const vec2 touch_point);
 
 private:
     bool enabled_;

@@ -98,7 +98,7 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
     }
 }
 
-vec2 TouchDispatcher::ConvertToGL(const vec2 touch_location) {
+vec2 TouchDispatcher::ConvertToGL(const vec2 touch_point) {
     mat4& projection = MatrixStack<GLProjection>::Instance().Top();
     mat4& model_view = MatrixStack<GLModelView>::Instance().Top();
     mat4 transform = model_view * projection;
@@ -107,8 +107,8 @@ vec2 TouchDispatcher::ConvertToGL(const vec2 touch_location) {
     float z_clip = transform.w.z / transform.w.w;
     vec2 gl_size = Application::Instance().size_in_points();
 
-    vec3 clip_coord(2.0 * touch_location.x / gl_size.x - 1.0,
-                    1.0 - 2.0 * touch_location.y / gl_size.y,
+    vec3 clip_coord(2.0 * touch_point.x / gl_size.x - 1.0,
+                    1.0 - 2.0 * touch_point.y / gl_size.y,
                     z_clip);
 
     vec4 gl_coord = vec4(clip_coord, 1) * inversed;
