@@ -7,12 +7,12 @@
 
 namespace skidarake {
 
-void TouchDispatcher::AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority) {
+void TouchDispatcher::AddListener(shared_ptr<StandardTouchListener> listener, int priority) {
     pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);
     standard_listeners_.insert(val);
 }
 
-void TouchDispatcher::AddTargetedListener(shared_ptr<TargetedTouchListener> listener, int priority) {
+void TouchDispatcher::AddListener(shared_ptr<TargetedTouchListener> listener, int priority) {
     pair<int, shared_ptr<TargetedTouchListener> > val(priority, listener);
     targeted_listeners_.insert(val);
 }
@@ -49,8 +49,8 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
         if (!targeted_listeners_.empty()) {
             for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
                  i != targeted_listeners_.end();) {
-                shared_ptr<TargetedTouchListener> listener = i->second;
-                if (listener->listening()) {
+                const shared_ptr<TargetedTouchListener>& listener = i->second;
+                if (listener && listener->listening()) {
                     bool claimed = false;
                     if (phase == kTouchBegan) {
                         claimed = listener->TouchStart(touch);
@@ -73,8 +73,8 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
             shallows_touch_ids.find(touch->id) == shallows_touch_ids.end()) {
             for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
                  i != standard_listeners_.end();) {
-                shared_ptr<StandardTouchListener> listener = i->second;
-                if (listener->listening()) {
+                const shared_ptr<StandardTouchListener>& listener = i->second;
+                if (listener && listener->listening()) {
                     switch (phase) {
                     case kTouchBegan:
                         listener->TouchesBegan(touches);

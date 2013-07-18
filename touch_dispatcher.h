@@ -120,8 +120,8 @@ public:
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
 
-    void AddStandardListener(shared_ptr<StandardTouchListener> listener, int priority);
-    void AddTargetedListener(shared_ptr<TargetedTouchListener> listener, int priority);
+    void AddListener(shared_ptr<StandardTouchListener> listener, int priority);
+    void AddListener(shared_ptr<TargetedTouchListener> listener, int priority);
 
     void RemoveAllListeners() {
         standard_listeners_.clear();
