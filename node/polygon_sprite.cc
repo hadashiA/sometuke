@@ -120,7 +120,6 @@ bool SimpleTriangulator::Snip(const vector<vec2gl>& vertices,
     for (int p = 0; p < n; p++) {
         if ((p == u) || (p == v) || (p == w)) continue;
         bool inside = InsideTriangle(a, b, c, vertices[indices[p]]);
-        IIINFO("inside:%d", inside);
         if (inside) return false;
     }
     
