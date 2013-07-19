@@ -55,6 +55,7 @@ public:
         }
 
         glEnableVertexAttribArray(kVertexAttrib_Position);
+        glDisableVertexAttribArray(kVertexAttrib_Color);
         glEnableVertexAttribArray(kVertexAttrib_TexCoords);
 
         glVertexAttribPointer(kVertexAttrib_Position,  2, GL_FLOAT, GL_FALSE, 0,
@@ -62,9 +63,7 @@ public:
         glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0,
                               tex_coords_.data());
         glDrawArrays(GL_TRIANGLES, 0, area_triangle_points_.size());
-    
-        glDisableVertexAttribArray(kVertexAttrib_Position);
-        glDisableVertexAttribArray(kVertexAttrib_TexCoords);
+        CHECK_GL_ERROR_DEBUG();
     }
 
 
@@ -85,7 +84,7 @@ public:
         set_vertices(vertices);
         set_texture(texture);
         
-        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture_uColor);
+        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
         
         return true;
     }

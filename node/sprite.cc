@@ -225,10 +225,10 @@ void Sprite::Render() {
 
 void Sprite::UpdateQuadColor() {
     Color4B color4(color_, opacity_);
-    quad_.bl.color  = color4;
+    quad_.bl.color = color4;
     quad_.br.color = color4;
-    quad_.tl.color     = color4;
-    quad_.tr.color    = color4;
+    quad_.tl.color = color4;
+    quad_.tr.color = color4;
 }
 
 void Sprite::UpdateQuadTexCoords() {
