@@ -1,7 +1,6 @@
 #include "skidarake/node/layer.h"
 
 #include "skidarake/application.h"
-#include "skidarake/events.h"
 
 namespace skidarake {
 

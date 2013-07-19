@@ -5,6 +5,7 @@
 #include "skidarake/node/node.h"
 #include "skidarake/shader_cache.h"
 #include "skidarake/texture_2d.h"
+#include "OpenGL_Internal.h"
 
 #include <OpenGLES/ES2/gl.h>
 
