@@ -2,8 +2,8 @@
 #define __skidarake__event_dispatcher__
 
 #include "skidarake/types.h"
-#include "skidarake/events.h"
 #include "skidarake/memory_pool.h"
+#include "skidarake/hashed_string.h"
 
 #include <memory>
 #include <list>
@@ -14,6 +14,25 @@
 
 namespace skidarake {
 using namespace std;
+
+typedef HashedString EventType;
+
+struct Event {
+    Event(const EventType& t)
+        : type(t),
+          timestamp(std::time(NULL)) {
+    }
+
+    Event(const string& str)
+        : type(EventType(str)),
+          timestamp(std::time(NULL)) {
+    }
+
+    virtual ~Event() {}
+
+    EventType type;
+    time_t timestamp;
+};
 
 typedef enum {
     kScriptDefined,             // Event is defined in script.
