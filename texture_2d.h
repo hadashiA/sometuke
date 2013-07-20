@@ -66,12 +66,12 @@ public:
         return shader_program_;
     }
 
-    const bool has_premultipled_alpha() const {
-        return has_premultipled_alpha_;
+    const bool has_premultiplied_alpha() const {
+        return has_premultiplied_alpha_;
     }
 
-    void set_has_premultipled_alpha(bool value) {
-        has_premultipled_alpha_ = value;
+    void set_has_premultiplied_alpha(bool value) {
+        has_premultiplied_alpha_ = value;
     }
 
     const vec2 pixel_size() const {
@@ -97,7 +97,7 @@ private:
     PixelFormat format_;
     GLfloat max_s_;
     GLfloat max_t_;
-    bool has_premultipled_alpha_;
+    bool has_premultiplied_alpha_;
     bool has_mipmaps_;
     
     shared_ptr<GLProgram> shader_program_;

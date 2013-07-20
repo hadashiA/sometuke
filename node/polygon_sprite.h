@@ -112,7 +112,7 @@ private:
     }
     
     void UpdateBlendFunc() {
-        if (!texture_ || !texture_->has_premultipled_alpha()) {
+        if (!texture_ || !texture_->has_premultiplied_alpha()) {
             blend_func_src_ = GL_SRC_ALPHA;
             blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         } else {

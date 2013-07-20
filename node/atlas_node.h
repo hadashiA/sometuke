@@ -91,14 +91,14 @@ protected:
     }
 
     void UpdateBlendFunc() {
-        if (!texture_atlas_->texture()->has_premultipled_alpha()) {
+        if (!texture_atlas_->texture()->has_premultiplied_alpha()) {
             blend_func_src_ = GL_SRC_ALPHA;
             blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         }
     }
 
     void UpdateOpacityModifyRGB() {
-        opacity_modify_rgb_ = texture_atlas_->texture()->has_premultipled_alpha();
+        opacity_modify_rgb_ = texture_atlas_->texture()->has_premultiplied_alpha();
     }
 
     shared_ptr<TextureAtlas> texture_atlas_;

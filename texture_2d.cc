@@ -134,7 +134,7 @@ bool Texture2D::LoadData(const void* data, PixelFormat pixel_format,
     max_s_ = content_size_.x / pixel_size_.x;
     max_t_ = content_size_.y  / pixel_size_.y;
 
-    has_premultipled_alpha_ = false;
+    has_premultiplied_alpha_ = false;
 
     shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
     return true;

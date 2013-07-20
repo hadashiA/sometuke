@@ -104,7 +104,7 @@ void Sprite::set_opacity_modify_rgb(bool value) {
 void Sprite::set_texture(const shared_ptr<Texture2D>& value) {
     texture_ = value;
 
-    if (texture_->has_premultipled_alpha()) {
+    if (texture_->has_premultiplied_alpha()) {
         blend_func_src_ = GL_ONE;
         blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         set_opacity_modify_rgb(true);
