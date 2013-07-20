@@ -1,14 +1,14 @@
-#ifndef __skidarake__scheduler__
-#define __skidarake__scheduler__
+#ifndef __sometuke__scheduler__
+#define __sometuke__scheduler__
 
-#include "skidarake/types.h"
+#include "sometuke/types.h"
 
 #include <memory>
 #include <list>
 #include <map>
 #include <cassert>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class UpdateInterface {
@@ -94,5 +94,5 @@ private:
 
 }
 
-#endif /* defined(__skidarake__scheduler__) */
+#endif /* defined(__sometuke__scheduler__) */
 

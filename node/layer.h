@@ -1,13 +1,13 @@
-#ifndef __skidarake__node_layer__
-#define __skidarake__node_layer__
+#ifndef __sometuke__node_layer__
+#define __sometuke__node_layer__
 
-#include "skidarake/actor_id.h"
-#include "skidarake/logger.h"
-#include "skidarake/node/node.h"
+#include "sometuke/actor_id.h"
+#include "sometuke/logger.h"
+#include "sometuke/node/node.h"
 
 #include <unordered_map>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 typedef unordered_map<ActorId, weak_ptr<Node>, ActorIdHash> ActorNodeTable;
@@ -64,4 +64,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarake__node_layer__) */
+#endif /* defined(__sometuke__node_layer__) */

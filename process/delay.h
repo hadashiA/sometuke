@@ -1,9 +1,9 @@
-#ifndef __skidarake__process_delay__
-#define __skidarake__process_delay__
+#ifndef __sometuke__process_delay__
+#define __sometuke__process_delay__
 
-#include "skidarake/process/interval.h"
+#include "sometuke/process/interval.h"
 
-namespace skidarake {
+namespace sometuke {
 
 class Delay : public Interval {
 public:
@@ -29,4 +29,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__process_move_by__) */
+#endif /* defined(__sometuke__process_move_by__) */

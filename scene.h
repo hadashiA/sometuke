@@ -1,16 +1,16 @@
-#ifndef __skidarake__node_scene__
-#define __skidarake__node_scene__
+#ifndef __sometuke__node_scene__
+#define __sometuke__node_scene__
 
-#include "skidarake/application.h"
-#include "skidarake/matrix_stack.h"
-#include "skidarake/actor.h"
-#include "skidarake/node/layer.h"
+#include "sometuke/application.h"
+#include "sometuke/matrix_stack.h"
+#include "sometuke/actor.h"
+#include "sometuke/node/layer.h"
 
 #include <memory>
 #include <vector>
 #include <unordered_map>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class Actor;
@@ -100,4 +100,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__node_scene__) */
+#endif /* defined(__sometuke__node_scene__) */

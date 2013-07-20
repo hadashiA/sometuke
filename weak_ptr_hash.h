@@ -1,10 +1,10 @@
-#ifndef __skidarake__weak_ptr_hash__
-#define __skidarake__weak_ptr_hash__
+#ifndef __sometuke__weak_ptr_hash__
+#define __sometuke__weak_ptr_hash__
 
 #include <memory>
 #include <functional>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 
@@ -28,4 +28,4 @@ struct WeakPtrEqual : public unary_function<weak_ptr<T>, bool> {
 
 }
 
-#endif /* defined(__skidarake__weak_ptr_hash__) */
+#endif /* defined(__sometuke__weak_ptr_hash__) */

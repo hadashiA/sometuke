@@ -7,11 +7,10 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreMotion/CoreMotion.h>
 
-#import "IIProtocols.h"
-#import "skidarake/application.h"
+#import "S2Protocols.h"
+#import "sometuke/application.h"
 
-// @interface IIApplicationView : UIView <UIKeyInput, UITextInput> {
-@interface IIApplicationView : UIView <IIGameLoop> {
+@interface S2ApplicationView : UIView <S2GameLoop> {
     GLint backingWidth_;
     GLint backingHeight_;
 
@@ -72,7 +71,7 @@
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
 
-@property (nonatomic, readonly) skidarake::Application *application;
+@property (nonatomic, readonly) sometuke::Application *application;
 
 @property (nonatomic, readonly) GLint backingWidth;
 @property (nonatomic, readonly) GLint backingHeight;

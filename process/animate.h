@@ -1,13 +1,13 @@
-#ifndef __skidarake__process_animate__
-#define __skidarake__process_animate__
+#ifndef __sometuke__process_animate__
+#define __sometuke__process_animate__
 
-#include "skidarake/process/process.h"
-#include "skidarake/animation.h"
-#include "skidarake/node/sprite.h"
+#include "sometuke/process/process.h"
+#include "sometuke/animation.h"
+#include "sometuke/node/sprite.h"
 
 #include <memory>
 
-namespace skidarake {
+namespace sometuke {
     
 class Animate : public Process {
 public:
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__process_animate__) */
+#endif /* defined(__sometuke__process_animate__) */

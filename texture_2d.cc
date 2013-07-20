@@ -1,9 +1,9 @@
-#include "skidarake/texture_2d.h"
-#include "skidarake/logger.h"
+#include "sometuke/texture_2d.h"
+#include "sometuke/logger.h"
 
 #include <assert.h>
 
-namespace skidarake {
+namespace sometuke {
 
 unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
     unsigned int ret = 0;
@@ -42,7 +42,7 @@ unsigned int Texture2D::BitsPerPixelForFormat(PixelFormat format) {
         break;
     default:
         ret = -1;
-        IIERROR("bitsPerPixelForFormat: %ld, cannot give useful result", (long)format);
+        S2ERROR("bitsPerPixelForFormat: %ld, cannot give useful result", (long)format);
         assert(false);
         break;
     }
@@ -124,7 +124,7 @@ bool Texture2D::LoadData(const void* data, PixelFormat pixel_format,
                      0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
         break;
     default:
-        IIERROR("invalid pixel format %d", pixel_format);
+        S2ERROR("invalid pixel format %d", pixel_format);
         return false;
     }
 

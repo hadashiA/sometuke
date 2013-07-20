@@ -1,10 +1,10 @@
-#ifndef __skidarake__texture_cache__
-#define __skidarake__texture_cache__
+#ifndef __sometuke__texture_cache__
+#define __sometuke__texture_cache__
 
 #include <memory>
 #include <unordered_map>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class Texture2D;
@@ -31,7 +31,7 @@ private:
 
 }
 
-#endif /* defined(__skidarake__texture_cache__) */
+#endif /* defined(__sometuke__texture_cache__) */
 
 
 

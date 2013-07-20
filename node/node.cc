@@ -1,11 +1,11 @@
-#include "skidarake/node/node.h"
+#include "sometuke/node/node.h"
 
-#include "skidarake/matrix_stack.h"
-#include "skidarake/logger.h"
+#include "sometuke/matrix_stack.h"
+#include "sometuke/logger.h"
 
 #include <cassert>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 const mat4& Node::LocalTransform() {

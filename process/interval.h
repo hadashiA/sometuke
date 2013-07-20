@@ -1,12 +1,12 @@
-#ifndef __skidarake__process_interval__
-#define __skidarake__process_interval__
+#ifndef __sometuke__process_interval__
+#define __sometuke__process_interval__
 
-#include "skidarake/process/process.h"
+#include "sometuke/process/process.h"
 
 #include <algorithm>
 #include <cfloat>
 
-namespace skidarake {
+namespace sometuke {
 using std::min;
 using std::max;
 
@@ -43,4 +43,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarake__process_interval__) */
+#endif /* defined(__sometuke__process_interval__) */

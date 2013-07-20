@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@protocol IIGameLoop
+@protocol S2GameLoop
 - (void)mainLoop:(CADisplayLink *)displayLink;
 - (void)startAnimation;
 - (void)stopAnimation;

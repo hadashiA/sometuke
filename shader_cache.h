@@ -1,14 +1,14 @@
-#ifndef __skidarake__shader_cache__
-#define __skidarake__shader_cache__
+#ifndef __sometuke__shader_cache__
+#define __sometuke__shader_cache__
 
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
 
-#include "skidarake/gl_program.h"
-#include "skidarake/logger.h"
+#include "sometuke/gl_program.h"
+#include "sometuke/logger.h"
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 typedef enum {
@@ -43,7 +43,7 @@ public:
     shared_ptr<GLProgram> get(ShaderLabel key) {
         shared_ptr<GLProgram> result = shaders_[key];
         if (!result) {
-            IIERROR("shader not found key:%d", key);
+            S2ERROR("shader not found key:%d", key);
         }
         return result;
     }
@@ -61,4 +61,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__shader_cache__) */
+#endif /* defined(__sometuke__shader_cache__) */

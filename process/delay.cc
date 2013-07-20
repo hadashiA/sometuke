@@ -1,6 +1,6 @@
-#include "skidarake/process/delay.h"
+#include "sometuke/process/delay.h"
 
-namespace skidarake {
+namespace sometuke {
 const HashedString Delay::TYPE("process:delay");
 }
 

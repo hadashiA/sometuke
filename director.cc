@@ -1,17 +1,17 @@
-#include "skidarake/director.h"
+#include "sometuke/director.h"
 
-#include "skidarake/application.h"
-#include "skidarake/event_dispatcher.h"
-#include "skidarake/matrix_stack.h"
-#include "skidarake/logger.h"
-#include "skidarake/scene.h"
-#include "skidarake/node/label_atlas.h"
+#include "sometuke/application.h"
+#include "sometuke/event_dispatcher.h"
+#include "sometuke/matrix_stack.h"
+#include "sometuke/logger.h"
+#include "sometuke/scene.h"
+#include "sometuke/node/label_atlas.h"
 
-#include "skidarake/OpenGL_Internal.h"
+#include "sometuke/OpenGL_Internal.h"
 
 #include <sstream>
 
-namespace skidarake {
+namespace sometuke {
 
 bool Director::Init() {
     glClearColor(0.5, 0.5, 0.5, 1);
@@ -25,7 +25,7 @@ bool Director::Init() {
     CHECK_GL_ERROR_DEBUG();
 
     if (!CreateStatsLabel()) {
-        IIERROR("Fails CreateStatsLabel()");
+        S2ERROR("Fails CreateStatsLabel()");
         return false;
     }
 
@@ -98,7 +98,7 @@ void Director::RunWithScene(shared_ptr<Scene> scene) {
 bool Director::CreateStatsLabel() {
     fps_label_ = make_shared<LabelAtlas>();
     if (!fps_label_->InitWithText("00.0", "fps_images.png", 12, 32, '.')) {
-        IIERROR("Faild init fps_label_.");
+        S2ERROR("Faild init fps_label_.");
         return false;
     }
 

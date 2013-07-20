@@ -1,11 +1,11 @@
-#include "skidarake/touch_dispatcher.h"
+#include "sometuke/touch_dispatcher.h"
 
-#include "skidarake/logger.h"
-#include "skidarake/node/node.h"
-#include "skidarake/matrix_stack.h"
-#include "skidarake/application.h"
+#include "sometuke/logger.h"
+#include "sometuke/node/node.h"
+#include "sometuke/matrix_stack.h"
+#include "sometuke/application.h"
 
-namespace skidarake {
+namespace sometuke {
 
 void TouchDispatcher::AddListener(shared_ptr<StandardTouchListener> listener, int priority) {
     pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);

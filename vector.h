@@ -1,9 +1,9 @@
-#ifndef __skidarake__vector__
-#define __skidarake__vector__
+#ifndef __sometuke__vector__
+#define __sometuke__vector__
 
 #include <cmath>
 
-namespace skidarake {
+namespace sometuke {
 
 const float PI           = 4 * std::atan(1.0f);
 const float TWO_PI       = 2 * PI;
@@ -250,7 +250,7 @@ public:
     vec2 size;
 };
 
-} // namespace skidarake
+} // namespace sometuke
 
 
-#endif /* defined(__skidarake__vector__) */
+#endif /* defined(__sometuke__vector__) */

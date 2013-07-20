@@ -1,11 +1,11 @@
-#ifndef __skidarake__logger__
-#define __skidarake__logger__
+#ifndef __sometuke__logger__
+#define __sometuke__logger__
 
-#include "skidarake/vector.h"
-#include "skidarake/matrix.h"
-#include "skidarake/vertices.h"
-#include "skidarake/hashed_string.h"
-#include "skidarake/sprite_frame.h"
+#include "sometuke/vector.h"
+#include "sometuke/matrix.h"
+#include "sometuke/vertices.h"
+#include "sometuke/hashed_string.h"
+#include "sometuke/sprite_frame.h"
 
 #include <string>
 #include <sstream>
@@ -14,31 +14,31 @@
 #include <time.h>
 #include <stdarg.h>
 
-#if !defined(KAWAII_DEBUG) || KAWAII_DEBUG == 0
-#define IIINFO(...)  do {} while (0)
+#if !defined(SOMETUKE_DEBUG) || SOMETUKE_DEBUG == 0
+#define S2INFO(...)  do {} while (0)
 #define IIWARN(...)  do {} while (0)
-#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
 
-#elif KAWAII_DEBUG == 1
-#define IIINFO(...)     do {} while (0)
-#define IIWARN(s, ...)  skidarake::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
+#elif SOMETUKE_DEBUG == 1
+#define S2INFO(...)     do {} while (0)
+#define IIWARN(s, ...)  sometuke::Log("WARN", s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
 
-#elif KAWAII_DEBUG > 1
-#define IIINFO(s, ...)  skidarake::Log("INFO", s, ##__VA_ARGS__)
-#define IIWARN(s, ...)  skidarake::Log("WARN", s, ##__VA_ARGS__)
-#define IIERROR(s, ...) skidarake::Log("ERROR", s, ##__VA_ARGS__)
+#elif SOMETUKE_DEBUG > 1
+#define S2INFO(s, ...)  sometuke::Log("INFO", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  sometuke::Log("WARN", s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
 #endif
 
-#define IIINSPECT(obj) skidarake::Inspect(obj).c_str()
+#define S2INSPECT(obj) sometuke::Inspect(obj).c_str()
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 static inline void Log(const char *loglevel, const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
-    printf("skidarake - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+    printf("sometuke - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
            ts->tm_year + 1900,
            ts->tm_mon + 1,
            ts->tm_mday,
@@ -181,4 +181,4 @@ static inline string Inspect(const SpriteFrame& v) {
 
 }
 
-#endif  /* defined(__skidarake__logger__) */
+#endif  /* defined(__sometuke__logger__) */

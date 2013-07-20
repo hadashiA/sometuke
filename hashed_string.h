@@ -1,11 +1,11 @@
-#ifndef __skidarake__hashed_string__
-#define __skidarake__hashed_string__
+#ifndef __sometuke__hashed_string__
+#define __sometuke__hashed_string__
 
 #include <string>
 #include <functional>
 #include <iostream>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class HashedString {
@@ -52,4 +52,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__hashed_string__) */
+#endif /* defined(__sometuke__hashed_string__) */

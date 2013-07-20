@@ -1,15 +1,15 @@
-#ifndef __skidarake__sprite_frame_cache__
-#define __skidarake__sprite_frame_cache__
+#ifndef __sometuke__sprite_frame_cache__
+#define __sometuke__sprite_frame_cache__
 
-#include "skidarake/hashed_string.h"
+#include "sometuke/hashed_string.h"
 
-#include "skidarake/picojson/picojson.h"
+#include "sometuke/picojson/picojson.h"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
 
-namespace skidarake {
+namespace sometuke {
 
 class SpriteFrame;
 class Texture2D;
@@ -50,4 +50,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__sprite_frame_cache__) */
+#endif /* defined(__sometuke__sprite_frame_cache__) */

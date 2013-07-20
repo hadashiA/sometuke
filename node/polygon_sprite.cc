@@ -1,8 +1,8 @@
-#include "skidarake/node/polygon_sprite.h"
+#include "sometuke/node/polygon_sprite.h"
 
-#include "skidarake/logger.h"
+#include "sometuke/logger.h"
 
-namespace skidarake {
+namespace sometuke {
 
 static const float EPSILON=0.0000000001f;
 
@@ -11,7 +11,7 @@ vector<vec2gl> SimpleTriangulator::operator()(const vector<vec2gl>& vertices) {
 
     size_t n = vertices.size();
     if (n < 3) {
-        IIERROR("too small vertices.");
+        S2ERROR("too small vertices.");
         return vector<vec2gl>();
     }
 
@@ -26,7 +26,7 @@ vector<vec2gl> SimpleTriangulator::operator()(const vector<vec2gl>& vertices) {
     size_t count = n * 2;
     for (int m = 0, v = n - 1; n > 2;) {
         if (0 >= count--) {
-            IIERROR("probable bad polygon!");
+            S2ERROR("probable bad polygon!");
             return vector<vec2gl>();
         }
 

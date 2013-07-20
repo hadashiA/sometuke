@@ -1,16 +1,16 @@
-#ifndef __skidarake__animation__
-#define __skidarake__animation__
+#ifndef __sometuke__animation__
+#define __sometuke__animation__
 
-#include "skidarake/types.h"
-#include "skidarake/event_dispatcher.h"
-#include "skidarake/sprite_frame_cache.h"
-#include "skidarake/logger.h"
+#include "sometuke/types.h"
+#include "sometuke/event_dispatcher.h"
+#include "sometuke/sprite_frame_cache.h"
+#include "sometuke/logger.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 struct AnimationFrame {
@@ -39,7 +39,7 @@ struct Animation {
         SpriteFrameCache& cache = SpriteFrameCache::Instance();
         shared_ptr<SpriteFrame> sprite_frame = cache[sprite_frame_name];
         if (!sprite_frame) {
-            IIERROR("sprite frame name %s not found", sprite_frame_name);
+            S2ERROR("sprite frame name %s not found", sprite_frame_name);
         }
 
         AnimationFrame frame(sprite_frame, t, e);
@@ -54,4 +54,4 @@ struct Animation {
 
 }
 
-#endif /* defined(__skidarake__animation__) */
+#endif /* defined(__sometuke__animation__) */

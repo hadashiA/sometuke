@@ -1,18 +1,18 @@
-#include "skidarake/application.h"
+#include "sometuke/application.h"
 
-#include "skidarake/logger.h"
-#include "skidarake/matrix_stack.h"
+#include "sometuke/logger.h"
+#include "sometuke/matrix_stack.h"
 
-#include "skidarake/OpenGL_Internal.h"
+#include "sometuke/OpenGL_Internal.h"
 
-namespace skidarake {
+namespace sometuke {
 
 bool Application::Init(ApplicationComponentFactory& factory) {
     loader_.reset(factory.CreateAssetsLoader());
 
     director_.reset(factory.CreateDirector());
     if (!director_->Init()) {
-        IIERROR("Director::Init() failed.");
+        S2ERROR("Director::Init() failed.");
         return false;
     }
 
@@ -25,4 +25,4 @@ void Application::Resize(const float point_width, const float point_height) {
     director_->ReshapeProjection();
 }
 
-} // namespace skidarake
+} // namespace sometuke

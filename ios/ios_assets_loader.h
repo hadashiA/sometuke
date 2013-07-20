@@ -1,10 +1,10 @@
-#ifndef __skidarake__ios_assets_loader__
-#define __skidarake__ios_assets_loader__
+#ifndef __sometuke__ios_assets_loader__
+#define __sometuke__ios_assets_loader__
 
-#include "skidarake/assets_loader.h"
-#include "skidarake/ios/devices.h"
+#include "sometuke/assets_loader.h"
+#include "sometuke/ios/devices.h"
 
-namespace skidarake {
+namespace sometuke {
 
 using namespace std;
 
@@ -36,4 +36,4 @@ private:
 
 } 
 
-#endif /* defined(__skidarake__ios_assets_loader__) */
+#endif /* defined(__sometuke__ios_assets_loader__) */

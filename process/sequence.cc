@@ -1,8 +1,8 @@
-#include "skidarake/process/sequence.h"
+#include "sometuke/process/sequence.h"
 
-#include "skidarake/logger.h"
+#include "sometuke/logger.h"
 
-namespace skidarake {
+namespace sometuke {
 
 const HashedString Sequence::TYPE("process:sequence");
 

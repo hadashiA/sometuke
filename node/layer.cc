@@ -1,8 +1,8 @@
-#include "skidarake/node/layer.h"
+#include "sometuke/node/layer.h"
 
-#include "skidarake/application.h"
+#include "sometuke/application.h"
 
-namespace skidarake {
+namespace sometuke {
 
 Layer::Layer() {
     set_anchor_point(0.5, 0.5);

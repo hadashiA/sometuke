@@ -1,8 +1,8 @@
-#include "skidarake/node/label_atlas.h"
+#include "sometuke/node/label_atlas.h"
 
-#include "skidarake/drawing_primitives.h"
+#include "sometuke/drawing_primitives.h"
 
-namespace skidarake {
+namespace sometuke {
 
 bool LabelAtlas::InitWithText(const string& text,
                               const string& texture_path,

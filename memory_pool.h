@@ -1,5 +1,5 @@
-#ifndef __skidarake__memory_pool__
-#define __skidarake__memory_pool__
+#ifndef __sometuke__memory_pool__
+#define __sometuke__memory_pool__
 
 #include <memory>
 #include <cstdlib>
@@ -9,7 +9,7 @@
 #define MM_DEFAULT_EXPAND_SIZE 10000
 #endif
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
     
 template <class T, std::size_t Size = MM_DEFAULT_EXPAND_SIZE>
@@ -219,4 +219,4 @@ shared_ptr<T> New(Arg1&& arg1, Args&& ... args) {
 
 }
 
-#endif /* defined(__skidarake__memory_pool__) */
+#endif /* defined(__sometuke__memory_pool__) */

@@ -1,5 +1,5 @@
-#ifndef __skidarake__texture_atlas__
-#define __skidarake__texture_atlas__
+#ifndef __sometuke__texture_atlas__
+#define __sometuke__texture_atlas__
 
 #ifndef II_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 #define II_TEXTURE_ATLAS_USE_TRIANGLE_STRIP 0
@@ -9,13 +9,13 @@
 #define II_TEXTURE_ATLAS_USE_VAO 0
 #endif
 
-#include "skidarake/vertices.h"
+#include "sometuke/vertices.h"
 
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
     
 class Texture2D;
@@ -81,4 +81,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__texture_atlas__) */
+#endif /* defined(__sometuke__texture_atlas__) */

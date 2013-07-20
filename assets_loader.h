@@ -1,11 +1,11 @@
-#ifndef __skidarake__assets_loader__
-#define __skidarake__assets_loader__
+#ifndef __sometuke__assets_loader__
+#define __sometuke__assets_loader__
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class Texture2D;
@@ -21,4 +21,4 @@ public:
 
 }
 
-#endif /* defined(__skidarake__assets_loader__) */
+#endif /* defined(__sometuke__assets_loader__) */

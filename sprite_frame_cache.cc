@@ -1,10 +1,10 @@
-#include "skidarake/sprite_frame_cache.h"
+#include "sometuke/sprite_frame_cache.h"
 
-#include "skidarake/sprite_frame.h"
-#include "skidarake/application.h"
-#include "skidarake/assets_loader.h"
-#include "skidarake/texture_cache.h"
-#include "skidarake/logger.h"
+#include "sometuke/sprite_frame.h"
+#include "sometuke/application.h"
+#include "sometuke/assets_loader.h"
+#include "sometuke/texture_cache.h"
+#include "sometuke/logger.h"
 
 #include <fstream>
 #include <memory>
@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <cassert>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {

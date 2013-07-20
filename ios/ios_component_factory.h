@@ -1,10 +1,10 @@
-#ifndef __skidarake__ios_component_factory__
-#define __skidarake__ios_component_factory__
+#ifndef __sometuke__ios_component_factory__
+#define __sometuke__ios_component_factory__
 
-#include "skidarake/application.h"
-#include "skidarake/ios/ios_assets_loader.h"
+#include "sometuke/application.h"
+#include "sometuke/ios/ios_assets_loader.h"
 
-namespace skidarake {
+namespace sometuke {
 
 class IOSComponentFactory : public ApplicationComponentFactory {
 public:
@@ -15,4 +15,4 @@ public:
 
 }
 
-#endif /* defined(__skidarake__ios_component_factory__) */
+#endif /* defined(__sometuke__ios_component_factory__) */

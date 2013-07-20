@@ -1,11 +1,11 @@
-#include "skidarake/ios/ios_assets_loader.h"
-#include "skidarake/logger.h"
-#include "skidarake/texture_2d.h"
+#include "sometuke/ios/ios_assets_loader.h"
+#include "sometuke/logger.h"
+#include "sometuke/texture_2d.h"
 
 #include <UIKit/UIKit.h>
 #include <fstream>
 
-namespace skidarake {
+namespace sometuke {
 
 const string IOSAssetsLoader::FullPathFromRelativePath(const string& relative_path) {
     DeviceType d = RunningDevice();
@@ -75,7 +75,7 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
 
     CGImageRef cg_image = image.CGImage;
     if (cg_image == NULL) {
-        IIERROR("Can't create Texture. cgImage is NULL");
+        S2ERROR("Can't create Texture. cgImage is NULL");
         return NULL;
     }
 
@@ -118,10 +118,10 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
             else
                 pixel_format = Texture2D::kPixelFormat_RGB565;
             
-            IIINFO("Using RGB565 texture since image has no alpha");
+            S2INFO("Using RGB565 texture since image has no alpha");
         }
     } else {
-        IIINFO("Using A8 texture since image is a mask");
+        S2INFO("Using A8 texture since image is a mask");
         pixel_format = Texture2D::kPixelFormat_A8;
     }
 
@@ -175,7 +175,7 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
         context = CGBitmapContextCreate(data, pixel_size.x, pixel_size.y, 8, pixel_size.x, NULL, info);
         break;
     default:
-        IIERROR("Invalid pixel format");
+        S2ERROR("Invalid pixel format");
         assert(false);
     }
     

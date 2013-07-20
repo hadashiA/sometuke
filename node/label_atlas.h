@@ -1,13 +1,13 @@
-#ifndef __skidarake__node_label_atlas__
-#define __skidarake__node_label_atlas__
+#ifndef __sometuke__node_label_atlas__
+#define __sometuke__node_label_atlas__
 
-#include "skidarake/node/atlas_node.h"
+#include "sometuke/node/atlas_node.h"
 
 #include <string>
 #include <functional>
 #include <unordered_map>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class LabelAtlas : public AtlasNode, public LabelInterface {
@@ -36,4 +36,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__node_label_atlas__) */
+#endif /* defined(__sometuke__node_label_atlas__) */

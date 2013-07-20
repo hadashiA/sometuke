@@ -1,10 +1,10 @@
-#ifndef __skidarake__drawing_primitives__
-#define __skidarake__drawing_primitives__
+#ifndef __sometuke__drawing_primitives__
+#define __sometuke__drawing_primitives__
 
-#include "skidarake/vector.h"
-#include "skidarake/color.h"
+#include "sometuke/vector.h"
+#include "sometuke/color.h"
 
-namespace skidarake {
+namespace sometuke {
 
 void DrawColor(const Color4B& color);
 void DrawColor(const Color4F& color);
@@ -15,7 +15,7 @@ void DrawPoly(const vec2 *poli, unsigned int num_points, bool close_polygon);
 
 }
 
-#endif /* defined(__skidarake__drawing_primitives__) */
+#endif /* defined(__sometuke__drawing_primitives__) */
 
 
 

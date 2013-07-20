@@ -1,12 +1,12 @@
-#include "skidarake/drawing_primitives.h"
+#include "sometuke/drawing_primitives.h"
 
-#include "skidarake/shader_cache.h"
-#include "skidarake/color.h"
-#include "skidarake/OpenGL_Internal.h"
+#include "sometuke/shader_cache.h"
+#include "sometuke/color.h"
+#include "sometuke/OpenGL_Internal.h"
 
 #include <memory>
 
-namespace skidarake {
+namespace sometuke {
 
 static bool __initialized = false;
 static shared_ptr<GLProgram> gl_program_;

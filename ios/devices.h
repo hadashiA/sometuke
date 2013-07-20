@@ -1,16 +1,16 @@
-#ifndef __skidarake__ios__devices__
-#define __skidarake__ios__devices__
+#ifndef __sometuke__ios_devices__
+#define __sometuke__ios_devices__
 
-#include "skidarake/logger.h"
+#include "sometuke/logger.h"
 
 #include <OpenGLES/ES2/gl.h>
 
 // TODO: Device staff that separates file
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#define __II_PLATFORM_IOS 1
+#define __S2_PLATFORM_IOS 1
 #endif
 
-namespace skidarake {
+namespace sometuke {
 
 enum {
     kiOSVersion_4_0   = 0x04000000,
@@ -65,7 +65,7 @@ static inline const unsigned int RunningVersion() {
             __ios_version += value * idx;
             idx = idx >> 8;
         }
-        IIINFO("iOS version: %s (0x%08x)", [versionStr UTF8String], __ios_version);
+        S2INFO("iOS version: %s (0x%08x)", [versionStr UTF8String], __ios_version);
     }
 
     return __ios_version;

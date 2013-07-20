@@ -1,16 +1,16 @@
-#ifndef __skidarake__node_atlas_node__
-#define __skidarake__node_atlas_node__
+#ifndef __sometuke__node_atlas_node__
+#define __sometuke__node_atlas_node__
 
 #include <string>
 #include <memory>
 
-#include "skidarake/node/node.h"
-#include "skidarake/color.h"
-#include "skidarake/texture_2d.h"
-#include "skidarake/texture_atlas.h"
-#include "skidarake/gl_program.h"
+#include "sometuke/node/node.h"
+#include "sometuke/color.h"
+#include "sometuke/texture_2d.h"
+#include "sometuke/texture_atlas.h"
+#include "sometuke/gl_program.h"
 
-namespace skidarake {
+namespace sometuke {
 
 class AtlasNode : public Node, public TextureInterface, public RGBAInterface {
 public:
@@ -122,4 +122,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarake__node_atlas_node__) */
+#endif /* defined(__sometuke__node_atlas_node__) */

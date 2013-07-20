@@ -1,10 +1,10 @@
-#include "skidarake/scheduler.h"
+#include "sometuke/scheduler.h"
 
-#include "skidarake/process/process_manager.h"
+#include "sometuke/process/process_manager.h"
 
 #include <climits>
 
-namespace skidarake {
+namespace sometuke {
 
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
 

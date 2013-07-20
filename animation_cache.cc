@@ -1,4 +1,4 @@
-#include "skidarake/animation_cache.h"
+#include "sometuke/animation_cache.h"
 
-namespace skidarake {
+namespace sometuke {
 }

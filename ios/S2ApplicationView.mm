@@ -1,17 +1,17 @@
-#import "IIApplicationView.h"
+#import "S2ApplicationView.h"
 #import "OpenGL_Internal.h"
 
-#import "skidarake/director.h"
-#import "skidarake/logger.h"
-#import "skidarake/touch_dispatcher.h"
+#import "sometuke/director.h"
+#import "sometuke/logger.h"
+#import "sometuke/touch_dispatcher.h"
 
-@interface IIApplicationView (Private)
+@interface S2ApplicationView (Private)
 - (unsigned int)convertPixelFormat:(NSString *)pixelFormat;
 - (void)calculateDeltaTime;
-- (void)touchDelegate:(NSSet *)touches phase:(skidarake::TouchPhase)phase;
+- (void)touchDelegate:(NSSet *)touches phase:(sometuke::TouchPhase)phase;
 @end
 
-@implementation IIApplicationView
+@implementation S2ApplicationView
 @synthesize
     backingWidth=backingWidth_,
     backingHeight=backingHeight_,
@@ -106,9 +106,9 @@
             glBindFramebuffer(GL_FRAMEBUFFER, msaaFramebuffer_);
         }
 
-        IIINFO("GL_VENDOR:   %s", glGetString(GL_VENDOR));
-        IIINFO("GL_RENDERER: %s", glGetString(GL_RENDERER));
-        IIINFO("GL_VERSION:  %s", glGetString(GL_VERSION));
+        S2INFO("GL_VENDOR:   %s", glGetString(GL_VENDOR));
+        S2INFO("GL_RENDERER: %s", glGetString(GL_RENDERER));
+        S2INFO("GL_VERSION:  %s", glGetString(GL_VERSION));
 
         supportsDiscardFramebuffer_ = [self checkForGLExtension:@"GL_EXT_discard_framebuffer"];
 
@@ -120,7 +120,7 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        skidarake::Application& app = skidarake::Application::Instance();
+        sometuke::Application& app = sometuke::Application::Instance();
         app.set_content_scale_factor(scale);
         app.Resize(size.width, size.height);
 
@@ -139,14 +139,14 @@
 
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer_);
     if (![context_ renderbufferStorage:GL_RENDERBUFFER fromDrawable:layer]) {
-        IIERROR("failed to call context");
+        S2ERROR("failed to call context");
     }
 
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH,
                                  &backingWidth_);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT,
                                  &backingHeight_);
-    IIINFO("surface size:%dx%d", backingWidth_, backingHeight_);
+    S2INFO("surface size:%dx%d", backingWidth_, backingHeight_);
 
     if (multiSampling_) {
         if (msaaColorbuffer_) {
@@ -166,7 +166,7 @@
                                   GL_RENDERBUFFER, msaaColorbuffer_);
         GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (error != GL_FRAMEBUFFER_COMPLETE) {
-            IIERROR("Failed to make complete framebuffer object 0x%X", error);
+            S2ERROR("Failed to make complete framebuffer object 0x%X", error);
             return NO;
         }
     }
@@ -196,7 +196,7 @@
     
     GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (error != GL_FRAMEBUFFER_COMPLETE) {
-        IIERROR("Failed to make complete framebuffer object 0x%X", error);
+        S2ERROR("Failed to make complete framebuffer object 0x%X", error);
         return NO;
     }
 
@@ -231,7 +231,7 @@
     }
 
     if(![context_ presentRenderbuffer:GL_RENDERBUFFER])
-        IIERROR("Failed to swap renderbuffer in %s\n", __FUNCTION__);
+        S2ERROR("Failed to swap renderbuffer in %s\n", __FUNCTION__);
     
     // We can safely re-bind the framebuffer here, since this will be the
     // 1st instruction of the new main loop
@@ -257,7 +257,7 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    skidarake::Application::Instance().Resize(backingWidth_, backingHeight_);
+    sometuke::Application::Instance().Resize(backingWidth_, backingHeight_);
 
     // [self mainLoop:nil];
 }
@@ -270,12 +270,12 @@
 
     [self calculateDeltaTime];
     if (motionManager_.accelerometerActive) {
-        CMAccelerometerData *data = motionManager_.accelerometerData;
-        skidarake::vec2 velocity = skidarake::vec2(data.acceleration.x, data.acceleration.y);
-        skidarake::Application::Instance().director().dispatcher().Queue<skidarake::AccelerationEvent>(velocity);
+        //CMAccelerometerData *data = motionManager_.accelerometerData;
+        //sometuke::vec2 velocity = sometuke::vec2(data.acceleration.x, data.acceleration.y);
+        //sometuke::Application::Instance().director().dispatcher().Queue<sometuke::AccelerationEvent>(velocity);
     }
 
-    skidarake::Application::Instance().director().MainLoop(dt_);
+    sometuke::Application::Instance().director().MainLoop(dt_);
     [self swapBuffers];
 }
 
@@ -284,7 +284,7 @@
         return;
     }
 
-    int frameInterval = (int)floor(skidarake::Application::Instance().animation_interval() * 60.0f);
+    int frameInterval = (int)floor(sometuke::Application::Instance().animation_interval() * 60.0f);
     displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
     [displayLink_ setFrameInterval:frameInterval];
 
@@ -302,19 +302,19 @@
 #pragma mark Pass the touches to the superview
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:skidarake::kTouchBegan];
+    [self touchDelegate:touches phase:sometuke::kTouchBegan];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:skidarake::kTouchMoved];
+    [self touchDelegate:touches phase:sometuke::kTouchMoved];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:skidarake::kTouchEnded];
+    [self touchDelegate:touches phase:sometuke::kTouchEnded];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self touchDelegate:touches phase:skidarake::kTouchCancelled];
+    [self touchDelegate:touches phase:sometuke::kTouchCancelled];
 }
 
 #pragma mark -
@@ -339,32 +339,24 @@
     lastDisplayTime_ = displayLink_.timestamp;
 }
 
-- (void)touchDelegate:(NSSet *)touches phase:(skidarake::TouchPhase)phase {
-    skidarake::TouchDispatcher& dispatcher = skidarake::TouchDispatcher::Instance();
+- (void)touchDelegate:(NSSet *)touches phase:(sometuke::TouchPhase)phase {
+    sometuke::TouchDispatcher& dispatcher = sometuke::TouchDispatcher::Instance();
 
     if (dispatcher.enabled()) {
-        std::vector<std::shared_ptr<skidarake::Touch> > touches_vec;
+        std::vector<std::shared_ptr<sometuke::Touch> > touches_vec;
         for (UITouch *touch in touches) {
             CGPoint pos  = [touch locationInView:self];
             CGPoint prev = [touch previousLocationInView:self];
 
-            std::shared_ptr<skidarake::Touch> k_touch =
-                skidarake::New<skidarake::Touch>((skidarake::TouchId)touch,
-                                                 phase,
-                                                 skidarake::vec2(pos.x, pos.y),
-                                                 skidarake::vec2(prev.x, prev.y),
-                                                 touch.tapCount);
+            std::shared_ptr<sometuke::Touch> k_touch =
+                sometuke::New<sometuke::Touch>((sometuke::TouchId)touch,
+                                               phase,
+                                               sometuke::vec2(pos.x, pos.y),
+                                               sometuke::vec2(prev.x, prev.y),
+                                               touch.tapCount);
             touches_vec.push_back(k_touch);
         }
         dispatcher.Trigger(phase, touches_vec);
     }
-}
-
-
-#pragma mark -
-#pragma mark Memory Managements
-
-- (void)dealloc {
-    [super dealloc];
 }
 @end

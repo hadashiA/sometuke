@@ -1,10 +1,10 @@
-#ifndef __skidarake__node_polygon_sprite__
-#define __skidarake__node_polygon_sprite__
+#ifndef __sometuke__node_polygon_sprite__
+#define __sometuke__node_polygon_sprite__
 
-#include "skidarake/vertices.h"
-#include "skidarake/node/node.h"
-#include "skidarake/shader_cache.h"
-#include "skidarake/texture_2d.h"
+#include "sometuke/vertices.h"
+#include "sometuke/node/node.h"
+#include "sometuke/shader_cache.h"
+#include "sometuke/texture_2d.h"
 #include "OpenGL_Internal.h"
 
 #include <OpenGLES/ES2/gl.h>
@@ -15,7 +15,7 @@
 
 using namespace std;
 
-namespace skidarake {
+namespace sometuke {
 
 struct SimpleTriangulator : public unary_function<const vector<vec2gl>&, vector<vec2gl> > {
 public:
@@ -135,4 +135,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__node_polygon_sprite__) */
+#endif /* defined(__sometuke__node_polygon_sprite__) */

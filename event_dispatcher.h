@@ -1,9 +1,9 @@
-#ifndef __skidarake__event_dispatcher__
-#define __skidarake__event_dispatcher__
+#ifndef __sometuke__event_dispatcher__
+#define __sometuke__event_dispatcher__
 
-#include "skidarake/types.h"
-#include "skidarake/memory_pool.h"
-#include "skidarake/hashed_string.h"
+#include "sometuke/types.h"
+#include "sometuke/memory_pool.h"
+#include "sometuke/hashed_string.h"
 
 #include <memory>
 #include <list>
@@ -12,7 +12,7 @@
 
 #include <uuid/uuid.h>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 typedef HashedString EventType;
@@ -158,5 +158,5 @@ private:
 
 }
 
-#endif /* defined(__skidarake__event_dispacher__) */
+#endif /* defined(__sometuke__event_dispacher__) */
 

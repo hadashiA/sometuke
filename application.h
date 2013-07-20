@@ -1,15 +1,15 @@
-#ifndef __skidarake__application__
-#define __skidarake__application__
+#ifndef __sometuke__application__
+#define __sometuke__application__
 
-#include "skidarake/vector.h"
-#include "skidarake/vertices.h"
-#include "skidarake/director.h"
-#include "skidarake/assets_loader.h"
+#include "sometuke/vector.h"
+#include "sometuke/vertices.h"
+#include "sometuke/director.h"
+#include "sometuke/assets_loader.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class AssetsLoader;
@@ -100,6 +100,6 @@ private:
     unique_ptr<AssetsLoader> loader_;
 };
 
-} // namespace skidarake
+} // namespace sometuke
 
-#endif /* defined(__skidarake__application__) */
+#endif /* defined(__sometuke__application__) */

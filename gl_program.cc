@@ -1,14 +1,14 @@
-#include "skidarake/gl_program.h"
+#include "sometuke/gl_program.h"
 
-#include "skidarake/application.h"
-#include "skidarake/assets_loader.h"
-#include "skidarake/logger.h"
-#include "skidarake/matrix_stack.h"
+#include "sometuke/application.h"
+#include "sometuke/assets_loader.h"
+#include "sometuke/logger.h"
+#include "sometuke/matrix_stack.h"
 
 #include <vector>
 #include <iostream>
 
-namespace skidarake {
+namespace sometuke {
 
 const GLchar *UNIFORM_NAMES[kUniform_MAX] = {
     "u_PMatrix",
@@ -57,11 +57,11 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
     fragShader_ = 0;
 
     if (!CompileShader(&vertShader_, GL_VERTEX_SHADER, vShaderSource)) {
-        IIERROR("Failed to compile vertex shader");
+        S2ERROR("Failed to compile vertex shader");
         return false;
     }
     if (!CompileShader(&fragShader_, GL_FRAGMENT_SHADER, fShaderSource)) {
-        IIERROR("Failed to compile fragment shader");
+        S2ERROR("Failed to compile fragment shader");
         return false;
     }
 
@@ -73,7 +73,7 @@ bool GLProgram::LoadShaderSources(const GLchar *vShaderSource, const GLchar *fSh
     }
 
     if (!Link()) {
-        IIERROR("Failed to link shaders");
+        S2ERROR("Failed to link shaders");
         return false;
     }
 
@@ -99,7 +99,7 @@ bool GLProgram::Link() {
     glValidateProgram(program_);
     glGetProgramiv(program_, GL_LINK_STATUS, &status);
     if (status == GL_FALSE) {
-        IIERROR("Failed to link program: %i", program_);
+        S2ERROR("Failed to link program: %i", program_);
         if (vertShader_) {
             glDeleteShader(vertShader_);
         }

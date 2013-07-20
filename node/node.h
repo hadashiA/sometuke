@@ -1,18 +1,18 @@
-#ifndef __skidarake__node_node__
-#define __skidarake__node_node__
+#ifndef __sometuke__node_node__
+#define __sometuke__node_node__
 
-#include "skidarake/types.h"
-#include "skidarake/actor_id.h"
-#include "skidarake/vector.h"
-#include "skidarake/matrix.h"
-#include "skidarake/color.h"
-#include "skidarake/application.h"
+#include "sometuke/types.h"
+#include "sometuke/actor_id.h"
+#include "sometuke/vector.h"
+#include "sometuke/matrix.h"
+#include "sometuke/color.h"
+#include "sometuke/application.h"
 
 #include <vector>
 #include <memory>
 #include <string>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class EventDispatcher;
@@ -334,4 +334,4 @@ protected:
 
 }
 
-#endif /* defined(__skidarake__node_node__) */
+#endif /* defined(__sometuke__node_node__) */

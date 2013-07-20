@@ -1,15 +1,15 @@
-#ifndef __skidarake__process_process_manager__
-#define __skidarake__process_process_manager__
+#ifndef __sometuke__process_process_manager__
+#define __sometuke__process_process_manager__
 
-#include "skidarake/types.h"
-#include "skidarake/scheduler.h"
-#include "skidarake/weak_ptr_hash.h"
+#include "sometuke/types.h"
+#include "sometuke/scheduler.h"
+#include "sometuke/weak_ptr_hash.h"
 
 #include <memory>
 #include <list>
 #include <unordered_map>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class Process;
@@ -28,4 +28,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__process_process_manager__) */
+#endif /* defined(__sometuke__process_process_manager__) */

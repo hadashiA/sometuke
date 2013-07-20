@@ -1,20 +1,20 @@
-#include "skidarake/texture_atlas.h"
+#include "sometuke/texture_atlas.h"
 
-#include "skidarake/texture_cache.h"
-#include "skidarake/logger.h"
-#include "skidarake/texture_2d.h"
+#include "sometuke/texture_cache.h"
+#include "sometuke/logger.h"
+#include "sometuke/texture_2d.h"
 
 #include "OpenGL_Internal.h"
 
 #include <cassert>
 #include <cstdlib>
 
-namespace skidarake {
+namespace sometuke {
 
 bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
     shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(path);
     if (!texture) {
-        IIERROR("could not read texture file %s", path.c_str());
+        S2ERROR("could not read texture file %s", path.c_str());
         return false;
     }
     return InitWithTexture(texture, capacity);

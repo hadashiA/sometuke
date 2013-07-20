@@ -1,11 +1,11 @@
-#include "skidarake/event_dispatcher.h"
+#include "sometuke/event_dispatcher.h"
 
-#include "skidarake/application.h"
+#include "sometuke/application.h"
 
 #include <functional>
 #include <cassert>
 
-namespace skidarake {
+namespace sometuke {
 
 bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
     if (!IsValidType(type)) {

@@ -1,9 +1,9 @@
-#include "skidarake/process/process_manager.h"
+#include "sometuke/process/process_manager.h"
 
-#include "skidarake/process/process.h"
-#include "skidarake/process/sequence.h"
+#include "sometuke/process/process.h"
+#include "sometuke/process/sequence.h"
 
-namespace skidarake {
+namespace sometuke {
 
 shared_ptr<Process> ProcessManager::Attach(const shared_ptr<Process>& process) {
     process_list_.push_back(process);

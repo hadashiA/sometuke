@@ -1,12 +1,12 @@
-#ifndef __skidarake__process_repeat__
-#define __skidarake__processr_epeat__
+#ifndef __sometuke__process_repeat__
+#define __sometuke__processr_epeat__
 
-#include "skidarake/process/process.h"
-#include "skidarake/logger.h"
+#include "sometuke/process/process.h"
+#include "sometuke/logger.h"
 
 #include <memory>
 
-namespace skidarake {
+namespace sometuke {
 
 class Repeat : public Process {
 public:
@@ -57,4 +57,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__process_repeat__) */
+#endif /* defined(__sometuke__process_repeat__) */

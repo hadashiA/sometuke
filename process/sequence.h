@@ -1,12 +1,12 @@
-#ifndef __skidarake__process_sequence__
-#define __skidarake__process_sequence__
+#ifndef __sometuke__process_sequence__
+#define __sometuke__process_sequence__
 
-#include "skidarake/process/process.h"
+#include "sometuke/process/process.h"
 
 #include <memory>
 #include <vector>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 class Sequence : public Process {
@@ -113,4 +113,4 @@ private:
 
 }
 
-#endif /* defined(__skidarake__process_sequence__) */
+#endif /* defined(__sometuke__process_sequence__) */

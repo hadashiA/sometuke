@@ -1,12 +1,12 @@
-#include "skidarake/process/process.h"
+#include "sometuke/process/process.h"
 
-#include "skidarake/process/repeat.h"
-#include "skidarake/process/sequence.h"
-#include "skidarake/process/process_timer.h"
+#include "sometuke/process/repeat.h"
+#include "sometuke/process/sequence.h"
+#include "sometuke/process/process_timer.h"
 
 #include <functional>
 
-namespace skidarake {
+namespace sometuke {
 
 shared_ptr<Process> Process::Repeat(int num) {
     shared_ptr<Process> repeat(new class Repeat(shared_from_this(), num));

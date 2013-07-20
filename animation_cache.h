@@ -1,13 +1,13 @@
-#ifndef __skidarake__animation_cache__
-#define __skidarake__animation_cache__
+#ifndef __sometuke__animation_cache__
+#define __sometuke__animation_cache__
 
-#include "skidarake/animation.h"
+#include "sometuke/animation.h"
 
 #include <memory>
 #include <string>
 #include <functional>
 
-namespace skidarake {
+namespace sometuke {
 using namespace std;
 
 typedef unordered_map<string, shared_ptr<Animation> > AnimationTable;
@@ -41,4 +41,4 @@ private:
     
 }
 
-#endif /* defined(__skidarake__animation_cache__) */
+#endif /* defined(__sometuke__animation_cache__) */
