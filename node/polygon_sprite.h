@@ -35,7 +35,56 @@ private:
 template<class Triangulator = SimpleTriangulator>
 class PolygonSprite : public Node, public TextureInterface {
 public:
+    PolygonSprite()
+        : texture_rect_rotated_(false) {
+    }
+
     virtual ~PolygonSprite() {}
+
+    virtual shared_ptr<Texture2D> texture() const {
+        return texture_;
+    }
+
+    virtual void set_texture(const shared_ptr<Texture2D>& texture) {
+        texture_ = texture;
+        texture_->set_tex_parameters(GL_NEAREST, GL_NEAREST, GL_REPEAT, GL_REPEAT);
+        
+        UpdateBlendFunc();
+    }
+
+    bool InitWithVertices(const vector<vec2gl>& vertices,
+                          const shared_ptr<Texture2D>& texture,
+                          const Rect& rect, bool rotated) {
+        set_vertices(vertices);
+        set_texture(texture);
+        set_texture_rect(rect, rotated);
+        
+        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
+        
+        return true;
+    }
+
+
+    bool InitWithVertices(const vector<vec2gl>& vertices,
+                          const shared_ptr<Texture2D>& texture) {
+        return InitWithVertices(vertices, texture, Rect(vec2(0, 0), texture->content_size()), false);
+    }
+
+    bool InitWithVertices(const vector<vec2gl>& vertices,
+                          const shared_ptr<SpriteFrame>& frame) {
+        return InitWithVertices(vertices, frame->texture, frame->rect, frame->rotated);
+    }
+
+    void set_vertices(const vector<vec2gl>& vertices) {
+        area_triangle_points_ = triangulator_(vertices);
+        CalculateTexCoords();
+    }
+
+    void set_texture_rect(const Rect& rect, bool rotated) {
+        texture_rect_ = rect;
+        texture_rect_rotated_ = rotated;
+        CalculateTexCoords();
+    }
 
     void Render() {
         shader_program_->Use();
@@ -64,34 +113,6 @@ public:
                               tex_coords_.data());
         glDrawArrays(GL_TRIANGLES, 0, area_triangle_points_.size());
         CHECK_GL_ERROR_DEBUG();
-    }
-
-
-    virtual shared_ptr<Texture2D> texture() const {
-        return texture_;
-    }
-
-    virtual void set_texture(const shared_ptr<Texture2D>& texture) {
-        texture_ = texture;
-        texture_->set_tex_parameters(GL_NEAREST, GL_NEAREST, GL_REPEAT, GL_REPEAT);
-        
-        UpdateBlendFunc();
-        CalculateTexCoords();
-    }
-
-    bool InitWithVertices(const vector<vec2gl>& vertices,
-                          const shared_ptr<Texture2D>& texture) {
-        set_vertices(vertices);
-        set_texture(texture);
-        
-        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
-        
-        return true;
-    }
-
-    void set_vertices(const vector<vec2gl>& vertices) {
-        area_triangle_points_ = triangulator_(vertices);
-        CalculateTexCoords();
     }
 
 private:
@@ -131,6 +152,9 @@ private:
     vector<vec2gl> tex_coords_;
 
     shared_ptr<GLProgram> shader_program_;
+
+    Rect texture_rect_;
+    bool texture_rect_rotated_;
 };
 
 }

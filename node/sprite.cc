@@ -143,10 +143,10 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     float y2 = y1 + rect.size.y;
 
     // Don't update Z
-    quad_.bl.pos  = vec3(x1, y1, 0);
+    quad_.bl.pos = vec3(x1, y1, 0);
     quad_.br.pos = vec3(x2, y1, 0);
-    quad_.tl.pos     = vec3(x1, y2, 0);
-    quad_.tr.pos    = vec3(x2, y2, 0);
+    quad_.tl.pos = vec3(x1, y2, 0);
+    quad_.tr.pos = vec3(x2, y2, 0);
 }
 
 void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_frame) {
