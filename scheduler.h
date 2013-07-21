@@ -11,7 +11,7 @@
 namespace sometuke {
 using namespace std;
 
-class Timer : enable_shared_from_this<Timer> {
+class Timer : public enable_shared_from_this<Timer> {
 public:
     static const unsigned int REPEAT_FOREVER;
 
