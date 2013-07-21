@@ -27,47 +27,58 @@ public:
         root_node_->set_content_size(Application::Instance().size_in_points());
     }
 
-    virtual ~Scene() {
-    }
+    virtual ~Scene() {}
 
     virtual bool Init() { return true; }
-    
+
+    virtual void Render() {}
+
+    virtual void OnEnter()   {}
+    virtual void OnExit()    {}
+    virtual void OnCleanup() {}
+
+    virtual bool HandleEvent(shared_ptr<Event> event) = 0;
+    virtual bool Update(const ii_time delta) { return true; }
+
+    const shared_ptr<EventListener>& listener() {
+        if (!listener_) {
+            listener_ = EventDelegator<Scene>::Create(this);
+        }
+        return listener_;
+    }
+
+    const shared_ptr<Timer>& timer() {
+        if (!timer_) {
+            timer_ = TimerDelegate<Scene>::Create(this);
+        }
+        return timer_;
+    }
+
     void Visit() {
         root_node_->Visit();
         Render();
     }
 
-    virtual void Render() {}
-
     void Enter() {
         root_node_->Enter();
+        if (listener_) {
+            listener_->Resume();
+        }
+        if (timer_) {
+            timer_->Resume();
+        }
         OnEnter();
     }
 
     void Exit() {
         root_node_->Exit();
+        if (listener_) {
+            listener_->Pause();
+        }
+        if (timer_) {
+            timer_->Pause();
+        }
         OnExit();
-    }
-
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
-
-    virtual Scheduler& scheduler() const {
-        return Application::Instance().director().scheduler();
-    }
-
-    virtual EventDispatcher& dispatcher() const {
-        return Application::Instance().director().dispatcher();
-    }
-
-    void ScheduleUpdate() {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self);
-    }
-
-    void ScheduleUpdate(const ii_time interval) {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self, interval);
     }
 
     void AddLayer(shared_ptr<Layer> layer) {
@@ -101,6 +112,8 @@ public:
 private:
     shared_ptr<Node> root_node_;
     ActorTable actor_table_;
+    shared_ptr<EventListener> listener_;
+    shared_ptr<Timer> timer_;
 };
 
 }

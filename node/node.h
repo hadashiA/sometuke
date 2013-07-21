@@ -43,8 +43,7 @@ public:
     virtual void set_opacity_modify_rgb(bool value) = 0;
 };
 
-class Node : public UpdateInterface,
-             public enable_shared_from_this<Node> {
+class Node : public enable_shared_from_this<Node> {
 public:
     Node()
         : position_(0, 0, 0),
@@ -236,29 +235,6 @@ public:
     virtual void AddChild(const shared_ptr<Node>& child);
     virtual void RemoveChild(const shared_ptr<Node>& child);
     
-    virtual Scheduler& scheduler() const {
-        return Application::Instance().director().scheduler();
-    }
-
-    virtual EventDispatcher& dispatcher() const {
-        return Application::Instance().director().dispatcher();
-    }
-
-    void ScheduleUpdate() {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self);
-    }
-
-    void ScheduleUpdate(const ii_time interval) {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self, interval);
-    }
-
-    // Node& operator<<(shared_ptr<Node> child) { 
-    //     AddChild(child);
-    //     return *this;
-    // }
-
     virtual const bool paused() {
         return paused_;
     }
@@ -268,24 +244,42 @@ public:
     virtual bool Init() { return true; }
     virtual void Render()  {}
 
-    void Enter() {
-        OnEnter();
+    const shared_ptr<EventListener>& listener() {
+        if (!listener_) {
+            listener_ = EventDelegator<Layer>::Create(this);
+        }
+        return listener_;
+    }
 
+    const shared_ptr<Timer>& timer() {
+        if (!timer_) {
+            timer_ = TimerDelegator<Node>::Create();
+        }
+        return timer_;
+    }
+
+    void Enter() {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
             (*i)->Enter();
         }
         paused_ = false;
+        if (timer_) {
+            timer_->Resume();
+        }
+        OnEnter();
     }
 
     void Exit()  {
-        OnExit();
-
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
             (*i)->Exit();
         }
         paused_ = false;
+        if (timer_) {
+            timer_->Pause();
+        }
+        OnExit();
     }
 
     virtual void OnEnter() {}
@@ -337,6 +331,8 @@ protected:
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;
+
+    shared_ptr<Timer> timer_;
 };
 
 }
