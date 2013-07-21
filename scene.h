@@ -41,10 +41,12 @@ public:
 
     void Enter() {
         root_node_->Enter();
+        OnEnter();
     }
 
     void Exit() {
         root_node_->Exit();
+        OnExit();
     }
 
     virtual void OnEnter() {}
