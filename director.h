@@ -34,6 +34,8 @@ public:
     virtual bool Init();
     virtual bool End()  { return true; }
 
+    virtual bool HandleEvent(shared_ptr<Event> e) = 0;
+    
     Scheduler& scheduler() {
         return *scheduler_;
     }

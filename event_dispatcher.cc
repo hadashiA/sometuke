@@ -74,7 +74,7 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
         shared_ptr<EventListener> listener = i->second;
         if (!listener->paused()) {
             emitted = true;
-            if (!listener->HandleEvent(*event)) {
+            if (!listener->HandleEvent(event)) {
                 listeners_.erase(i++);
             }
         }
@@ -113,7 +113,7 @@ bool EventDispatcher::Tick(const ii_time max_time) {
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
             shared_ptr<EventListener> listener = i->second;
             if (!listener->paused()) {
-                if (listener->HandleEvent(*event)) {
+                if (listener->HandleEvent(event)) {
                     ++i;
                 } else {
                     listeners_.erase(i++);
