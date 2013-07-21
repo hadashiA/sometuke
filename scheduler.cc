@@ -12,8 +12,9 @@ bool Timer::Tick(const ii_time delta_time) {
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;
         if (elapsed_ >= interval_) {
+            bool result = Update(elapsed_);
             elapsed_ = 0;
-            return Update(elapsed_);
+            return result;
         }
         
         // advanced usage
