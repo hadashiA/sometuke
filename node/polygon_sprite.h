@@ -128,12 +128,14 @@ private:
         for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
              i != area_triangle_points_.end(); ++i) {
             const vec2gl& vertex = *i;
-            float u = (vertex.x + texture_rect_.pos.x) / atlas_width;
-            float v = (vertex.y + (atlas_height - texture_rect_.pos.y))  / atlas_height;
-            //if (texture_rect_rotated_) {
-            //    std::swap(u, v);
-            //}
-
+            float u, v;
+            if (texture_rect_rotated_) {
+                u = (vertex.y + texture_rect_.pos.x) / atlas_width;
+                v = (vertex.x + (atlas_height - texture_rect_.pos.y))  / atlas_height;
+            } else {
+                u = (vertex.x + texture_rect_.pos.x) / atlas_width;
+                v = (vertex.y + (atlas_height - texture_rect_.pos.y))  / atlas_height;
+            }
             tex_coords_.push_back(vec2gl(u, v));
         }
     }
