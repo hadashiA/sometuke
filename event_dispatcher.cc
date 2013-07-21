@@ -104,7 +104,7 @@ bool EventDispatcher::Tick(const ii_time max_time) {
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
             shared_ptr<EventListener> listener = i->second;
-            if (listener->listening()) {
+            if (listener && !listener->paused()) {
                 if (listener->HandleEvent(event)) {
                     break;
                 }

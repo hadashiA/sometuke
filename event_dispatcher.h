@@ -47,9 +47,19 @@ struct EventTypeMetadata {
 
 class EventListener {
 public:
+    EventListener()
+        : paused_(false) {
+    }
+    
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
-    virtual bool listening() = 0;
+
+    void Pause() { paused_ = true; }
+    void Resume() { paused_ = false; }
+    bool paused() { return paused_ };
+
+private:
+    bool paused_;
 };
 
 template <typename T>
