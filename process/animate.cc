@@ -18,7 +18,6 @@ void Animate::OnEnter() {
     frame_num_ = 0;
     elapsed_ = 0;
     executed_loops_ = 0;
-    killed_ = false;
     if (shared_ptr<Sprite> sprite = target_.lock()) {
         sprite->set_display_frame(animation_->frames[frame_num_].sprite_frame);
     }
