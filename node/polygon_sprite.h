@@ -122,13 +122,19 @@ private:
         tex_coords_.clear();
         
         float content_scale_factor = Application::Instance().content_scale_factor();
-        GLfloat scale = 1.0f / texture_->pixel_size().x * content_scale_factor;
+        GLfloat atlas_width  = texture_->pixel_size().x * content_scale_factor;
+        GLfloat atlas_height = texture_->pixel_size().y * content_scale_factor;
         
         for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
              i != area_triangle_points_.end(); ++i) {
             const vec2gl& vertex = *i;
-            vec2gl tex_coord(vertex.x * scale, 1 - (vertex.y * scale));
-            tex_coords_.push_back(tex_coord);
+            float u = (vertex.x + texture_rect_.pos.x) / atlas_width;
+            float v = (vertex.y + (atlas_height - texture_rect_.pos.y))  / atlas_height;
+            //if (texture_rect_rotated_) {
+            //    std::swap(u, v);
+            //}
+
+            tex_coords_.push_back(vec2gl(u, v));
         }
     }
     
