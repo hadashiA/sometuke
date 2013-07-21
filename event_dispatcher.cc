@@ -1,11 +1,17 @@
 #include "sometuke/event_dispatcher.h"
 
-#include "sometuke/application.h"
-
 #include <functional>
 #include <cassert>
 
 namespace sometuke {
+
+bool EventListener::ListenTo(const EventType& type) {
+    return Application::Instance().dispatcher().On(type, shared_from_this());
+}
+
+bool EventListener::StopListering() {
+    return Application::Instance().dispatcher().Off(shared_from_this());
+}
 
 bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
     if (!IsValidType(type)) {

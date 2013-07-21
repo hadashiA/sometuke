@@ -8,15 +8,13 @@
 #include "sometuke/scheduler.h"
 
 #include <memory>
-
 #include <uuid/uuid.h>
 
 namespace sometuke {
 
 typedef HashedString ActorType;
 
-class Actor : public UpdateInterface,
-              public enable_shared_from_this<Actor> {
+class Actor : public enable_shared_from_this<Actor> {
 public:
     Actor(const ActorType& t)
         : type_(t),
@@ -60,24 +58,6 @@ public:
 
     void set_rotation(const float rotation) {
         rotation_ = rotation;
-    }
-
-    virtual Scheduler& scheduler() const {
-        return Application::Instance().director().scheduler();
-    }
-
-    virtual EventDispatcher& dispatcher() const {
-        return Application::Instance().director().dispatcher();
-    }
-
-    void ScheduleUpdate() {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self);
-    }
-
-    void ScheduleUpdate(const ii_time interval) {
-        shared_ptr<UpdateInterface> self = static_pointer_cast<UpdateInterface>(shared_from_this());
-        scheduler().Schedule(self, interval);
     }
 
 protected:

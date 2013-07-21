@@ -13,6 +13,8 @@ using namespace std;
 
 class Timer : enable_shared_from_this<Timer> {
 public:
+    static const unsigned int REPEAT_FOREVER;
+
     Timer(const ii_time interval = 0,
           const unsigned int repeat = REPEAT_FOREVER,
           const ii_time delay = 0)
@@ -47,13 +49,8 @@ public:
     void Pause()  { paused_ = true; }
     void Resume() { paused_ = false; }
 
-    void Schedule() {
-        Application::Instance().scheduler().Schedule(shared_from_this());
-    }
-
-    void UnSchedule() {
-        Application::Instance().scheduler().UnSchedule(shared_from_this());
-    }
+    void Schedule();
+    void UnSchedule();
 
 private:
     bool paused_;
@@ -69,21 +66,19 @@ private:
 class ProcessManager;
 
 template <class T>
-class TimerDelegator : public UpdateInterface {
+class TimerDelegator : public Timer {
 public:
-    static const unsigned int REPEAT_FOREVER;
-    
     static shared_ptr<Timer> Create(T *handler,
                                     const ii_time interval = 0,
-                                    const unsigned int repeat = REPEAT_FOREVER,
+                                    const unsigned int repeat = Timer::REPEAT_FOREVER,
                                     const ii_time delay = 0) {
         shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
         return make_shared<TimerDelegator<T> >(handler_ptr, interval, repeat, delay);
     }
 
-    TimerDelegate(weak_ptr<T> delegate,
+    TimerDelegator(weak_ptr<T> delegate,
                   const ii_time interval = 0,
-                  const unsigned int repeat = REPEAT_FOREVER,
+                  const unsigned int repeat = Timer::REPEAT_FOREVER,
                   const ii_time delay = 0)
         : Timer(interval, repeat, delay),
           delegate_(delegate) {
@@ -109,8 +104,8 @@ public:
         timers_.push_back(timer);
     }
 
-    void Unschedule(const shared_ptr<UpdateInterface>& timer) {
-        timers_list_.remove(timer);
+    void Unschedule(const shared_ptr<Timer>& timer) {
+        timers_.remove(timer);
     }
     
     void Update(const ii_time delta_time) {
@@ -118,7 +113,7 @@ public:
             shared_ptr<Timer> timer = (*i);
             
             if (!timer->Tick(delta_time)) {
-                timer_list_.erase(i);
+                timers_.erase(i);
             } else {
                 ++i;
             }

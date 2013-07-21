@@ -244,16 +244,9 @@ public:
     virtual bool Init() { return true; }
     virtual void Render()  {}
 
-    const shared_ptr<EventListener>& listener() {
-        if (!listener_) {
-            listener_ = EventDelegator<Layer>::Create(this);
-        }
-        return listener_;
-    }
-
     const shared_ptr<Timer>& timer() {
         if (!timer_) {
-            timer_ = TimerDelegator<Node>::Create();
+            timer_ = TimerDelegator<Node>::Create(this);
         }
         return timer_;
     }

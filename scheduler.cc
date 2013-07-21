@@ -1,5 +1,7 @@
 #include "sometuke/scheduler.h"
 
+#include "sometuke/application.h"
+
 #include <climits>
 
 namespace sometuke {
@@ -38,4 +40,13 @@ bool Timer::Tick(const ii_time delta_time) {
     }
     return true;
 }
+
+void Timer::Schedule() {
+    Application::Instance().scheduler().Schedule(shared_from_this());
+}
+
+void Timer::UnSchedule() {
+    Application::Instance().scheduler().UnSchedule(shared_from_this());
+}
+
 }

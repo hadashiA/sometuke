@@ -17,8 +17,7 @@ class Actor;
 
 typedef unordered_map<ActorId, shared_ptr<Actor>, ActorIdHash> ActorTable;
 
-class Scene : public enable_shared_from_this<Scene>,
-              public UpdateInterface {
+class Scene : public enable_shared_from_this<Scene> {
 public:
     Scene()
         : root_node_(new Node) {
@@ -49,7 +48,7 @@ public:
 
     const shared_ptr<Timer>& timer() {
         if (!timer_) {
-            timer_ = TimerDelegate<Scene>::Create(this);
+            timer_ = TimerDelegator<Scene>::Create(this);
         }
         return timer_;
     }

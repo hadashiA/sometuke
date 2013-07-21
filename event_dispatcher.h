@@ -4,6 +4,7 @@
 #include "sometuke/types.h"
 #include "sometuke/memory_pool.h"
 #include "sometuke/hashed_string.h"
+#include "sometuke/application.h"
 
 #include <memory>
 #include <list>
@@ -54,19 +55,14 @@ public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
 
-    bool ListenTo(const EventType& type) {
-        return Application::Instance().dispatcher().On(type, shared_from_this());
-    }
+    bool ListenTo(const EventType& type);
+    bool StopListering();
 
     template <typename E>
     bool ListenTo() {
-        return Application::Instance().dispatcher().On(E::TYPE, shared_from_this());
+        return ListenTo(E::TYPE);
     }
-
-    bool StopListering() {
-        return Application::Instance().dispatcher().Off(shared_from_this());
-    }
-
+    
     const bool paused() const { return paused_; }
     void Pause()  { paused_ = true; }
     void Resume() { paused_ = false; }
