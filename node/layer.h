@@ -64,7 +64,7 @@ public:
         }
     }
 
-    virtual bool HandleEvent(shared_ptr<Event> event) = 0;
+    virtual bool HandleEvent(const shared_ptr<Event>& event) = 0;
 
     shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     

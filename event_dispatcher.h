@@ -52,7 +52,7 @@ public:
     }
     
     virtual ~EventListener() {}
-    virtual bool HandleEvent(shared_ptr<Event> e) = 0;
+    virtual bool HandleEvent(const shared_ptr<Event>& e) = 0;
 
     bool ListenTo(const EventType& type);
     bool StopListering();
@@ -84,7 +84,7 @@ public:
 
     virtual ~EventDelegator() {}
 
-    virtual bool HandleEvent(shared_ptr<Event> e) {
+    virtual bool HandleEvent(const shared_ptr<Event>& e) {
         if (shared_ptr<T> handler_ptr = handler_.lock()) {
             return handler_ptr->HandleEvent(e);
         } else {
