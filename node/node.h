@@ -268,21 +268,28 @@ public:
     virtual bool Init() { return true; }
     virtual void Render()  {}
 
-    virtual void OnEnter() {
+    void Enter() {
+        OnEnter();
+
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
-            (*i)->OnEnter();
+            (*i)->Enter();
         }
         paused_ = false;
     }
 
-    virtual void OnExit()  {
+    void Exit()  {
+        OnExit();
+
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
-            (*i)->OnExit();
+            (*i)->Exit();
         }
         paused_ = false;
     }
+
+    virtual void OnEnter() {}
+    virtual void OnExit() {}
 
     void Visit();
 

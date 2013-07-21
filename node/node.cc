@@ -94,7 +94,7 @@ void Node::AddChild(const shared_ptr<Node>& child) {
     children_.push_back(child);
 
     if (!paused_) {
-        child->OnEnter();
+        child->Enter();
     }
 }
 
@@ -102,6 +102,7 @@ void Node::RemoveChild(const shared_ptr<Node>& child) {
     if (child) {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end();) {
             if (*i == child) {
+                child->Exit();
                 i = children_.erase(i);
                 break;
             } else {

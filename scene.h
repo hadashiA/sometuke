@@ -39,13 +39,16 @@ public:
 
     virtual void Render() {}
 
-    virtual void OnEnter() {
-        root_node_->OnEnter();
+    void Enter() {
+        root_node_->Enter();
     }
 
-    virtual void OnExit() {
-        root_node_->OnExit();
+    void Exit() {
+        root_node_->Exit();
     }
+
+    virtual void OnEnter() {}
+    virtual void OnExit() {}
 
     virtual Scheduler& scheduler() const {
         return Application::Instance().director().scheduler();

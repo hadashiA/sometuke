@@ -78,7 +78,7 @@ void Director::MainLoop(const ii_time delta_time) {
 
 void Director::RunWithScene(shared_ptr<Scene> scene) {
     running_scene_ = scene;
-    running_scene_->OnEnter();
+    running_scene_->Enter();
 }
 
 // void Director::ReplaceScene(shared_ptr<Scene> scene) {
