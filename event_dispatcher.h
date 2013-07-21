@@ -45,7 +45,7 @@ struct EventTypeMetadata {
     EventCallable callable;
 };
 
-class EventListener {
+class EventListener : public enable_shared_from_this<EventListener> {
 public:
     EventListener()
         : paused_(false) {
@@ -54,9 +54,22 @@ public:
     virtual ~EventListener() {}
     virtual bool HandleEvent(shared_ptr<Event> e) = 0;
 
-    void Pause() { paused_ = true; }
+    bool ListenTo(const EventType& type) {
+        return Application::Instance().dispatcher().On(type, shared_from_this());
+    }
+
+    template <typename E>
+    bool ListenTo() {
+        return Application::Instance().dispatcher().On(E::TYPE, shared_from_this());
+    }
+
+    bool StopListering() {
+        return Application::Instance().dispatcher().Off(shared_from_this());
+    }
+
+    const bool paused() const { return paused_; }
+    void Pause()  { paused_ = true; }
     void Resume() { paused_ = false; }
-    bool paused() { return paused_ };
 
 private:
     bool paused_;
@@ -65,6 +78,11 @@ private:
 template <typename T>
 class EventDelegator : public EventListener {
 public:
+    static shared_ptr<EventListener> Create(T *handler) {
+        shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
+        return make_shared<EventDelegator<T> >(handler_ptr);
+    }
+
     EventDelegator(weak_ptr<T> handler)
         : handler_(handler) {
     }
@@ -77,10 +95,6 @@ public:
         } else {
             return false;
         }
-    }
-
-    virtual bool listening() {
-        return !!handler_.lock();
     }
 
 private:
@@ -145,12 +159,6 @@ public:
 
     bool Tick(const ii_time max_time);
 
-    template <typename T>
-    shared_ptr<EventListener> CreateListener(T *handler) {
-        shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
-        return make_shared<EventDelegator<T> >(handler_ptr);
-    }
-
 private:
     bool IsValidType(const EventType& type) const;
     bool IsListerningType(const EventType& type) const;
@@ -169,4 +177,3 @@ private:
 }
 
 #endif /* defined(__sometuke__event_dispacher__) */
-
