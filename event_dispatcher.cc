@@ -1,5 +1,7 @@
 #include "sometuke/event_dispatcher.h"
 
+#include "sometuke/application.h"
+
 #include <functional>
 #include <cassert>
 
@@ -70,13 +72,13 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
         shared_ptr<EventListener> listener = i->second;
-        if (listener->listening()) {
+        if (!listener->paused()) {
             emitted = true;
-            listener->HandleEvent(event);
-            ++i;
-        } else {
-            listeners_.erase(i++);
+            if (!listener->HandleEvent(event)) {
+                listeners_.erase(i++);
+            }
         }
+        ++i;
     }
 
     return emitted;

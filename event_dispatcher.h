@@ -4,7 +4,6 @@
 #include "sometuke/types.h"
 #include "sometuke/memory_pool.h"
 #include "sometuke/hashed_string.h"
-#include "sometuke/application.h"
 
 #include <memory>
 #include <list>

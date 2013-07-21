@@ -5,6 +5,7 @@
 #include "sometuke/vertices.h"
 #include "sometuke/director.h"
 #include "sometuke/assets_loader.h"
+#include "sometuke/event_dispatcher.h"
 
 #include <memory>
 #include <OpenGLES/ES2/gl.h>

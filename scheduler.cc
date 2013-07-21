@@ -46,7 +46,7 @@ void Timer::Schedule() {
 }
 
 void Timer::UnSchedule() {
-    Application::Instance().scheduler().UnSchedule(shared_from_this());
+    Application::Instance().scheduler().Unschedule(shared_from_this());
 }
 
 }

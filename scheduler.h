@@ -50,6 +50,15 @@ public:
     void Resume() { paused_ = false; }
 
     void Schedule();
+    void Schedule(const ii_time interval,
+                  const unsigned int repeat = REPEAT_FOREVER,
+                  const ii_time delay = 0) {
+        set_interval(interval);
+        set_repeat(repeat);
+        set_delay(delay);
+        Schedule();
+    }
+    
     void UnSchedule();
 
 private:

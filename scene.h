@@ -39,20 +39,6 @@ public:
     virtual bool HandleEvent(shared_ptr<Event> event) = 0;
     virtual bool Update(const ii_time delta) { return true; }
 
-    const shared_ptr<EventListener>& listener() {
-        if (!listener_) {
-            listener_ = EventDelegator<Scene>::Create(this);
-        }
-        return listener_;
-    }
-
-    const shared_ptr<Timer>& timer() {
-        if (!timer_) {
-            timer_ = TimerDelegator<Scene>::Create(this);
-        }
-        return timer_;
-    }
-
     void Visit() {
         root_node_->Visit();
         Render();
@@ -106,6 +92,21 @@ public:
 
     shared_ptr<Actor> operator[](const ActorId& id) {
         return actor_table_[id];
+    }
+
+protected:
+    EventListener& listener() {
+        if (!listener_) {
+            listener_ = EventDelegator<Scene>::Create(this);
+        }
+        return *listener_;
+    }
+
+    Timer& timer() {
+        if (!timer_) {
+            timer_ = TimerDelegator<Scene>::Create(this);
+        }
+        return *timer_;
     }
 
 private:

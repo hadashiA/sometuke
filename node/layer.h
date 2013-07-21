@@ -66,13 +66,6 @@ public:
 
     virtual bool HandleEvent(shared_ptr<Event> event) = 0;
 
-    const shared_ptr<EventListener>& listener() {
-        if (!listener_) {
-            listener_ = EventDelegator<Layer>::Create(this);
-        }
-        return listener_;
-    }
-
     shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     
     shared_ptr<Node> operator[](const ActorId& id) {
@@ -80,6 +73,13 @@ public:
     }
 
 protected:
+    EventListener& listener() {
+        if (!listener_) {
+            listener_ = EventDelegator<Layer>::Create(this);
+        }
+        return *listener_;
+    }
+
     ActorNodeTable actor_node_table_;
     shared_ptr<EventListener> listener_;
 };

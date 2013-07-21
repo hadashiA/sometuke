@@ -244,13 +244,6 @@ public:
     virtual bool Init() { return true; }
     virtual void Render()  {}
 
-    const shared_ptr<Timer>& timer() {
-        if (!timer_) {
-            timer_ = TimerDelegator<Node>::Create(this);
-        }
-        return timer_;
-    }
-
     void Enter() {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
@@ -301,6 +294,13 @@ public:
     }
 
 protected:
+    Timer& timer() {
+        if (!timer_) {
+            timer_ = TimerDelegator<Node>::Create(this);
+        }
+        return *timer_;
+    }
+
     vec3 position_;
     float scale_x_;
     float scale_y_;
