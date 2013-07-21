@@ -47,6 +47,10 @@ typedef vector<shared_ptr<Touch> > TouchSet;
     
 class TargetedTouchListener {
 public:
+    TargetedTouchListener()
+        : paused_(false) {
+    }
+
     virtual ~TargetedTouchListener() {}
 
     bool TouchStart(shared_ptr<Touch> touch) {
@@ -78,7 +82,10 @@ public:
         }
     }
 
-    virtual bool listening() const = 0;
+    void Pause()  { paused_ = true; }
+    void Resume() { paused_ = false; }
+    const bool paused() const { return paused_; }
+
     virtual bool shallows_touches() const = 0;
 
     virtual bool TouchBegan(shared_ptr<Touch> touch) = 0;
@@ -88,17 +95,29 @@ public:
 
 private:
     unordered_set<TouchId> claimed_touch_ids_;
+    bool paused_;
 };
 
 class StandardTouchListener {
 public:
+    StandardTouchListener()
+        : paused_(false) {
+    }
+    
     virtual ~StandardTouchListener() {}
 
-    virtual bool listening() const = 0;
+    void Pause()  { paused_ = true; }
+    void Resume() { paused_ = false; }
+    
+    const bool paused() const { return paused_; };
+
     virtual void TouchesBegan(const TouchSet& touches) = 0;
     virtual void TouchesMoved(const TouchSet& touches) = 0;
     virtual void TouchesEnded(const TouchSet& touches) = 0;
     virtual void TouchesCancelled(const TouchSet& touches) = 0;
+
+private:
+    bool paused_;
 };
     
 typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;

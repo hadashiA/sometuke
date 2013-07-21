@@ -50,7 +50,7 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
             for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
                  i != targeted_listeners_.end();) {
                 const shared_ptr<TargetedTouchListener>& listener = i->second;
-                if (listener && listener->listening()) {
+                if (listener && !listener->paused()) {
                     bool claimed = false;
                     if (phase == kTouchBegan) {
                         claimed = listener->TouchStart(touch);
@@ -74,7 +74,7 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
             for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
                  i != standard_listeners_.end();) {
                 const shared_ptr<StandardTouchListener>& listener = i->second;
-                if (listener && listener->listening()) {
+                if (listener && !listener->paused()) {
                     switch (phase) {
                     case kTouchBegan:
                         listener->TouchesBegan(touches);
