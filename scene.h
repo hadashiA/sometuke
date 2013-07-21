@@ -36,7 +36,7 @@ public:
     virtual void OnExit()    {}
     virtual void OnCleanup() {}
 
-    virtual bool HandleEvent(shared_ptr<Event> event) = 0;
+    virtual bool HandleEvent(const Event& event) = 0;
     virtual bool Update(const ii_time delta) { return true; }
 
     void Visit() {
