@@ -75,7 +75,7 @@ public:
 protected:
     EventListener& listener() {
         if (!listener_) {
-            listener_ = EventDelegator<Layer>::Create(this);
+            listener_ = EventAdapter<Layer>::Create(this);
         }
         return *listener_;
     }

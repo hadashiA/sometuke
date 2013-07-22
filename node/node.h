@@ -296,7 +296,7 @@ public:
 protected:
     Timer& timer() {
         if (!timer_) {
-            timer_ = TimerDelegator<Node>::Create(this);
+            timer_ = TimerAdapter<Node>::Create(this);
         }
         return *timer_;
     }

@@ -71,18 +71,18 @@ private:
 };
 
 template <typename T>
-class EventDelegator : public EventListener {
+class EventAdapter : public EventListener {
 public:
     static shared_ptr<EventListener> Create(T *handler) {
         shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
-        return make_shared<EventDelegator<T> >(handler_ptr);
+        return make_shared<EventAdapter<T> >(handler_ptr);
     }
 
-    EventDelegator(weak_ptr<T> handler)
+    EventAdapter(weak_ptr<T> handler)
         : handler_(handler) {
     }
 
-    virtual ~EventDelegator() {}
+    virtual ~EventAdapter() {}
 
     virtual bool HandleEvent(const shared_ptr<Event>& e) {
         if (shared_ptr<T> handler_ptr = handler_.lock()) {

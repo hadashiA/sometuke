@@ -75,17 +75,17 @@ private:
 class ProcessManager;
 
 template <class T>
-class TimerDelegator : public Timer {
+class TimerAdapter : public Timer {
 public:
     static shared_ptr<Timer> Create(T *handler,
                                     const ii_time interval = 0,
                                     const unsigned int repeat = Timer::REPEAT_FOREVER,
                                     const ii_time delay = 0) {
         shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
-        return make_shared<TimerDelegator<T> >(handler_ptr, interval, repeat, delay);
+        return make_shared<TimerAdapter<T> >(handler_ptr, interval, repeat, delay);
     }
 
-    TimerDelegator(weak_ptr<T> delegate,
+    TimerAdapter(weak_ptr<T> delegate,
                   const ii_time interval = 0,
                   const unsigned int repeat = Timer::REPEAT_FOREVER,
                   const ii_time delay = 0)

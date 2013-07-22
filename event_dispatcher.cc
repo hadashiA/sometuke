@@ -1,6 +1,7 @@
 #include "sometuke/event_dispatcher.h"
 
 #include "sometuke/application.h"
+#include "sometuke/logger.h"
 
 #include <functional>
 #include <cassert>

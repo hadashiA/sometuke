@@ -97,14 +97,14 @@ public:
 protected:
     EventListener& listener() {
         if (!listener_) {
-            listener_ = EventDelegator<Scene>::Create(this);
+            listener_ = EventAdapter<Scene>::Create(this);
         }
         return *listener_;
     }
 
     Timer& timer() {
         if (!timer_) {
-            timer_ = TimerDelegator<Scene>::Create(this);
+            timer_ = TimerAdapter<Scene>::Create(this);
         }
         return *timer_;
     }
