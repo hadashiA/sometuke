@@ -7,17 +7,15 @@
 
 namespace sometuke {
 
-void TouchDispatcher::AddListener(shared_ptr<StandardTouchListener> listener, int priority) {
-    pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);
-    standard_listeners_.insert(val);
+void TargetedTouchListener::Listen(int priority) {
+    TouchDispatcher::Instance().AddListener(shared_from_this(), priority);
 }
 
-void TouchDispatcher::AddListener(shared_ptr<TargetedTouchListener> listener, int priority) {
-    pair<int, shared_ptr<TargetedTouchListener> > val(priority, listener);
-    targeted_listeners_.insert(val);
+void StandardTouchListener::Listen(int priority) {
+    TouchDispatcher::Instance().AddListener(shared_from_this(), priority);
 }
 
-void TouchDispatcher::RemoveListener(shared_ptr<StandardTouchListener> listener) {
+void TouchDispatcher::RemoveListener(const shared_ptr<StandardTouchListener>& listener) {
     for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
          i != standard_listeners_.end();) {
         if (listener == i->second) {
@@ -28,7 +26,7 @@ void TouchDispatcher::RemoveListener(shared_ptr<StandardTouchListener> listener)
     }
 }
 
-void TouchDispatcher::RemoveListener(shared_ptr<TargetedTouchListener> listener) {
+void TouchDispatcher::RemoveListener(const shared_ptr<TargetedTouchListener>& listener) {
     for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
          i != targeted_listeners_.end();) {
         if (listener == i->second) {

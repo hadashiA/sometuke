@@ -10,8 +10,6 @@
 #include <map>
 #include <ctime>
 
-#include <uuid/uuid.h>
-
 namespace sometuke {
 using namespace std;
 
