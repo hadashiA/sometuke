@@ -10,7 +10,7 @@
 namespace sometuke {
 using namespace std;
 
-typedef unordered_map<ActorId, weak_ptr<Node>, ActorIdHash> ActorNodeTable;
+typedef unordered_map<ActorId, weak_ptr<Node> > ActorNodeTable;
 
 class Layer : public Node {
 public:

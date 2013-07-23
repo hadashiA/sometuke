@@ -15,7 +15,7 @@ using namespace std;
 
 class Actor;
 
-typedef unordered_map<ActorId, shared_ptr<Actor>, ActorIdHash> ActorTable;
+typedef unordered_map<ActorId, shared_ptr<Actor> > ActorTable;
 
 class Scene : public enable_shared_from_this<Scene> {
 public:

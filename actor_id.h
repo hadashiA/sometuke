@@ -60,13 +60,17 @@ private:
     shared_ptr<unsigned char> uuid_ptr_;
 };
 
-struct ActorIdHash : public unary_function<ActorId, size_t> {
-    size_t operator()(const ActorId& value) const {
-        std::hash<string> hash;
-        return hash(value.str());
-    }
-};
+}
 
+namespace std {
+    template <> struct hash<sometuke::ActorId>
+    {
+        size_t operator()(const sometuke::ActorId& value) const {
+            /* your code here, e.g. "return hash<int>()(x.value);" */
+            std::hash<string> hash;
+            return hash(value.str());
+        }
+    };
 }
 
 #endif /* defined(__sometuke__actor_id__) */
