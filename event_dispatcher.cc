@@ -60,13 +60,14 @@ bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> liste
     return true;
 }
 
-bool EventDispatcher::Trigger(shared_ptr<Event> event) {
+bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     const EventType& type = event->type;
 
     if (!IsValidType(type) || !IsListerningType(type)) {
         return false;
     }
 
+    event->timestamp = Application::Instance().scheduler().Now();
     bool emitted = false;
 
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
@@ -85,7 +86,7 @@ bool EventDispatcher::Trigger(shared_ptr<Event> event) {
     return emitted;
 }
 
-bool EventDispatcher::Queue(shared_ptr<Event> event) {
+bool EventDispatcher::Queue(const shared_ptr<Event>& event) {
     assert(active_queue_index_ >= 0);
     assert(active_queue_index_ < NUM_QUEUES);
 
@@ -93,6 +94,7 @@ bool EventDispatcher::Queue(shared_ptr<Event> event) {
         return false;
     }
 
+    event->timestamp = Application::Instance().scheduler().Now();
     queues_[active_queue_index_].push_back(event);
 
     return true;

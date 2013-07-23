@@ -8,7 +8,8 @@
 #include <memory>
 #include <list>
 #include <map>
-#include <ctime>
+
+#include <cmath>
 
 namespace sometuke {
 using namespace std;
@@ -17,19 +18,17 @@ typedef HashedString EventType;
 
 struct Event {
     Event(const EventType& t)
-        : type(t),
-          timestamp(std::time(NULL)) {
+        : type(t) {
     }
 
     Event(const string& str)
-        : type(EventType(str)),
-          timestamp(std::time(NULL)) {
+        : type(EventType(str)) {
     }
 
     virtual ~Event() {}
 
     EventType type;
-    time_t timestamp;
+    double timestamp;
 };
 
 typedef enum {
@@ -122,7 +121,7 @@ public:
         return Off(E::TYPE, listener);
     }
 
-    bool Trigger(shared_ptr<Event> event);
+    bool Trigger(const shared_ptr<Event>& event);
 
     template <class T>
     bool Trigger() {
@@ -136,7 +135,7 @@ public:
         return Trigger(event);
     }
 
-    bool Queue(shared_ptr<Event> event);
+    bool Queue(const shared_ptr<Event>& event);
 
     template<class T>
     bool Queue() {

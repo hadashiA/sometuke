@@ -7,6 +7,9 @@
 #include <list>
 #include <map>
 #include <cassert>
+#include <cmath>
+#include <iostream>
+#include <sys/time.h>
 
 namespace sometuke {
 using namespace std;
@@ -127,6 +130,14 @@ public:
                 ++i;
             }
         }
+    }
+
+    double Now() {
+        timeval tv;
+        gettimeofday(&tv, NULL);
+        
+        double msec = floor(tv.tv_usec * 0.001) * 0.001;
+        return ((double)(tv.tv_sec) + msec);
     }
 
 private:
