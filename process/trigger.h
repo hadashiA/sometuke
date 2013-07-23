@@ -18,7 +18,7 @@ public:
         return TYPE;
     }
 
-    virtual bool Update(const ii_time delta) {
+    virtual bool Update(const s2_time delta) {
         Application::Instance().dispatcher().Queue(event_);
         return false;
     }

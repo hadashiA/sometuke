@@ -15,9 +15,9 @@ class Timer : public enable_shared_from_this<Timer> {
 public:
     static const unsigned int REPEAT_FOREVER;
 
-    Timer(const ii_time interval = 0,
+    Timer(const s2_time interval = 0,
           const unsigned int repeat = REPEAT_FOREVER,
-          const ii_time delay = 0)
+          const s2_time delay = 0)
         : paused_(false) {
         set_interval(interval);
         set_repeat(repeat);
@@ -26,10 +26,10 @@ public:
 
     virtual ~Timer() {}
 
-    virtual bool Tick(const ii_time delta_time);
-    virtual bool Update(const ii_time delta) = 0;
+    virtual bool Tick(const s2_time delta_time);
+    virtual bool Update(const s2_time delta) = 0;
 
-    void set_interval(const ii_time interval) {
+    void set_interval(const s2_time interval) {
         interval_ = interval;
         elapsed_  = 0;
     }
@@ -40,7 +40,7 @@ public:
         num_executed_ = 0;
     }
 
-    void set_delay(const ii_time delay) {
+    void set_delay(const s2_time delay) {
         delay_ = delay;
         use_delay_ = (delay > 0);
     }
@@ -50,9 +50,9 @@ public:
     void Resume() { paused_ = false; }
 
     void Schedule();
-    void Schedule(const ii_time interval,
+    void Schedule(const s2_time interval,
                   const unsigned int repeat = REPEAT_FOREVER,
-                  const ii_time delay = 0) {
+                  const s2_time delay = 0) {
         set_interval(interval);
         set_repeat(repeat);
         set_delay(delay);
@@ -63,9 +63,9 @@ public:
 
 private:
     bool paused_;
-    ii_time elapsed_;
-    ii_time interval_;
-    ii_time delay_;
+    s2_time elapsed_;
+    s2_time interval_;
+    s2_time delay_;
     bool use_delay_;
     unsigned int repeat_;
     bool run_forever_;
@@ -78,22 +78,22 @@ template <class T>
 class TimerAdapter : public Timer {
 public:
     static shared_ptr<Timer> Create(T *handler,
-                                    const ii_time interval = 0,
+                                    const s2_time interval = 0,
                                     const unsigned int repeat = Timer::REPEAT_FOREVER,
-                                    const ii_time delay = 0) {
+                                    const s2_time delay = 0) {
         shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
         return make_shared<TimerAdapter<T> >(handler_ptr, interval, repeat, delay);
     }
 
     TimerAdapter(weak_ptr<T> delegate,
-                  const ii_time interval = 0,
+                  const s2_time interval = 0,
                   const unsigned int repeat = Timer::REPEAT_FOREVER,
-                  const ii_time delay = 0)
+                  const s2_time delay = 0)
         : Timer(interval, repeat, delay),
           delegate_(delegate) {
     }
 
-    virtual bool Update(const ii_time delta) {
+    virtual bool Update(const s2_time delta) {
         if (shared_ptr<T> delegate = delegate_.lock()) {
             return delegate->Update(delta);
         } else {
@@ -117,7 +117,7 @@ public:
         timers_.remove(timer);
     }
     
-    void Update(const ii_time delta_time) {
+    void Update(const s2_time delta_time) {
         for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
             shared_ptr<Timer> timer = (*i);
             

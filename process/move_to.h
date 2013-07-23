@@ -14,7 +14,7 @@ class MoveTo : public Interval {
 public:
     static const HashedString TYPE;
 
-    MoveTo(shared_ptr<Node> target, const ii_time duration, const vec3& to)
+    MoveTo(shared_ptr<Node> target, const s2_time duration, const vec3& to)
         : Interval(duration),
           target_(target),
           to_(to) {

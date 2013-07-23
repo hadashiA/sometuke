@@ -29,13 +29,13 @@ void Animate::OnExit() {
     }
 }
 
-bool Animate::Update(const ii_time delta_time) {
+bool Animate::Update(const s2_time delta_time) {
     shared_ptr<Sprite> sprite = target_.lock();
     if (!sprite) {
         return false;
     }
 
-    ii_time current_frame_time = animation_->frames[frame_num_].time;
+    s2_time current_frame_time = animation_->frames[frame_num_].time;
     if (elapsed_ > current_frame_time) {
         elapsed_ = 0;
         

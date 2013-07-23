@@ -5,7 +5,7 @@ namespace sometuke {
 const HashedString ProcessTimer::TYPE("process:timer");
 const unsigned int ProcessTimer::REPEAT_FOREVER(UINT_MAX - 1);
 
-bool ProcessTimer::Update(const ii_time delta_time) {
+bool ProcessTimer::Update(const s2_time delta_time) {
     // standard timer usage
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;

@@ -98,7 +98,7 @@ bool EventDispatcher::Queue(shared_ptr<Event> event) {
     return true;
 }
 
-bool EventDispatcher::Tick(const ii_time max_time) {
+bool EventDispatcher::Tick(const s2_time max_time) {
     std::list<shared_ptr<Event> > queue = queues_[active_queue_index_];
 
     // swap active queues, make sure new queue is empty after the swap..

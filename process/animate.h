@@ -30,7 +30,7 @@ public:
 
     virtual void OnEnter();
     virtual void OnExit();
-    virtual bool Update(const ii_time delta);
+    virtual bool Update(const s2_time delta);
     
     shared_ptr<Sprite> target() {
         return target_.lock();
@@ -39,7 +39,7 @@ public:
 private:
     unsigned int frame_num_;
     shared_ptr<Animation> animation_;
-    ii_time elapsed_;
+    s2_time elapsed_;
     unsigned int executed_loops_;
 
     weak_ptr<Sprite> target_;

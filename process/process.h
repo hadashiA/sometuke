@@ -46,15 +46,15 @@ public:
         paused_ = true;
     }
 
-    virtual bool Update(const ii_time delta) = 0;
+    virtual bool Update(const s2_time delta) = 0;
     
     virtual const HashedString& type() const = 0;
 
     shared_ptr<Process> Repeat(int repeat = -1);
-    shared_ptr<Process> Delay(const ii_time duration);
-    shared_ptr<Process> Interval(const ii_time interval);
-    shared_ptr<Process> Timer(const ii_time interval,
-                              const unsigned int repeat, const ii_time delay);
+    shared_ptr<Process> Delay(const s2_time duration);
+    shared_ptr<Process> Interval(const s2_time interval);
+    shared_ptr<Process> Timer(const s2_time interval,
+                              const unsigned int repeat, const s2_time delay);
 
     template<class T>
     shared_ptr<Sequence> Chain();

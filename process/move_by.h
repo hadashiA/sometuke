@@ -10,7 +10,7 @@ class MoveBy : public Interval {
 public:
     static const HashedString TYPE;
 
-    MoveBy(shared_ptr<Node> target, const ii_time duration, const vec3 delta)
+    MoveBy(shared_ptr<Node> target, const s2_time duration, const vec3 delta)
         : target_(target),
           Interval(duration),
           delta_(delta) {

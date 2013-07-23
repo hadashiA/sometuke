@@ -31,7 +31,7 @@ public:
         inner_process_->Exit();
     }
 
-    virtual bool Update(const ii_time delta) {
+    virtual bool Update(const s2_time delta) {
         bool continued = inner_process_->Update(delta);
         
         if (continued) {

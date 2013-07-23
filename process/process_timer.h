@@ -21,7 +21,7 @@ public:
           run_forever_(true) {
     }
 
-    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval)
+    ProcessTimer(shared_ptr<Process> inner_process, const s2_time interval)
         : inner_process_(inner_process),
           elapsed_(0),
           num_executed_(0),
@@ -32,8 +32,8 @@ public:
           run_forever_(true) {
     }
 
-    ProcessTimer(shared_ptr<Process> inner_process, const ii_time interval,
-                 const unsigned int repeat, const ii_time delay)
+    ProcessTimer(shared_ptr<Process> inner_process, const s2_time interval,
+                 const unsigned int repeat, const s2_time delay)
         : inner_process_(inner_process),
           elapsed_(0),
           num_executed_(0),
@@ -60,13 +60,13 @@ public:
         inner_process_->Exit();
     }
 
-    virtual bool Update(const ii_time delta_time);
+    virtual bool Update(const s2_time delta_time);
 
 private:    
     shared_ptr<Process> inner_process_;
-    ii_time elapsed_;
-    ii_time interval_;
-    ii_time delay_;
+    s2_time elapsed_;
+    s2_time interval_;
+    s2_time delay_;
     bool use_delay_;
     unsigned int repeat_;
     bool run_forever_;

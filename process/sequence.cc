@@ -6,7 +6,7 @@ namespace sometuke {
 
 const HashedString Sequence::TYPE("process:sequence");
 
-bool Sequence::Update(const ii_time delta_time) {
+bool Sequence::Update(const s2_time delta_time) {
     shared_ptr<Process> process = processes_[current_];
     bool continued = (process && process->Update(delta_time));
 

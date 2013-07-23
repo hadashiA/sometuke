@@ -21,7 +21,7 @@ void ProcessManager::Dettach(const shared_ptr<Process>& process) {
     }
 }
 
-bool ProcessManager::Update(const ii_time delta_time) {
+bool ProcessManager::Update(const s2_time delta_time) {
     for (ProcessList::iterator i = process_list_.begin(); i != process_list_.end();) {
         shared_ptr<Process> process = (*i);
             

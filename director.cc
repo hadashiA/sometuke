@@ -54,7 +54,7 @@ void Director::ReshapeProjection() {
     CHECK_GL_ERROR();
 }
 
-void Director::MainLoop(const ii_time delta_time) {
+void Director::MainLoop(const s2_time delta_time) {
     event_dispatcher_->Tick(0.02);
     scheduler_->Update(delta_time);
     process_manager_->Update(delta_time);
@@ -106,7 +106,7 @@ bool Director::CreateStatsLabel() {
     return true;
 }
 
-void Director::ShowStats(const ii_time delta) {
+void Director::ShowStats(const s2_time delta) {
     stringstream ss;
 
     frames_++;

@@ -9,7 +9,7 @@ class Delay : public Interval {
 public:
     static const HashedString TYPE;
 
-    Delay(const ii_time duration)
+    Delay(const s2_time duration)
         : Interval(duration) {
     }
 
@@ -19,7 +19,7 @@ public:
         return Delay::TYPE;
     }
 
-    virtual bool Progress(const ii_time progress) {
+    virtual bool Progress(const s2_time progress) {
         return true;
     }
 

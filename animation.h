@@ -14,13 +14,13 @@ namespace sometuke {
 using namespace std;
 
 struct AnimationFrame {
-    AnimationFrame(shared_ptr<SpriteFrame> f, ii_time t, shared_ptr<Event> e = NULL)
+    AnimationFrame(shared_ptr<SpriteFrame> f, s2_time t, shared_ptr<Event> e = NULL)
         : sprite_frame(f),
           time(t) {
     }
 
     shared_ptr<SpriteFrame> sprite_frame;
-    ii_time time;
+    s2_time time;
 };
 
 struct Animation {
@@ -35,7 +35,7 @@ struct Animation {
           loops(l) {
     }
 
-    void Push(const char *sprite_frame_name, ii_time t, shared_ptr<Event> e = NULL) {
+    void Push(const char *sprite_frame_name, s2_time t, shared_ptr<Event> e = NULL) {
         SpriteFrameCache& cache = SpriteFrameCache::Instance();
         shared_ptr<SpriteFrame> sprite_frame = cache[sprite_frame_name];
         if (!sprite_frame) {

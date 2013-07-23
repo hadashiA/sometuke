@@ -20,7 +20,7 @@ class ProcessManager {
 public:
     shared_ptr<Process> Attach(const shared_ptr<Process>& process);
     void Dettach(const shared_ptr<Process>& process);
-    bool Update(const ii_time delta_time);
+    bool Update(const s2_time delta_time);
 
 private:
     ProcessList process_list_;

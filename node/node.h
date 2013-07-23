@@ -239,7 +239,7 @@ public:
         return paused_;
     }
 
-    virtual bool Update(const ii_time delta_time) { return true; }   // Is not called by default
+    virtual bool Update(const s2_time delta_time) { return true; }   // Is not called by default
 
     virtual bool Init() { return true; }
     virtual void Render()  {}

@@ -47,7 +47,7 @@ public:
     }
 
     void ReshapeProjection();
-    void MainLoop(const ii_time delta_time);
+    void MainLoop(const s2_time delta_time);
 
     void RunWithScene(shared_ptr<Scene> scene);
     // void ReplaceScene(shared_ptr<Scene> scene);
@@ -75,7 +75,7 @@ public:
         return debug_drawing_;
     }
 
-    void set_stats_interval(ii_time value) {
+    void set_stats_interval(s2_time value) {
         stats_interval_ = value;
     }
 
@@ -87,7 +87,7 @@ private:
     Director& operator=(const Director&);
 
     bool CreateStatsLabel();
-    void ShowStats(const ii_time delta);
+    void ShowStats(const s2_time delta);
     
 
     unique_ptr<Scheduler> scheduler_;
@@ -102,11 +102,11 @@ private:
     // stats
     unsigned int frames_;
     unsigned int total_frames_;
-    ii_time accum_dt_;
+    s2_time accum_dt_;
     float frame_rate_;
 
     bool stats_shown_;
-    ii_time stats_interval_;
+    s2_time stats_interval_;
     bool debug_drawing_;
 
     // debug

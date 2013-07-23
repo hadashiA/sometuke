@@ -150,7 +150,7 @@ public:
         return Queue(event);
     }
 
-    bool Tick(const ii_time max_time);
+    bool Tick(const s2_time max_time);
 
 private:
     bool IsValidType(const EventType& type) const;

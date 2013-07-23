@@ -7,7 +7,7 @@
 namespace sometuke {
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
 
-bool Timer::Tick(const ii_time delta_time) {
+bool Timer::Tick(const s2_time delta_time) {
     // standard timer usage
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;

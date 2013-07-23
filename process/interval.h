@@ -12,7 +12,7 @@ using std::max;
 
 class Interval : public Process {
 public:
-    Interval(ii_time duration = FLT_EPSILON)
+    Interval(s2_time duration = FLT_EPSILON)
         : duration_(duration) {
     }
 
@@ -22,7 +22,7 @@ public:
         elapsed_ = 0;
     }
 
-    virtual bool Update(const ii_time delta) {
+    virtual bool Update(const s2_time delta) {
         elapsed_ += delta;
         // percentage of duration
         float progress = elapsed_ / max<float>(duration_, FLT_EPSILON);
@@ -37,8 +37,8 @@ public:
     virtual bool Progress(const float progress) = 0;
 
 protected:
-    ii_time duration_;
-    ii_time elapsed_;
+    s2_time duration_;
+    s2_time elapsed_;
 };
 
 }

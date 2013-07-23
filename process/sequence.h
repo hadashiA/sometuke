@@ -76,7 +76,7 @@ public:
         process->Exit();
     }
 
-    virtual bool Update(const ii_time delta_time);
+    virtual bool Update(const s2_time delta_time);
 
     shared_ptr<Sequence> Push(shared_ptr<Process> process) {
         processes_.push_back(process);
