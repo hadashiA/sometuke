@@ -1,7 +1,7 @@
 #ifndef __sometuke__process_process__
 #define __sometuke__process_process__
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/hashed_string.h"
 #include "sometuke/types.h"
 #include "sometuke/memory_pool.h"
@@ -31,7 +31,7 @@ public:
     void Resume() { paused_ = false; }
 
     virtual EventDispatcher& dispatcher() const {
-        return Application::Instance().dispatcher();
+        return Director::Instance().dispatcher();
     }
 
     void Enter() {

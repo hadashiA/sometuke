@@ -8,7 +8,7 @@
 #import <CoreMotion/CoreMotion.h>
 
 #import "S2Protocols.h"
-#import "sometuke/application.h"
+#import "sometuke/director.h"
 
 @interface S2ApplicationView : UIView <S2GameLoop> {
     GLint backingWidth_;
@@ -71,7 +71,7 @@
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
 
-@property (nonatomic, readonly) sometuke::Application *application;
+@property (nonatomic, readonly) sometuke::Director *director;
 
 @property (nonatomic, readonly) GLint backingWidth;
 @property (nonatomic, readonly) GLint backingHeight;

@@ -5,7 +5,7 @@
 
 #include "sometuke/vector.h"
 #include "sometuke/shader_cache.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 
 namespace sometuke {
 
@@ -79,7 +79,7 @@ public:
     }
 
     const vec2 content_size() const {
-        return content_size_ / Application::Instance().content_scale_factor();
+        return content_size_ / Director::Instance().content_scale_factor();
     }
 
     void set_tex_parameters(const GLuint min_filter,

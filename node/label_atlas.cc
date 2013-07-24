@@ -26,7 +26,7 @@ void LabelAtlas::UpdateAtlasValues() {
     shared_ptr<Texture2D> texture = texture_atlas_->texture();
     vec2 pixel_size = texture->pixel_size();
 
-    float content_scale_factor = Application::Instance().content_scale_factor();
+    float content_scale_factor = Director::Instance().content_scale_factor();
     float item_width_in_pixels  = item_width_  * content_scale_factor;
     float item_height_in_pixels = item_height_ * content_scale_factor;
 
@@ -76,7 +76,7 @@ void LabelAtlas::Render() {
     AtlasNode::Render();
 
 #if KAWAII_DEBUG
-    if (Application::Instance().director().debug_drawing()) {
+    if (Director::Instance().director().debug_drawing()) {
         vec2 size = content_size();
         vec2 vertices[4] = {
             vec2(0, 0), vec2(size.x, 0), vec2(size.x, size.y), vec2(0, size.y)

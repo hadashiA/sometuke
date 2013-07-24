@@ -1,7 +1,7 @@
 #include "sometuke/sprite_frame_cache.h"
 
 #include "sometuke/sprite_frame.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/assets_loader.h"
 #include "sometuke/texture_cache.h"
 #include "sometuke/logger.h"
@@ -23,7 +23,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
     loaded_filenames_.insert(hashed_json_path.id());
 
-    AssetsLoader& loader = Application::Instance().loader();
+    AssetsLoader& loader = Director::Instance().loader();
     const string& path = loader.FullPathFromRelativePath(json_path);
     ifstream io(path);
 

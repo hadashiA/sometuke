@@ -1,6 +1,6 @@
 #include "sometuke/event_dispatcher.h"
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/logger.h"
 
 #include <functional>
@@ -9,11 +9,11 @@
 namespace sometuke {
 
 bool EventListener::ListenTo(const EventType& type) {
-    return Application::Instance().dispatcher().On(type, shared_from_this());
+    return Director::Instance().dispatcher().On(type, shared_from_this());
 }
 
 bool EventListener::StopListering() {
-    return Application::Instance().dispatcher().Off(shared_from_this());
+    return Director::Instance().dispatcher().Off(shared_from_this());
 }
 
 bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
@@ -67,7 +67,7 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
         return false;
     }
 
-    event->timestamp = Application::Instance().scheduler().Now();
+    event->timestamp = Director::Instance().scheduler().Now();
     bool emitted = false;
 
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
@@ -94,7 +94,7 @@ bool EventDispatcher::Queue(const shared_ptr<Event>& event) {
         return false;
     }
 
-    event->timestamp = Application::Instance().scheduler().Now();
+    event->timestamp = Director::Instance().scheduler().Now();
     queues_[active_queue_index_].push_back(event);
 
     return true;

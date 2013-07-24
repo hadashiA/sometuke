@@ -1,13 +1,13 @@
 #include "sometuke/node/layer.h"
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 
 namespace sometuke {
 
 Layer::Layer() {
     set_anchor_point(0.5, 0.5);
     set_ignore_anchor_point_for_position(true);
-    set_content_size(Application::Instance().size_in_points());
+    set_content_size(Director::Instance().size_in_points());
 }
 
 shared_ptr<Node> Layer::FindNodeByActorId(const ActorId& id) {

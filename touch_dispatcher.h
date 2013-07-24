@@ -1,7 +1,7 @@
 #ifndef __sometuke__ios_touch_dispatcher__
 #define __sometuke__ios_touch_dispatcher__
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/memory_pool.h"
 
 #include <unordered_set>
@@ -163,7 +163,7 @@ public:
     void Trigger(TouchPhase phase, TouchSet touches);
 
     // vec2 ConvertToGL(const vec2 touch_point) {
-    //     vec2 win_size = Application::Instance().size_in_points();
+    //     vec2 win_size = Director::Instance().size_in_points();
     //     return vec2(touch_point.x, win_size.y - touch_point.y);
     // }
     vec2 ConvertToGL(const vec2 touch_point);

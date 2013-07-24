@@ -120,9 +120,9 @@
         CGSize size = self.bounds.size;
         float scale = [UIScreen mainScreen].scale;
 
-        sometuke::Application& app = sometuke::Application::Instance();
-        app.set_content_scale_factor(scale);
-        app.Resize(size.width, size.height);
+        sometuke::Director& director = sometuke::Director::Instance();
+        director.set_content_scale_factor(scale);
+        director.Resize(size.width, size.height);
 
         motionManager_ = [[CMMotionManager alloc] init];
         if (motionManager_.accelerometerAvailable) {
@@ -257,7 +257,7 @@
 
 - (void)layoutSubviews {
     [self resizeFromLayer];
-    sometuke::Application::Instance().Resize(backingWidth_, backingHeight_);
+    sometuke::Director::Instance().Resize(backingWidth_, backingHeight_);
 
     // [self mainLoop:nil];
 }
@@ -272,10 +272,10 @@
     if (motionManager_.accelerometerActive) {
         //CMAccelerometerData *data = motionManager_.accelerometerData;
         //sometuke::vec2 velocity = sometuke::vec2(data.acceleration.x, data.acceleration.y);
-        //sometuke::Application::Instance().director().dispatcher().Queue<sometuke::AccelerationEvent>(velocity);
+        //sometuke::Director::Instance().dispatcher().Queue<sometuke::AccelerationEvent>(velocity);
     }
 
-    sometuke::Application::Instance().director().MainLoop(dt_);
+    sometuke::Director::Instance().MainLoop(dt_);
     [self swapBuffers];
 }
 
@@ -284,7 +284,7 @@
         return;
     }
 
-    int frameInterval = (int)floor(sometuke::Application::Instance().animation_interval() * 60.0f);
+    int frameInterval = (int)floor(sometuke::Director::Instance().animation_interval() * 60.0f);
     displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
     [displayLink_ setFrameInterval:frameInterval];
 

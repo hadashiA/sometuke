@@ -3,7 +3,7 @@
 #include "sometuke/logger.h"
 #include "sometuke/node/node.h"
 #include "sometuke/matrix_stack.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 
 namespace sometuke {
 
@@ -103,7 +103,7 @@ vec2 TouchDispatcher::ConvertToGL(const vec2 touch_point) {
     mat4 inversed  = transform.Inverse();
 
     float z_clip = transform.w.z / transform.w.w;
-    vec2 gl_size = Application::Instance().size_in_points();
+    vec2 gl_size = Director::Instance().size_in_points();
 
     vec3 clip_coord(2.0 * touch_point.x / gl_size.x - 1.0,
                     1.0 - 2.0 * touch_point.y / gl_size.y,

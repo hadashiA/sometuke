@@ -4,7 +4,7 @@
 #include "sometuke/texture_cache.h"
 #include "sometuke/texture_2d.h"
 #include "sometuke/sprite_frame.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/process/animate.h"
 #include "sometuke/drawing_primitives.h"
 #include "sometuke/OpenGL_Internal.h"
@@ -205,7 +205,7 @@ void Sprite::Render() {
     CHECK_GL_ERROR_DEBUG();
 
 #ifdef KAWAII_DEBUG
-    if (Application::Instance().director().debug_drawing()) {
+    if (Director::Instance().director().debug_drawing()) {
         vec2 vertices[4] = {
             vec2(quad_.bl.pos.x, quad_.bl.pos.y),
             vec2(quad_.br.pos.x, quad_.br.pos.y),
@@ -232,7 +232,7 @@ void Sprite::UpdateQuadColor() {
 }
 
 void Sprite::UpdateQuadTexCoords() {
-    Rect rect = vertex_rect_ * Application::Instance().content_scale_factor();
+    Rect rect = vertex_rect_ * Director::Instance().content_scale_factor();
     float atlas_width  = texture_->pixel_size().x;
     float atlas_height = texture_->pixel_size().y;
     float left, right, top, bottom;

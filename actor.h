@@ -1,7 +1,7 @@
 #ifndef __sometuke__actor__
 #define __sometuke__actor__
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/vector.h"
 #include "sometuke/hashed_string.h"
 #include "sometuke/actor_id.h"

@@ -6,7 +6,7 @@
 #include "sometuke/vector.h"
 #include "sometuke/matrix.h"
 #include "sometuke/color.h"
-#include "sometuke/application.h"
+#include "sometuke/scheduler.h"
 
 #include <vector>
 #include <memory>
@@ -286,11 +286,6 @@ public:
     const Rect bounding_box() {
         Rect rect(0, 0, content_size_.x, content_size_.y);
         return rect * LocalTransform();
-    }
-
-    // process helpers
-    virtual ProcessManager& process() const {
-        return Application::Instance().director().process();
     }
 
 protected:

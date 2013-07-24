@@ -1,6 +1,6 @@
 #include "sometuke/gl_program.h"
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/assets_loader.h"
 #include "sometuke/logger.h"
 #include "sometuke/matrix_stack.h"
@@ -38,9 +38,9 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    Application& application = Application::Instance();
-    string vShaderSource = application.loader().ReadString(vShaderFilename);
-    string fShaderSource = application.loader().ReadString(fShaderFilename);
+    AssetsLoader& loader = Director::Instance().loader();
+    string vShaderSource = loader.ReadString(vShaderFilename);
+    string fShaderSource = loader.ReadString(fShaderFilename);
     
     return LoadShaderSources(vShaderSource.c_str(), fShaderSource.c_str());
 }

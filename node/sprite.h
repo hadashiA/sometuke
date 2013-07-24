@@ -55,7 +55,7 @@ public:
     }
 
     SpriteFrame display_frame() const {
-        float content_scale_factor = Application::Instance().content_scale_factor();
+        float content_scale_factor = Director::Instance().content_scale_factor();
 
         return SpriteFrame(texture_,
                            vertex_rect_ * content_scale_factor,

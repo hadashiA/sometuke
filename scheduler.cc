@@ -1,6 +1,6 @@
 #include "sometuke/scheduler.h"
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 
 #include <climits>
 
@@ -43,11 +43,11 @@ bool Timer::Tick(const s2_time delta_time) {
 }
 
 void Timer::Schedule() {
-    Application::Instance().scheduler().Schedule(shared_from_this());
+    Director::Instance().scheduler().Schedule(shared_from_this());
 }
 
 void Timer::UnSchedule() {
-    Application::Instance().scheduler().Unschedule(shared_from_this());
+    Director::Instance().scheduler().Unschedule(shared_from_this());
 }
 
 }

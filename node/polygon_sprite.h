@@ -121,7 +121,7 @@ private:
 
         tex_coords_.clear();
         
-        float content_scale_factor = Application::Instance().content_scale_factor();
+        float content_scale_factor = Director::Instance().content_scale_factor();
         GLfloat atlas_width  = texture_->pixel_size().x * content_scale_factor;
         GLfloat atlas_height = texture_->pixel_size().y * content_scale_factor;
         

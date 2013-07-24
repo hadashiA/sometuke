@@ -3,7 +3,7 @@
 
 #include "sometuke/process/process.h"
 #include "sometuke/event_dispatcher.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 
 namespace sometuke {
 
@@ -19,7 +19,7 @@ public:
     }
 
     virtual bool Update(const s2_time delta) {
-        Application::Instance().dispatcher().Queue(event_);
+        Director::Instance().dispatcher().Queue(event_);
         return false;
     }
 

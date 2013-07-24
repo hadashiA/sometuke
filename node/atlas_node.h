@@ -25,6 +25,8 @@ public:
           blend_func_src_(GL_ONE),
           blend_func_dst_(GL_ONE_MINUS_SRC_ALPHA) {
     }
+    
+    virtual ~AtlasNode() {}
 
     bool InitWithTileFile(const string& path,
                           size_t tile_width, size_t tile_height,

@@ -2,7 +2,7 @@
 #define __sometuke__sprite_frame__
 
 #include "sometuke/vertices.h"
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/hashed_string.h"
 
 #include "sometuke/picojson/picojson.h"
@@ -54,7 +54,7 @@ public:
 
 private:
     void UpdatePixelSize() {
-        float content_scale_factor = Application::Instance().content_scale_factor();
+        float content_scale_factor = Director::Instance().content_scale_factor();
         rect          = rect_in_pixels / content_scale_factor;
         offset        = offset_in_pixels / content_scale_factor;
         original_size = original_size_in_pixels / content_scale_factor;

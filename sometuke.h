@@ -3,14 +3,10 @@
 
 #include "sometuke/memory_pool.h"
 
-#include "sometuke/application.h"
 #include "sometuke/director.h"
 
 #include "sometuke/types.h"
-#include "sometuke/scheduler.h"
-#include "sometuke/event_dispatcher.h"
 
-#include "sometuke/assets_loader.h"
 #include "sometuke/texture_2d.h"
 #include "sometuke/texture_cache.h"
 #include "sometuke/sprite_frame_cache.h"

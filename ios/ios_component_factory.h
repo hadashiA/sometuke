@@ -1,7 +1,7 @@
 #ifndef __sometuke__ios_component_factory__
 #define __sometuke__ios_component_factory__
 
-#include "sometuke/application.h"
+#include "sometuke/director.h"
 #include "sometuke/ios/ios_assets_loader.h"
 
 namespace sometuke {
