@@ -32,6 +32,9 @@ void DrawColor(const Color4F& color) {
     color_ = color;
 }
 
+void DrawPointSize(float point_size) {
+    point_size_ = point_size;
+}
 
 void DrawLine(const vec3& origin, const vec3& destination) {
     __lazy_init();
@@ -42,6 +45,7 @@ void DrawLine(const vec3& origin, const vec3& destination) {
     gl_program_->SetUniformsForBuiltins();
 
     glUniform4f(color_location_, color_.r, color_.g, color_.b, color_.a);
+    glUniform1f(point_size_location_, point_size_);
     CHECK_GL_ERROR();
 
     glEnableVertexAttribArray(kVertexAttrib_Position);
