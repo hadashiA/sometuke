@@ -105,6 +105,7 @@ struct Vector3 {
     Vector3() {}
     Vector3(T x, T y, T z) : x(x), y(y), z(z) {}
     Vector3(Vector2<T> v) : x(v.x), y(v.y), z(0) {}
+    Vector3(Vector2<T> v, T z) : x(v.x), y(v.y), z(z) {}
 
     void Normalize() {
         float s = 1.0f / std::sqrt(x * x + y * y + z * z);
