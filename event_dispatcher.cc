@@ -67,7 +67,6 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
         return false;
     }
 
-    event->timestamp = Director::Instance().scheduler().Now();
     bool emitted = false;
 
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
@@ -94,7 +93,6 @@ bool EventDispatcher::Queue(const shared_ptr<Event>& event) {
         return false;
     }
 
-    event->timestamp = Director::Instance().scheduler().Now();
     queues_[active_queue_index_].push_back(event);
 
     return true;

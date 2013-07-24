@@ -10,6 +10,7 @@
 #include <map>
 
 #include <cmath>
+#include <sys/time.h>
 
 namespace sometuke {
 using namespace std;
@@ -17,18 +18,25 @@ using namespace std;
 typedef HashedString EventType;
 
 struct Event {
-    Event(const EventType& t)
-        : type(t) {
-    }
-
     Event(const string& str)
-        : type(EventType(str)) {
+        : Event(EventType(str)) {
+    }
+    
+    Event(const EventType& t)
+        : type(t),
+          created_at(0) {
+
+        timeval tv;
+        gettimeofday(&tv, NULL);
+        
+        double msec = floor(tv.tv_usec * 0.001) * 0.001;
+        created_at = ((double)(tv.tv_sec) + msec);
     }
 
     virtual ~Event() {}
 
     EventType type;
-    double timestamp;
+    double created_at;
 };
 
 typedef enum {
