@@ -6,7 +6,7 @@
 #include "sometuke/scheduler.h"
 #include "sometuke/process/process_manager.h"
 #include "sometuke/event_dispatcher.h"
-#include "sometuke/assets_loader.h"
+#include "sometuke/application_component_factory.h"
 
 #include <vector>
 #include <memory>
@@ -19,12 +19,6 @@ using namespace std;
 class Scene;
 class LabelAtlas;
     
-class ApplicationComponentFactory {
-public:
-    virtual ~ApplicationComponentFactory() {}
-    virtual AssetsLoader *CreateAssetsLoader() = 0;
-};
-
 class Director : public enable_shared_from_this<Director> {
 public:
     static Director& Instance() {
@@ -39,6 +33,7 @@ public:
     bool Init() {
         ComponentFactory factory;
         loader_.reset(factory.CreateAssetsLoader());
+        system_fonts_.reset(factory.CreateSystemFontLoader());
         
         return InitGL();
     }
@@ -57,6 +52,10 @@ public:
 
     AssetsLoader& loader() const {
         return *loader_;
+    }
+
+    SystemFontLoader& system_fonts() {
+        return *system_fonts_;
     }
 
     void Resize(const float point_width, const float point_height);
@@ -152,6 +151,7 @@ private:
     unique_ptr<ProcessManager> process_manager_;
     unique_ptr<EventDispatcher> event_dispatcher_;
     unique_ptr<AssetsLoader> loader_;
+    unique_ptr<SystemFontLoader> system_fonts_;
 
     // scene stuff
     vector<shared_ptr<Scene> > scene_stack_;
