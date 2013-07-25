@@ -2,7 +2,7 @@
 
 #include "sometuke/sprite_frame.h"
 #include "sometuke/director.h"
-#include "sometuke/assets_loader.h"
+#include "sometuke/application_component.h"
 #include "sometuke/texture_cache.h"
 #include "sometuke/logger.h"
 

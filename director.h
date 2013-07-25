@@ -6,7 +6,7 @@
 #include "sometuke/scheduler.h"
 #include "sometuke/process/process_manager.h"
 #include "sometuke/event_dispatcher.h"
-#include "sometuke/application_component_factory.h"
+#include "sometuke/application_component.h"
 
 #include <vector>
 #include <memory>

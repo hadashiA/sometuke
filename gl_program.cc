@@ -1,7 +1,7 @@
 #include "sometuke/gl_program.h"
 
 #include "sometuke/director.h"
-#include "sometuke/assets_loader.h"
+#include "sometuke/application_component.h"
 #include "sometuke/logger.h"
 #include "sometuke/matrix_stack.h"
 

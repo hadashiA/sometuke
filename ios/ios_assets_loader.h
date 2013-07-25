@@ -1,7 +1,7 @@
-#ifndef __sometuke__ios_assets_loader__
-#define __sometuke__ios_assets_loader__
+#ifndef __sometuke__ios_ios_assets_loader__
+#define __sometuke__ios_ios_assets_loader__
 
-#include "sometuke/assets_loader.h"
+#include "sometuke/application_component.h"
 #include "sometuke/ios/devices.h"
 
 namespace sometuke {

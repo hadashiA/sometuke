@@ -1,6 +1,8 @@
 #ifndef __sometuke__application_component_factory__
 #define __sometuke__application_component_factory__
 
+#include "sometuke/vector.h"
+
 #include <vector>
 #include <memory>
 #include <string>
@@ -49,8 +51,7 @@ public:
         const vec2& dimentions,
         TextAlignment h_alignment,
         TextAlignment v_alignment,
-        LineBreakMode line_break_mode = kLineBreakModeWordWrap
-    ) = 0;
+        LineBreakMode line_break_mode = kLineBreakModeWordWrap) = 0;
 };
 
 class ApplicationComponentFactory {

@@ -3,7 +3,6 @@
 #include "sometuke/texture_2d.h"
 #include "sometuke/hashed_string.h"
 #include "sometuke/director.h"
-#include "sometuke/assets_loader.h"
 
 namespace sometuke {
 
