@@ -124,8 +124,8 @@ private:
     bool paused_;
 };
     
-typedef multimap<int, shared_ptr<StandardTouchListener> > StandardTouchListenerTable;
-typedef multimap<int, shared_ptr<TargetedTouchListener> > TargetedTouchListenerTable;
+typedef multimap<int, weak_ptr<StandardTouchListener> > StandardTouchListenerTable;
+typedef multimap<int, weak_ptr<TargetedTouchListener> > TargetedTouchListenerTable;
 
 class TouchDispatcher {
 public:    
@@ -143,13 +143,13 @@ public:
     void Enable()  { enabled_ = true; }
     void Disable() { enabled_ = false; }
 
-    void AddListener(const shared_ptr<StandardTouchListener>& listener, int priority) {
-        pair<int, shared_ptr<StandardTouchListener> > val(priority, listener);
+    void AddListener(const weak_ptr<StandardTouchListener>& listener, int priority) {
+        pair<int, weak_ptr<StandardTouchListener> > val(priority, listener);
         standard_listeners_.insert(val);
     }
         
-    void AddListener(const shared_ptr<TargetedTouchListener>& listener, int priority) {
-        pair<int, shared_ptr<TargetedTouchListener> > val(priority, listener);
+    void AddListener(const weak_ptr<TargetedTouchListener>& listener, int priority) {
+        pair<int, weak_ptr<TargetedTouchListener> > val(priority, listener);
         targeted_listeners_.insert(val);
     }
 

@@ -18,7 +18,7 @@ void StandardTouchListener::Listen(int priority) {
 void TouchDispatcher::RemoveListener(const shared_ptr<StandardTouchListener>& listener) {
     for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
          i != standard_listeners_.end();) {
-        if (listener == i->second) {
+        if (listener == i->second.lock()) {
             standard_listeners_.erase(i++);
         } else {
             ++i;
@@ -29,7 +29,7 @@ void TouchDispatcher::RemoveListener(const shared_ptr<StandardTouchListener>& li
 void TouchDispatcher::RemoveListener(const shared_ptr<TargetedTouchListener>& listener) {
     for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
          i != targeted_listeners_.end();) {
-        if (listener == i->second) {
+        if (listener == i->second.lock()) {
             targeted_listeners_.erase(i++);
         } else {
             ++i;
@@ -47,21 +47,22 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
         if (!targeted_listeners_.empty()) {
             for (TargetedTouchListenerTable::iterator i = targeted_listeners_.begin();
                  i != targeted_listeners_.end();) {
-                const shared_ptr<TargetedTouchListener>& listener = i->second;
-                if (listener && !listener->paused()) {
-                    bool claimed = false;
-                    if (phase == kTouchBegan) {
-                        claimed = listener->TouchStart(touch);
-                    } else {
-                        listener->TouchNext(touch, phase);
-                    }
-                    if (claimed && listener->shallows_touches()) {
-                        shallows_touch_ids.insert(touch->id);
-                    }
-                
-                    ++i;
-                } else {
+                if (i->second.expired()) {
                     targeted_listeners_.erase(i++);
+                } else {
+                    shared_ptr<TargetedTouchListener> listener = i->second.lock();
+                    if (!listener->paused()) {
+                        bool claimed = false;
+                        if (phase == kTouchBegan) {
+                            claimed = listener->TouchStart(touch);
+                        } else {
+                            listener->TouchNext(touch, phase);
+                        }
+                        if (claimed && listener->shallows_touches()) {
+                            shallows_touch_ids.insert(touch->id);
+                        }
+                    }
+                    ++i;
                 }
             }
         }
@@ -71,25 +72,27 @@ void TouchDispatcher::Trigger(TouchPhase phase, TouchSet touches) {
             shallows_touch_ids.find(touch->id) == shallows_touch_ids.end()) {
             for (StandardTouchListenerTable::iterator i = standard_listeners_.begin();
                  i != standard_listeners_.end();) {
-                const shared_ptr<StandardTouchListener>& listener = i->second;
-                if (listener && !listener->paused()) {
-                    switch (phase) {
-                    case kTouchBegan:
-                        listener->TouchesBegan(touches);
-                        break;
-                    case kTouchMoved:
-                        listener->TouchesMoved(touches);
-                        break;
-                    case kTouchEnded:
-                        listener->TouchesEnded(touches);
-                        break;
-                    case kTouchCancelled:
-                        listener->TouchesCancelled(touches);
-                        break;
+                if (i->second.expired()) {
+                    standard_listeners_.erase(i++);
+                } else {
+                    shared_ptr<StandardTouchListener> listener = i->second.lock();
+                    if (!listener->paused()) {
+                        switch (phase) {
+                        case kTouchBegan:
+                            listener->TouchesBegan(touches);
+                            break;
+                        case kTouchMoved:
+                            listener->TouchesMoved(touches);
+                            break;
+                        case kTouchEnded:
+                            listener->TouchesEnded(touches);
+                            break;
+                        case kTouchCancelled:
+                            listener->TouchesCancelled(touches);
+                            break;
+                        }
                     }
                     ++i;
-                } else {
-                    standard_listeners_.erase(i++);
                 }
             }
         }
