@@ -72,17 +72,14 @@ void Scheduler::Unschedule(const weak_ptr<Timer>& timer) {
 
 void Scheduler::Update(const s2_time delta_time) {
     for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
-        const shared_ptr<Timer>& timer = i->lock();
-        bool active = !!timer;
-
-        if (active && !timer->paused()) {
-            active = timer->Tick(delta_time);
-        }
-
-        if (active) {
-            ++i;
+        if (i->expired()) {
+            timers_.erase(i++);
         } else {
-            timers_.erase(i++);            
+            shared_ptr<Timer> timer = i->lock();
+            if (!timer->paused()) {
+                timer->Tick(delta_time);
+            }
+            ++i;
         }
     }
 }
