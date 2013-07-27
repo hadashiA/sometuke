@@ -117,16 +117,17 @@ bool EventDispatcher::Tick(const s2_time max_time) {
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            shared_ptr<EventListener> listener = i->second.lock();
-            bool active = !!listener;
-            if (active && !listener->paused()) {
-                active = listener->HandleEvent(event);
-            }
-
-            if (active) {
-                ++i;
-            } else {
+            if (i->second.expired()) {
                 listeners_.erase(i++);
+            } else {
+                shared_ptr<EventListener> listener = i->second.lock();
+                if (!listener->paused()) {
+                    bool continued = listener->HandleEvent(event);
+                    if (!continued) {
+                        break;
+                    }
+                }
+                ++i;
             }
         }
     }
