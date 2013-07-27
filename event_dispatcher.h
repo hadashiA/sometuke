@@ -52,12 +52,10 @@ struct EventTypeMetadata {
 
 class EventListener : public enable_shared_from_this<EventListener> {
 public:
-    EventListener()
-        : paused_(false) {
-    }
-    
     virtual ~EventListener() {}
-    virtual bool HandleEvent(const shared_ptr<Event>& e) = 0;
+
+    virtual void HandleEvent(const shared_ptr<Event>& e) = 0;
+    virtual const bool paused() const = 0;
 
     bool ListenTo(const EventType& type);
     bool StopListering();
@@ -66,13 +64,6 @@ public:
     bool ListenTo() {
         return ListenTo(E::TYPE);
     }
-    
-    const bool paused() const { return paused_; }
-    void Pause()  { paused_ = true; }
-    void Resume() { paused_ = false; }
-
-private:
-    bool paused_;
 };
 
 template <typename T>
@@ -89,12 +80,17 @@ public:
 
     virtual ~EventAdapter() {}
 
-    virtual bool HandleEvent(const shared_ptr<Event>& e) {
-        if (shared_ptr<T> handler_ptr = handler_.lock()) {
-            return handler_ptr->HandleEvent(e);
-        } else {
-            return false;
+    void HandleEvent(const shared_ptr<Event>& e) {
+        if (shared_ptr<T> handler = handler_.lock()) {
+            handler->HandleEvent(e);
         }
+    }
+
+    const bool paused() const {
+        if (shared_ptr<T> handler = handler_.lock()) {
+            return handler->paused();
+        }
+        return true;
     }
 
 private:

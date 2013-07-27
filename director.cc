@@ -121,6 +121,7 @@ bool Director::InitGL() {
         S2ERROR("Fails CreateStatsLabel()");
         return false;
     }
+    return true;
 }
 
 }

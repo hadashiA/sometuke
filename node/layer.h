@@ -52,19 +52,7 @@ public:
         }
     }
 
-    virtual void OnEnter() {
-        if (listener_) {
-            listener_->Resume();
-        }
-    }
-
-    virtual void OnExit() {
-        if (listener_) {
-            listener_->Pause();
-        }
-    }
-
-    virtual bool HandleEvent(const shared_ptr<Event>& event) = 0;
+    virtual void HandleEvent(const shared_ptr<Event>& event) = 0;
 
     shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     

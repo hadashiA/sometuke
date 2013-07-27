@@ -20,7 +20,8 @@ typedef unordered_map<ActorId, shared_ptr<Actor> > ActorTable;
 class Scene : public enable_shared_from_this<Scene> {
 public:
     Scene()
-        : root_node_(new Node) {
+        : paused_(false),
+          root_node_(new Node) {
         root_node_->set_anchor_point(0.5, 0.5);
         root_node_->set_ignore_anchor_point_for_position(true);
         root_node_->set_content_size(Director::Instance().size_in_points());
@@ -36,8 +37,12 @@ public:
     virtual void OnExit()    {}
     virtual void OnCleanup() {}
 
-    virtual bool HandleEvent(const shared_ptr<Event>& event) = 0;
+    virtual void HandleEvent(const shared_ptr<Event>& event) = 0;
     virtual bool Update(const s2_time delta) { return true; }
+
+    virtual const bool paused() const { return paused_; }
+    virtual void Pause()  { paused_ = true; }
+    virtual void Resume() { paused_ = false; }
 
     void Visit() {
         root_node_->Visit();
@@ -46,23 +51,13 @@ public:
 
     void Enter() {
         root_node_->Enter();
-        if (listener_) {
-            listener_->Resume();
-        }
-        if (timer_) {
-            timer_->Resume();
-        }
+        paused_ = false;
         OnEnter();
     }
 
     void Exit() {
         root_node_->Exit();
-        if (listener_) {
-            listener_->Pause();
-        }
-        if (timer_) {
-            timer_->Pause();
-        }
+        paused_ = true;
         OnExit();
     }
 
@@ -114,6 +109,7 @@ private:
     ActorTable actor_table_;
     shared_ptr<EventListener> listener_;
     shared_ptr<Timer> timer_;
+    bool paused_;
 };
 
 }

@@ -232,27 +232,17 @@ public:
         return children_;
     }
 
-    virtual void AddChild(const shared_ptr<Node>& child);
-    virtual void RemoveChild(const shared_ptr<Node>& child);
-    
-    virtual const bool paused() {
-        return paused_;
-    }
+    void Visit();
 
-    virtual bool Update(const s2_time delta_time) { return true; }   // Is not called by default
-
-    virtual bool Init() { return true; }
-    virtual void Render()  {}
+    void Pause()  { paused_ = true; }
+    void Resume() { paused_ = false; }
 
     void Enter() {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
             (*i)->Enter();
         }
-        paused_ = false;
-        if (timer_) {
-            timer_->Resume();
-        }
+        Resume();
         OnEnter();
     }
 
@@ -261,19 +251,9 @@ public:
              i != children_.end(); ++i) {
             (*i)->Exit();
         }
-        paused_ = false;
-        if (timer_) {
-            timer_->Pause();
-        }
+        Pause();
         OnExit();
     }
-
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
-
-    void Visit();
-
-    const mat4& LocalTransform();
 
     mat4 WorldTransform();
 
@@ -287,6 +267,23 @@ public:
         Rect rect(0, 0, content_size_.x, content_size_.y);
         return rect * LocalTransform();
     }
+
+    virtual void AddChild(const shared_ptr<Node>& child);
+    virtual void RemoveChild(const shared_ptr<Node>& child);
+    
+    virtual const bool paused() const {
+        return paused_;
+    }
+
+    virtual bool Update(const s2_time delta_time) { return true; }   // Is not called by default
+
+    virtual bool Init() { return true; }
+    virtual void Render()  {}
+
+    virtual void OnEnter() {}
+    virtual void OnExit() {}
+
+    const mat4& LocalTransform();
 
 protected:
     Timer& timer() {
