@@ -8,8 +8,6 @@
 #include <map>
 #include <cassert>
 #include <iostream>
-#include <cmath>
-#include <sys/time.h>
 
 namespace sometuke {
 using namespace std;
@@ -108,37 +106,19 @@ private:
     weak_ptr<T> delegate_;
 };
 
-typedef list<shared_ptr<Timer> > TimerList;
+typedef list<weak_ptr<Timer> > TimerList;
 
 class Scheduler {
 public:
-    void Schedule(shared_ptr<Timer> timer) {
+    void Schedule(const weak_ptr<Timer>& timer) {
         timers_.push_back(timer);
     }
 
-    void Unschedule(const shared_ptr<Timer>& timer) {
-        timers_.remove(timer);
-    }
+    void Unschedule(const weak_ptr<Timer>& timer);
     
-    void Update(const s2_time delta_time) {
-        for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
-            shared_ptr<Timer> timer = (*i);
-            
-            if (!timer->Tick(delta_time)) {
-                timers_.erase(i);
-            } else {
-                ++i;
-            }
-        }
-    }
+    void Update(const s2_time delta_time);
 
-    double Now() {
-        timeval tv;
-        gettimeofday(&tv, NULL);
-        
-        double msec = floor(tv.tv_usec * 0.001) * 0.001;
-        return ((double)(tv.tv_sec) + msec);
-    }
+    double Now();
 
 private:
     TimerList timers_;

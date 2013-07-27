@@ -3,6 +3,8 @@
 #include "sometuke/director.h"
 
 #include <climits>
+#include <cmath>
+#include <sys/time.h>
 
 namespace sometuke {
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
@@ -48,6 +50,41 @@ void Timer::Schedule() {
 
 void Timer::UnSchedule() {
     Director::Instance().scheduler().Unschedule(shared_from_this());
+}
+
+double Scheduler::Now() {
+    timeval tv;
+    gettimeofday(&tv, NULL);
+    
+    double msec = floor(tv.tv_usec * 0.001) * 0.001;
+    return ((double)(tv.tv_sec) + msec);
+}
+
+void Scheduler::Unschedule(const weak_ptr<Timer>& timer) {
+    for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
+        if (timer.lock() == i->lock()) {
+            timers_.erase(i++);
+        } else {
+            ++i;            
+        }
+    }
+}
+
+void Scheduler::Update(const s2_time delta_time) {
+    for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
+        const shared_ptr<Timer>& timer = i->lock();
+        bool active = !!timer;
+
+        if (active && !timer->paused()) {
+            active = timer->Tick(delta_time);
+        }
+
+        if (active) {
+            ++i;
+        } else {
+            timers_.erase(i++);            
+        }
+    }
 }
 
 }
