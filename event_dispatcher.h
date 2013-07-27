@@ -103,7 +103,7 @@ private:
 
 class EventDispatcher {
 public:
-    typedef multimap<EventType, shared_ptr<EventListener> > EventListenerTable;
+    typedef multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
 
     EventDispatcher() :
         active_queue_index_(0) {

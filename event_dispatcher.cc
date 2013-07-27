@@ -21,7 +21,7 @@ bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listen
         return false;
     }
 
-    pair<EventType, shared_ptr<EventListener> > pair(type, listener);
+    pair<EventType, weak_ptr<EventListener> > pair(type, listener);
     listeners_.insert(pair);
 
     return true;
@@ -38,7 +38,7 @@ bool EventDispatcher::Off(const EventType& type) {
 
 bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
     for (EventListenerTable::iterator i = listeners_.begin(); i != listeners_.end();) {
-        if (listener == i->second) {
+        if (listener == i->second.lock()) {
             listeners_.erase(i++);
         } else {
             ++i;
@@ -51,7 +51,7 @@ bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> liste
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        if (listener == i->second) {
+        if (listener == i->second.lock()) {
             listeners_.erase(i++);
         } else {
             ++i;
@@ -72,14 +72,19 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        shared_ptr<EventListener> listener = i->second;
-        if (!listener->paused()) {
-            emitted = true;
-            if (!listener->HandleEvent(event)) {
-                listeners_.erase(i++);
+        shared_ptr<EventListener> listener = i->second.lock();
+        bool active = !!listener;
+        if (active) {
+            if (!listener->paused()) {
+                emitted = true;
+                active = listener->HandleEvent(event);
             }
         }
-        ++i;
+        if (active) {
+            ++i;
+        } else {
+            listeners_.erase(i++);
+        }
     }
 
     return emitted;
@@ -112,13 +117,16 @@ bool EventDispatcher::Tick(const s2_time max_time) {
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            shared_ptr<EventListener> listener = i->second;
-            if (!listener->paused()) {
-                if (listener->HandleEvent(event)) {
-                    ++i;
-                } else {
-                    listeners_.erase(i++);
-                }
+            shared_ptr<EventListener> listener = i->second.lock();
+            bool active = !!listener;
+            if (active && !listener->paused()) {
+                active = listener->HandleEvent(event);
+            }
+
+            if (active) {
+                ++i;
+            } else {
+                listeners_.erase(i++);
             }
         }
     }
