@@ -38,34 +38,34 @@ Sprite::Sprite()
     quad_.tr.color = tmp_color;
 }
 
-bool Sprite::InitWithTextureFile(const string& path) {
+bool Sprite::Init(const string& path) {
     shared_ptr<Texture2D> texture = TextureCache::Instance().FetchFromPath(path);
-    return InitWithTexture(texture);
+    return Init(texture);
 }
 
-bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture) {
-    return InitWithTexture(texture, Rect(vec2(0, 0), texture->content_size()), false);
+bool Sprite::Init(const shared_ptr<Texture2D>& texture) {
+    return Init(texture, Rect(vec2(0, 0), texture->content_size()), false);
 }
 
-bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture,
-                             const Rect& rect, bool rotated) {
+bool Sprite::Init(const shared_ptr<Texture2D>& texture,
+                  const Rect& rect, bool rotated) {
     set_texture(texture);
     set_texture_rect(rect, rotated, rect.size);
     return true;
 }
 
-bool Sprite::InitWithSpriteFrame(weak_ptr<SpriteFrame> weak_frame) {
+bool Sprite::Init(const weak_ptr<SpriteFrame>& weak_frame) {
     if (shared_ptr<SpriteFrame> frame = weak_frame.lock()) {
-        return InitWithSpriteFrame(*frame.get());
+        return Init(*frame.get());
     } else {
         return false;
     }
 }
 
-bool Sprite::InitWithSpriteFrame(const SpriteFrame& frame) {
-    bool result = InitWithTexture(frame.texture,
-                                  frame.rect,
-                                  frame.rotated);
+bool Sprite::Init(const SpriteFrame& frame) {
+    bool result = Init(frame.texture,
+                       frame.rect,
+                       frame.rotated);
     if (!result) {
         return false;
     }

@@ -23,12 +23,12 @@ public:
     virtual ~Sprite() {}
     virtual bool Init() { return true; }
 
-    bool InitWithTextureFile(const string& path);
-    bool InitWithTexture(const shared_ptr<Texture2D>& texture);
-    bool InitWithTexture(const shared_ptr<Texture2D>& texture,
+    bool Init(const string& path);
+    bool Init(const shared_ptr<Texture2D>& texture);
+    bool Init(const shared_ptr<Texture2D>& texture,
                          const Rect& rect, bool rotated = false);
-    bool InitWithSpriteFrame(const SpriteFrame& sprite_frame);
-    bool InitWithSpriteFrame(weak_ptr<SpriteFrame> sprite_frame);
+    bool Init(const SpriteFrame& sprite_frame);
+    bool Init(const weak_ptr<SpriteFrame>& sprite_frame);
 
     virtual void Render();
 
