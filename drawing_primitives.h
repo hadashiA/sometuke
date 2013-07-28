@@ -12,7 +12,8 @@ void DrawPointSize(float point_size);
 
 void DrawLine(const vec3& origin, const vec3& destination);
 void DrawRect(const Rect& rect);
-void DrawPoly(const vec2 *poli, unsigned int num_points, bool close_polygon);
+void DrawPoly(const vector<vec2gl>& vertices, bool close_polygon);
+void DrawSolidPoly(const vector<vec2gl>& vertices, const Color4F& color);
 
 }
 

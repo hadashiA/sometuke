@@ -66,28 +66,36 @@ void DrawRect(const Rect& rect) {
     DrawLine(vec2(origin.x, dest.y), origin);
 }
 
-void DrawPoly(const vec2 *poli, unsigned int num_points, bool close_polygon) {
+void DrawPoly(const vector<vec2gl> vertices, bool close_polygon) {
     __lazy_init();
 
     gl_program_->Use();
     gl_program_->SetUniformsForBuiltins();
     
     glUniform4f(color_location_, color_.r, color_.g, color_.b, color_.a);
-    CHECK_GL_ERROR();
-
     glEnableVertexAttribArray(kVertexAttrib_Position);
+    CHECK_GL_ERROR_DEBUG();
 
-    //vec2 vertices[num_points];
-    //for (int i = 0; i < num_points; ++i) {
-    //    vertices[i] = vec2(poli[i].x, poli[i].y);
-    //}
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, poli);
+    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0,
+                          vertices.data());
 
     if (close_polygon) {
-        glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)num_points);
+        glDrawArrays(GL_LINE_LOOP, 0, vertices.size());
     } else {
-        glDrawArrays(GL_LINE_STRIP, 0, (GLsizei)num_points);
+        glDrawArrays(GL_LINE_STRIP, 0, vertices.size());
     }
+}
+
+void DrawSolidPoly(const vector<vec2gl>& vertices, const Color4F& color) {
+    __lazy_init();
+    gl_program_->Use();
+    gl_program_->SetUniformsForBuiltins();
+    glUniform4f(color_location_, color.r, color.g, color.b, color.a);
+    
+    glEnableVertexAttribArray(kVertexAttrib_Position);
+    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0,
+                          vertices.data());
+    glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size());
 }
 
 }
