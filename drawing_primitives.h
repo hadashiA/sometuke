@@ -3,8 +3,12 @@
 
 #include "sometuke/vector.h"
 #include "sometuke/color.h"
+#include "sometuke/vertices.h"
+
+#include <vector>
 
 namespace sometuke {
+using namespace std;
 
 void DrawColor(const Color4B& color);
 void DrawColor(const Color4F& color);
