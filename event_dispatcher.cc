@@ -72,7 +72,7 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        if (i->second.lock()) {
+        if (i->second.expired()) {
             listeners_.erase(i++);
         } else {
             shared_ptr<EventListener> listener = i->second.lock();
