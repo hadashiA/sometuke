@@ -18,8 +18,7 @@ public:
 
     Timer(const s2_time interval = 0,
           const unsigned int repeat = REPEAT_FOREVER,
-          const s2_time delay = 0)
-        : paused_(false) {
+          const s2_time delay = 0) {
         set_interval(interval);
         set_repeat(repeat);
         set_delay(delay);
@@ -27,8 +26,10 @@ public:
 
     virtual ~Timer() {}
 
-    virtual bool Tick(const s2_time delta_time);
     virtual bool Update(const s2_time delta) = 0;
+    virtual const bool paused() const = 0;
+
+    bool Tick(const s2_time delta_time);
 
     void set_interval(const s2_time interval) {
         interval_ = interval;
@@ -46,10 +47,6 @@ public:
         use_delay_ = (delay > 0);
     }
 
-    const bool paused() const { return paused_; }
-    void Pause()  { paused_ = true; }
-    void Resume() { paused_ = false; }
-
     void Schedule();
     void Schedule(const s2_time interval,
                   const unsigned int repeat = REPEAT_FOREVER,
@@ -63,7 +60,6 @@ public:
     void UnSchedule();
 
 private:
-    bool paused_;
     s2_time elapsed_;
     s2_time interval_;
     s2_time delay_;
@@ -87,9 +83,9 @@ public:
     }
 
     TimerAdapter(weak_ptr<T> delegate,
-                  const s2_time interval = 0,
-                  const unsigned int repeat = Timer::REPEAT_FOREVER,
-                  const s2_time delay = 0)
+                 const s2_time interval = 0,
+                 const unsigned int repeat = Timer::REPEAT_FOREVER,
+                 const s2_time delay = 0)
         : Timer(interval, repeat, delay),
           delegate_(delegate) {
     }
@@ -101,6 +97,15 @@ public:
             return false;
         }
     }
+
+    virtual const bool paused() const {
+        if (shared_ptr<T> delegate = delegate_.lock()) {
+            return delegate->paused();
+        } else {
+            return false;
+        }
+    }
+    
 
 private:    
     weak_ptr<T> delegate_;
