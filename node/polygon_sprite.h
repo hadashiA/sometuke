@@ -86,14 +86,15 @@ public:
         CalculateTexCoords();
     }
 
-    // SpriteFrame display_frame() const {
-    //     float content_scale_factor = Director::Instance().content_scale_factor();
-    //     SpriteFrame(texture_,
-    //                 texture_rect_ * content_scale_factor,
-    //                 texture_rect_rotated_,
-                    
-    //                 );
-    // }
+    SpriteFrame display_frame() const {
+        float content_scale_factor = Director::Instance().content_scale_factor();
+        return SpriteFrame(texture_,
+                           texture_rect_ * content_scale_factor,
+                           texture_rect_rotated_,
+                           vec2(0, 0),
+                           content_size() * content_scale_factor
+                           );
+    }
 
     void Render() {
         shader_program_->Use();
