@@ -111,8 +111,7 @@ void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
                                                          original_size,
                                                          name
                                                          ));
-    HashedString hashed_name(name);
-    sprite_frames_[hashed_name.id()] = sprite_frame;
+    sprite_frames_[name] = sprite_frame;
 }
 
 }

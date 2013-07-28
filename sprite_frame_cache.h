@@ -23,18 +23,17 @@ public:
 
     bool AddSpriteFramesWithFile(const string& json_path);
 
-    shared_ptr<SpriteFrame> get(const char* sprite_frame_name) {
-        HashedString hashed_name(sprite_frame_name);
-        return sprite_frames_[hashed_name.id()];
+    shared_ptr<SpriteFrame> get(const string& sprite_frame_name) {
+        return sprite_frames_[sprite_frame_name];
     }
 
-    shared_ptr<SpriteFrame> operator[](const char* sprite_frame_name) {
+    shared_ptr<SpriteFrame> operator[](const string& sprite_frame_name) {
         return get(sprite_frame_name);
     }
 
 private:
-    typedef unordered_map<unsigned long, shared_ptr<SpriteFrame> > SpriteFrameTable;
-
+    typedef unordered_map<string, shared_ptr<SpriteFrame> > SpriteFrameTable;
+    
     SpriteFrameCache() {}
 
     SpriteFrameCache(const SpriteFrameCache&);
