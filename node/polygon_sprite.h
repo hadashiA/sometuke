@@ -52,9 +52,9 @@ public:
         UpdateBlendFunc();
     }
 
-    bool InitWithVertices(const vector<vec2gl>& vertices,
-                          const shared_ptr<Texture2D>& texture,
-                          const Rect& rect, bool rotated) {
+    bool Init(const shared_ptr<Texture2D>& texture,
+              const vector<vec2gl>& vertices,
+              const Rect& rect, bool rotated) {
         set_vertices(vertices);
         set_texture(texture);
         set_texture_rect(rect, rotated);
@@ -65,14 +65,14 @@ public:
     }
 
 
-    bool InitWithVertices(const vector<vec2gl>& vertices,
-                          const shared_ptr<Texture2D>& texture) {
-        return InitWithVertices(vertices, texture, Rect(vec2(0, 0), texture->content_size()), false);
+    bool Init(const shared_ptr<Texture2D>& texture,
+              const vector<vec2gl>& vertices) {
+        return Init(vertices, texture, Rect(vec2(0, 0), texture->content_size()), false);
     }
 
-    bool InitWithVertices(const vector<vec2gl>& vertices,
-                          const shared_ptr<SpriteFrame>& frame) {
-        return InitWithVertices(vertices, frame->texture, frame->rect, frame->rotated);
+    bool Init(const shared_ptr<SpriteFrame>& frame,
+              const vector<vec2gl>& vertices) {
+        return Init(frame->texture, vertices, frame->rect, frame->rotated);
     }
 
     void set_vertices(const vector<vec2gl>& vertices) {
@@ -85,6 +85,15 @@ public:
         texture_rect_rotated_ = rotated;
         CalculateTexCoords();
     }
+
+    // SpriteFrame display_frame() const {
+    //     float content_scale_factor = Director::Instance().content_scale_factor();
+    //     SpriteFrame(texture_,
+    //                 texture_rect_ * content_scale_factor,
+    //                 texture_rect_rotated_,
+                    
+    //                 );
+    // }
 
     void Render() {
         shader_program_->Use();
