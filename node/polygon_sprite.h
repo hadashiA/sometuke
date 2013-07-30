@@ -32,14 +32,14 @@ private:
               int u, int v, int w, int n);
 };
 
-template<class Triangulator = SimpleTriangulator>
-class PolygonSprite : public Node, public TextureInterface {
+template<class Triangulator>
+class PolygonSpriteBase : public Node, public TextureInterface {
 public:
-    PolygonSprite()
+    PolygonSpriteBase()
         : texture_rect_rotated_(false) {
     }
 
-    virtual ~PolygonSprite() {}
+    virtual ~PolygonSpriteBase() {}
 
     virtual shared_ptr<Texture2D> texture() const {
         return texture_;
@@ -52,9 +52,9 @@ public:
         UpdateBlendFunc();
     }
 
-    bool Init(const shared_ptr<Texture2D>& texture,
-              const vector<vec2gl>& vertices,
-              const Rect& rect, bool rotated) {
+    bool InitWithTexture(const shared_ptr<Texture2D>& texture,
+                         const vector<vec2gl>& vertices,
+                         const Rect& rect, bool rotated) {
         set_vertices(vertices);
         set_texture(texture);
         set_texture_rect(rect, rotated);
@@ -65,14 +65,14 @@ public:
     }
 
 
-    bool Init(const shared_ptr<Texture2D>& texture,
-              const vector<vec2gl>& vertices) {
+    bool InitWithTexture(const shared_ptr<Texture2D>& texture,
+                         const vector<vec2gl>& vertices) {
         return Init(vertices, texture, Rect(vec2(0, 0), texture->content_size()), false);
     }
 
-    bool Init(const shared_ptr<SpriteFrame>& frame,
-              const vector<vec2gl>& vertices) {
-        return Init(frame->texture, vertices, frame->rect, frame->rotated);
+    bool InitWithSpriteFrame(const shared_ptr<SpriteFrame>& frame,
+                             const vector<vec2gl>& vertices) {
+        return InitWithTexture(frame->texture, vertices, frame->rect, frame->rotated);
     }
 
     void set_vertices(const vector<vec2gl>& vertices) {
@@ -174,6 +174,10 @@ private:
     Rect texture_rect_;
     bool texture_rect_rotated_;
 };
+
+class PolygonSprite : public PolygonSpriteBase<SimpleTriangulator> {
+};
+
 
 }
 
