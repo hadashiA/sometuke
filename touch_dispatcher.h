@@ -53,7 +53,7 @@ public:
 
     virtual ~TargetedTouchListener() {}
 
-    bool TouchStart(shared_ptr<Touch> touch) {
+    bool TouchStart(const shared_ptr<Touch>& touch) {
         bool claimed = TouchBegan(touch);
         if (claimed) {
             claimed_touch_ids_.insert(touch->id);
@@ -61,7 +61,7 @@ public:
         return claimed;
     }
 
-    void TouchNext(shared_ptr<Touch> touch, TouchPhase phase) {
+    void TouchNext(const shared_ptr<Touch>& touch, TouchPhase phase) {
         unordered_set<TouchId>::iterator iter = claimed_touch_ids_.find(touch->id);
         if (iter != claimed_touch_ids_.end()) {
             switch (phase) {
@@ -88,12 +88,12 @@ public:
 
     virtual void Listen(int priority);
 
-    virtual bool shallows_touches() const = 0;
+    virtual const bool shallows_touches() const = 0;
 
-    virtual bool TouchBegan(shared_ptr<Touch> touch) = 0;
-    virtual void TouchMoved(shared_ptr<Touch> touch) = 0;
-    virtual void TouchEnded(shared_ptr<Touch> touch) = 0;
-    virtual void TouchCancelled(shared_ptr<Touch> touch) = 0;
+    virtual bool TouchBegan(const shared_ptr<Touch>& touch) = 0;
+    virtual void TouchMoved(const shared_ptr<Touch>& touch) = 0;
+    virtual void TouchEnded(const shared_ptr<Touch>& touch) = 0;
+    virtual void TouchCancelled(const shared_ptr<Touch>& touch) = 0;
 
 private:
     unordered_set<TouchId> claimed_touch_ids_;
