@@ -36,7 +36,8 @@ template<class Triangulator>
 class PolygonSpriteBase : public Node, public TextureInterface {
 public:
     PolygonSpriteBase()
-        : texture_rect_rotated_(false) {
+        : texture_rect_rotated_(false),
+          texture_rect_(0, 0, 0, 0) {
     }
 
     virtual ~PolygonSpriteBase() {}
@@ -59,7 +60,7 @@ public:
         set_texture(texture);
         set_texture_rect(rect, rotated);
         
-        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture);
+        shader_program_ = ShaderCache::Instance().get(kShader_PositionTexture_uColor);
         
         return true;
     }
@@ -133,19 +134,21 @@ private:
         tex_coords_.clear();
         
         float content_scale_factor = Director::Instance().content_scale_factor();
-        GLfloat atlas_width  = texture_->pixel_size().x * content_scale_factor;
-        GLfloat atlas_height = texture_->pixel_size().y * content_scale_factor;
+        GLfloat atlas_width  = texture_->pixel_size().x;
+        GLfloat atlas_height = texture_->pixel_size().y;
         
         for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
              i != area_triangle_points_.end(); ++i) {
-            const vec2gl& vertex = *i;
-            float u, v;
+            vec2gl vertex = (*i) * content_scale_factor;
+            Rect rect = texture_rect_ * content_scale_factor;
+
+            GLfloat u, v;
             if (texture_rect_rotated_) {
-                u = (vertex.y + texture_rect_.pos.x) / atlas_width;
-                v = (vertex.x + (atlas_height - texture_rect_.pos.y))  / atlas_height;
+                u = (vertex.y + rect.pos.x) / atlas_width;
+                v = 1 - ((vertex.x + (atlas_height - (rect.pos.y + rect.size.x))) / atlas_height);
             } else {
-                u = (vertex.x + texture_rect_.pos.x) / atlas_width;
-                v = (vertex.y + (atlas_height - texture_rect_.pos.y))  / atlas_height;
+                u = (vertex.x + rect.pos.x) / atlas_width;
+                v = 1 - ((vertex.y + (atlas_height - (rect.pos.y + rect.size.y))) / atlas_height);
             }
             tex_coords_.push_back(vec2gl(u, v));
         }
