@@ -67,7 +67,7 @@ public:
 
     bool InitWithTexture(const shared_ptr<Texture2D>& texture,
                          const vector<vec2gl>& vertices) {
-        return Init(vertices, texture, Rect(vec2(0, 0), texture->content_size()), false);
+        return InitWithTexture(texture, vertices, Rect(vec2(0, 0), texture->content_size()), false);
     }
 
     bool InitWithSpriteFrame(const shared_ptr<SpriteFrame>& frame,
@@ -77,6 +77,7 @@ public:
 
     void set_vertices(const vector<vec2gl>& vertices) {
         area_triangle_points_ = triangulator_(vertices);
+        UpdateBlendFunc();
         CalculateTexCoords();
     }
 
@@ -99,11 +100,6 @@ public:
     void Render() {
         shader_program_->Use();
         shader_program_->SetUniformsForBuiltins();
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture_->id());
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         
         // set blending
         if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
@@ -112,6 +108,11 @@ public:
             glEnable(GL_BLEND);
             glBlendFunc(blend_func_src_, blend_func_dst_);
         }
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture_->id());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
         glEnableVertexAttribArray(kVertexAttrib_Position);
         glDisableVertexAttribArray(kVertexAttrib_Color);
@@ -152,10 +153,10 @@ private:
     
     void UpdateBlendFunc() {
         if (!texture_ || !texture_->has_premultiplied_alpha()) {
-            blend_func_src_ = GL_SRC_ALPHA;
+            blend_func_src_ = GL_ONE;
             blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         } else {
-            blend_func_src_ = GL_ONE;
+            blend_func_src_ = GL_SRC_ALPHA;
             blend_func_dst_ = GL_ONE_MINUS_SRC_ALPHA;
         }
     }
