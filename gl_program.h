@@ -80,7 +80,6 @@ private:
     bool usesTime_;
 };
 
-
 } // namespace sometuke
 
 #endif /* defined(__sometuke__gl_program__) */

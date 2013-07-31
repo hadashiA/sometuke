@@ -94,7 +94,7 @@ void GLProgram::Use() {
 bool GLProgram::Link() {
     glLinkProgram(program_);
 
-#if DEBUG
+#if SOMETUKE_DEBUG
     GLint status;
     glValidateProgram(program_);
     glGetProgramiv(program_, GL_LINK_STATUS, &status);
