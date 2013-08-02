@@ -17,7 +17,7 @@ using namespace std;
 
 namespace sometuke {
 
-struct SimpleTriangulator : public unary_function<const vector<vec2gl>&, vector<vec2gl> > {
+struct Triangulator : public unary_function<const vector<vec2gl>&, vector<vec2gl> > {
 public:
     vector<vec2gl> operator()(const vector<vec2gl>& vertices);
     
@@ -32,15 +32,14 @@ private:
               int u, int v, int w, int n);
 };
 
-template<class Triangulator>
-class PolygonSpriteBase : public Node, public TextureInterface {
+class PolygonSprite : public Node, public TextureInterface {
 public:
-    PolygonSpriteBase()
+    PolygonSprite()
         : texture_rect_rotated_(false),
           texture_rect_(0, 0, 0, 0) {
     }
 
-    virtual ~PolygonSpriteBase() {}
+    virtual ~PolygonSprite() {}
 
     virtual shared_ptr<Texture2D> texture() const {
         return texture_;
@@ -88,72 +87,11 @@ public:
         CalculateTexCoords();
     }
 
-    SpriteFrame display_frame() const {
-        float content_scale_factor = Director::Instance().content_scale_factor();
-        return SpriteFrame(texture_,
-                           texture_rect_ * content_scale_factor,
-                           texture_rect_rotated_,
-                           vec2(0, 0),
-                           content_size() * content_scale_factor
-                           );
-    }
-
-    void Render() {
-        shader_program_->Use();
-        shader_program_->SetUniformsForBuiltins();
-        
-        // set blending
-        if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
-            glDisable(GL_BLEND);
-        } else {
-            glEnable(GL_BLEND);
-            glBlendFunc(blend_func_src_, blend_func_dst_);
-        }
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture_->id());
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glEnableVertexAttribArray(kVertexAttrib_Position);
-        glDisableVertexAttribArray(kVertexAttrib_Color);
-        glEnableVertexAttribArray(kVertexAttrib_TexCoords);
-
-        glVertexAttribPointer(kVertexAttrib_Position,  2, GL_FLOAT, GL_FALSE, 0,
-                              area_triangle_points_.data());
-        glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0,
-                              tex_coords_.data());
-        glDrawArrays(GL_TRIANGLES, 0, area_triangle_points_.size());
-        CHECK_GL_ERROR_DEBUG();
-    }
+    void Render();
 
 private:
-    void CalculateTexCoords() {
-        if (!texture_) return;
+    void CalculateTexCoords();     
 
-        tex_coords_.clear();
-        
-        float content_scale_factor = Director::Instance().content_scale_factor();
-        GLfloat atlas_width  = texture_->pixel_size().x;
-        GLfloat atlas_height = texture_->pixel_size().y;
-        
-        for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
-             i != area_triangle_points_.end(); ++i) {
-            vec2gl vertex = (*i) * content_scale_factor;
-            Rect rect = texture_rect_ * content_scale_factor;
-
-            GLfloat u, v;
-            if (texture_rect_rotated_) {
-                u = (vertex.y + rect.pos.x) / atlas_width;
-                v = 1 - ((vertex.x + (atlas_height - (rect.pos.y + rect.size.x))) / atlas_height);
-            } else {
-                u = (vertex.x + rect.pos.x) / atlas_width;
-                v = 1 - ((vertex.y + (atlas_height - (rect.pos.y + rect.size.y))) / atlas_height);
-            }
-            tex_coords_.push_back(vec2gl(u, v));
-        }
-    }
-    
     void UpdateBlendFunc() {
         if (!texture_ || !texture_->has_premultiplied_alpha()) {
             blend_func_src_ = GL_ONE;
@@ -178,10 +116,6 @@ private:
     Rect texture_rect_;
     bool texture_rect_rotated_;
 };
-
-class PolygonSprite : public PolygonSpriteBase<SimpleTriangulator> {
-};
-
 
 }
 

@@ -6,7 +6,7 @@ namespace sometuke {
 
 static const float EPSILON=0.0000000001f;
 
-vector<vec2gl> SimpleTriangulator::operator()(const vector<vec2gl>& vertices) {
+vector<vec2gl> Triangulator::operator()(const vector<vec2gl>& vertices) {
     // allocate and initialize list of vertices in polygon
 
     size_t n = vertices.size();
@@ -70,7 +70,7 @@ vector<vec2gl> SimpleTriangulator::operator()(const vector<vec2gl>& vertices) {
 }
 
 
-float SimpleTriangulator::Area(const vector<vec2gl>& vertices) {
+float Triangulator::Area(const vector<vec2gl>& vertices) {
     size_t size = vertices.size();
     float a = 0.0f;
     for (size_t p = size - 1, q = 0; q < size; p = q++) {
@@ -81,7 +81,7 @@ float SimpleTriangulator::Area(const vector<vec2gl>& vertices) {
     return a * 0.5f;
 }
 
-bool SimpleTriangulator::InsideTriangle(const vec2gl& a,
+bool Triangulator::InsideTriangle(const vec2gl& a,
                                         const vec2gl& b,
                                         const vec2gl& c,
                                         const vec2gl& p) {
@@ -106,7 +106,7 @@ bool SimpleTriangulator::InsideTriangle(const vec2gl& a,
     return ((a_cross_bp >= 0.0f) && (b_cross_cp >= 0.0f) && (c_cross_ap >= 0.0f));
 }
 
-bool SimpleTriangulator::Snip(const vector<vec2gl>& vertices,
+bool Triangulator::Snip(const vector<vec2gl>& vertices,
                               const vector<size_t>& indices,
                               int u, int v, int w, int n) {
     const vec2gl& a = vertices[indices[u]];
@@ -124,6 +124,61 @@ bool SimpleTriangulator::Snip(const vector<vec2gl>& vertices,
     }
     
     return true;
+}
+
+void PolygonSprite::Render() {
+    shader_program_->Use();
+    shader_program_->SetUniformsForBuiltins();
+        
+    // set blending
+    if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
+        glDisable(GL_BLEND);
+    } else {
+        glEnable(GL_BLEND);
+        glBlendFunc(blend_func_src_, blend_func_dst_);
+    }
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture_->id());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glEnableVertexAttribArray(kVertexAttrib_Position);
+    glDisableVertexAttribArray(kVertexAttrib_Color);
+    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
+
+    glVertexAttribPointer(kVertexAttrib_Position,  2, GL_FLOAT, GL_FALSE, 0,
+                          area_triangle_points_.data());
+    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0,
+                          tex_coords_.data());
+    glDrawArrays(GL_TRIANGLES, 0, area_triangle_points_.size());
+    CHECK_GL_ERROR_DEBUG();
+}
+
+void PolygonSprite::CalculateTexCoords() {
+    if (!texture_) return;
+
+    tex_coords_.clear();
+        
+    float content_scale_factor = Director::Instance().content_scale_factor();
+    GLfloat atlas_width  = texture_->pixel_size().x;
+    GLfloat atlas_height = texture_->pixel_size().y;
+        
+    for (vector<vec2gl>::iterator i = area_triangle_points_.begin();
+         i != area_triangle_points_.end(); ++i) {
+        vec2gl vertex = (*i) * content_scale_factor;
+        Rect rect = texture_rect_ * content_scale_factor;
+
+        GLfloat u, v;
+        if (texture_rect_rotated_) {
+            u = (vertex.y + rect.pos.x) / atlas_width;
+            v = 1 - ((vertex.x + (atlas_height - (rect.pos.y + rect.size.x))) / atlas_height);
+        } else {
+            u = (vertex.x + rect.pos.x) / atlas_width;
+            v = 1 - ((vertex.y + (atlas_height - (rect.pos.y + rect.size.y))) / atlas_height);
+        }
+        tex_coords_.push_back(vec2gl(u, v));
+    }
 }
 
 }
