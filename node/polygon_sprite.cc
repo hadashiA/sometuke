@@ -172,7 +172,8 @@ void PolygonSprite::CalculateTexCoords() {
         GLfloat u, v;
         if (texture_rect_rotated_) {
             u = (vertex.y + rect.pos.x) / atlas_width;
-            v = 1 - (((atlas_height - vertex.x) + (atlas_height - (rect.pos.y))) / atlas_height);
+            // v = 1 - (((atlas_height - vertex.x) + (atlas_height - (rect.pos.y))) / atlas_height);
+            v = (vertex.x + rect.pos.y) / atlas_height;
         } else {
             u = (vertex.x + rect.pos.x) / atlas_width;
             v = 1 - ((vertex.y + (atlas_height - (rect.pos.y + rect.size.y))) / atlas_height);
