@@ -17,33 +17,17 @@ class Sequence;
 
 class Process : public enable_shared_from_this<Process> {
 public:
-    Process()
-        : paused_(false) {
-    }
-    
+    Process() {}
     virtual ~Process() {}
 
-    const bool paused() const {
-        return paused_;
+    virtual const bool sleeping() { return false; }
+
+    void Start() {
+        OnStart();
     }
 
-    void Pause()  { paused_ = true; }
-    void Resume() { paused_ = false; }
-
-    virtual EventDispatcher& dispatcher() const {
-        return Director::Instance().dispatcher();
-    }
-
-    void Enter() {
-        if (paused_) {
-            OnEnter();
-            paused_ = false;
-        }
-    }
-
-    void Exit() {
-        OnExit();
-        paused_ = true;
+    void End() {
+        OnEnd();
     }
 
     virtual bool Update(const s2_time delta) = 0;
@@ -63,10 +47,8 @@ public:
     shared_ptr<Sequence> Chain(Arg1&& arg1, Args&& ... args);
 
 protected:
-    bool paused_;
-
-    virtual void OnEnter() {}
-    virtual void OnExit() {}
+    virtual void OnStart() {}
+    virtual void OnEnd() {}
 
 private:
     Process(const Process&);

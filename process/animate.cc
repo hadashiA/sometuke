@@ -7,14 +7,14 @@ namespace sometuke {
 
 const HashedString Animate::TYPE("process:animate");
 
-void Animate::set_target(weak_ptr<Sprite> target) {
+void Animate::set_target(const weak_ptr<Sprite>& target) {
     if (shared_ptr<Sprite> sprite = target.lock()) {
         original_frame_ = sprite->display_frame();
     }
     target_ = target;
 }
 
-void Animate::OnEnter() {
+void Animate::OnStart() {
     frame_num_ = 0;
     elapsed_ = 0;
     executed_loops_ = 0;
@@ -23,7 +23,7 @@ void Animate::OnEnter() {
     }
 }
 
-void Animate::OnExit() {
+void Animate::OnEnd() {
     if (shared_ptr<Sprite > sprite = target_.lock()) {
         sprite->set_display_frame(original_frame_);
     }

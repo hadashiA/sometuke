@@ -22,16 +22,20 @@ public:
         set_target(target);
     }
 
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return Animate::TYPE;
     }
 
-    virtual void set_target(weak_ptr<Sprite> target_weak);
+    const bool sleeping() {
+        return !target_.expired() && target_.lock()->paused();
+    }
 
-    virtual void OnEnter();
-    virtual void OnExit();
-    virtual bool Update(const s2_time delta);
+    void OnStart();
+    void OnEnd();
+    bool Update(const s2_time delta);
     
+    virtual void set_target(const weak_ptr<Sprite>& target_weak);
+
     shared_ptr<Sprite> target() {
         return target_.lock();
     }

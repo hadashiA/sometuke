@@ -18,27 +18,27 @@ public:
           num_repeated_(0) {
     }
 
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return Repeat::TYPE;
     }
 
-    virtual void OnEnter() {
+    void OnEnter() {
         num_repeated_ = 0;
-        inner_process_->Enter();
+        inner_process_->Start();
     }
 
-    virtual void OnExit() {
-        inner_process_->Exit();
+    void OnExit() {
+        inner_process_->End();
     }
 
-    virtual bool Update(const s2_time delta) {
+    bool Update(const s2_time delta) {
         bool continued = inner_process_->Update(delta);
         
         if (continued) {
             return true;
         } else {
             if (is_forever() || ++num_repeated_ < repeat_) {
-                inner_process_->Enter();
+                inner_process_->Start();
                 return true;
             }
         }

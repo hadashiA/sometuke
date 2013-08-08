@@ -44,7 +44,7 @@ public:
           run_forever_(repeat == REPEAT_FOREVER) {
     }
 
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return ProcessTimer::TYPE;
     }
 
@@ -52,15 +52,15 @@ public:
         return inner_process_;
     }
 
-    virtual void OnEnter() {
-        inner_process_->Enter();
+    void OnStart() {
+        inner_process_->Start();
     }
 
-    virtual void OnExit() {
-        inner_process_->Exit();
+    void OnEnd() {
+        inner_process_->End();
     }
 
-    virtual bool Update(const s2_time delta_time);
+    bool Update(const s2_time delta_time);
 
 private:    
     shared_ptr<Process> inner_process_;

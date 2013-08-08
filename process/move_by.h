@@ -16,21 +16,23 @@ public:
           delta_(delta) {
     }
 
+    const bool sleeping() {
+        return !target_.expired() && target_.lock()->paused();
+    }
+
     virtual ~MoveBy() {}
 
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return MoveBy::TYPE;
     }
 
-    virtual void OnEnter() {
-        Interval::OnEnter();
-        
+    void OnEnter() {
         if (shared_ptr<Node> node = target_.lock()) {
             from_ = node->position();
         }
     }
 
-    virtual bool Progress(const float progress) {
+    bool Progress(const float progress) {
         if (shared_ptr<Node> node = target_.lock()) {
             vec3 pos = from_ + (delta_ * progress);
             node->set_position(pos);

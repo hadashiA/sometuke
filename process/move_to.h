@@ -22,13 +22,15 @@ public:
 
     virtual ~MoveTo() {}
 
-    virtual const HashedString& type() const {
+    const bool sleeping() {
+        return !target_.expired() && target_.lock()->paused();
+    }
+
+    const HashedString& type() const {
         return MoveTo::TYPE;
     }
 
-    virtual void OnEnter() {
-        Interval::OnEnter();
-
+    void OnStart() {
         if (shared_ptr<Node> node = target_.lock()) {
             from_  = node->position();
             delta_ = to_ - from_;

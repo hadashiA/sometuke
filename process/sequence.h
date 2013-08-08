@@ -62,21 +62,21 @@ public:
         processes_.push_back(five);
     }
 
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return Sequence::TYPE;
     }
 
-    virtual void OnEnter() {
+    void OnStart() {
         current_ = 0;
-        processes_.front()->Enter();
+        processes_.front()->Start();
     }
 
-    virtual void OnExit() {
+    void OnEnd() {
         shared_ptr<Process> process = processes_[current_];        
-        process->Exit();
+        process->End();
     }
 
-    virtual bool Update(const s2_time delta_time);
+    bool Update(const s2_time delta_time);
 
     shared_ptr<Sequence> Push(shared_ptr<Process> process) {
         processes_.push_back(process);

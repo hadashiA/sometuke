@@ -25,11 +25,11 @@ bool ProcessManager::Update(const s2_time delta_time) {
     for (ProcessList::iterator i = process_list_.begin(); i != process_list_.end();) {
         shared_ptr<Process> process = (*i);
             
-        if (!process->paused()) {
-            process->Enter();
+        if (!process->sleeping()) {
+            process->Start();
             
             if (!process->Update(delta_time)) {
-                process->Exit();
+                process->End();
                 process_list_.erase(i++);
             } else {
                 ++i;

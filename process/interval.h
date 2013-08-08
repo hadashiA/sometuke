@@ -18,11 +18,12 @@ public:
 
     virtual ~Interval() {}
 
-    virtual void Start() {
+    void Start() {
+        Process::Start();
         elapsed_ = 0;
     }
 
-    virtual bool Update(const s2_time delta) {
+    bool Update(const s2_time delta) {
         elapsed_ += delta;
         // percentage of duration
         float progress = elapsed_ / max<float>(duration_, FLT_EPSILON);

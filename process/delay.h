@@ -13,19 +13,14 @@ public:
         : Interval(duration) {
     }
 
-    virtual ~Delay() {}
-
-    virtual const HashedString& type() const {
+    const HashedString& type() const {
         return Delay::TYPE;
     }
 
-    virtual bool Progress(const s2_time progress) {
+    bool Progress(const s2_time progress) {
         return true;
     }
-
-private:
 };
-
 
 }
 
