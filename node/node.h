@@ -130,6 +130,10 @@ public:
         set_position(vec3(x, y, z));
     }
 
+    void set_position(const vec2& posv2, const float z) {
+        set_position(vec3(posv2.x, posv2.y, z));
+    }
+
     void add_position(const vec3& diff) {
         position_ += diff;
         is_transform_dirty_ = is_inverse_dirty_ = true;
