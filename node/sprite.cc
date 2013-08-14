@@ -48,7 +48,7 @@ bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture) {
 }
 
 bool Sprite::InitWithTexture(const shared_ptr<Texture2D>& texture,
-                  const Rect& rect, bool rotated) {
+                             const Rect& rect, bool rotated) {
     set_texture(texture);
     set_texture_rect(rect, rotated, rect.size);
     return true;

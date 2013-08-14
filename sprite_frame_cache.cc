@@ -91,6 +91,7 @@ void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
                                               const string& name,
                                               const picojson::value& frame_json) {
     const picojson::value& frame_rect_json    = frame_json.get("frame");
+    const picojson::value& source_rect_json   = frame_json.get("spriteSourceSize");
     const picojson::value& original_size_json = frame_json.get("sourceSize");
     bool rotated = frame_json.get("rotated").get<bool>();
     // bool trimmed = frame_json.get("trimmed").get<bool>();
@@ -100,14 +101,22 @@ void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
                     frame_rect_json.get("w").get<double>(),
                     frame_rect_json.get("h").get<double>()
                     );
+    Rect source_rect(source_rect_json.get("x").get<double>(),
+                     source_rect_json.get("y").get<double>(),
+                     source_rect_json.get("w").get<double>(),
+                     source_rect_json.get("h").get<double>()
+                     );
     vec2 original_size(original_size_json.get("w").get<double>(),
                        original_size_json.get("h").get<double>()
                        );
+    vec2 offset((frame_rect.size.x - original_size.x) / 2 + source_rect.pos.x,
+                // (frame_rect.size.y - original_size.y) / 2 + source_rect.pos.y);
+                (frame_rect.size.y - original_size.y) / 2);
     
     shared_ptr<SpriteFrame> sprite_frame(new SpriteFrame(texture,
                                                          frame_rect,
                                                          rotated,
-                                                         vec2(0, 0),
+                                                         offset,
                                                          original_size,
                                                          name
                                                          ));
