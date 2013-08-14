@@ -4,6 +4,7 @@
 #include <memory>
 #include <cstdlib>
 #include <functional>
+#include <iostream>
 
 #ifndef MM_DEFAULT_EXPAND_SIZE
 #define MM_DEFAULT_EXPAND_SIZE 10000
@@ -194,27 +195,63 @@ template <class T, std::size_t Size>
 unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
     
 template<typename T>
-struct GeneralPoolDeleter {
+class GeneralPoolDeleter {
+public:
     void operator()(T* p) const {
         GeneralMemoryPool::Shared()->Free(p, sizeof(T));
         p = nullptr;
     }
 };
 
-template<class T>
-shared_ptr<T> New() {
-    T *ptr = static_cast<T *>(GeneralMemoryPool::Shared()->Alloc(sizeof(T)));
-    T *obj = new (ptr) T;
-    shared_ptr<T> s(obj, GeneralPoolDeleter<T>());
-    return s;
-}
+template<typename T>
+class GeneralPoolAllocator {
+public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T value_type;
 
-template<class T, class Arg1, class... Args>
-shared_ptr<T> New(Arg1&& arg1, Args&& ... args) {
-    T *ptr = static_cast<T *>(GeneralMemoryPool::Shared()->Alloc(sizeof(T)));
-    T *obj = new (ptr) T(std::forward<Arg1>(arg1), std::forward<Args>(args)...);
-    shared_ptr<T> s(obj, GeneralPoolDeleter<T>());
-    return s;
+    template<typename U>
+    struct rebind {
+        typedef GeneralPoolAllocator<U> other;
+    };
+
+    GeneralPoolAllocator() {}
+    ~GeneralPoolAllocator() {}
+
+    GeneralPoolAllocator(const GeneralPoolAllocator& rhs) {
+        // *this = rhs;
+    }
+
+    template <class U>
+    GeneralPoolAllocator(const GeneralPoolAllocator<U>& rhs) {
+        // *this = rhs;
+    }
+
+    pointer allocate(const size_type n) {
+        return static_cast<pointer>(GeneralMemoryPool::Shared()->Alloc(n * sizeof(value_type)));
+    }
+
+    void deallocate(value_type *doomed, size_type n) {
+        GeneralMemoryPool::Shared()->Free(doomed, n * sizeof(value_type));
+    }
+
+    bool operator==(const GeneralPoolAllocator& rhs) const {
+        return true;
+    }
+
+    bool operator!=(const GeneralPoolAllocator& rhs) const {
+        return false;
+    }
+};
+
+template<class T, class... Args>
+shared_ptr<T> New(Args&& ... args) {
+    GeneralPoolAllocator<T> alloc;
+    return allocate_shared<T>(alloc, std::forward<Args>(args)...);
 }
 
 }
