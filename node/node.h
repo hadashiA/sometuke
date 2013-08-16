@@ -1,12 +1,12 @@
 #ifndef __sometuke__node_node__
 #define __sometuke__node_node__
 
+#include "sometuke/handler.h"
 #include "sometuke/types.h"
 #include "sometuke/actor_id.h"
 #include "sometuke/vector.h"
 #include "sometuke/matrix.h"
 #include "sometuke/color.h"
-#include "sometuke/scheduler.h"
 
 #include <vector>
 #include <memory>
@@ -43,7 +43,7 @@ public:
     virtual void set_opacity_modify_rgb(bool value) = 0;
 };
 
-class Node : public enable_shared_from_this<Node> {
+class Node : public Handler {
 public:
     Node()
         : position_(0, 0, 0),
@@ -57,7 +57,6 @@ public:
           ignore_anchor_point_for_position_(false),
           content_size_(0, 0),
           z_order_(0),
-          paused_(false),
           is_visible_(true),
           is_transform_dirty_(true),
           is_inverse_dirty_(true) {
@@ -238,9 +237,6 @@ public:
 
     void Visit();
 
-    void Pause()  { paused_ = true; }
-    void Resume() { paused_ = false; }
-
     void Enter() {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
@@ -275,12 +271,6 @@ public:
     virtual void AddChild(const shared_ptr<Node>& child);
     virtual void RemoveChild(const shared_ptr<Node>& child);
     
-    virtual const bool paused() const {
-        return paused_;
-    }
-
-    virtual bool Update(const s2_time delta_time) { return true; }   // Is not called by default
-
     virtual bool Init() { return true; }
     virtual void Render()  {}
 
@@ -290,13 +280,6 @@ public:
     const mat4& LocalTransform();
 
 protected:
-    Timer& timer() {
-        if (!timer_) {
-            timer_ = TimerAdapter<Node>::Create(this);
-        }
-        return *timer_;
-    }
-
     vec3 position_;
     float scale_x_;
     float scale_y_;
@@ -309,7 +292,6 @@ protected:
     vec2 content_size_;
     int z_order_;
     bool is_visible_;
-    bool paused_;
 
     mat4 local_transform_;
     mat4 local_inverse_;
@@ -320,8 +302,6 @@ protected:
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;
-
-    shared_ptr<Timer> timer_;
 };
 
 }

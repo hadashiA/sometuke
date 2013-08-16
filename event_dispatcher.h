@@ -50,12 +50,16 @@ struct EventTypeMetadata {
     EventCallable callable;
 };
 
-class EventListener : public enable_shared_from_this<EventListener> {
+class EventListenerInterface {
+public:
+    virtual ~EventListenerInterface() {}
+    virtual void HandleEvent(const shared_ptr<Event>& event) = 0;
+};
+
+class EventListener : public EventListenerInterface,
+                      public enable_shared_from_this<EventListener> {
 public:
     virtual ~EventListener() {}
-
-    virtual void HandleEvent(const shared_ptr<Event>& e) = 0;
-    virtual const bool paused() const = 0;
 
     bool ListenTo(const EventType& type);
     bool StopListering();
@@ -64,37 +68,6 @@ public:
     bool ListenTo() {
         return ListenTo(E::TYPE);
     }
-};
-
-template <typename T>
-class EventAdapter : public EventListener {
-public:
-    static shared_ptr<EventListener> Create(T *handler) {
-        shared_ptr<T> handler_ptr = static_pointer_cast<T>(handler->shared_from_this());
-        return make_shared<EventAdapter<T> >(handler_ptr);
-    }
-
-    EventAdapter(weak_ptr<T> handler)
-        : handler_(handler) {
-    }
-
-    virtual ~EventAdapter() {}
-
-    void HandleEvent(const shared_ptr<Event>& e) {
-        if (shared_ptr<T> handler = handler_.lock()) {
-            handler->HandleEvent(e);
-        }
-    }
-
-    const bool paused() const {
-        if (shared_ptr<T> handler = handler_.lock()) {
-            return handler->paused();
-        }
-        return true;
-    }
-
-private:
-    weak_ptr<T> handler_;
 };
 
 class EventDispatcher {

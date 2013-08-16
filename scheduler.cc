@@ -9,14 +9,13 @@
 namespace sometuke {
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
 
-bool Timer::Tick(const s2_time delta_time) {
+void Timer::Tick(const s2_time delta_time) {
     // standard timer usage
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;
         if (elapsed_ >= interval_) {
-            bool result = Update(elapsed_);
+            Update(elapsed_);
             elapsed_ = 0;
-            return result;
         }
         
         // advanced usage
@@ -27,21 +26,20 @@ bool Timer::Tick(const s2_time delta_time) {
                 elapsed_ -= delay_;
                 num_executed_++;
                 use_delay_ = false;
-                return Update(elapsed_);
+                Update(elapsed_);
             }
         } else {
             if (elapsed_ >= interval_) {
                 elapsed_ = 0;
                 num_executed_++;
-                return Update(elapsed_);
+                Update(elapsed_);
             }
         }
         
         if (num_executed_ >= repeat_) {
-            return false;
+            UnSchedule();
         }
     }
-    return true;
 }
 
 void Timer::Schedule() {
@@ -72,14 +70,11 @@ void Scheduler::Unschedule(const weak_ptr<Timer>& timer) {
 
 void Scheduler::Update(const s2_time delta_time) {
     for (TimerList::iterator i = timers_.begin(); i != timers_.end();) {
-        if (i->expired()) {
-            timers_.erase(i++);
-        } else {
-            shared_ptr<Timer> timer = i->lock();
-            if (!timer->paused()) {
-                timer->Tick(delta_time);
-            }
+        if (const shared_ptr<Timer>& timer = i->lock()) {
+            timer->Tick(delta_time);
             ++i;
+        } else {
+            timers_.erase(i++);
         }
     }
 }

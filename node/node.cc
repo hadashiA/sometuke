@@ -90,12 +90,10 @@ vec3 Node::LocalPositionAt(const vec3& world_position) {
 void Node::AddChild(const shared_ptr<Node>& child) {
     assert(!child->parent());
 
-    child->set_parent(shared_from_this());
+    child->set_parent(static_pointer_cast<Node>(shared_from_this()));
     children_.push_back(child);
 
-    if (!paused_) {
-        child->Enter();
-    }
+    child->Enter();
 }
 
 void Node::RemoveChild(const shared_ptr<Node>& child) {

@@ -72,15 +72,12 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
         listeners_.equal_range(type);
     for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        if (i->second.expired()) {
-            listeners_.erase(i++);
-        } else {
-            shared_ptr<EventListener> listener = i->second.lock();
-            if (!listener->paused()) {
-                emitted = true;
-                listener->HandleEvent(event);
-            }
+        if (const shared_ptr<EventListener>& listener = i->second.lock()) {
+            emitted = true;
+            listener->HandleEvent(event);
             i++;
+        } else {
+            listeners_.erase(i++);
         }
     }
 
@@ -114,14 +111,11 @@ bool EventDispatcher::Tick(const s2_time max_time) {
         std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
             listeners_.equal_range(event->type);
         for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            if (i->second.expired()) {
-                listeners_.erase(i++);
-            } else {
-                shared_ptr<EventListener> listener = i->second.lock();
-                if (!listener->paused()) {
-                    listener->HandleEvent(event);
-                }
+            if (const shared_ptr<EventListener>& listener = i->second.lock()) {
+                listener->HandleEvent(event);
                 ++i;
+            } else {
+                listeners_.erase(i++);
             }
         }
     }

@@ -52,8 +52,6 @@ public:
         }
     }
 
-    virtual void HandleEvent(const shared_ptr<Event>& event) = 0;
-
     shared_ptr<Node> FindNodeByActorId(const ActorId& id);
     
     shared_ptr<Node> operator[](const ActorId& id) {
@@ -61,15 +59,7 @@ public:
     }
 
 protected:
-    EventListener& listener() {
-        if (!listener_) {
-            listener_ = EventAdapter<Layer>::Create(this);
-        }
-        return *listener_;
-    }
-
     ActorNodeTable actor_node_table_;
-    shared_ptr<EventListener> listener_;
 };
 
 }
