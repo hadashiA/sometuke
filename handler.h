@@ -39,12 +39,12 @@ private:
     bool sleeping_;
 };
 
-class TimerAdapter : public Timer {
+class TimerProxy : public Timer {
 public:
-    TimerAdapter(weak_ptr<Handler> handler,
-                 const s2_time interval = 0,
-                 const unsigned int repeat = Timer::REPEAT_FOREVER,
-                 const s2_time delay = 0)
+    TimerProxy(weak_ptr<Handler> handler,
+               const s2_time interval = 0,
+               const unsigned int repeat = Timer::REPEAT_FOREVER,
+               const s2_time delay = 0)
         : Timer(interval, repeat, delay),
           handler_(handler) {
     }
@@ -59,13 +59,11 @@ private:
     weak_ptr<Handler> handler_;
 };
 
-class EventAdapter : public EventListener {
+class EventProxy : public EventListener {
 public:
-    EventAdapter(weak_ptr<Handler> handler)
+    EventProxy(weak_ptr<Handler> handler)
         : handler_(handler) {
     }
-
-    virtual ~EventAdapter() {}
 
     void HandleEvent(const shared_ptr<Event>& e) {
         if (const shared_ptr<Handler>& handler = handler_.lock()) {
