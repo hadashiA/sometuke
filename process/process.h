@@ -39,7 +39,6 @@ public:
     shared_ptr<Process> Interval(const s2_time interval);
     shared_ptr<Process> Timer(const s2_time interval,
                               const unsigned int repeat, const s2_time delay);
-
     template<class T>
     shared_ptr<Sequence> Chain();
     

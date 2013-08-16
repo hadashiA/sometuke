@@ -17,7 +17,7 @@ public:
     }
 
     virtual ~Handler() {}
-    virtual void Update(const s2_time delta) {}
+    virtual bool Update(const s2_time delta) { return true; }
     virtual void HandleEvent(const shared_ptr<Event>& event) {}
 
     virtual bool paused() const { return paused_; }
@@ -49,11 +49,9 @@ public:
           handler_(handler) {
     }
 
-    void Update(const s2_time delta) {
+    bool Update(const s2_time delta) {
         if (const shared_ptr<Handler>& handler = handler_.lock()) {
-            if (!handler->paused() && !handler->sleeping()) {
-                handler->Update(delta);
-            }
+            return (!handler->paused() && !handler->sleeping() && handler->Update(delta));
         }
     }
 

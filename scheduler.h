@@ -15,7 +15,7 @@ using namespace std;
 class TimerInterface {
 public:
     virtual ~TimerInterface() {}
-    virtual void Update(const s2_time delta) = 0;
+    virtual bool Update(const s2_time delta) = 0;
 };
 
 class Timer : public TimerInterface,
@@ -33,7 +33,7 @@ public:
 
     virtual ~Timer() {}
 
-    void Tick(const s2_time delta_time);
+    bool Tick(const s2_time delta_time);
 
     void set_interval(const s2_time interval) {
         interval_ = interval;
