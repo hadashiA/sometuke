@@ -3,9 +3,8 @@
 
 #include "sometuke/director.h"
 #include "sometuke/vector.h"
-#include "sometuke/hashed_string.h"
 #include "sometuke/actor_id.h"
-#include "sometuke/scheduler.h"
+#include "sometuke/handler.h"
 
 #include <memory>
 #include <uuid/uuid.h>
@@ -14,15 +13,57 @@ namespace sometuke {
 
 typedef HashedString ActorType;
 
-class Actor : public enable_shared_from_this<Actor> {
+struct ActorMoveEvent : public Event {
+    static const EventType TYPE;
+
+    ActorMoveEvent(const ActorId& id, const vec3& pos)
+        : Event(TYPE),
+          actor_id(id),
+          location(pos) {
+    }
+
+    ActorId actor_id;
+    vec3 location;
+};
+
+struct ActorRotateEvent : public Event {
+    static const EventType TYPE;
+
+    ActorRotateEvent(const ActorId& id, const float degrees)
+        : Event(TYPE),
+          actor_id(id),
+          rotate(degrees) {
+    }
+
+    ActorId actor_id;
+    float rotate;
+};
+
+struct ActorDestroyEvent : public Event {
+    static const EventType TYPE;
+
+    ActorDestroyEvent(const ActorId& id)
+        : Event(TYPE),
+          actor_id(id) {
+    }
+
+    ActorId actor_id;
+};
+
+
+class Actor : public Handler {
 public:
     Actor(const ActorType& t)
         : type_(t),
-          id_() {
+          id_(),
+          location_(0, 0, 0),
+          rotation_(0) {
         id_.Generate();
     }
 
-    virtual ~Actor() {}
+    virtual ~Actor() {
+        Director::Instance().dispatcher().Queue<ActorDestroyEvent>(id_);
+    }
 
     const ActorId& id() const {
         return id_;
@@ -36,36 +77,37 @@ public:
         return type_;
     }
 
-    const vec3& position() const {
-        return position_;
-    }
-
-    void set_position(const vec3& position) {
-        position_ = position;
-    }
-
-    const vec2 size() const {
-        return size_;
-    }
-
-    void set_size(const vec2& size) {
-        size_ = size;
+    const vec3& location() const {
+        return location_;
     }
 
     const float rotation() const {
         return rotation_;
     }
 
+    void set_location(const float x, const float y) {
+        set_location(vec3(x, y, 1));
+    }
+
+    void set_location(const vec3& location) {
+        if (location_ != location) {
+            location_ = location;
+            Director::Instance().dispatcher().Queue<ActorMoveEvent>(id_, location);
+        }
+    }
+
     void set_rotation(const float rotation) {
-        rotation_ = rotation;
+        if (rotation_ != rotation) {
+            rotation_ = rotation;
+            Director::Instance().dispatcher().Queue<ActorRotateEvent>(id_, rotation);
+        }
     }
 
 protected:
     ActorId id_;
     HashedString type_;
 
-    vec3 position_;
-    vec2 size_;
+    vec3 location_;
     float rotation_;
 };
 
