@@ -53,6 +53,7 @@ public:
         if (const shared_ptr<Handler>& handler = handler_.lock()) {
             return (!handler->paused() && !handler->sleeping() && handler->Update(delta));
         }
+        return false;
     }
 
 private:    
