@@ -172,6 +172,10 @@ struct Vector3 {
         return x == v.x && y == v.y && z == v.z;
     }
 
+    bool operator!=(const Vector3& v) const {
+        return x != v.x || y != v.y || z != v.z;
+    }
+
     Vector3 Lerp(float t, const Vector3& v) const {
         return Vector3(x * (1 - t) + v.x * t,
                        y * (1 - t) + v.y * t,
