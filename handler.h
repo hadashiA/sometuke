@@ -28,6 +28,33 @@ public:
     virtual void Sleep() { sleeping_ = true;}
     virtual void WakeUp() { sleeping_ = false;}
 
+    template <typename T>
+    bool ListenTo() {
+        return listener().ListenTo<T>();
+    }
+
+    bool ListenTo(const EventType& type) {
+        return listener().ListenTo(type);
+    }
+
+    bool StopListering() {
+        return listener().StopListering();
+    }
+
+    void ScheduleUpdate() {
+        timer().ScheduleUpdate();
+    }
+
+    void ScheduleUpdate(const s2_time interval,
+                        const unsigned int repeat = Timer::REPEAT_FOREVER,
+                        const s2_time delay = 0) {
+        timer().ScheduleUpdate(interval, repeat, delay);
+    }
+
+    void UnSchedule() {
+        timer().UnSchedule();
+    }
+
     EventListener& listener();
     Timer& timer();
 

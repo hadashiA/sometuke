@@ -51,14 +51,14 @@ public:
         use_delay_ = (delay > 0);
     }
 
-    void Schedule();
-    void Schedule(const s2_time interval,
-                  const unsigned int repeat = REPEAT_FOREVER,
-                  const s2_time delay = 0) {
+    void ScheduleUpdate();
+    void ScheduleUpdate(const s2_time interval,
+                        const unsigned int repeat = REPEAT_FOREVER,
+                        const s2_time delay = 0) {
         set_interval(interval);
         set_repeat(repeat);
         set_delay(delay);
-        Schedule();
+        ScheduleUpdate();
     }
     
     void UnSchedule();
