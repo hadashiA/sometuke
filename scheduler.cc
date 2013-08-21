@@ -44,8 +44,8 @@ bool Timer::Tick(const s2_time delta_time) {
     return true;
 }
 
-void Timer::Schedule() {
-    Director::Instance().scheduler().Schedule(shared_from_this());
+void Timer::ScheduleUpdate() {
+    Director::Instance().scheduler().ScheduleUpdate(shared_from_this());
 }
 
 void Timer::UnSchedule() {

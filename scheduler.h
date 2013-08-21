@@ -79,7 +79,7 @@ typedef list<weak_ptr<Timer> > TimerList;
 
 class Scheduler {
 public:
-    void Schedule(const weak_ptr<Timer>& timer) {
+    void ScheduleUpdate(const weak_ptr<Timer>& timer) {
         timers_.push_back(timer);
     }
 
