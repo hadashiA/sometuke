@@ -249,7 +249,7 @@ public:
 };
 
 template<class T, class... Args>
-shared_ptr<T> New(Args&& ... args) {
+shared_ptr<T> Pool(Args&& ... args) {
     GeneralPoolAllocator<T> alloc;
     return allocate_shared<T>(alloc, std::forward<Args>(args)...);
 }

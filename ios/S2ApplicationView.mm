@@ -349,11 +349,11 @@
             CGPoint prev = [touch previousLocationInView:self];
 
             std::shared_ptr<sometuke::Touch> k_touch =
-                sometuke::New<sometuke::Touch>((sometuke::TouchId)touch,
-                                               phase,
-                                               sometuke::vec2(pos.x, pos.y),
-                                               sometuke::vec2(prev.x, prev.y),
-                                               touch.tapCount);
+                sometuke::Pool<sometuke::Touch>((sometuke::TouchId)touch,
+                                                phase,
+                                                sometuke::vec2(pos.x, pos.y),
+                                                sometuke::vec2(prev.x, prev.y),
+                                                touch.tapCount);
             touches_vec.push_back(k_touch);
         }
         dispatcher.Trigger(phase, touches_vec);

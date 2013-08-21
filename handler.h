@@ -55,6 +55,7 @@ public:
         timer().UnSchedule();
     }
 
+protected:
     EventListener& listener();
     Timer& timer();
 
