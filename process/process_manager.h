@@ -3,7 +3,6 @@
 
 #include "sometuke/types.h"
 #include "sometuke/scheduler.h"
-#include "sometuke/weak_ptr_hash.h"
 
 #include <memory>
 #include <list>
