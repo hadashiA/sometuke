@@ -13,6 +13,30 @@ namespace sometuke {
 
 typedef HashedString ActorType;
 
+struct ActorAddEvent : public Event {
+    static const EventType TYPE;
+
+    ActorAddEvent(const ActorId& id, const ActorType& t)
+        : Event(TYPE),
+          actor_id(id),
+          type(t) {
+    }
+
+    ActorId actor_id;
+    ActorType type;
+};
+
+struct ActorRemoveEvent : public Event {
+    static const EventType TYPE;
+
+    ActorRemoveEvent(const ActorId& id)
+        : Event(TYPE),
+          actor_id(id) {
+    }
+
+    ActorId actor_id;
+};
+
 struct ActorMoveEvent : public Event {
     static const EventType TYPE;
 
@@ -39,18 +63,6 @@ struct ActorRotateEvent : public Event {
     float rotate;
 };
 
-struct ActorDestroyEvent : public Event {
-    static const EventType TYPE;
-
-    ActorDestroyEvent(const ActorId& id)
-        : Event(TYPE),
-          actor_id(id) {
-    }
-
-    ActorId actor_id;
-};
-
-
 class Actor : public Handler {
 public:
     Actor(const ActorType& t)
@@ -59,10 +71,6 @@ public:
           location_(0, 0, 0),
           rotation_(0) {
         id_.Generate();
-    }
-
-    virtual ~Actor() {
-        Director::Instance().dispatcher().Queue<ActorDestroyEvent>(id_);
     }
 
     const ActorId& id() const {

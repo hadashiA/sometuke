@@ -58,22 +58,9 @@ public:
         root_node_->AddChild(layer);
     }
 
-    void AddActor(shared_ptr<Actor> actor) {
-        ActorTable::iterator i = actor_table_.find(actor->id());
-        if (i == actor_table_.end()) {
-            actor_table_[actor->id()] = actor;
-        } else {
-            IIWARN("Actor already exists id:%s", actor->id().c_str());
-        }
-    }
-
-    void RemoveActor(const ActorId& id) {
-        ActorTable::iterator i = actor_table_.find(id);
-        if (i != actor_table_.end()) {
-            actor_table_.erase(i);
-        }
-    }
-
+    void AddActor(const shared_ptr<Actor>& actor);
+    void RemoveActor(const ActorId& id);
+    
     shared_ptr<Actor> FindActor(const ActorId& id) {
         return actor_table_[id];
     }
