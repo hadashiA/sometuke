@@ -27,14 +27,6 @@ public:
     virtual void OnExit()    {}
     virtual void OnCleanup() {}
 
-    void OnAdd(const shared_ptr<Actor>& actor) {
-        Queue<ActorAddEvent>(actor);
-    }
-
-    void OnRemove(const shared_ptr<Actor>& actor) {
-        Queue<ActorRemoveEvent>(actor->id());
-    }
-
     void Visit() {
         root_node_->Visit();
         Render();
