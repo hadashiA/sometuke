@@ -2,12 +2,13 @@
 #define __sometuke__node_scene__
 
 #include "sometuke/actor_collection.h"
+#include "sometuke/actor.h"
 #include "sometuke/node/layer.h"
 
 namespace sometuke {
 using namespace std;
 
-class Scene : public ActorCollection {
+class Scene : public ActorCollection<Actor> {
 public:
     Scene()
         : root_node_(new Node) {
@@ -26,12 +27,12 @@ public:
     virtual void OnExit()    {}
     virtual void OnCleanup() {}
 
-    void OnAdd(const shared_ptr<ActorBase>& actor) {
-        Director::Instance().dispatcher().Queue<ActorAddEvent>(actor->id(), actor->type());
+    void OnAdd(const shared_ptr<Actor>& actor) {
+        Queue<ActorAddEvent>(actor);
     }
 
-    void OnRemove(const ActorId& id) {
-        Director::Instance().dispatcher().Queue<ActorRemoveEvent>(id);
+    void OnRemove(const shared_ptr<Actor>& actor) {
+        Queue<ActorRemoveEvent>(actor->id());
     }
 
     void Visit() {

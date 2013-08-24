@@ -3,7 +3,7 @@
 
 #include "sometuke/director.h"
 #include "sometuke/handler.h"
-#include "sometuke/actor_base.h"
+#include "sometuke/actor.h"
 
 #include <memory>
 #include <unordered_map>
@@ -11,16 +11,18 @@
 namespace sometuke {
 using namespace std;
 
+template <class A>
 class ActorCollection : public Handler {
 public:
-    typedef unordered_map<ActorId, shared_ptr<ActorBase> > Map;
+    typedef unordered_map<ActorId, shared_ptr<A> > Map;
 
     virtual ~ActorCollection() {}
 
-    void Add(const shared_ptr<ActorBase>& actor) {
+    void Add(const shared_ptr<A>& actor) {
         typename Map::iterator i = map_.find(actor->id());
         if (i == map_.end()) {
             map_[actor->id()] = actor;
+            Queue<ActorAddEvent>(actor);
             OnAdd(actor);
         } else {
             S2ERROR("already exists id:%s", actor->id().c_str());
@@ -30,23 +32,24 @@ public:
     void Remove(const ActorId& actor_id) {
         typename Map::iterator i = map_.find(actor_id);
         if (i != map_.end()) {
+            Queue<ActorRemoveEvent>(actor_id);
             OnRemove(i->second);
             map_.erase(i);
         }
     }
 
-    void Remove(const shared_ptr<ActorBase>& actor) {
+    void Remove(const shared_ptr<A>& actor) {
         Remove(actor->id());
     }
 
-    virtual void OnAdd(const shared_ptr<ActorBase>& actor) {}
-    virtual void OnRemove(const shared_ptr<ActorBase>& actor) {}
+    virtual void OnAdd(const shared_ptr<A>& actor) {}
+    virtual void OnRemove(const shared_ptr<A>& actor) {}
     
-    shared_ptr<ActorBase> Find(const ActorId& actor_id) {
+    shared_ptr<A> Find(const ActorId& actor_id) {
         return map_[actor_id];
     }
 
-    shared_ptr<ActorBase> operator[](const ActorId& actor_id) {
+    shared_ptr<A> operator[](const ActorId& actor_id) {
         return map_[actor_id];
     }
 

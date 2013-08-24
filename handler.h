@@ -1,8 +1,7 @@
 #ifndef __sometuke__handler__
 #define __sometuke__handler__
 
-#include "sometuke/scheduler.h"
-#include "sometuke/event_dispatcher.h"
+#include "sometuke/director.h"
 #include "sometuke/memory_pool.h"
 
 namespace sometuke {
@@ -35,6 +34,17 @@ public:
 
     bool ListenTo(const EventType& type) {
         return listener().ListenTo(type);
+    }
+
+    template<class T>
+    bool Queue() {
+        return Director::Instance().dispatcher().Queue<T>();
+    }
+
+    template<class T, class Arg1, class... Args>
+    bool Queue(Arg1&& arg1, Args&& ... args) {
+        return Director::Instance().dispatcher().Queue<T, Arg1, Args...>(std::forward<Arg1>(arg1),
+                                 std::forward<Args>(args)...);
     }
 
     bool StopListering() {

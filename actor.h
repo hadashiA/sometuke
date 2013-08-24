@@ -11,37 +11,35 @@
 
 namespace sometuke {
 
-class Scene;
-
 typedef HashedString ActorType;
+
+class Actor;
 
 struct ActorAddEvent : public Event {
     static const EventType TYPE;
 
-    ActorAddEvent(const ActorId& id, const ActorType& t)
+    ActorAddEvent(const shared_ptr<Actor>& actor)
         : Event(TYPE),
-          actor_id(id),
-          type(t) {
+          actor(actor) {
     }
 
-    ActorId actor_id;
-    ActorType type;
+    shared_ptr<Actor> actor;
 };
 
 struct ActorRemoveEvent : public Event {
     static const EventType TYPE;
 
-    ActorRemoveEvent(const ActorId& id)
+    ActorRemoveEvent(const ActorId& actor_id)
         : Event(TYPE),
-          actor_id(id) {
+          actor_id(actor_id) {
     }
 
     ActorId actor_id;
 };
 
-class ActorBase : public Handler {
+class Actor : public Handler {
 public:
-    ActorBase(const ActorType& t)
+    Actor(const ActorType& t)
         : type_(t),
           id_() {
           id_.Generate();
@@ -59,18 +57,10 @@ public:
         return type_;
     }
 
-    const shared_ptr<Scene> scene() const {
-        return scene_.lock();
-    }
-
-    void set_scene(const weak_ptr<Scene>& scene) {
-        scene_ = scene;
-    }
-
 protected:
     ActorId id_;
     HashedString type_;
-    weak_ptr<Scene> scene_;
+    // weak_ptr<ActorCollection> collection_;
 };
 
 }
