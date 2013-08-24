@@ -1,0 +1,59 @@
+#ifndef __Hitasura__collection__
+#define __Hitasura__collection__
+
+#include "sometuke/director.h"
+#include "sometuke/handler.h"
+#include "sometuke/actor_base.h"
+
+#include <memory>
+#include <unordered_map>
+
+namespace sometuke {
+using namespace std;
+
+class ActorCollection : public Handler {
+public:
+    typedef unordered_map<ActorId, shared_ptr<ActorBase> > Map;
+
+    virtual ~ActorCollection() {}
+
+    void Add(const shared_ptr<ActorBase>& actor) {
+        typename Map::iterator i = map_.find(actor->id());
+        if (i == map_.end()) {
+            map_[actor->id()] = actor;
+            OnAdd(actor);
+        } else {
+            S2ERROR("already exists id:%s", actor->id().c_str());
+        }
+    }
+
+    void Remove(const ActorId& actor_id) {
+        typename Map::iterator i = map_.find(actor_id);
+        if (i != map_.end()) {
+            OnRemove(i->second);
+            map_.erase(i);
+        }
+    }
+
+    void Remove(const shared_ptr<ActorBase>& actor) {
+        Remove(actor->id());
+    }
+
+    virtual void OnAdd(const shared_ptr<ActorBase>& actor) {}
+    virtual void OnRemove(const shared_ptr<ActorBase>& actor) {}
+    
+    shared_ptr<ActorBase> Find(const ActorId& actor_id) {
+        return map_[actor_id];
+    }
+
+    shared_ptr<ActorBase> operator[](const ActorId& actor_id) {
+        return map_[actor_id];
+    }
+
+private:
+    Map map_;
+};
+
+}
+
+#endif /* defined(__Hitasura__collection__) */

@@ -1,24 +1,13 @@
 #ifndef __sometuke__node_scene__
 #define __sometuke__node_scene__
 
-#include "sometuke/director.h"
-#include "sometuke/handler.h"
-#include "sometuke/matrix_stack.h"
-#include "sometuke/actor.h"
+#include "sometuke/actor_collection.h"
 #include "sometuke/node/layer.h"
-
-#include <memory>
-#include <vector>
-#include <unordered_map>
 
 namespace sometuke {
 using namespace std;
 
-class Actor;
-
-typedef unordered_map<ActorId, shared_ptr<Actor> > ActorTable;
-
-class Scene : public Handler {
+class Scene : public ActorCollection {
 public:
     Scene()
         : root_node_(new Node) {
@@ -37,6 +26,14 @@ public:
     virtual void OnExit()    {}
     virtual void OnCleanup() {}
 
+    void OnAdd(const shared_ptr<ActorBase>& actor) {
+        Director::Instance().dispatcher().Queue<ActorAddEvent>(actor->id(), actor->type());
+    }
+
+    void OnRemove(const ActorId& id) {
+        Director::Instance().dispatcher().Queue<ActorRemoveEvent>(id);
+    }
+
     void Visit() {
         root_node_->Visit();
         Render();
@@ -54,24 +51,12 @@ public:
         OnExit();
     }
 
-    void AddLayer(shared_ptr<Layer> layer) {
+    void AddLayer(const shared_ptr<Layer>& layer) {
         root_node_->AddChild(layer);
-    }
-
-    void AddActor(const shared_ptr<Actor>& actor);
-    void RemoveActor(const ActorId& id);
-    
-    shared_ptr<Actor> FindActor(const ActorId& id) {
-        return actor_table_[id];
-    }
-
-    shared_ptr<Actor> operator[](const ActorId& id) {
-        return actor_table_[id];
     }
 
 private:
     shared_ptr<Node> root_node_;
-    ActorTable actor_table_;
 };
 
 }

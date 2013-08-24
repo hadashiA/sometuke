@@ -20,6 +20,11 @@ public:
         ident_ = Hash(ident_string_);
     }
 
+    HashedString(const char *ident_char)
+        : ident_string_(ident_char) {
+        ident_ = Hash(ident_string_);
+    }
+
     const unsigned long id() const {
         return reinterpret_cast<unsigned long>(ident_);
     }

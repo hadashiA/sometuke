@@ -15,7 +15,7 @@
 #include "sometuke/animation_cache.h"
 
 // actor
-#include "sometuke/actor.h"
+#include "sometuke/actor_base.h"
 #include "sometuke/scene.h"
 
 // node
