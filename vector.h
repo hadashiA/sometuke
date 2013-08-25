@@ -44,6 +44,16 @@ struct Vector2 {
         return Vector2(x * s, y * s);
     }
 
+    void operator/=(float s) {
+        x /= s;
+        y /= s;
+    }
+
+    void operator*=(float s) {
+        x *= s;
+        y *= s;
+    }
+
     void Normalize() {
         float s = 1.0f / Length();
         x *= s;
