@@ -53,7 +53,18 @@ public:
     }
 
     bool operator==(const ActorId& rhs) const {
-        return (uuid_compare(uuid_ptr_.get(), rhs.uuid_ptr_.get()) == 0);
+        if (is_null()) {
+            return rhs.is_null();
+        } else if (rhs.is_null()) {
+            return false;
+        } else {
+            return (uuid_compare(uuid_ptr_.get(), rhs.uuid_ptr_.get()) == 0);
+        }
+    }
+
+    bool operator!=(const ActorId& rhs) const {
+        bool equals = (*this == rhs);
+        return !equals;
     }
 
 private:
