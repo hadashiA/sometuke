@@ -34,13 +34,13 @@
       multiSampling:(BOOL)sampling
     numberOfSamples:(unsigned int)nSamples {
 
-    return [[[[self class] alloc] initWithFrame:frame
+    return [[[self class] alloc] initWithFrame:frame
                                     colorFormat:format
                                     depthFormat:depth
                              preserveBackbuffer:preserveBackbuffer
                                      sharegroup:sharegroup
                                   multiSampling:sampling
-                                numberOfSamples:nSamples] autorelease];
+                               numberOfSamples:nSamples];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -78,7 +78,6 @@
             context_ = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         }
         if (!context_ || ![EAGLContext setCurrentContext:context_]) {
-            [self release];
             return nil;
         }
 

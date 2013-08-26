@@ -260,7 +260,6 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
 
     CGContextRelease(context);
     free(data);
-    [image release];
     
     return texture;
 }
