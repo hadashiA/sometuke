@@ -308,6 +308,14 @@
     isAnimating_ = NO;
 }
 
+- (void)pause {
+    sometuke::Director::Instance().Pause();
+}
+
+- (void)resume {
+    sometuke::Director::Instance().Resume();
+}
+
 #pragma mark -
 #pragma mark Pass the touches to the superview
 

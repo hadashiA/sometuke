@@ -70,6 +70,8 @@
 - (BOOL)resizeFromLayer;
 - (void)swapBuffers;
 - (BOOL)checkForGLExtension:(NSString *)searchName;
+- (void)pause;
+- (void)resume;
 
 @property (nonatomic, readonly) sometuke::Director *director;
 
