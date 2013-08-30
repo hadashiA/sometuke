@@ -28,7 +28,6 @@ public:
         
     virtual ~Director() {}
 
-
     template <typename ComponentFactory>
     bool Init() {
         ComponentFactory factory;
@@ -60,6 +59,9 @@ public:
 
     void Resize(const float point_width, const float point_height);
 
+    void Pause();
+    void Resume();
+
     const vec2& size_in_points() {
         return size_in_points_;
     }
@@ -86,7 +88,7 @@ public:
 
     void MainLoop(const s2_time delta_time);
 
-    void RunWithScene(shared_ptr<Scene> scene);
+    void RunWithScene(const shared_ptr<Scene>& scene);
     // void ReplaceScene(shared_ptr<Scene> scene);
     // void PushScene(shared_ptr<Scene> scene);
     // void PopScene();
@@ -124,28 +126,32 @@ private:
           frames_(0),
           total_frames_(0),
           total_time_(0),
+          paused_(false),
           size_in_points_(0, 0),
           size_in_pixels_(0, 0),
           content_scale_factor_(1),
           stats_shown_(true),
           stats_interval_(0.1),
-          debug_drawing_(false) {
-
-        set_animation_interval(1.0 / 60);
+          debug_drawing_(false),
+          animation_interval_(1.0/ 60),
+          animation_interval_was_(animation_interval_) {
     }
     Director& operator=(const Director&);
 
     bool InitGL();
     bool CreateStatsLabel();
     void ReshapeProjection();
-    void ShowStats(const s2_time delta);
+    void ShowStats();
 
     vec2 size_in_points_;
     vec2 size_in_pixels_;
     float content_scale_factor_;
 
     double animation_interval_;
+    double animation_interval_was_;
     double total_time_;
+
+    bool paused_;
 
     unique_ptr<Scheduler> scheduler_;
     unique_ptr<ProcessManager> process_manager_;
@@ -161,6 +167,7 @@ private:
     // stats
     unsigned int frames_;
     unsigned int total_frames_;
+    s2_time dt_;
     s2_time accum_dt_;
     float frame_rate_;
 

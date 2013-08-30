@@ -19,10 +19,36 @@ void Director::Resize(const float point_width, const float point_height) {
     ReshapeProjection();
 }
 
+void Director::Pause() {
+    if (paused_) {
+        return;
+    }
+
+    animation_interval_was_ = animation_interval_;
+    animation_interval_ = 1 / 4.0; // when paused, don't consume CPU
+
+    paused_ = true;
+}
+
+void Director::Resume() {
+    if (!paused_) {
+        return;
+    }
+
+    animation_interval_ = animation_interval_was_;
+    
+    paused_ = false;
+    dt_ = 0;
+}
+
 void Director::MainLoop(const s2_time delta_time) {
+    dt_ = delta_time;
+
     event_dispatcher_->Tick(0.02);
-    scheduler_->Update(delta_time);
-    process_manager_->Update(delta_time);
+    if (!paused_) {
+        scheduler_->Update(dt_);
+        process_manager_->Update(dt_);
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -35,13 +61,13 @@ void Director::MainLoop(const s2_time delta_time) {
     MatrixStack<GLModelView>::Instance().Pop();
 
     if (stats_shown_) {
-        ShowStats(delta_time);
+        ShowStats();
     }
 
     total_frames_++;
 }
 
-void Director::RunWithScene(shared_ptr<Scene> scene) {
+void Director::RunWithScene(const shared_ptr<Scene>& scene) {
     running_scene_ = scene;
     running_scene_->Enter();
 }
@@ -71,11 +97,11 @@ bool Director::CreateStatsLabel() {
     return true;
 }
 
-void Director::ShowStats(const s2_time delta) {
+void Director::ShowStats() {
     stringstream ss;
 
     frames_++;
-    accum_dt_ += delta;
+    accum_dt_ += dt_;
 
     if (accum_dt_ > stats_interval_) {
         frame_rate_ = frames_ / accum_dt_;
