@@ -25,7 +25,7 @@ void Director::Pause() {
     }
 
     animation_interval_was_ = animation_interval_;
-    animation_interval_ = 1 / 4.0; // when paused, don't consume CPU
+    // animation_interval_ = 1 / 4.0; // when paused, don't consume CPU
 
     paused_ = true;
 }
@@ -38,11 +38,16 @@ void Director::Resume() {
     animation_interval_ = animation_interval_was_;
     
     paused_ = false;
-    dt_ = 0;
+    NextDeltaTimeZero();
 }
 
 void Director::MainLoop(const s2_time delta_time) {
-    dt_ = delta_time;
+    if (next_delta_time_zero_) {
+        dt_ = 0;
+        next_delta_time_zero_ = false;
+    } else {
+        dt_ = delta_time;
+    }
 
     event_dispatcher_->Tick(0.02);
     if (!paused_) {

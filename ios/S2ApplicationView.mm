@@ -295,8 +295,6 @@
     if (!isAnimating_)
         return;
 
-    S2INFO("sometuke: animation stopped");
-
 // #if 0
 //     [runningThread_ cancel];
 //     [runningThread_ release];

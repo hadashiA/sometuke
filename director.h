@@ -61,6 +61,9 @@ public:
 
     void Pause();
     void Resume();
+    void NextDeltaTimeZero() {
+        next_delta_time_zero_ = true;
+    }
 
     const vec2& size_in_points() {
         return size_in_points_;
@@ -134,7 +137,10 @@ private:
           stats_interval_(0.1),
           debug_drawing_(false),
           animation_interval_(1.0/ 60),
-          animation_interval_was_(animation_interval_) {
+          animation_interval_was_(animation_interval_),
+          dt_(0),
+          accum_dt_(0),
+          next_delta_time_zero_(false) {
     }
     Director& operator=(const Director&);
 
@@ -169,6 +175,7 @@ private:
     unsigned int total_frames_;
     s2_time dt_;
     s2_time accum_dt_;
+    bool next_delta_time_zero_;
     float frame_rate_;
 
     bool stats_shown_;
