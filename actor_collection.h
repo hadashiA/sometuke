@@ -12,9 +12,13 @@ namespace sometuke {
 using namespace std;
 
 template <class A>
-class ActorCollection : public Handler {
+class ActorCollection : public Actor {
 public:
     typedef unordered_map<ActorId, shared_ptr<A> > Map;
+
+    ActorCollection()
+        : Actor("collection") {
+    }
 
     virtual ~ActorCollection() {}
 

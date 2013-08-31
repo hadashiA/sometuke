@@ -11,7 +11,8 @@ using namespace std;
 class Scene : public ActorCollection<Actor> {
 public:
     Scene()
-        : root_node_(new Node) {
+        : ActorCollection(),
+          root_node_(new Node) {
         root_node_->set_anchor_point(0.5, 0.5);
         root_node_->set_ignore_anchor_point_for_position(true);
         root_node_->set_content_size(Director::Instance().size_in_points());
