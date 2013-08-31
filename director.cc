@@ -77,19 +77,21 @@ void Director::RunWithScene(const shared_ptr<Scene>& scene) {
     running_scene_->Enter();
 }
 
-// void Director::ReplaceScene(shared_ptr<Scene> scene) {
-// }
+void Director::ReplaceScene(const shared_ptr<Scene>& scene) {
+}
 
-// void Director::PushScene(shared_ptr<Scene> scene) {
-// }
+void Director::PushScene(const shared_ptr<Scene>& scene) {
+    scene_stack_.push(scene);
+    next_scene_ = scene;
+}
 
-// void Director::PopScene() {
-// }
-
-// void Director::SetNextScene(shared_ptr<Scene> scene) {
-// }
+void Director::PopScene() {
+}
 
 // private
+
+void Director::EnterNextScene() {
+}
 
 bool Director::CreateStatsLabel() {
     fps_label_ = make_shared<LabelAtlas>();

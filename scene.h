@@ -26,7 +26,7 @@ public:
 
     virtual void OnEnter()   {}
     virtual void OnExit()    {}
-    virtual void OnCleanup() {}
+    virtual void Cleanup() {}
 
     void Visit() {
         root_node_->Visit();

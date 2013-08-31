@@ -8,7 +8,7 @@
 #include "sometuke/event_dispatcher.h"
 #include "sometuke/application_component.h"
 
-#include <vector>
+#include <stack>
 #include <memory>
 
 #include <OpenGLES/ES2/gl.h>
@@ -26,8 +26,6 @@ public:
         return *__instance;
     }
         
-    virtual ~Director() {}
-
     template <typename ComponentFactory>
     bool Init() {
         ComponentFactory factory;
@@ -92,9 +90,9 @@ public:
     void MainLoop(const s2_time delta_time);
 
     void RunWithScene(const shared_ptr<Scene>& scene);
-    // void ReplaceScene(shared_ptr<Scene> scene);
-    // void PushScene(shared_ptr<Scene> scene);
-    // void PopScene();
+    void ReplaceScene(const shared_ptr<Scene>& scene);
+    void PushScene(const shared_ptr<Scene>& scene);
+    void PopScene();
 
     // void SetNextScene(shared_ptr<Scene> scene);
     shared_ptr<Scene> scene() {
@@ -133,6 +131,7 @@ private:
           size_in_points_(0, 0),
           size_in_pixels_(0, 0),
           content_scale_factor_(1),
+          send_cleanup_to_scene_(0),
           stats_shown_(true),
           stats_interval_(0.1),
           debug_drawing_(false),
@@ -148,6 +147,8 @@ private:
     bool CreateStatsLabel();
     void ReshapeProjection();
     void ShowStats();
+
+    void EnterNextScene();
 
     vec2 size_in_points_;
     vec2 size_in_pixels_;
@@ -166,9 +167,10 @@ private:
     unique_ptr<SystemFontLoader> system_fonts_;
 
     // scene stuff
-    vector<shared_ptr<Scene> > scene_stack_;
+    stack<shared_ptr<Scene> > scene_stack_;
     shared_ptr<Scene> running_scene_;
     shared_ptr<Scene> next_scene_;
+    bool send_cleanup_to_scene_;
 
     // stats
     unsigned int frames_;
