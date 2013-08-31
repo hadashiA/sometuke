@@ -55,6 +55,10 @@ void Director::MainLoop(const s2_time delta_time) {
         process_manager_->Update(dt_);
     }
 
+    if (next_scene_) {
+        EnterNextScene();
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     MatrixStack<GLModelView>::Instance().Push();
@@ -78,19 +82,38 @@ void Director::RunWithScene(const shared_ptr<Scene>& scene) {
 }
 
 void Director::ReplaceScene(const shared_ptr<Scene>& scene) {
+    scene_stack_.pop();
+    scene_stack_.push(scene);
+    next_scene_ = scene;
 }
 
 void Director::PushScene(const shared_ptr<Scene>& scene) {
+    send_cleanup_to_scene_ = false;
+
     scene_stack_.push(scene);
     next_scene_ = scene;
 }
 
 void Director::PopScene() {
+    scene_stack_.pop();
+    if (!scene_stack_.empty()) {
+        send_cleanup_to_scene_ = true;
+        next_scene_ = scene_stack_.top();
+    }
 }
 
 // private
 
 void Director::EnterNextScene() {
+    running_scene_->OnExit();
+    if (send_cleanup_to_scene_) {
+        running_scene_->Cleanup();
+    }
+
+    running_scene_ = next_scene_;
+    next_scene_.reset();
+
+    running_scene_->OnEnter();
 }
 
 bool Director::CreateStatsLabel() {
