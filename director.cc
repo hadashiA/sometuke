@@ -77,8 +77,7 @@ void Director::MainLoop(const s2_time delta_time) {
 }
 
 void Director::RunWithScene(const shared_ptr<Scene>& scene) {
-    running_scene_ = scene;
-    running_scene_->Enter();
+    PushScene(scene);
 }
 
 void Director::ReplaceScene(const shared_ptr<Scene>& scene) {
@@ -105,9 +104,11 @@ void Director::PopScene() {
 // private
 
 void Director::EnterNextScene() {
-    running_scene_->OnExit();
-    if (send_cleanup_to_scene_) {
-        running_scene_->Cleanup();
+    if (running_scene_) {
+        running_scene_->OnExit();
+        if (send_cleanup_to_scene_) {
+            running_scene_->Cleanup();
+        }
     }
 
     running_scene_ = next_scene_;
