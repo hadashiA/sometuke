@@ -8,7 +8,7 @@
 namespace sometuke {
 using namespace std;
 
-class Scene : public Handler {
+class Scene : public ActorCollection<Actor> {
 public:
     Scene()
         : root_node_(new Node) {
