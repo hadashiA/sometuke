@@ -17,6 +17,9 @@ public:
     }
 
     shared_ptr<Texture2D> FetchFromPath(const string& path);
+    void Purge() {
+        textures_.clear();
+    }
 
 private:
     typedef unordered_map<unsigned int, shared_ptr<Texture2D> > TextureTable;

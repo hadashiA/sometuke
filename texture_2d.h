@@ -58,6 +58,12 @@ public:
           format_(kPixelFormat_Default) {
     }
 
+    ~Texture2D() {
+        if (id_) {
+            glDeleteTextures(1, &id_);
+        }
+    }
+
     const GLuint id() const {
         return id_;
     }
