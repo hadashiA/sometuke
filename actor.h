@@ -14,6 +14,7 @@ namespace sometuke {
 typedef HashedString ActorType;
 
 class Actor;
+class Node;
 
 struct ActorAddEvent : public Event {
     static const EventType TYPE;
@@ -56,6 +57,8 @@ public:
     const HashedString& type() const {
         return type_;
     }
+
+    virtual shared_ptr<Node> CreateNode() = 0;
 
 protected:
     ActorId id_;
