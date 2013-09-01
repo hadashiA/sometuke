@@ -12,22 +12,6 @@ namespace sometuke {
 typedef Vector2<GLfloat> vec2gl;
 typedef Vector3<GLfloat> vec3gl;
 
-// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
-//! Vertical text alignment type
-typedef enum {
-    kVerticalTextAlignmentTop,
-    kVerticalTextAlignmentCenter,
-    kVerticalTextAlignmentBottom,
-} VerticalTextAlignment;
-
-// XXX: If any of these enums are edited and/or reordered, update CCTexture2D.m
-//! Horizontal text alignment type
-typedef enum {
-    kTextAlignmentLeft,
-    kTextAlignmentCenter,
-    kTextAlignmentRight,
-} TextAlignment;
-
 struct Tex2F {
     GLfloat u;
     GLfloat v;
