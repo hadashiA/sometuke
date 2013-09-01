@@ -14,6 +14,16 @@ struct Color3B {
     GLubyte r;
     GLubyte g;
     GLubyte b;
+
+    const static Color3B WHITE;
+    const static Color3B YELLOW;
+    const static Color3B BLUE;
+    const static Color3B GREEN;
+    const static Color3B RED;
+    const static Color3B MAGENTA;
+    const static Color3B BLACK;
+    const static Color3B ORANGE;
+    const static Color3B GRAY;
 };
 
 struct Color4B {
@@ -27,6 +37,16 @@ struct Color4B {
     GLubyte g;
     GLubyte b;
     GLubyte a;
+
+    const static Color4B WHITE;
+    const static Color4B YELLOW;
+    const static Color4B BLUE;
+    const static Color4B GREEN;
+    const static Color4B RED;
+    const static Color4B MAGENTA;
+    const static Color4B BLACK;
+    const static Color4B ORANGE;
+    const static Color4B GRAY;
 };
 
 struct Color4F {
@@ -45,6 +65,16 @@ struct Color4F {
     GLfloat g;
     GLfloat b;
     GLfloat a;
+
+    const static Color4F WHITE;
+    const static Color4F YELLOW;
+    const static Color4F BLUE;
+    const static Color4F GREEN;
+    const static Color4F RED;
+    const static Color4F MAGENTA;
+    const static Color4F BLACK;
+    const static Color4F ORANGE;
+    const static Color4F GRAY;
 };
 
 // struct Color4B {
