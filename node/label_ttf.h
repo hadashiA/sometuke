@@ -2,20 +2,9 @@
 #define __Hitasura__label_ttf__
 
 #include "sometuke/node/sprite.h"
+#include "sometuke/application_component.h"
 
 namespace sometuke {
-
-typedef enum {
-    kVerticalTextAlignmentTop,
-    kVerticalTextAlignmentCenter,
-    kVerticalTextAlignmentBottom,
-} VerticalTextAlignment;
-
-typedef enum {
-    kTextAlignmentLeft,
-    kTextAlignmentCenter,
-    kTextAlignmentRight,
-} TextAlignment;
 
 class LabelTTF : public Sprite,
                  public LabelInterface {
@@ -42,8 +31,6 @@ public:
         return text_;
     }
 
-    void RegisterCustomTTF(const string& font_path);
-
 private:
     string text_;
     string font_name_;
@@ -53,8 +40,8 @@ private:
     bool is_texture_dirty_;
 
     // alignment
-    TextAlignment horizontal_alignment_;
-    VerticalTextAlignment vertical_alignment_;
+    SystemFontLoader::TextAlignment horizontal_alignment_;
+    SystemFontLoader::VerticalTextAlignment vertical_alignment_;
 
     // shadow
     Color4B shadow_color_;
@@ -65,7 +52,7 @@ private:
     Color4B outline_color_;
     float outline_width_;
 
-    // adjustments
+    // font adjustments
     bool adjusts_font_size_to_fit_;
     float minimum_font_size_;
     float baseline_adjustment_;

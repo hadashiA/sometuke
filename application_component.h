@@ -30,6 +30,12 @@ public:
     } TextAlignment;
 
     typedef enum {
+        kVerticalTextAlignmentTop,
+        kVerticalTextAlignmentCenter,
+        kVerticalTextAlignmentBottom,
+    } VerticalTextAlignment;
+
+    typedef enum {
         kLineBreakModeWordWrap,
         kLineBreakModeCharacterWrap,
         kLineBreakModeClip,
