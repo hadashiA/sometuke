@@ -11,20 +11,15 @@ class IOSSystemFontLoader : public SystemFontLoader {
 public:
     shared_ptr<Texture2D> CreateTexture(const string& str,
                                         const string& font_name,
-                                        float font_size) {
-        return shared_ptr<Texture2D>();
-    }
+                                        float font_size);
 
-    shared_ptr<Texture2D> CreateTexture(
-        const string& str,
-        const string& font_name,
-        const float fond_size,
-        const vec2& dimentions,
-        TextAlignment h_alignment,
-        TextAlignment v_alignment,
-        LineBreakMode line_break_mode = kLineBreakModeWordWrap) {
-        return shared_ptr<Texture2D>();
-    }
+    shared_ptr<Texture2D> CreateTexture(const string& str,
+                                        const string& font_name,
+                                        float font_size,
+                                        const vec2& dimentions);
+private:
+    shared_ptr<Texture2D> CreateTextureWithString(NSString *);
+    shared_ptr<Texture2D> CreateTextureWithAttributedString(NSAttributedString *);
 };
 
 }

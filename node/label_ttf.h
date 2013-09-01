@@ -10,7 +10,12 @@ class LabelTTF : public Sprite,
                  public LabelInterface {
 public:
     LabelTTF()
-        : is_texture_dirty_(false) {
+        : text_(""),
+          dimentions_(0, 0),
+          is_texture_dirty_(false),
+          h_alignment(TextAlignment::LEFT),
+          v_alignment(TextAlignment::TOP)
+    {
     }
                      
     virtual ~LabelTTF() {}
@@ -21,9 +26,15 @@ public:
 
     bool InitWithText(const string& text,
                       const string& font_name,
-                      float font_size,
-                      vec2 dimentions);
-    
+                      flaot font_size,
+                      const vec2& dimentions,
+                      TextHAlignment h_alignment = TextHAlignment::LEFT,
+                      TextVAlignment v_alignment = TextVAlignment::TOP);
+
+    bool initWithStringAndTextDefinition(const string& string,
+                                         const FontDefinition& font_definition);
+
+    bool LabelTTF::UpdateTexture();
 
     void set_text(const string& text);
 
@@ -31,31 +42,37 @@ public:
         return text_;
     }
 
+    TextHAlignment h_alignment() const {
+        return h_alignment_;
+    }
+
+    void set_h_alignment(TextHAlignment h_alignment) {
+        h_alignment_ = h_alignment;
+    }
+
 private:
+    FontDefinition CreateFontDef(bool adjust_for_resolution);
+
     string text_;
-    string font_name_;
-    float fond_size_;
-    Color4B font_color_;
-    vec2 dimentions;
+    vec2 dimentions_;
     bool is_texture_dirty_;
 
-    // alignment
-    SystemFontLoader::TextAlignment horizontal_alignment_;
-    SystemFontLoader::VerticalTextAlignment vertical_alignment_;
+    TextHAlignment h_alignment_;
+    TextVAlignment v_alignment_;
+    string font_name;
+    float font_size;
 
-    // shadow
-    Color4B shadow_color_;
-    vec2 shadow_offset_;
-    float shasow_blur_radius_;
+    // font shadow
+    bool shadow_enabled_;
+    float shadow_offset_;
+    float shadow_opacity_;
+    float shadwo_blur_;
 
-    // outline
-    Color4B outline_color_;
-    float outline_width_;
-
-    // font adjustments
-    bool adjusts_font_size_to_fit_;
-    float minimum_font_size_;
-    float baseline_adjustment_;
+    // font stroke
+    bool stroke_enabled_;
+    Color3B stroke_color_;
+    float stroke_size_;
+    Color3B text_fill_color_;
 };
     
 }
