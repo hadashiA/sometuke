@@ -54,9 +54,9 @@ public:
         LineBreakMode line_break_mode = kLineBreakModeWordWrap) = 0;
 };
 
-class ApplicationComponentFactory {
+class ApplicationComponent {
 public:
-    virtual ~ApplicationComponentFactory() {}
+    virtual ~ApplicationComponent() {}
     virtual AssetsLoader *CreateAssetsLoader() = 0;
     virtual SystemFontLoader *CreateSystemFontLoader() = 0;
 };

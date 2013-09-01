@@ -7,9 +7,9 @@
 
 namespace sometuke {
 
-class IOSComponentFactory : public ApplicationComponentFactory {
+class IOSComponent : public ApplicationComponent {
 public:
-    virtual ~IOSComponentFactory() {}
+    virtual ~IOSComponent() {}
 
     virtual AssetsLoader *CreateAssetsLoader() {
         return new IOSAssetsLoader;
