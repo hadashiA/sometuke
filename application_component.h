@@ -74,7 +74,7 @@ public:
         : font_size(0),
           h_alignment(TextHAlignment::CENTER),
           v_alignment(TextVAlignment::TOP),
-          dimensions_(0, 0),
+          dimensions(0, 0),
           font_fill_color(Color3B::WHITE) {
     }
     
@@ -103,29 +103,26 @@ public:
     virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
 };
 
-class SystemFontLoader {
-public:    
-    virtual ~SystemFontLoader() {}
+class SystemFontRenderer {
+public:
+    virtual ~SystemFontRenderer() {}
 
-    virtual shared_ptr<Texture2D> CreateTexture(const string& str,
+    virtual shared_ptr<Texture2D> CreateTexture(const string& text,
+                                                const FontDefinition& font_def) = 0;
+    
+    virtual shared_ptr<Texture2D> CreateTexture(const string& text,
                                                 const string& font_name,
-                                                float font_size) = 0;
-
-    virtual shared_ptr<Texture2D> CreateTexture(
-        const string& str,
-        const string& font_name,
-        const float fond_size,
-        const vec2& dimentions,
-        TextAlignment h_alignment,
-        TextAlignment v_alignment,
-        LineBreakMode line_break_mode = kLineBreakModeWordWrap) = 0;
+                                                const float fond_size,
+                                                const vec2& dimentions = vec2(0, 0),
+                                                TextHAlignment h_alignment = TextHAlignment::LEFT,
+                                                TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
 };
 
 class ApplicationComponent {
 public:
     virtual ~ApplicationComponent() {}
     virtual AssetsLoader *CreateAssetsLoader() = 0;
-    virtual SystemFontLoader *CreateSystemFontLoader() = 0;
+    virtual SystemFontRenderer *CreateSystemFontRenderer() = 0;
 };
 
 }

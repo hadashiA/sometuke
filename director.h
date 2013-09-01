@@ -30,7 +30,7 @@ public:
     bool Init() {
         ComponentFactory factory;
         loader_.reset(factory.CreateAssetsLoader());
-        system_fonts_.reset(factory.CreateSystemFontLoader());
+        system_fonts_.reset(factory.CreateSystemFontRenderer());
         
         return InitGL();
     }
@@ -51,7 +51,7 @@ public:
         return *loader_;
     }
 
-    SystemFontLoader& system_fonts() {
+    SystemFontRenderer& system_fonts() {
         return *system_fonts_;
     }
 
@@ -164,7 +164,7 @@ private:
     unique_ptr<ProcessManager> process_manager_;
     unique_ptr<EventDispatcher> event_dispatcher_;
     unique_ptr<AssetsLoader> loader_;
-    unique_ptr<SystemFontLoader> system_fonts_;
+    unique_ptr<SystemFontRenderer> system_fonts_;
 
     // scene stuff
     stack<shared_ptr<Scene> > scene_stack_;

@@ -1,11 +1,13 @@
 #include "sometuke/color.h"
 
-Color4B::Color4B(const Color4F &color4f)
-    : r((GLubyte)(color4f.r * 255.0f)),
-      g((GLubyte)(color4f.g * 255.0f)),
-      b((GLubyte)(color4f.b * 255.0f)),
-      a((GLubyte)(color4f.a * 255.0f)) {
-}
+namespace sometuke {
+
+// Color4B::Color4B(const Color4F &color4f)
+//     : r((GLubyte)(color4f.r * 255.0f)),
+//       g((GLubyte)(color4f.g * 255.0f)),
+//       b((GLubyte)(color4f.b * 255.0f)),
+//       a((GLubyte)(color4f.a * 255.0f)) {
+// }
 
 const Color3B Color3B::WHITE(255,255,255);
 const Color3B Color3B::YELLOW(255,255,0);
@@ -36,3 +38,5 @@ const Color4F Color4F::MAGENTA(1,0,1,1);
 const Color4F Color4F::BLACK(0,0,0,1);
 const Color4F Color4F::ORANGE(1,0.5,0,1);
 const Color4F Color4F::GRAY(0.65,0.65,0.65,1);
+    
+}

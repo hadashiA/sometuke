@@ -35,6 +35,7 @@ void LabelTTF::set_text(const string& text) {
 
 bool LabelTTF::UpdateTexture() {
     FontDefinition font_def = CreateFontDef(true);
+    shared_ptr<Texture2D> texture = Director::Instance().system_fonts().CreateTexture(font_def);
 }
 
 FontDefinition LabelTTF::CreateFontDef(bool adjust_for_resolution) {

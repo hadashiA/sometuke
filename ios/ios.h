@@ -3,7 +3,7 @@
 
 #include "sometuke/application_component.h"
 #include "sometuke/ios/ios_assets_loader.h"
-#include "sometuke/ios/ios_system_font_loader.h"
+#include "sometuke/ios/ios_system_font_renderer.h"
 
 namespace sometuke {
 
@@ -15,8 +15,8 @@ public:
         return new IOSAssetsLoader;
     }
 
-    virtual SystemFontLoader *CreateSystemFontLoader() {
-        return new IOSSystemFontLoader;
+    virtual SystemFontRenderer *CreateSystemFontRenderer() {
+        return new IOSSystemFontRenderer;
     }
 };
 
