@@ -2,8 +2,8 @@
 #define __sometuke__application_component_factory__
 
 #include "sometuke/vector.h"
-
-#include "color.h"
+#include "sometuke/color.h"
+#include "sometuke/image.h"
 
 #include <vector>
 #include <memory>
@@ -13,11 +13,7 @@ namespace sometuke {
 using namespace std;
 
 class Texture2D;
-
-// ???
-// class Image {
-// public:
-// };
+class Image;
 
 enum class TextHAlignment {
     LEFT,
