@@ -7,68 +7,24 @@
 
 namespace sometuke {
 
-const string IOSAssetsLoader::FullPathFromRelativePath(const string& relative_path) {
-    DeviceType d = RunningDevice();
-
-    string suffix = suffixes_[d];
-        
-    int ext_pos = relative_path.find_last_of('.');
-    string extname  = (ext_pos == string::npos ? "" : relative_path.substr(ext_pos));
-
-    string relative_path_with_suffix = relative_path;
+shared_ptr<Image> CreateImageFromFile(const string& path, Image::Format format) {
+	bool bRet = false;
+        unsigned long nSize = 0;
+    unsigned char* pBuffer = CCFileUtils::sharedFileUtils()->getFileData(
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(strPath).c_str(),
+				"rb",
+				&nSize);
+				
+    if (pBuffer != NULL && nSize > 0)
+    {
+        bRet = initWithImageData(pBuffer, nSize, eImgFmt);
+    }
+    CC_SAFE_DELETE_ARRAY(pBuffer);
+    return bRet;
     
-    if (!suffix.empty() && extname != ".frag" && extname != ".vert") {
-        string basename = relative_path.substr(0, ext_pos);
-
-        if (basename.find(suffix) == string::npos) {
-            if (extname == ".ccz" || extname == ".gz") {
-                ext_pos = basename.find_last_of('.');
-                if (ext_pos != string::npos) {
-                    extname.insert(0, basename.substr(ext_pos));
-                    basename.erase(ext_pos);
-                }
-            }
-            relative_path_with_suffix = basename + suffix + extname;
-
-        } else {
-            IIWARN("filename:%s already has the suffix %s. Using it.",
-                    relative_path.c_str(), suffix.c_str());
-        }
-    }
-    int dir_pos = relative_path_with_suffix.find_last_of('/');
-    string dirname, filename;
-    if (dir_pos == string::npos) {
-        dirname  = "";
-        filename = relative_path_with_suffix;
-    } else {
-        dirname  = relative_path_with_suffix.substr(0, dir_pos);
-        filename = relative_path_with_suffix.substr(dir_pos);
-    }
-
-    NSString *result_ns =
-        [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filename.c_str()]
-                                        ofType:nil
-                                   inDirectory:[NSString stringWithUTF8String:dirname.c_str()]];
-
-    if (!result_ns) {
-        IIWARN("ios_assets_loader: file not found: %s", relative_path_with_suffix.c_str());
-        return string("");
-    } else {
-        return string([result_ns UTF8String]);
-    }
 }
 
-vector<char> IOSAssetsLoader::ReadBytes(const string &relative_path) {
-    ifstream io(FullPathFromRelativePath(relative_path));
-    size_t size = io.seekg(0, ios::end).tellg();
-    vector<char> buf(size);
-    io.seekg(0, ios::beg).read(&buf[0], size);
-    io.close();
-
-    return buf;
-}
-
-shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) {
+shared_ptr<Image> IOSImageLoader::ReadTexture(const string &relative_path) {
     string full_path = FullPathFromRelativePath(relative_path);
     NSString *full_path_ns = [NSString stringWithUTF8String:full_path.c_str()];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:full_path_ns];
@@ -147,7 +103,7 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
         }
     }
 
-    unsigned int max_texture_size = MaxTextureSize();
+    unsigned int max_texture_size = Director::Instance().configuration().MaxTextureSize();
     if (pixel_size.y > max_texture_size || pixel_size.x > max_texture_size) {
         IIWARN("cocos2d: WARNING: Image (%lu x %lu) is bigger than the supported %ld x %ld",
                   (long)pixel_size.x, (long)pixel_size.y,
@@ -262,11 +218,6 @@ shared_ptr<Texture2D> IOSAssetsLoader::ReadTexture(const string &relative_path) 
     free(data);
     
     return texture;
-}
-
-string IOSAssetsLoader::ReadString(const string &relative_path) {
-    vector<char> buf = ReadBytes(relative_path);
-    return string(buf.begin(), buf.end());
 }
 
 }

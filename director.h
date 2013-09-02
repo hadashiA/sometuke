@@ -29,7 +29,9 @@ public:
     template <typename ComponentFactory>
     bool Init() {
         ComponentFactory factory;
-        loader_.reset(factory.CreateAssetsLoader());
+        configuration_.reset(factory.CreateConfiguration());
+        file_utils_.reset(factory.CreateFileUtils());
+        image_.reset(factory.CreateImageLoader());
         system_fonts_.reset(factory.CreateSystemFontRenderer());
         
         return InitGL();
@@ -47,8 +49,16 @@ public:
         return *event_dispatcher_;
     }
 
-    AssetsLoader& loader() const {
-        return *loader_;
+    Configuration& configuration() {
+        return *configuration_;
+    }
+
+    FileUtils& file_utils() {
+        return *file_utils_;
+    }
+
+    ImageLoader& image() {
+        return *image_;
     }
 
     SystemFontRenderer& system_fonts() {
@@ -163,8 +173,13 @@ private:
     unique_ptr<Scheduler> scheduler_;
     unique_ptr<ProcessManager> process_manager_;
     unique_ptr<EventDispatcher> event_dispatcher_;
-    unique_ptr<AssetsLoader> loader_;
+
+    // application components
+    unique_ptr<Configuration> configuration_;
+    unique_ptr<FileUtils> file_utils_;
+    unique_ptr<ImageLoader> image_;
     unique_ptr<SystemFontRenderer> system_fonts_;
+    
 
     // scene stuff
     stack<shared_ptr<Scene> > scene_stack_;

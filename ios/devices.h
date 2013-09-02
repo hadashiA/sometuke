@@ -71,22 +71,6 @@ static inline const unsigned int RunningVersion() {
     return __ios_version;
 }
 
-static inline const GLint MaxTextureSize() {
-    static GLint __max_texture_size = -1;
-    if (__max_texture_size == -1) {
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &__max_texture_size);
-    }
-    return __max_texture_size;
-}
-
-static inline const GLint MaxTextureUnits() {
-    static GLint __max_texture_units = -1;
-    if (__max_texture_units == -1) {
-        glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &__max_texture_units);
-    }
-    return __max_texture_units;
-}
-
 }
 
 #endif

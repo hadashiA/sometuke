@@ -12,9 +12,6 @@
 namespace sometuke {
 using namespace std;
 
-class Texture2D;
-class Image;
-
 enum class TextHAlignment {
     LEFT,
     CENTER,
@@ -90,34 +87,104 @@ public:
     
 };
 
-class AssetsLoader {
+class Image {
 public:
-    virtual ~AssetsLoader() {}
-    virtual vector<char> ReadBytes(const string& relative_path) = 0;
-    virtual shared_ptr<Texture2D> ReadTexture(const string &relative_path) = 0;
-    virtual string ReadString(const string &relative_path) = 0;
+    enum class Format {
+        JPG,
+        PNG,
+        TIFF,
+        WEBP,
+        ROWDATA,
+        UNKNOWN,
+    };
+
+    Image()
+        : width_(0),
+          height_(0),
+          bits_per_component_(0),
+          has_alpha_(false),
+          pre_multi_(false) {
+    }
+
+    virtual ~Image() {}
+
+    unsigned char *data() {
+        return bytes_.data();
+    }
+
+    const size_t size() const {
+        return width_ * height_;
+    }
+
+    bool has_alpha() {
+        return has_alpha_;
+    }
+
+    bool is_premultipled_alpha() {
+        return premulti_;
+    }
+
+    unsigned short width() {
+        return width_;
+    }
+
+    unsigned short height() {
+        return height_;
+    }
+
+private:
+    // noncopyable
+    Image(const Image&);
+    Image& operator=(const Image&);
+
+    vector<unsigned char> bytes_;
+    bool has_alpha_;
+    bool premulti_;
+    unsigned short width_;
+    unsigned short height_;
+    int bits_per_component_;
+};
+
+class Configuration {
+public:
+    virtual ~Configuration() {}
+    virtual GLint MaxTextureSize() = 0;
+    virtual GLint MaxTextureUnits() = 0;
+};
+
+class FileUtils {
+public:
+    virtual ~FileUtils() {}
     virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
+    virtual vector<unsigned char> ReadBytes(const string& relative_path);
+    virtual string ReadString(const string &relative_path);
+};
+
+class ImageLoader {
+public:
+    virtual ~ImageLoader() {}
+
+    virtual shared_ptr<Image> CreateImageFromFile(const string& path, Image::Format format) = 0;
 };
 
 class SystemFontRenderer {
 public:
     virtual ~SystemFontRenderer() {}
-
-    virtual shared_ptr<Texture2D> CreateTexture(const string& text,
-                                                const FontDefinition& font_def) = 0;
     
-    virtual shared_ptr<Texture2D> CreateTexture(const string& text,
-                                                const string& font_name,
-                                                const float fond_size,
-                                                const vec2& dimentions = vec2(0, 0),
-                                                TextHAlignment h_alignment = TextHAlignment::LEFT,
-                                                TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
+    virtual shared_ptr<Image> CreateImage(const string& text,
+                                          const string& font_name,
+                                          const float fond_size,
+                                          const vec2& dimentions = vec2(0, 0),
+                                          TextHAlignment h_alignment = TextHAlignment::LEFT,
+                                          TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
 };
 
 class ApplicationComponent {
 public:
     virtual ~ApplicationComponent() {}
-    virtual AssetsLoader *CreateAssetsLoader() = 0;
+    virtual Configuration *CreateConfiguration() = 0;
+    virtual FileUtils *CreateFileUtils() = 0;
+    virtual ImageLoader *CreateAssetsLoader() = 0;
     virtual SystemFontRenderer *CreateSystemFontRenderer() = 0;
 };
 

@@ -1,25 +1,20 @@
-#ifndef __sometuke__ios_ios_assets_loader__
-#define __sometuke__ios_ios_assets_loader__
+#ifndef __sometuke__ios_ios_file_utils__
+#define __sometuke__ios_ios_file_utils__
 
 #include "sometuke/application_component.h"
 #include "sometuke/ios/devices.h"
 
 namespace sometuke {
 
-using namespace std;
-
-class IOSAssetsLoader : public AssetsLoader {
+class IOSdImageLoader : public ImageLoader {
 public:
-    IOSAssetsLoader() {
+    IOSImageLoder() {
         suffixes_[kiPhone]              = "";
         suffixes_[kiPhoneRetinaDisplay] = "@x2";
         suffixes_[kiPad]                = "-ipad";
         suffixes_[kiPadRetinaDisplay]   = "-ipad@x2";
     }
 
-    vector<char> ReadBytes(const string& relative_path);
-    shared_ptr<Texture2D> ReadTexture(const string &relative_path);
-    string ReadString(const string& relative_path);
     const string FullPathFromRelativePath(const string& relative_path);
 
 private:
@@ -33,7 +28,7 @@ private:
 
     string suffixes_[kDevice_MAX];
 };
+    
+}
 
-} 
-
-#endif /* defined(__sometuke__ios_assets_loader__) */
+#endif /* defined(__sometuke___ios_ios_file_utils__) */

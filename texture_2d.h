@@ -64,6 +64,12 @@ public:
         }
     }
 
+
+    bool InitWithData(const void* data, PixelFormat pixel_format,
+                      const ivec2& pixel_size, const vec2& content_size);
+
+    bool InitWithImage(const shared_ptr<Image>& image);
+
     const GLuint id() const {
         return id_;
     }
@@ -92,9 +98,6 @@ public:
                             const GLuint map_filter,
                             const GLuint wrap_s,
                             const GLuint wrap_t);
-
-    bool LoadData(const void* data, PixelFormat pixel_format,
-                  ivec2 pixelSize_, vec2 contentSize_);
 
 private:
     GLuint id_;
