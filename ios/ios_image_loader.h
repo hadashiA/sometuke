@@ -8,9 +8,16 @@ namespace sometuke {
 
 using namespace std;
 
+class IOSImage : public Image {
+public:    
+};
+
 class IOSImageLoader : public ImageLoader {
 public:
     shared_ptr<Texture2D> CreateTextureFromFile(const string& path);
+    shared_ptr<Image> Create() {
+        return make_shared<IOSImage>();
+    }
 private:    
 };
 

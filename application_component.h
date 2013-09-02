@@ -166,6 +166,7 @@ public:
     virtual ~ImageLoader() {}
 
     virtual shared_ptr<Texture2D> CreateTextureFromFile(const string& path) = 0;
+    virtual shared_ptr<Image> Create() = 0;
     // virtual shared_ptr<Image> CreateImageFromText(const string& text,
     //                                               const string& font_name,
     //                                               const float fond_size,
