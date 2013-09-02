@@ -6,9 +6,9 @@
 
 namespace sometuke {
 
-class IOSdImageLoader : public ImageLoader {
+class IOSFileUtils : public FileUtils {
 public:
-    IOSImageLoder() {
+    IOSFileUtils() {
         suffixes_[kiPhone]              = "";
         suffixes_[kiPhoneRetinaDisplay] = "@x2";
         suffixes_[kiPad]                = "-ipad";

@@ -1,4 +1,4 @@
-#include "sometuke/ios/ios_assets_loader.h"
+#include "sometuke/ios/ios_image_loader.h"
 #include "sometuke/logger.h"
 #include "sometuke/texture_2d.h"
 
@@ -7,25 +7,8 @@
 
 namespace sometuke {
 
-shared_ptr<Image> CreateImageFromFile(const string& path, Image::Format format) {
-	bool bRet = false;
-        unsigned long nSize = 0;
-    unsigned char* pBuffer = CCFileUtils::sharedFileUtils()->getFileData(
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(strPath).c_str(),
-				"rb",
-				&nSize);
-				
-    if (pBuffer != NULL && nSize > 0)
-    {
-        bRet = initWithImageData(pBuffer, nSize, eImgFmt);
-    }
-    CC_SAFE_DELETE_ARRAY(pBuffer);
-    return bRet;
-    
-}
-
-shared_ptr<Image> IOSImageLoader::ReadTexture(const string &relative_path) {
-    string full_path = FullPathFromRelativePath(relative_path);
+shared_ptr<Texture2D> IOSImageLoader::CreateTextureFromFile(const string& path) {
+    string full_path = Director::Instance().file_utils().FullPathFromRelativePath(path);
     NSString *full_path_ns = [NSString stringWithUTF8String:full_path.c_str()];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:full_path_ns];
 
@@ -210,7 +193,7 @@ shared_ptr<Image> IOSImageLoader::ReadTexture(const string &relative_path) {
     }
 
     shared_ptr<Texture2D> texture = make_shared<Texture2D>();
-    texture->LoadData(data, pixel_format, pixel_size, pixel_size);
+    texture->InitWithData(data, pixel_format, pixel_size, pixel_size);
     texture->set_has_premultiplied_alpha(info == kCGImageAlphaPremultipliedLast ||
                                          info == kCGImageAlphaPremultipliedFirst);
 

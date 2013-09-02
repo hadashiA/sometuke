@@ -3,7 +3,6 @@
 
 #include "sometuke/vector.h"
 #include "sometuke/color.h"
-#include "sometuke/image.h"
 
 #include <vector>
 #include <memory>
@@ -121,7 +120,7 @@ public:
     }
 
     bool is_premultipled_alpha() {
-        return premulti_;
+        return pre_multi_;
     }
 
     unsigned short width() {
@@ -139,7 +138,7 @@ private:
 
     vector<unsigned char> bytes_;
     bool has_alpha_;
-    bool premulti_;
+    bool pre_multi_;
     unsigned short width_;
     unsigned short height_;
     int bits_per_component_;
@@ -156,27 +155,23 @@ class FileUtils {
 public:
     virtual ~FileUtils() {}
     virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
-    virtual vector<unsigned char> ReadBytes(const string& relative_path);
+    virtual vector<char> ReadBytes(const string& relative_path);
     virtual string ReadString(const string &relative_path);
 };
+    
+class Texture2D;
 
 class ImageLoader {
 public:
     virtual ~ImageLoader() {}
 
-    virtual shared_ptr<Image> CreateImageFromFile(const string& path, Image::Format format) = 0;
-};
-
-class SystemFontRenderer {
-public:
-    virtual ~SystemFontRenderer() {}
-    
-    virtual shared_ptr<Image> CreateImage(const string& text,
-                                          const string& font_name,
-                                          const float fond_size,
-                                          const vec2& dimentions = vec2(0, 0),
-                                          TextHAlignment h_alignment = TextHAlignment::LEFT,
-                                          TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
+    virtual shared_ptr<Texture2D> CreateTextureFromFile(const string& path) = 0;
+    // virtual shared_ptr<Image> CreateImageFromText(const string& text,
+    //                                               const string& font_name,
+    //                                               const float fond_size,
+    //                                               const vec2& dimentions = vec2(0, 0),
+    //                                               TextHAlignment h_alignment = TextHAlignment::LEFT,
+    //                                               TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
 };
 
 class ApplicationComponent {
@@ -184,8 +179,7 @@ public:
     virtual ~ApplicationComponent() {}
     virtual Configuration *CreateConfiguration() = 0;
     virtual FileUtils *CreateFileUtils() = 0;
-    virtual ImageLoader *CreateAssetsLoader() = 0;
-    virtual SystemFontRenderer *CreateSystemFontRenderer() = 0;
+    virtual ImageLoader *CreateImageLoader() = 0;
 };
 
 }

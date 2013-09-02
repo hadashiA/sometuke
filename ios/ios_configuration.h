@@ -2,7 +2,6 @@
 #define __sometuke__ios_ios_configuration__
 
 #include "sometuke/application_component.h"
-#include "sometuke/ios/devices.h"
 
 #include "OpenGL_Internal.h"
 
@@ -12,11 +11,11 @@ class IOSConfiguration : public Configuration {
 public:
     IOSConfiguration()
         : max_texture_size_(-1),
-          max_texture_units(-1) {
+          max_texture_units_(-1) {
         
     }
-
-    virtual IOSConfiguration() {}
+    
+    virtual ~IOSConfiguration() {}
 
     GLint MaxTextureSize() {
         if (max_texture_size_) {
@@ -27,7 +26,7 @@ public:
     
     GLint MaxTextureUnits() {
         if (max_texture_units_) {
-            glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &__max_texture_units);
+            glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &max_texture_units_);
         }
         return max_texture_units_;
     }

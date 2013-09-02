@@ -38,9 +38,9 @@ GLProgram::GLProgram()
 }
 
 bool GLProgram::LoadShaderFiles(const string& vShaderFilename, const string& fShaderFilename) {
-    AssetsLoader& loader = Director::Instance().loader();
-    string vShaderSource = loader.ReadString(vShaderFilename);
-    string fShaderSource = loader.ReadString(fShaderFilename);
+    FileUtils& file_utils = Director::Instance().file_utils();
+    string vShaderSource = file_utils.ReadString(vShaderFilename);
+    string fShaderSource = file_utils.ReadString(fShaderFilename);
     
     return LoadShaderSources(vShaderSource.c_str(), fShaderSource.c_str());
 }

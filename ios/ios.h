@@ -3,9 +3,8 @@
 
 #include "sometuke/application_component.h"
 #include "sometuke/ios/ios_configuration.h"
-#include "sometuke/ios/ios_filt_utils.h"
+#include "sometuke/ios/ios_file_utils.h"
 #include "sometuke/ios/ios_image_loader.h"
-#include "sometuke/ios/ios_system_font_renderer.h"
 
 namespace sometuke {
 
@@ -21,12 +20,8 @@ public:
         return new IOSFileUtils;
     }
     
-    virtual ImageLoader *CreateAssetsLoader() {
+    virtual ImageLoader *CreateImageLoader() {
         return new IOSImageLoader;
-    }
-    
-    virtual SystemFontRenderer *CreateSystemFontRenderer() {
-        return new IOSSystemFontRenderer;
     }
 };
 

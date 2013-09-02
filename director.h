@@ -32,7 +32,6 @@ public:
         configuration_.reset(factory.CreateConfiguration());
         file_utils_.reset(factory.CreateFileUtils());
         image_.reset(factory.CreateImageLoader());
-        system_fonts_.reset(factory.CreateSystemFontRenderer());
         
         return InitGL();
     }
@@ -59,10 +58,6 @@ public:
 
     ImageLoader& image() {
         return *image_;
-    }
-
-    SystemFontRenderer& system_fonts() {
-        return *system_fonts_;
     }
 
     void Resize(const float point_width, const float point_height);
@@ -178,8 +173,6 @@ private:
     unique_ptr<Configuration> configuration_;
     unique_ptr<FileUtils> file_utils_;
     unique_ptr<ImageLoader> image_;
-    unique_ptr<SystemFontRenderer> system_fonts_;
-    
 
     // scene stuff
     stack<shared_ptr<Scene> > scene_stack_;

@@ -23,8 +23,8 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
     loaded_filenames_.insert(hashed_json_path.id());
 
-    AssetsLoader& loader = Director::Instance().loader();
-    const string& path = loader.FullPathFromRelativePath(json_path);
+    FileUtils& file_utils = Director::Instance().file_utils();
+    const string& path = file_utils.FullPathFromRelativePath(json_path);
     ifstream io(path);
 
     picojson::value json;

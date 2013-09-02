@@ -10,7 +10,8 @@ using namespace std;
 
 class IOSImageLoader : public ImageLoader {
 public:
-    shared_ptr<Image> CreateImageFromFile(const string& path, Image::Format format);
+    shared_ptr<Texture2D> CreateTextureFromFile(const string& path);
+private:    
 };
 
 } 
