@@ -203,13 +203,14 @@ shared_ptr<Texture2D> IOSImageLoader::CreateTextureFromFile(const string& path) 
     return texture;
 }
 
-bool Image::InitWtihFile(const string& file) {
+bool IOSImage::InitWtihFile(const string& file) {
     return true;
 }
     
-bool Image::InitWithText(const string& text, const FontDefinition& font_def) {
+bool IOSImage::InitWithText(const string& text, const FontDefinition& font_def) {
     return true;
 }
 
-
 }
+
+

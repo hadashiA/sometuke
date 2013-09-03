@@ -10,8 +10,8 @@ using namespace std;
 
 class IOSImage : public Image {
 public:    
-    virtual shared_ptr<Image> InitWtihFile(const string& file);
-    virtual shared_ptr<Image> InitWithText(const string& text, const FontDefinition& font_def);
+    bool InitWtihFile(const string& file);
+    bool InitWithText(const string& text, const FontDefinition& font_def);
 };
 
 class IOSImageLoader : public ImageLoader {
@@ -20,7 +20,6 @@ public:
     shared_ptr<Image> Create() {
         return make_shared<IOSImage>();
     }
-private:    
 };
 
 } 

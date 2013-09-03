@@ -145,6 +145,10 @@ public:
         return height_;
     }
 
+    int bits_per_component() {
+        return bits_per_component_;
+    }
+
 private:
     // noncopyable
     Image(const Image&);
@@ -169,7 +173,7 @@ class FileUtils {
 public:
     virtual ~FileUtils() {}
     virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
-    virtual vector<char> ReadBytes(const string& relative_path);
+    virtual vector<unsigned char> ReadBytes(const string& relative_path);
     virtual string ReadString(const string &relative_path);
 };
     

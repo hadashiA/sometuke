@@ -68,7 +68,7 @@ public:
     bool InitWithData(const void* data, PixelFormat pixel_format,
                       const ivec2& pixel_size, const vec2& content_size);
 
-    // bool InitWithImage(const shared_ptr<Image>& image);
+    bool InitWithImage(const shared_ptr<Image>& image);
 
     const GLuint id() const {
         return id_;
