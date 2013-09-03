@@ -97,6 +97,18 @@ public:
         UNKNOWN,
     };
 
+    // enum class TextAlign {
+    //     CENTER       = 0x33,    ///< Horizontal center and vertical center.
+    //     TOP          = 0x13,    ///< Horizontal center and vertical top.
+    //     TOP_RIGHT    = 0x12,    ///< Horizontal right and vertical top.
+    //     RIGHT        = 0x32,    ///< Horizontal right and vertical center.
+    //     BOTTOM_RIGHT = 0x22,    ///< Horizontal right and vertical bottom.
+    //     BOTTOM       = 0x23,    ///< Horizontal center and vertical bottom.
+    //     BOTTOM_LEFT  = 0x21,    ///< Horizontal left and vertical bottom.
+    //     LEFT         = 0x31,    ///< Horizontal left and vertical center.
+    //     TOP_LEFT     = 0x11,    ///< Horizontal left and vertical top.
+    // };
+
     Image()
         : width_(0),
           height_(0),
@@ -106,6 +118,8 @@ public:
     }
 
     virtual ~Image() {}
+    virtual bool InitWtihFile(const string& file) = 0;
+    virtual bool InitWithText(const string& text, const FontDefinition& font_def) = 0;
 
     unsigned char *data() {
         return bytes_.data();
@@ -167,12 +181,6 @@ public:
 
     virtual shared_ptr<Texture2D> CreateTextureFromFile(const string& path) = 0;
     virtual shared_ptr<Image> Create() = 0;
-    // virtual shared_ptr<Image> CreateImageFromText(const string& text,
-    //                                               const string& font_name,
-    //                                               const float fond_size,
-    //                                               const vec2& dimentions = vec2(0, 0),
-    //                                               TextHAlignment h_alignment = TextHAlignment::LEFT,
-    //                                               TextVAlignment v_alignment = TextVAlignment::TOP) = 0;
 };
 
 class ApplicationComponent {
