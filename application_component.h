@@ -23,39 +23,48 @@ enum class TextVAlignment {
     BOTTOM,
 };
 
+enum class LineBreakMode {
+    WORD_WRAP,
+    CHARACTER_WRAP,
+    CLIP,
+    HEAD_TRUNCATION,
+    TAIL_TRUNCATION,
+    MIDDLE_TRUNCATION,
+};
+
 struct FontShadow {
 public:
     FontShadow()
-        : shadow_enabled(false),
-          shadow_blur(0),
-          shadow_opacity(0) {
+        : enabled(false),
+          blur(0),
+          opacity(0) {
     }
 
     // true if shadow enabled
-    bool shadow_enabled;
+    bool enabled;
     // shadow x and y offset
-    vec2 shadow_offset;
+    vec2 offset;
     // shadow blurrines
-    float shadow_blur;
+    float blur;
     // shadow opacity
-    float shadow_opacity;
+    float opacity;
 };
 
 struct FontStroke {
 public:
     // stroke is disabled by default
     FontStroke()
-        : stroke_enabled(false),
-          stroke_color(Color3B::BLACK),
-          stroke_size(0) {
+        : enabled(false),
+          color(Color3B::BLACK),
+          size(0) {
     }
     
     // true if stroke enabled
-    bool stroke_enabled;
+    bool enabled;
     // stroke color
-    Color3B stroke_color;
+    Color3B color;
     // stroke size
-    float stroke_size;
+    float size;
     
 };
 
@@ -63,27 +72,22 @@ public:
 struct FontDefinition {
 public:
     FontDefinition()
-        : font_size(0),
+        : size(0),
           h_alignment(TextHAlignment::CENTER),
           v_alignment(TextVAlignment::TOP),
           dimensions(0, 0),
-          font_fill_color(Color3B::WHITE) {
+          fill_color(Color3B::WHITE) {
     }
     
-    string font_name;
-    int font_size;
+    string name;
+    int size;
     TextHAlignment h_alignment;
     TextVAlignment v_alignment;
-
-    // renering box
+    LineBreakMode line_break_mode;
     vec2 dimensions;
-    // font color
-    Color3B font_fill_color;
-    // font shadow
+    Color3B fill_color;
     FontShadow shadow;
-    // font stroke
     FontStroke stroke;
-    
 };
 
 class Image {
@@ -97,18 +101,6 @@ public:
         UNKNOWN,
     };
 
-    // enum class TextAlign {
-    //     CENTER       = 0x33,    ///< Horizontal center and vertical center.
-    //     TOP          = 0x13,    ///< Horizontal center and vertical top.
-    //     TOP_RIGHT    = 0x12,    ///< Horizontal right and vertical top.
-    //     RIGHT        = 0x32,    ///< Horizontal right and vertical center.
-    //     BOTTOM_RIGHT = 0x22,    ///< Horizontal right and vertical bottom.
-    //     BOTTOM       = 0x23,    ///< Horizontal center and vertical bottom.
-    //     BOTTOM_LEFT  = 0x21,    ///< Horizontal left and vertical bottom.
-    //     LEFT         = 0x31,    ///< Horizontal left and vertical center.
-    //     TOP_LEFT     = 0x11,    ///< Horizontal left and vertical top.
-    // };
-
     Image()
         : width_(0),
           height_(0),
@@ -119,6 +111,7 @@ public:
 
     virtual ~Image() {}
     virtual bool InitWtihFile(const string& file) = 0;
+    virtual bool InitWithText(const string& text, const string& font_name, int size) = 0;
     virtual bool InitWithText(const string& text, const FontDefinition& font_def) = 0;
 
     unsigned char *data() {
@@ -149,17 +142,18 @@ public:
         return bits_per_component_;
     }
 
-private:
-    // noncopyable
-    Image(const Image&);
-    Image& operator=(const Image&);
-
+protected:
     vector<unsigned char> bytes_;
     bool has_alpha_;
     bool pre_multi_;
     unsigned short width_;
     unsigned short height_;
     int bits_per_component_;
+
+private:
+    // noncopyable
+    Image(const Image&);
+    Image& operator=(const Image&);
 };
 
 class Configuration {
@@ -183,8 +177,8 @@ class ImageLoader {
 public:
     virtual ~ImageLoader() {}
 
-    virtual shared_ptr<Texture2D> CreateTextureFromFile(const string& path) = 0;
     virtual shared_ptr<Image> Create() = 0;
+    virtual shared_ptr<Texture2D> CreateTextureFromFile(const string& path) = 0;
 };
 
 class ApplicationComponent {

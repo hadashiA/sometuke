@@ -11,15 +11,17 @@ using namespace std;
 class IOSImage : public Image {
 public:    
     bool InitWtihFile(const string& file);
+    bool InitWithText(const string& text, const string& font_name, int size);
     bool InitWithText(const string& text, const FontDefinition& font_def);
 };
 
 class IOSImageLoader : public ImageLoader {
 public:
-    shared_ptr<Texture2D> CreateTextureFromFile(const string& path);
     shared_ptr<Image> Create() {
         return make_shared<IOSImage>();
     }
+
+    shared_ptr<Texture2D> CreateTextureFromFile(const string& path);
 };
 
 } 
