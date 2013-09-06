@@ -226,12 +226,14 @@ bool IOSImage::InitWtihFile(const string& file) {
     return true;
 }
     
-bool IOSImage::InitWithText(const string& text, const string& font_name, int size) {
+bool IOSImage::InitWithText(const string& text, const string& font_name, int size,
+                            int width, int height) {
     FontDefinition font_def;
 
     font_def.shadow.enabled = false;
     font_def.name  = font_name;
     font_def.size  = size;
+    font_def.dimensions = ivec2(width, height);
 
     return InitWithText(text, font_def);
 }

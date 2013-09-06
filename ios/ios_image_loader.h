@@ -11,7 +11,8 @@ using namespace std;
 class IOSImage : public Image {
 public:    
     bool InitWtihFile(const string& file);
-    bool InitWithText(const string& text, const string& font_name, int size);
+    bool InitWithText(const string& text, const string& font_name, int size,
+                      int width = 0, int height = 0);
     bool InitWithText(const string& text, const FontDefinition& font_def);
 };
 

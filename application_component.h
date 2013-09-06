@@ -111,7 +111,8 @@ public:
 
     virtual ~Image() {}
     virtual bool InitWtihFile(const string& file) = 0;
-    virtual bool InitWithText(const string& text, const string& font_name, int size) = 0;
+    virtual bool InitWithText(const string& text, const string& font_name, int size,
+                              int width = 0, int height = 0) = 0;
     virtual bool InitWithText(const string& text, const FontDefinition& font_def) = 0;
 
     unsigned char *data() {
