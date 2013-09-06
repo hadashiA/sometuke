@@ -272,147 +272,146 @@ bool IOSImage::InitWithText(const string& text_std, const FontDefinition& font_d
         } else {
             start_h = constrainSize.height - dim.height;
         }
-        
-        // adjust text rect
-        if (constrainSize.width > 0 && constrainSize.width > dim.width) {
-            dim.width = constrainSize.width;
-        } if (constrainSize.height > 0 && constrainSize.height > dim.height) {
-            dim.height = constrainSize.height;
-        }
-        
-        // compute the padding needed by shadow and stroke
-        float shadow_stroke_padding_x = 0.0f;
-        float shadow_stroke_padding_y = 0.0f;
-        if (font_def.stroke.enabled) {
-            shadow_stroke_padding_x = ceilf(font_def.stroke.size);
-            shadow_stroke_padding_y = ceilf(font_def.stroke.size);
-        }
-        
-        if (font_def.shadow.enabled ) {
-            shadow_stroke_padding_x = std::max(shadow_stroke_padding_x,
-                                               (float)abs(font_def.shadow.offset.x));
-            shadow_stroke_padding_y = std::max(shadow_stroke_padding_y,
-                                               (float)abs(font_def.shadow.offset.y));
-        }
-        
-        // add the padding (this could be 0 if no shadow and no stroke)
-        dim.width  += shadow_stroke_padding_x;
-        dim.height += shadow_stroke_padding_y;
-        
-        size_t data_size    = static_cast<size_t>(dim.width * dim.height * 4);
-        unsigned char* data = new unsigned char[data_size];
-        memset(data, 0, data_size);
-        
-        // draw text
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGContextRef context =
-            CGBitmapContextCreate(data,
-                                  dim.width,
-                                  dim.height,
-                                  8,
-                                  (int)(dim.width) * 4,
-                                  colorSpace,
-                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-        CGColorSpaceRelease(colorSpace);
-        
-        if (!context) {
-            delete[] data;
-            S2ERROR("CGBitmapContextCreate failed");
-            return false;
-        }
-
-        float stroke_color_r = 0.0;
-        float stroke_color_g = 0.0;
-        float stroke_color_b = 0.0;
-        float stroke_size    = 0.0;
-        if (font_def.stroke.enabled) {
-            stroke_color_r = font_def.stroke.color.r / 255;
-            stroke_color_g = font_def.stroke.color.g / 255;
-            stroke_color_b = font_def.stroke.color.b / 255;
-            stroke_size    = font_def.stroke.size;
-        }
-
-        // text color
-        CGContextSetRGBFillColor(context, stroke_color_r, stroke_color_g, stroke_color_b, 1);
-        // move Y rendering to the top of the image
-        CGContextTranslateCTM(context, 0.0f, (dim.height - shadow_stroke_padding_y) );
-        CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
-        
-        // store the current context
-        UIGraphicsPushContext(context);
-        
-        // measure text size with specified font and determine the rectangle to draw text in
-        NSTextAlignment align;
-        if (font_def.h_alignment == TextHAlignment::RIGHT) {
-            align = NSTextAlignmentRight;
-        } else if (font_def.h_alignment == TextHAlignment::CENTER) {
-            align = NSTextAlignmentCenter;
-        } else {
-            align = NSTextAlignmentLeft;
-        }
-        
-        // take care of stroke if needed
-        if (font_def.stroke.enabled) {
-            CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-            CGContextSetRGBStrokeColor(context,
-                                       stroke_color_r,
-                                       stroke_color_g,
-                                       stroke_color_b,
-                                       1);
-            CGContextSetLineWidth(context, font_def.stroke.size);
-        }
-        
-        // take care of shadow if needed
-        if (font_def.shadow.enabled) {
-            CGSize offset;
-            offset.height = font_def.shadow.offset.y;
-            offset.width  = font_def.shadow.offset.x;
-            CGContextSetShadow(context, offset, font_def.shadow.blur);
-        }
-        
-        // normal fonts
-        //if( [font isKindOfClass:[UIFont class] ] )
-        //{
-        //    [str drawInRect:CGRectMake(0, startH, dim.width, dim.height) withFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap alignment:align];
-        //}
-        //else // ZFont class
-        //{
-        //    [FontLabelStringDrawingHelper drawInRect:str rect:CGRectMake(0, startH, dim.width, dim.height) withZFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap 
-        ////alignment:align];
-        //}
-        
-        // compute the rect used for rendering the text
-        // based on wether shadows or stroke are enabled
-        
-        float text_width    = dim.width  - shadow_stroke_padding_x;
-        float text_height   = dim.height - shadow_stroke_padding_y;
-        
-        float text_origin_x = (font_def.shadow.offset.x < 0 ? shadow_stroke_padding_x : 0);
-        float text_origin_y = (font_def.shadow.offset.y > 0 ? start_h : (start_h - shadow_stroke_padding_y));
-        // actually draw the text in the context
-        // XXX: ios7 casting
-        [text drawInRect:CGRectMake(text_origin_x, text_origin_y, text_width, text_height)
-                withFont:font
-           lineBreakMode:NSLineBreakByWordWrapping
-               alignment:(NSTextAlignment)align];
-        
-        // pop the context
-        UIGraphicsPopContext();
-        
-        // release the context
-        CGContextRelease(context);
-               
-        // output params
-        bytes_.assign(data, data + data_size);
-        width_  = static_cast<short>(dim.width);
-        height_ = static_cast<short>(dim.height);
-        has_alpha_ = true;
-        pre_multi_ = true;
-        bits_per_component_ = 8;
+    }
     
-        return true;
+    // adjust text rect
+    if (constrainSize.width > 0 && constrainSize.width > dim.width) {
+        dim.width = constrainSize.width;
+    } if (constrainSize.height > 0 && constrainSize.height > dim.height) {
+        dim.height = constrainSize.height;
+    }
+        
+    // compute the padding needed by shadow and stroke
+    float shadow_stroke_padding_x = 0.0f;
+    float shadow_stroke_padding_y = 0.0f;
+    if (font_def.stroke.enabled) {
+        shadow_stroke_padding_x = ceilf(font_def.stroke.size);
+        shadow_stroke_padding_y = ceilf(font_def.stroke.size);
+    }
+        
+    if (font_def.shadow.enabled ) {
+        shadow_stroke_padding_x = std::max(shadow_stroke_padding_x,
+                                           (float)abs(font_def.shadow.offset.x));
+        shadow_stroke_padding_y = std::max(shadow_stroke_padding_y,
+                                           (float)abs(font_def.shadow.offset.y));
+    }
+        
+    // add the padding (this could be 0 if no shadow and no stroke)
+    dim.width  += shadow_stroke_padding_x;
+    dim.height += shadow_stroke_padding_y;
+        
+    size_t data_size    = static_cast<size_t>(dim.width * dim.height * 4);
+    unsigned char* data = new unsigned char[data_size];
+    memset(data, 0, data_size);
+        
+    // draw text
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context =
+        CGBitmapContextCreate(data,
+                              dim.width,
+                              dim.height,
+                              8,
+                              (int)(dim.width) * 4,
+                              colorSpace,
+                              kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+        
+    if (!context) {
+        delete[] data;
+        S2ERROR("CGBitmapContextCreate failed");
+        return false;
     }
 
+    float stroke_color_r = 0.0;
+    float stroke_color_g = 0.0;
+    float stroke_color_b = 0.0;
+    float stroke_size    = 0.0;
+    if (font_def.stroke.enabled) {
+        stroke_color_r = font_def.stroke.color.r / 255;
+        stroke_color_g = font_def.stroke.color.g / 255;
+        stroke_color_b = font_def.stroke.color.b / 255;
+        stroke_size    = font_def.stroke.size;
+    }
+
+    // text color
+    CGContextSetRGBFillColor(context, stroke_color_r, stroke_color_g, stroke_color_b, 1);
+    // move Y rendering to the top of the image
+    CGContextTranslateCTM(context, 0.0f, (dim.height - shadow_stroke_padding_y) );
+    CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
+        
+    // store the current context
+    UIGraphicsPushContext(context);
+        
+    // measure text size with specified font and determine the rectangle to draw text in
+    NSTextAlignment align;
+    if (font_def.h_alignment == TextHAlignment::RIGHT) {
+        align = NSTextAlignmentRight;
+    } else if (font_def.h_alignment == TextHAlignment::CENTER) {
+        align = NSTextAlignmentCenter;
+    } else {
+        align = NSTextAlignmentLeft;
+    }
+        
+    // take care of stroke if needed
+    if (font_def.stroke.enabled) {
+        CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+        CGContextSetRGBStrokeColor(context,
+                                   stroke_color_r,
+                                   stroke_color_g,
+                                   stroke_color_b,
+                                   1);
+        CGContextSetLineWidth(context, font_def.stroke.size);
+    }
+        
+    // take care of shadow if needed
+    if (font_def.shadow.enabled) {
+        CGSize offset;
+        offset.height = font_def.shadow.offset.y;
+        offset.width  = font_def.shadow.offset.x;
+        CGContextSetShadow(context, offset, font_def.shadow.blur);
+    }
+        
+    // normal fonts
+    //if( [font isKindOfClass:[UIFont class] ] )
+    //{
+    //    [str drawInRect:CGRectMake(0, startH, dim.width, dim.height) withFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap alignment:align];
+    //}
+    //else // ZFont class
+    //{
+    //    [FontLabelStringDrawingHelper drawInRect:str rect:CGRectMake(0, startH, dim.width, dim.height) withZFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap 
+    ////alignment:align];
+    //}
+        
+    // compute the rect used for rendering the text
+    // based on wether shadows or stroke are enabled
+        
+    float text_width    = dim.width  - shadow_stroke_padding_x;
+    float text_height   = dim.height - shadow_stroke_padding_y;
+        
+    float text_origin_x = (font_def.shadow.offset.x < 0 ? shadow_stroke_padding_x : 0);
+    float text_origin_y = (font_def.shadow.offset.y > 0 ? start_h : (start_h - shadow_stroke_padding_y));
+    // actually draw the text in the context
+    // XXX: ios7 casting
+    [text drawInRect:CGRectMake(text_origin_x, text_origin_y, text_width, text_height)
+            withFont:font
+       lineBreakMode:NSLineBreakByWordWrapping
+           alignment:(NSTextAlignment)align];
+        
+    // pop the context
+    UIGraphicsPopContext();
+        
+    // release the context
+    CGContextRelease(context);
+               
+    // output params
+    bytes_.assign(data, data + data_size);
+    width_  = static_cast<short>(dim.width);
+    height_ = static_cast<short>(dim.height);
+    has_alpha_ = true;
+    pre_multi_ = true;
+    bits_per_component_ = 8;
+    
+    return true;
 }
 
 }

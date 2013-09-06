@@ -86,7 +86,7 @@ bool Texture2D::InitWithData(const void* data, PixelFormat pixel_format,
 }
 
 bool Texture2D::InitWithImage(const shared_ptr<Image>& image) {
-    if (image) {
+    if (!image) {
         S2ERROR("Cannt create texture. Image is null");
         return false;
     }
