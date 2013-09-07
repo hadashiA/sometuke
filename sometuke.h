@@ -28,6 +28,7 @@
 #include "sometuke/node/layer.h"
 #include "sometuke/node/sprite.h"
 #include "sometuke/node/label_atlas.h"
+#include "sometuke/node/label_ttf.h"
 #include "sometuke/node/polygon_sprite.h"
 
 // process

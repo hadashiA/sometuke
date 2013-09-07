@@ -1,92 +1,169 @@
-#include "label_ttf.h"
+#include "sometuke/node/label_ttf.h"
+
+#include "sometuke/texture_2d.h"
 
 namespace sometuke {
 
 bool LabelTTF::InitWithText(const string& text,
                             const string& font_name,
-                            flaot font_size) {
+                            float font_size) {
     return InitWithText(text, font_name, font_size, vec2(0, 0));
 }
 
 
 bool LabelTTF::InitWithText(const string& text,
                             const string& font_name,
-                            flaot font_size,
-                            const vec2& dimentions,
-                            TextHAlignment h_alignment
+                            float font_size,
+                            const vec2& dimensions,
+                            TextHAlignment h_alignment,
                             TextVAlignment v_alignment) {
     font_name_   = font_name;
-    font_size    = font_size;
-    dimentions_  = dimentions;
+    font_size_   = font_size;
+    dimensions_  = dimensions;
     h_alignment_ = h_alignment;
     v_alignment_ = v_alignment;
-
+    
     set_text(text);
 
     return true;
 }
 
+bool LabelTTF::InitWithText(const string& text, const FontDefinition& definition) {
+    font_name_   = definition.name;
+    dimensions_  = definition.dimensions;
+    h_alignment_ = definition.h_alignment;
+    v_alignment_ = definition.v_alignment;
+    font_size_   = definition.size;
+    text_fill_color_  = definition.fill_color;
+
+    shadow_enabled_ = definition.shadow.enabled;
+    if (shadow_enabled_) {
+        shadow_opacity_ = 0.5;
+        shadow_blur_    = definition.shadow.blur;
+    }
+
+    stroke_enabled_ = definition.stroke.enabled;
+    if (stroke_enabled_) {
+        stroke_color_ = definition.stroke.color;
+        stroke_size_  = definition.stroke.size;
+    }
+
+    set_text(text);
+    return true;
+}
+
 void LabelTTF::set_text(const string& text) {
-    if (text_.compare(text)) {
+    if (text_ != text) {
         text_ = text;
         UpdateTexture();
     }
 }
 
-bool LabelTTF::UpdateTexture() {
-    FontDefinition font_def = CreateFontDef(true);
-    shared_ptr<Texture2D> texture = Director::Instance().system_fonts().CreateTexture(font_def);
+void LabelTTF::set_font_name(const string& font_name) {
+    if (font_name_ != font_name) {
+        font_name_ = font_name;
+        if (!text_.empty()) {
+            UpdateTexture();
+        }
+    }
 }
 
-FontDefinition LabelTTF::CreateFontDef(bool adjust_for_resolution) {
-    FontDefinition font_def;
+void LabelTTF::set_font_size(const float font_size) {
+    if (font_size_ != font_size) {
+        font_size_ = font_size;
+        if (!text_.empty()) {
+            UpdateTexture();
+        }
+    }
+}
 
-    float content_scale_factor = Director::Instance().content_scale_factor;
-    if (adjust_for_resolution) {
-        font_def.font_size = font_size * content_scale_factor;
-    } else {
-        font_def.font_size = font_size;
+void LabelTTF::set_dimensions(const vec2& dimensions) {
+    if (dimensions_ != dimensions) {
+        dimensions_ = dimensions;
+        if (!text_.empty()) {
+            UpdateTexture();
+        }
+    }
+}
+
+void LabelTTF::set_h_alignment(TextHAlignment h_alignment) {
+    if (h_alignment_ != h_alignment) {
+        h_alignment_ = h_alignment;
+        if (!text_.empty()) {
+            UpdateTexture();
+        }
+    }
+}
+
+void LabelTTF::set_v_alignment(TextVAlignment v_alignment) {
+    if (v_alignment_ != v_alignment) {
+        v_alignment_ = v_alignment;
+                if (!text_.empty()) {
+            UpdateTexture();
+        }
+    }
+}
+
+bool LabelTTF::UpdateTexture() {
+    FontDefinition font_def = CreateFontDefinition(true);
+    shared_ptr<Image> image = Director::Instance().image().Create();
+    if (!image->InitWithText(text_, font_def)) {
+        return false;
     }
 
-    font_def.font_name   = font_name_;
-    font_def.h_alignment = h_alignment_;
-    font_def.v_alignment = v_alignment_;
-
-    if (adjust_for_resolution) {
-        font_def.dimentions = dimentions_ * content_scale_factor;
-    } else {
-        font_def.dimentions = dimentions_;
+    shared_ptr<Texture2D> texture = make_shared<Texture2D>();
+    if (!texture->InitWithImage(image)) {
+        return false;
     }
+
+    // iPad ?
+    // if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+    //     if( CC_CONTENT_SCALE_FACTOR() == 2 )
+    //         [tex setResolutionType:kCCResolutioniPadRetinaDisplay];
+    //     else
+    //         [tex setResolutionType:kCCResolutioniPad];
+    // // iPhone ?
+    // } else {
+    //     if( CC_CONTENT_SCALE_FACTOR() == 2 )
+    //         [tex setResolutionType:kCCResolutioniPhoneRetinaDisplay];
+    //     else
+    //         [tex setResolutionType:kCCResolutioniPhone];
+    // }
+
+    set_texture(texture);
+    set_texture_rect(Rect(0, 0, texture->content_size().x, texture->content_size().y));
+    return true;
+}
+
+FontDefinition LabelTTF::CreateFontDefinition(bool adjust_for_resolution) {
+    FontDefinition definition;
+
+    float content_scale_factor = Director::Instance().content_scale_factor();
+    definition.size = (adjust_for_resolution ? font_size_ * content_scale_factor : font_size_);
+
+    definition.name        = font_name_;
+    definition.h_alignment = h_alignment_;
+    definition.v_alignment = v_alignment_;
+    definition.fill_color  = text_fill_color_;
 
     // stroke
+    definition.stroke.enabled = stroke_enabled_;
     if (stroke_enabled_) {
-        font_def.stroke.stroke_enabled = true;
-        font_def.stroke.stroke_color   = stroke_color_;
-        font_def.stroke.stroke_size    = (adjust_for_resolution ?
-                                          stroke_size_ * content_scale_factor :
-                                          stroke_size_);
-    } else {
-        font_def.stroke.stroke_enabled = false;
+        definition.stroke.color = stroke_color_;
+        definition.stroke.size  = (adjust_for_resolution ?
+                                   stroke_size_ * content_scale_factor :
+                                   stroke_size_);
     }
-
+        
     // shadow
+    definition.shadow.enabled = shadow_enabled_;
     if (shadow_enabled_) {
-        font_def.shadow.shadow_enabled = true;
-        font_def.shadow.shadow_blur    = shadow_blur_;
-        font_def.shadow.shadow_opacity = shadow_opacity_;
-        font_def.shadow.shadow_offset  = (adjust_for_resolution ?
-                                          shadow_offset_ * content_scale_factor :
-                                          shadow_offset_);
-    } else {
-        font_def.shadow.shadow_enabled = false;
+        definition.shadow.blur = shadow_blur_;
+        definition.shadow.offset = (adjust_for_resolution ?
+                                    shadow_offset_ * content_scale_factor:
+                                    shadow_offset_);
     }
-
-    font_def.font_fill_color = text_fill_color_;
-
-    return font_def;
-}
-
-
+    return definition;
 }
 
 }

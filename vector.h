@@ -44,6 +44,11 @@ struct Vector2 {
         return Vector2(x * s, y * s);
     }
 
+    void operator=(const Vector2& rhs) {
+        x = rhs.x;
+        y = rhs.y;
+    }
+
     void operator/=(float s) {
         x /= s;
         y /= s;
