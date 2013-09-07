@@ -311,9 +311,9 @@ bool IOSImage::InitWithText(const string& text_std, const FontDefinition& defini
                                   color_space,
                                   kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
         CGContextSetRGBFillColor(context,
-                                 ((float)definition.fill_color.r) / 255.0,
-                                 ((float)definition.fill_color.g) / 255.0,
-                                 ((float)definition.fill_color.b) / 255.0,
+                                 (float)(definition.fill_color.r / 255.0),
+                                 (float)(definition.fill_color.g / 255.0),
+                                 (float)(definition.fill_color.b / 255.0),
                                  1.0);
     // } else {
     //     color_space = CGColorSpaceCreateDeviceGray();

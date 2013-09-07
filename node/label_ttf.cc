@@ -17,11 +17,12 @@ bool LabelTTF::InitWithText(const string& text,
                             const vec2& dimensions,
                             TextHAlignment h_alignment,
                             TextVAlignment v_alignment) {
-    font_name_   = font_name;
-    font_size_   = font_size;
-    dimensions_  = dimensions;
-    h_alignment_ = h_alignment;
-    v_alignment_ = v_alignment;
+    font_name_       = font_name;
+    font_size_       = font_size;
+    dimensions_      = dimensions;
+    h_alignment_     = h_alignment;
+    v_alignment_     = v_alignment;
+    text_fill_color_ = Color3B::WHITE;
     
     set_text(text);
 
