@@ -14,7 +14,9 @@ public:
           dimensions_(0, 0),
           is_texture_dirty_(false),
           h_alignment_(TextHAlignment::LEFT),
-          v_alignment_(TextVAlignment::TOP) {
+          v_alignment_(TextVAlignment::TOP),
+          shadow_enabled_(false),
+          stroke_enabled_(false) {
     }
                      
     virtual ~LabelTTF() {}
