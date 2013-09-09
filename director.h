@@ -19,6 +19,11 @@ using namespace std;
 class Scene;
 class LabelAtlas;
     
+enum class Projection {
+    ORTHOGONAL,
+    PERSPECTIVE,
+};
+
 class Director : public enable_shared_from_this<Director> {
 public:
     static Director& Instance() {
@@ -68,6 +73,13 @@ public:
         next_delta_time_zero_ = true;
     }
 
+    void MainLoop(const s2_time delta_time);
+
+    void RunWithScene(const shared_ptr<Scene>& scene);
+    void ReplaceScene(const shared_ptr<Scene>& scene);
+    void PushScene(const shared_ptr<Scene>& scene);
+    void PopScene();
+
     const vec2& size_in_points() {
         return size_in_points_;
     }
@@ -88,16 +100,16 @@ public:
         return animation_interval_;
     }
 
+    void set_projection(Projection projection) {
+        if (projection_ != projection) {
+            projection_ = projection;
+            ReshapeProjection();
+        }
+    }
+
     void set_animation_interval(const double value) {
         animation_interval_ = value;
     }
-
-    void MainLoop(const s2_time delta_time);
-
-    void RunWithScene(const shared_ptr<Scene>& scene);
-    void ReplaceScene(const shared_ptr<Scene>& scene);
-    void PushScene(const shared_ptr<Scene>& scene);
-    void PopScene();
 
     // void SetNextScene(shared_ptr<Scene> scene);
     shared_ptr<Scene> scene() {
@@ -129,6 +141,7 @@ private:
         : scheduler_(new Scheduler),
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
+          projection_(Projection::ORTHOGONAL),
           frames_(0),
           total_frames_(0),
           total_time_(0),
@@ -155,6 +168,7 @@ private:
 
     void EnterNextScene();
 
+    Projection projection_;
     vec2 size_in_points_;
     vec2 size_in_pixels_;
     float content_scale_factor_;
