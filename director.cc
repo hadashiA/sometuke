@@ -149,16 +149,32 @@ void Director::ShowStats() {
 void Director::ReshapeProjection() {
     glViewport(0, 0, size_in_points_.x, size_in_points_.y);
 
-    mat4& projection = MatrixStack<GLProjection>::Instance().Push();
-    float zeye = size_in_pixels_.y / 1.1566f / content_scale_factor_;
-    projection = mat4::Perspective(60, size_in_points_.x / size_in_points_.y,
-                                   0.1f, zeye * 2);
-
-    mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
-    vec3 eye(size_in_points_.x / 2, size_in_points_.y / 2, zeye);
-    vec3 center(size_in_points_.x / 2, size_in_points_.y / 2, 0);
-    vec3 up(0, 1, 0);
-    model_view = mat4::LookAt(eye, center, up);
+    switch (projection_type_) {
+    case ProjectionType::ORTHOGONAL: {
+        mat4& projection = MatrixStack<GLProjection>::Instance().Push();
+        projection = mat4::OrthographicProjection(0, size_in_points_.x,
+                                                  0, size_in_points_.y,
+                                                  -1024, 1024);
+        MatrixStack<GLModelView>::Instance().Push();
+        break;
+    }
+    case ProjectionType::PERSPECTIVE: {
+        mat4& projection = MatrixStack<GLProjection>::Instance().Push();
+        float zeye = size_in_pixels_.y / 1.1566f / content_scale_factor_;
+        projection = mat4::Perspective(60, size_in_points_.x / size_in_points_.y,
+                                       0.1f, zeye * 2);
+        
+        mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
+        vec3 eye(size_in_points_.x / 2, size_in_points_.y / 2, zeye);
+        vec3 center(size_in_points_.x / 2, size_in_points_.y / 2, 0);
+        vec3 up(0, 1, 0);
+        model_view = mat4::LookAt(eye, center, up);
+        break;
+    }
+    default:
+        S2ERROR("Unrecognized projection");
+        break;
+    }
 
     CHECK_GL_ERROR();
 }

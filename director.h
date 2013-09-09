@@ -19,7 +19,7 @@ using namespace std;
 class Scene;
 class LabelAtlas;
     
-enum class Projection {
+enum class ProjectionType {
     ORTHOGONAL,
     PERSPECTIVE,
 };
@@ -100,9 +100,9 @@ public:
         return animation_interval_;
     }
 
-    void set_projection(Projection projection) {
-        if (projection_ != projection) {
-            projection_ = projection;
+    void set_projection_type(ProjectionType projection_type) {
+        if (projection_type_ != projection_type) {
+            projection_type_ = projection_type;
             ReshapeProjection();
         }
     }
@@ -141,7 +141,7 @@ private:
         : scheduler_(new Scheduler),
           process_manager_(new ProcessManager),
           event_dispatcher_(new EventDispatcher),
-          projection_(Projection::ORTHOGONAL),
+          projection_type_(ProjectionType::ORTHOGONAL),
           frames_(0),
           total_frames_(0),
           total_time_(0),
@@ -168,7 +168,7 @@ private:
 
     void EnterNextScene();
 
-    Projection projection_;
+    ProjectionType projection_type_;
     vec2 size_in_points_;
     vec2 size_in_pixels_;
     float content_scale_factor_;

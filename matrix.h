@@ -176,6 +176,23 @@ struct Matrix4 {
                         0, 0, 0, 1);
     }
 
+    static Matrix4<T> OrthographicProjection(float left, float right, float bottom, float top,
+                                             float near, float far) {
+	float tx = -((right + left) / (right - left));
+	float ty = -((top + bottom) / (top - bottom));
+	float tz = -((far + near) / (far - near));
+
+        Matrix4 result;
+        float xx = 2 / (right - left);
+        float yy = 2 / (top - bottom);
+        float zz = -2 / (far - near);
+
+        return Matrix4(xx,  0,  0, 0,
+                        0, yy,  0, 0,
+                        0,  0, zz, 0,
+                       tx, ty, tz, 1);
+    }
+
     static Matrix4<T> Perspective(float fovY, float aspect, float zNear, float zFar) {
 	float r = DegreesToRadians(fovY / 2);
         float deltaZ = zFar - zNear;
