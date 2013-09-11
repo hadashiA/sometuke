@@ -177,7 +177,30 @@ public:
         DirtyRecursively();
     }
 
-    void UpdateTransform();
+    void set_batch_node(const shared_ptr<SpriteBatchNode>& value) {
+        batch_node_ = value;
+
+        if (value) {
+            transform_to_batch_ = mat4::Identity();
+            texture_atlas_ = value->texture_atlas();
+        } else {
+            texture_atlas_.reset();
+            dirty_ = recursive_dirty_ = false;
+
+            float x1 = offset_position_.x;
+            float y1 = offset_position_.y;
+            float x2 = x1 + rect.size.x;
+            float y2 = y1 + rect.size.y;
+            
+            // Don't update Z
+            quad_.bl.pos = vec3(x1, y1, 0);
+            quad_.br.pos = vec3(x2, y1, 0);
+            quad_.tl.pos = vec3(x1, y2, 0);
+            quad_.tr.pos = vec3(x2, y2, 0);
+        }
+    }
+
+    void UpdateTextureAtlas();
 
 private:
     void UpdateQuadColor();
@@ -207,9 +230,11 @@ private:
     vec2 unflipped_offset_position_from_center_;
 
     // batch node stuff
-    shared_ptr<SpriteBatchNode> batch_node_;
+    weak_ptr<SpriteBatchNode> batch_node_;
+    weak_ptr<TextureAtlas> texture_atlas_;
     bool dirty_;
     bool recursive_dirty_;
+    mat4 transform_to_batch_;
 };
 
 }

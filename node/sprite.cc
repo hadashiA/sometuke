@@ -38,6 +38,8 @@ Sprite::Sprite()
     quad_.br.color = tmp_color;
     quad_.tl.color = tmp_color;
     quad_.tr.color = tmp_color;
+
+    transform_to_batch_ = mat4::Identity();
 }
 
 bool Sprite::InitWithFilename(const string& path) {
@@ -283,8 +285,7 @@ void Sprite::UpdateQuadTexCoords() {
     }
 }
 
-void UpdateTransform() {
-    
+void Sprite::UpdateTextureAtlas() {
 }
 
 }
