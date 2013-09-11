@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <string>
+#include <cassert>
 
 #include <OpenGLES/ES2/gl.h>
 
@@ -16,10 +17,12 @@ class Texture2D;
 class GLProgram;
 class Animation;
 class Animate;
+class SpriteBatchNode;
 
 class Sprite : public Node, public TextureInterface, public RGBAInterface {
 public:
     Sprite();
+
     virtual ~Sprite() {}
     virtual bool Init() { return true; }
 
@@ -77,12 +80,18 @@ public:
         return does_opacity_modify_rgb_;
     }
 
-    void flip_x(bool value) {
-        fliped_x_ = value;
+    void flip_x(const bool value) {
+        if (fliped_x_ != value) {
+            fliped_x_ = value;
+            set_texture_rect(vertex_rect_, vertex_rect_rotated_, content_size_);
+        }
     }
 
-    void flip_y(bool value) {
-        fliped_y_ = value;
+    void flip_y(const bool value) {
+        if (fliped_y_ != value) {
+            fliped_y_ = value;
+            set_texture_rect(vertex_rect_, vertex_rect_rotated_, content_size_);
+        }
     }
 
     void set_blend_func_src(GLubyte value) {
@@ -100,7 +109,75 @@ public:
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
     void set_display_frame(const SpriteFrame& sprite_frame);
-    void set_display_frame(weak_ptr<SpriteFrame> sprite_frame);
+    void set_display_frame(const weak_ptr<SpriteFrame>& sprite_frame);
+
+
+    void DirtyRecursively() {
+        if (batch_node_ && !recursive_dirty_) {
+            dirty_ = recursive_dirty_ = true;
+            for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
+                const shared_ptr<Sprite>& sprite = static_pointer_cast<Sprite>(*i);
+                sprite->DirtyRecursively();
+            }
+        }
+    }
+
+    void set_position(const vec3& position) {
+        Node::set_position(position);
+        DirtyRecursively();
+    }
+
+    void set_rotation(const float degrees) {
+        Node::set_rotation(degrees);
+        DirtyRecursively();
+    }
+
+    void set_scale_x(const float scale_x) {
+        Node::set_scale_x(scale_x);
+        DirtyRecursively();
+    }
+
+    void set_scale_y(const float scale_y) {
+        Node::set_scale_y(scale_y);
+        DirtyRecursively();
+    }
+
+    void set_scale(const float scale) {
+        Node::set_scale(scale);
+        DirtyRecursively();
+    }
+
+    void set_skew_x(const float skew_x) {
+        Node::set_skew_x(skew_x);
+        DirtyRecursively();
+    }
+
+    void set_skew_y(const float skew_y) {
+        Node::set_skew_y(skew_y);
+        DirtyRecursively();
+    }
+
+    void set_z_order(int z_order) {
+        Node::set_z_order(z_order);
+        DirtyRecursively();
+    }
+
+    void set_anchor_point(const vec2& value) {
+        Node::set_anchor_point(value);
+        DirtyRecursively();
+    }
+
+    void set_ignore_anchor_point_for_position(bool value) {
+        assert(!batch_node_);
+        Node::set_ignore_anchor_point_for_position(value);
+    }
+
+    void set_visible(const bool value) {
+        Node::set_visible(value);
+        DirtyRecursively();
+    }
+
+    void UpdateTransform();
 
 private:
     void UpdateQuadColor();
@@ -128,6 +205,11 @@ private:
     bool vertex_rect_rotated_;
     vec2 offset_position_;
     vec2 unflipped_offset_position_from_center_;
+
+    // batch node stuff
+    shared_ptr<SpriteBatchNode> batch_node_;
+    bool dirty_;
+    bool recursive_dirty_;
 };
 
 }

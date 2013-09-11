@@ -26,7 +26,9 @@ Sprite::Sprite()
       fliped_x_(false),
       fliped_y_(false),
       offset_position_(0, 0),
-      unflipped_offset_position_from_center_(0, 0) {
+      unflipped_offset_position_from_center_(0, 0),
+      dirty_(false),
+      recursive_dirty_(false) {
     shader_program_ = ShaderCache::Instance()[kShader_PositionTextureColor];
 
     std::memset(&quad_, 0, sizeof(quad_));
@@ -279,6 +281,10 @@ void Sprite::UpdateQuadTexCoords() {
         quad_.tr.tex_coord.u = right;
         quad_.tr.tex_coord.v = top;
     }
+}
+
+void UpdateTransform() {
+    
 }
 
 }
