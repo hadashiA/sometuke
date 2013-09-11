@@ -140,4 +140,14 @@ void Node::Visit() {
     MatrixStack<GLModelView>::Instance().Pop();
 }
 
+void Node::SortAllChildren() {
+    if (!is_reorder_child_dirty_) {
+        return;
+    }
+
+    
+
+    is_reorder_child_dirty_ = false;
+}
+
 }

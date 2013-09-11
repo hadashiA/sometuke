@@ -59,7 +59,8 @@ public:
           z_order_(0),
           is_visible_(true),
           is_transform_dirty_(true),
-          is_inverse_dirty_(true) {
+          is_inverse_dirty_(true),
+          is_reorder_child_dirty_(true) {
     }
     
     virtual ~Node() {}
@@ -198,6 +199,10 @@ public:
         }
     }
 
+    void set_visible(const bool value) {
+        visible_ = value;
+    }
+
     void set_content_size(const vec2& value) {
         if (content_size_ != value) {
             content_size_ = value;
@@ -255,6 +260,8 @@ public:
         OnExit();
     }
 
+    void SortAllChildren();
+
     mat4 WorldTransform();
 
     vec3 WorldPosition();
@@ -297,6 +304,7 @@ protected:
     mat4 local_inverse_;
     bool is_transform_dirty_;
     bool is_inverse_dirty_;
+    bool is_reorder_child_dirty_;
 
     ActorId actor_id_;
 
