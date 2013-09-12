@@ -111,7 +111,7 @@ void Node::RemoveChild(const shared_ptr<Node>& child) {
 }
 
 void Node::Visit() {
-    if (!is_visible_) return;
+    if (!visible_) return;
 
     mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
 

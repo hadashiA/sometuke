@@ -18,6 +18,7 @@ class GLProgram;
 class Animation;
 class Animate;
 class SpriteBatchNode;
+class TextureAtlas;
 
 class Sprite : public Node, public TextureInterface, public RGBAInterface {
 public:
@@ -109,11 +110,11 @@ public:
     void set_texture_rect(const Rect& rect, bool rotated,
                           const vec2& untrimmed_size);
     void set_display_frame(const SpriteFrame& sprite_frame);
-    void set_display_frame(const weak_ptr<SpriteFrame>& sprite_frame);
+    void set_display_frame(weak_ptr<SpriteFrame> sprite_frame);
 
 
     void DirtyRecursively() {
-        if (batch_node_ && !recursive_dirty_) {
+        if (!batch_node_.expired() && !recursive_dirty_) {
             dirty_ = recursive_dirty_ = true;
             for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
                 const shared_ptr<Sprite>& sprite = static_pointer_cast<Sprite>(*i);
@@ -122,83 +123,22 @@ public:
         }
     }
 
-    void set_position(const vec3& position) {
-        Node::set_position(position);
+    void OnChangeTransform() {
+        Node::OnChangeTransform();
         DirtyRecursively();
     }
 
-    void set_rotation(const float degrees) {
-        Node::set_rotation(degrees);
-        DirtyRecursively();
-    }
-
-    void set_scale_x(const float scale_x) {
-        Node::set_scale_x(scale_x);
-        DirtyRecursively();
-    }
-
-    void set_scale_y(const float scale_y) {
-        Node::set_scale_y(scale_y);
-        DirtyRecursively();
-    }
-
-    void set_scale(const float scale) {
-        Node::set_scale(scale);
-        DirtyRecursively();
-    }
-
-    void set_skew_x(const float skew_x) {
-        Node::set_skew_x(skew_x);
-        DirtyRecursively();
-    }
-
-    void set_skew_y(const float skew_y) {
-        Node::set_skew_y(skew_y);
-        DirtyRecursively();
-    }
-
-    void set_z_order(int z_order) {
-        Node::set_z_order(z_order);
-        DirtyRecursively();
-    }
-
-    void set_anchor_point(const vec2& value) {
-        Node::set_anchor_point(value);
+    void OnChangeVisible() {
+        Node::OnChangeVisible();
         DirtyRecursively();
     }
 
     void set_ignore_anchor_point_for_position(bool value) {
-        assert(!batch_node_);
+        assert(batch_node_.expired());
         Node::set_ignore_anchor_point_for_position(value);
     }
 
-    void set_visible(const bool value) {
-        Node::set_visible(value);
-        DirtyRecursively();
-    }
-
-    void set_batch_node(const shared_ptr<SpriteBatchNode>& value) {
-        batch_node_ = value;
-
-        if (value) {
-            transform_to_batch_ = mat4::Identity();
-            texture_atlas_ = value->texture_atlas();
-        } else {
-            texture_atlas_.reset();
-            dirty_ = recursive_dirty_ = false;
-
-            float x1 = offset_position_.x;
-            float y1 = offset_position_.y;
-            float x2 = x1 + rect.size.x;
-            float y2 = y1 + rect.size.y;
-            
-            // Don't update Z
-            quad_.bl.pos = vec3(x1, y1, 0);
-            quad_.br.pos = vec3(x2, y1, 0);
-            quad_.tl.pos = vec3(x1, y2, 0);
-            quad_.tr.pos = vec3(x2, y2, 0);
-        }
-    }
+    void set_batch_node(const shared_ptr<SpriteBatchNode>& value);
 
     void UpdateTextureAtlas();
 
@@ -232,9 +172,11 @@ private:
     // batch node stuff
     weak_ptr<SpriteBatchNode> batch_node_;
     weak_ptr<TextureAtlas> texture_atlas_;
+    size_t atlas_index_;
     bool dirty_;
     bool recursive_dirty_;
     mat4 transform_to_batch_;
+    bool should_be_hidden_;
 };
 
 }

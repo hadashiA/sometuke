@@ -57,7 +57,7 @@ public:
           ignore_anchor_point_for_position_(false),
           content_size_(0, 0),
           z_order_(0),
-          is_visible_(true),
+          visible_(true),
           is_transform_dirty_(true),
           is_inverse_dirty_(true),
           is_reorder_child_dirty_(true) {
@@ -93,8 +93,8 @@ public:
         return z_order_;
     }
 
-    const bool is_visible() const {
-        return is_visible_;
+    const bool visible() const {
+        return visible_;
     }
 
     const vec2& anchor_point() const {
@@ -123,7 +123,7 @@ public:
 
     void set_position(const vec3& position) {
         position_ = position;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_position(const float x, const float y, const float z = 0) {
@@ -135,8 +135,7 @@ public:
     }
 
     void add_position(const vec3& diff) {
-        position_ += diff;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        set_position(position() + diff);
     }
 
     void add_position(const float dx, const float dy, const float dz = 0) {
@@ -145,38 +144,38 @@ public:
 
     void set_rotation(const float degrees) {
         rotation_ = degrees;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_scale_x(const float scale_x) {
         scale_x_ = scale_x;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_scale_y(const float scale_y) {
         scale_y_ = scale_y;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_scale(const float scale) {
         scale_x_ = scale;
         scale_y_ = scale;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_skew_x(const float skew_x) {
         skew_x_ = skew_x;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_skew_y(const float skew_y) {
         skew_y_ = skew_y;
-        is_transform_dirty_ = is_inverse_dirty_ = true;
+        OnChangeTransform();
     }
 
     void set_z_order(int z_order) {
         z_order = z_order;
-        // parent_->ReorderChild(this, z_order)
+        is_reorder_child_dirty_ = true;
     }
 
     void set_anchor_point(const vec2& value) {
@@ -184,23 +183,32 @@ public:
             anchor_point_ = value;
             anchor_point_in_points_ = vec2(content_size_.x * anchor_point_.x,
                                            content_size_.y * anchor_point_.y);
-            is_transform_dirty_ = is_inverse_dirty_ = true;
+            OnChangeTransform();
         }
     }
-
+    
     void set_anchor_point(const float x, const float y) {
-        set_anchor_point(vec2(x, y));
+        set_anchor_point(vec2(x, 7));
     }
 
     void set_ignore_anchor_point_for_position(bool value) {
         if (ignore_anchor_point_for_position_ != value) {
             ignore_anchor_point_for_position_ = value;
-            is_transform_dirty_ = is_inverse_dirty_ = true;
+            OnChangeTransform();
         }
     }
 
     void set_visible(const bool value) {
         visible_ = value;
+        OnChangeVisible();
+    }
+
+    void Show() {
+        set_visible(true);
+    }
+
+    void Hide() {
+        set_visible(false);
     }
 
     void set_content_size(const vec2& value) {
@@ -218,14 +226,6 @@ public:
 
     void set_actor_id(const ActorId& actor_id) {
         actor_id_ = actor_id;
-    }
-
-    void show() {
-        is_visible_ = true;
-    }
-
-    void hide() {
-        is_visible_ = false;
     }
 
     void set_parent(const shared_ptr<Node>& value) {
@@ -261,9 +261,7 @@ public:
     }
 
     void SortAllChildren();
-
     mat4 WorldTransform();
-
     vec3 WorldPosition();
     // void SetWorldPosition(const vec3& world_position);
 
@@ -284,6 +282,13 @@ public:
     virtual void OnEnter() {}
     virtual void OnExit() {}
 
+    virtual void OnChangeTransform() {
+        is_transform_dirty_ = is_inverse_dirty_ = true;
+    }
+
+    virtual void OnChangeVisible() {
+    }
+
     const mat4& LocalTransform();
 
 protected:
@@ -298,7 +303,7 @@ protected:
     bool ignore_anchor_point_for_position_;
     vec2 content_size_;
     int z_order_;
-    bool is_visible_;
+    bool visible_;
 
     mat4 local_transform_;
     mat4 local_inverse_;

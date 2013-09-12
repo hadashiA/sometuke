@@ -1,11 +1,11 @@
 #include "sometuke/node/sprite.h"
 
+#include "sometuke/node/sprite_batch_node.h"
 #include "sometuke/shader_cache.h"
 #include "sometuke/texture_cache.h"
+#include "sometuke/texture_atlas.h"
 #include "sometuke/texture_2d.h"
-#include "sometuke/sprite_frame.h"
 #include "sometuke/director.h"
-#include "sometuke/process/animate.h"
 #include "sometuke/drawing_primitives.h"
 #include "sometuke/OpenGL_Internal.h"
 
@@ -28,7 +28,8 @@ Sprite::Sprite()
       offset_position_(0, 0),
       unflipped_offset_position_from_center_(0, 0),
       dirty_(false),
-      recursive_dirty_(false) {
+      recursive_dirty_(false),
+      should_be_hidden_(false) {
     shader_program_ = ShaderCache::Instance()[kShader_PositionTextureColor];
 
     std::memset(&quad_, 0, sizeof(quad_));
@@ -163,6 +164,31 @@ void Sprite::set_display_frame(const SpriteFrame& frame) {
     set_texture_rect(frame.rect, vertex_rect_rotated_, frame.original_size);
 }
 
+void Sprite::set_batch_node(const shared_ptr<SpriteBatchNode>& value) {
+    batch_node_ = value;
+
+    if (value) {
+        transform_to_batch_ = mat4::Identity();
+        texture_atlas_ = value->texture_atlas();
+    } else {
+        // disable batch node
+        texture_atlas_.reset();
+        dirty_ = recursive_dirty_ = false;
+
+        float x1 = offset_position_.x;
+        float y1 = offset_position_.y;
+        float x2 = x1 + vertex_rect_.size.x;
+        float y2 = y1 + vertex_rect_.size.y;
+            
+        // Don't update Z
+        quad_.bl.pos = vec3(x1, y1, 0);
+        quad_.br.pos = vec3(x2, y1, 0);
+        quad_.tl.pos = vec3(x1, y2, 0);
+        quad_.tr.pos = vec3(x2, y2, 0);
+    }
+}
+
+
 void Sprite::Render() {
     shader_program_->Use();
     shader_program_->SetUniformsForBuiltins();
@@ -286,6 +312,81 @@ void Sprite::UpdateQuadTexCoords() {
 }
 
 void Sprite::UpdateTextureAtlas() {
+    assert(!batch_node_.expired());
+
+    shared_ptr<SpriteBatchNode> batch_node = batch_node_.lock();
+    shared_ptr<Node> parent = parent_.lock();
+    shared_ptr<Sprite> parent_sprite;
+    if (parent != batch_node) {
+        parent_sprite = static_pointer_cast<Sprite>(parent);
+    }
+
+    if (dirty_) {
+        // If it is not visible, or one of its ancestors is not visible, then do nothing:
+        if (!visible_ || (parent && parent != batch_node && parent_sprite->should_be_hidden_)) {
+            quad_.br.pos = vec3(0, 0, 0);
+            quad_.tl.pos = vec3(0, 0, 0);
+            quad_.tr.pos = vec3(0, 0, 0);
+            quad_.bl.pos = vec3(0, 0, 0);
+            should_be_hidden_ = true;
+
+        } else {
+            should_be_hidden_ = false;
+
+            if (!parent || parent == batch_node) {
+                transform_to_batch_ = LocalTransform();
+
+            } else {
+                assert(parent_sprite);
+
+                transform_to_batch_ = parent_sprite->transform_to_batch_ * LocalTransform();
+            }
+
+            // calculate the Quad based on the Affine Matrix
+            vec2 size = vertex_rect_.size;
+
+            float x1 = offset_position_.x;
+            float y1 = offset_position_.y;
+
+            float x2 = x1 + size.x;
+            float y2 = y1 + size.y;
+            float x = transform_to_batch_.w.x;
+            float y = transform_to_batch_.w.y;
+
+            float cr  =  transform_to_batch_.x.x;
+            float sr  =  transform_to_batch_.x.y;
+            float cr2 =  transform_to_batch_.y.x;
+            float sr2 = -transform_to_batch_.x.z;
+
+            float ax = x1 * cr - y1 * sr2 + x;
+            float ay = x1 * sr + y1 * cr2 + y;
+
+            float bx = x2 * cr - y1 * sr2 + x;
+            float by = x2 * sr + y1 * cr2 + y;
+
+            float cx = x2 * cr - y2 * sr2 + x;
+            float cy = x2 * sr + y2 * cr2 + y;
+            
+            float dx = x1 * cr - y2 * sr2 + x;
+            float dy = x1 * sr + y2 * cr2 + y;
+
+            quad_.bl.pos = vec3(ax, ay, position_.z);
+            quad_.br.pos = vec3(bx, by, position_.z);
+            quad_.tl.pos = vec3(dx, dy, position_.z);
+            quad_.tr.pos = vec3(cx, cy, position_.z);
+        }
+        
+        if (texture_atlas = texture_atlas_.lock()) {
+            texture_atlas->UpdateQuad(quad_, atlas_index_);
+        }
+        dirty_ = recursive_dirty_ = false;
+    }
+
+    // recursively iterate over children
+    for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
+        shared_ptr<Sprite> child = static_pointer_cast<Sprite>(*i);
+        child->UpdateTextureAtlas();
+    }
 }
 
 }
