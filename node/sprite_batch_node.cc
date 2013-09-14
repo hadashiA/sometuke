@@ -36,11 +36,12 @@ void SpriteBatchNode::AddChild(const shared_ptr<Node>& child) {
 void SpriteBatchNode::AppendSprite(const shared_ptr<Sprite>& sprite) {
     is_reorder_child_dirty_ = true;
 
-    size_t next_index = sprits_.size() - 1;
     sprite->set_batch_node(static_pointer_cast<SpriteBatchNode>(shared_from_this()),
-                           next_index);
+                           sprits_.size());
     
     sprits_.push_back(sprite);
+
+    texture_atlas_->Resize(sprits_.size());
 
     vector<shared_ptr<Node> > children = sprite->children();
     for (vector<shared_ptr<Node> >::iterator i = children.begin();

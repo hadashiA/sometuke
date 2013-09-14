@@ -327,16 +327,17 @@ void Sprite::UpdateQuadTexCoords() {
 }
 
 void Sprite::UpdateTextureAtlas() {
-    assert(!batch_node_.expired());
-
     shared_ptr<SpriteBatchNode> batch_node = batch_node_.lock();
-    shared_ptr<Node> parent = parent_.lock();
-    shared_ptr<Sprite> parent_sprite;
-    if (parent != batch_node) {
-        parent_sprite = static_pointer_cast<Sprite>(parent);
-    }
+
+    assert(batch_node);
 
     if (dirty_) {
+        shared_ptr<Node> parent = parent_.lock();
+        shared_ptr<Sprite> parent_sprite;
+        if (parent != batch_node) {
+            parent_sprite = static_pointer_cast<Sprite>(parent);
+        }
+
         // If it is not visible, or one of its ancestors is not visible, then do nothing:
         if (!visible_ || (parent && parent != batch_node && parent_sprite->should_be_hidden_)) {
             quad_.br.pos = vec3(0, 0, 0);

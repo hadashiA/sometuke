@@ -21,11 +21,10 @@ bool TextureAtlas::InitWithFile(const string& path, size_t capacity) {
 }
 
 bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacity) {
-    capacity_ = capacity;
     texture_  = texture;
 
-    quads_.resize(capacity);
-    indices_.resize(capacity * 6);
+    quads_.reserve(capacity);
+    indices_.reserve(capacity * 6);
 
     SetupIndices();
     SetupVbo();
@@ -35,24 +34,24 @@ bool TextureAtlas::InitWithTexture(shared_ptr<Texture2D> texture, size_t capacit
     return true;
 }
 
-void TextureAtlas::ResizeCapacity(size_t new_capacity) {
-    if (new_capacity == capacity_) {
+void TextureAtlas::Resize(size_t new_size) {
+    if (new_size <= size_) {
         return;
     }
 
-    if (new_capacity < quads_.size()) {
-        Quads::iterator last = quads_.begin() + new_capacity;
+    if (new_size < quads_.size()) {
+        Quads::iterator last = quads_.begin() + new_size;
         quads_.erase(last, quads_.end());
     }
-    if (new_capacity * 6 < indices_.size()) {
-        Indices::iterator last = indices_.begin() + (new_capacity * 6);
+    if (new_size * 6 < indices_.size()) {
+        Indices::iterator last = indices_.begin() + (new_size * 6);
         indices_.erase(last, indices_.end());
     }
 
-    quads_.resize(new_capacity);
-    indices_.resize(new_capacity * 6);
+    quads_.resize(new_size);
+    indices_.resize(new_size * 6);
 
-    capacity_ = new_capacity;
+    size_ = new_size;
     SetupIndices();
     MapBuffers();
 
@@ -60,7 +59,7 @@ void TextureAtlas::ResizeCapacity(size_t new_capacity) {
 }
 
 void TextureAtlas::SetupIndices() {
-    for(int i = 0; i < capacity_; i++) {
+    for(int i = 0; i < size_; i++) {
 #if II_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
         indices_[i*6+0] = i*4+0;
         indices_[i*6+1] = i*4+0;
@@ -90,12 +89,12 @@ void TextureAtlas::MapBuffers() {
     // glBindVertexArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffers_vbo_[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * capacity_,
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * size_,
                  &quads_[0], GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers_vbo_[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * capacity_ * 6,
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_[0]) * size_ * 6,
                  &indices_[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -103,7 +102,7 @@ void TextureAtlas::MapBuffers() {
 }
 
 void TextureAtlas::RenderQuads() {
-    RenderQuads(quads_.size(), 0);
+    RenderQuads(size_, 0);
 }
 
 void TextureAtlas::RenderQuads(size_t n) {

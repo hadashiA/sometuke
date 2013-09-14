@@ -4,6 +4,7 @@
 #include "sometuke/texture_atlas.h"
 #include "sometuke/node/node.h"
 #include "sometuke/shader_cache.h"
+#include "sometuke/logger.h"
 
 namespace sometuke {
 

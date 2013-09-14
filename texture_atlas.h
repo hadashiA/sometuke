@@ -26,7 +26,8 @@ public:
     typedef vector<GLushort> Indices;
 
     TextureAtlas()
-        : dirty_(true) {
+        : size_(0),
+          dirty_(true) {
     }
 
     ~TextureAtlas() {
@@ -40,8 +41,8 @@ public:
         return quads_.size();
     }
 
-    size_t capacity() const {
-        return capacity_;
+    size_t size() const {
+        return size_;
     }
 
     shared_ptr<Texture2D> texture() const {
@@ -52,7 +53,7 @@ public:
         texture_ = value;
     }
 
-    void ResizeCapacity(size_t new_capacity);
+    void Resize(size_t new_size);
 
     void UpdateQuad(const P3F_C4B_T2F_Quad& quad, size_t index) {
         if (quads_.size() <= index) {
@@ -72,7 +73,7 @@ private:
     void MapBuffers();
     void SetupVbo();
 
-    size_t capacity_;
+    size_t size_;
     Quads quads_;
     Indices indices_;
     shared_ptr<Texture2D> texture_;

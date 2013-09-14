@@ -94,8 +94,8 @@ void LabelAtlas::set_text(const string& text) {
     }
 
     size_t len = text.length();
-    if (len > texture_atlas_->capacity()) {
-        texture_atlas_->ResizeCapacity(len);
+    if (len > texture_atlas_->size()) {
+        texture_atlas_->Resize(len);
     }
 
     text_ = text;
