@@ -36,9 +36,32 @@ public:
 
     virtual void Render();
 
-    virtual void set_texture(const shared_ptr<Texture2D>& value);
 
-    virtual shared_ptr<Texture2D> texture() const {
+    void DirtyRecursively() {
+        if (!batch_node_.expired() && !recursive_dirty_) {
+            dirty_ = recursive_dirty_ = true;
+            for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
+                const shared_ptr<Sprite>& sprite = static_pointer_cast<Sprite>(*i);
+                sprite->DirtyRecursively();
+            }
+        }
+    }
+
+    void OnChangeTransform() {
+        Node::OnChangeTransform();
+        DirtyRecursively();
+    }
+
+    void OnChangeVisible() {
+        Node::OnChangeVisible();
+        DirtyRecursively();
+    }
+
+    void UpdateTextureAtlas();
+
+    void set_texture(const shared_ptr<Texture2D>& value);
+
+    shared_ptr<Texture2D> texture() const {
         return texture_;
     }
 
@@ -112,35 +135,14 @@ public:
     void set_display_frame(const SpriteFrame& sprite_frame);
     void set_display_frame(weak_ptr<SpriteFrame> sprite_frame);
 
-
-    void DirtyRecursively() {
-        if (!batch_node_.expired() && !recursive_dirty_) {
-            dirty_ = recursive_dirty_ = true;
-            for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
-                const shared_ptr<Sprite>& sprite = static_pointer_cast<Sprite>(*i);
-                sprite->DirtyRecursively();
-            }
-        }
-    }
-
-    void OnChangeTransform() {
-        Node::OnChangeTransform();
-        DirtyRecursively();
-    }
-
-    void OnChangeVisible() {
-        Node::OnChangeVisible();
-        DirtyRecursively();
-    }
-
     void set_ignore_anchor_point_for_position(bool value) {
         assert(batch_node_.expired());
         Node::set_ignore_anchor_point_for_position(value);
     }
 
-    void set_batch_node(const shared_ptr<SpriteBatchNode>& value);
-
-    void UpdateTextureAtlas();
+    void set_batch_node(const shared_ptr<SpriteBatchNode>& value,
+                        size_t texture_atlas_index);
+    void reset_batch_node();
 
 private:
     void UpdateQuadColor();

@@ -3,6 +3,7 @@
 
 #include "sometuke/texture_atlas.h"
 #include "sometuke/node/node.h"
+#include "sometuke/shader_cache.h"
 
 namespace sometuke {
 
@@ -21,18 +22,25 @@ public:
 
     bool InitWithTexture(const shared_ptr<Texture2D>& texture, size_t capacity = 29);
     void AddChild(const shared_ptr<Sprite>& child);
+    void AppendSprite(const shared_ptr<Sprite>& child);
+
+    shared_ptr<TextureAtlas> texture_atlas() {
+        return texture_atlas_;
+    }
     
 private:
     void AddChild(const shared_ptr<Node>& child);
-
+    
     void UpdateBlendFunc();
+
+    shared_ptr<GLProgram> shader_program_;
 
     shared_ptr<TextureAtlas> texture_atlas_;
     GLenum blend_func_src_;
     GLenum blend_func_dst_;
 
-    vector<shared_ptr<SpriteBatchNode> > descendants_;
-}
+    vector<shared_ptr<Sprite> > sprits_;
+};
 
 }
 

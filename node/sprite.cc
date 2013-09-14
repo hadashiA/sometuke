@@ -164,30 +164,33 @@ void Sprite::set_display_frame(const SpriteFrame& frame) {
     set_texture_rect(frame.rect, vertex_rect_rotated_, frame.original_size);
 }
 
-void Sprite::set_batch_node(const shared_ptr<SpriteBatchNode>& value) {
+void Sprite::set_batch_node(const shared_ptr<SpriteBatchNode>& value,
+                            size_t atlas_index) {
     batch_node_ = value;
+    atlas_index_ = atlas_index;
 
-    if (value) {
-        transform_to_batch_ = mat4::Identity();
-        texture_atlas_ = value->texture_atlas();
-    } else {
-        // disable batch node
-        texture_atlas_.reset();
-        dirty_ = recursive_dirty_ = false;
-
-        float x1 = offset_position_.x;
-        float y1 = offset_position_.y;
-        float x2 = x1 + vertex_rect_.size.x;
-        float y2 = y1 + vertex_rect_.size.y;
-            
-        // Don't update Z
-        quad_.bl.pos = vec3(x1, y1, 0);
-        quad_.br.pos = vec3(x2, y1, 0);
-        quad_.tl.pos = vec3(x1, y2, 0);
-        quad_.tr.pos = vec3(x2, y2, 0);
-    }
+    transform_to_batch_ = mat4::Identity();
+    texture_atlas_ = value->texture_atlas();
+    dirty_ = recursive_dirty_ = true;
 }
 
+void Sprite::reset_batch_node() {
+    // disable batch node
+    batch_node_.reset();
+    texture_atlas_.reset();
+    dirty_ = recursive_dirty_ = false;
+    
+    float x1 = offset_position_.x;
+    float y1 = offset_position_.y;
+    float x2 = x1 + vertex_rect_.size.x;
+    float y2 = y1 + vertex_rect_.size.y;
+    
+    // Don't update Z
+    quad_.bl.pos = vec3(x1, y1, 0);
+    quad_.br.pos = vec3(x2, y1, 0);
+    quad_.tl.pos = vec3(x1, y2, 0);
+    quad_.tr.pos = vec3(x2, y2, 0);
+}
 
 void Sprite::Render() {
     shader_program_->Use();
@@ -376,7 +379,7 @@ void Sprite::UpdateTextureAtlas() {
             quad_.tr.pos = vec3(cx, cy, position_.z);
         }
         
-        if (texture_atlas = texture_atlas_.lock()) {
+        if (shared_ptr<TextureAtlas> texture_atlas = texture_atlas_.lock()) {
             texture_atlas->UpdateQuad(quad_, atlas_index_);
         }
         dirty_ = recursive_dirty_ = false;

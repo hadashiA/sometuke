@@ -236,7 +236,7 @@ public:
         return (anchor_point_.x == 0 && anchor_point_.y == 0);
     }
 
-    vector<shared_ptr<Node> > children() const {
+    vector<shared_ptr<Node> > children() {
         return children_;
     }
 
