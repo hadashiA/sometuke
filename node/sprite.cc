@@ -266,6 +266,14 @@ void Sprite::UpdateQuadColor() {
 
 void Sprite::UpdateQuadTexCoords() {
     Rect rect = vertex_rect_ * Director::Instance().content_scale_factor();
+    const shared_ptr<Texture2D>& texture = (batch_node_.expired() ?
+                                            texture_ :
+                                            texture_atlas_.lock()->texture());
+
+    if (!texture) {
+        return;
+    }
+
     float atlas_width  = texture_->pixel_size().x;
     float atlas_height = texture_->pixel_size().y;
     float left, right, top, bottom;
