@@ -240,8 +240,6 @@ public:
         return children_;
     }
 
-    void Visit();
-
     void Enter() {
         for (vector<shared_ptr<Node> >::iterator i = children_.begin();
              i != children_.end(); ++i) {
@@ -277,6 +275,7 @@ public:
     virtual void RemoveChild(const shared_ptr<Node>& child);
     
     virtual bool Init() { return true; }
+    virtual void Visit();
     virtual void Render()  {}
 
     virtual void OnEnter() {}

@@ -21,16 +21,26 @@ public:
     virtual ~SpriteBatchNode() {}
 
     bool InitWithTexture(const shared_ptr<Texture2D>& texture, size_t capacity = 29);
-    void AddChild(const shared_ptr<Sprite>& child);
+    void AddChild(const shared_ptr<Node>& child);
     void AppendSprite(const shared_ptr<Sprite>& child);
+
+    void Visit();
+    void Render();
 
     shared_ptr<TextureAtlas> texture_atlas() {
         return texture_atlas_;
     }
-    
+
+    shared_ptr<Texture2D> texture() const {
+        return texture_atlas_->texture();
+    }
+
+    void set_texture(const shared_ptr<Texture2D>& texture) {
+        texture_atlas_->set_texture(texture);
+        UpdateBlendFunc();
+    }
+
 private:
-    void AddChild(const shared_ptr<Node>& child);
-    
     void UpdateBlendFunc();
 
     shared_ptr<GLProgram> shader_program_;

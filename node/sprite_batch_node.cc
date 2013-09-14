@@ -2,6 +2,8 @@
 
 #include "sometuke/node/sprite.h"
 #include "sometuke/texture_2d.h"
+#include "sometuke/matrix_stack.h"
+#include "sometuke/texture_atlas.h"
 
 namespace sometuke {
 
@@ -13,15 +15,22 @@ bool SpriteBatchNode::InitWithTexture(const shared_ptr<Texture2D>& texture, size
     return true;
 }
 
-void SpriteBatchNode::AddChild(const shared_ptr<Sprite>& child) {
-    if (child->texture()->id() != texture_atlas_->texture()->id()) {
+void SpriteBatchNode::AddChild(const shared_ptr<Node>& child) {
+    shared_ptr<Sprite> sprite = dynamic_pointer_cast<Sprite>(child);
+
+    if (!sprite) {
+        S2ERROR("SpriteBatchNode only supports Sprite as children");
+        return;
+    }
+
+    if (sprite->texture()->id() != texture_atlas_->texture()->id()) {
         S2ERROR("not using the same texture id");
         return;
     }
 
-    Node::AddChild(child);
+    Node::AddChild(sprite);
 
-    AppendSprite(child);
+    AppendSprite(sprite);
 }
 
 void SpriteBatchNode::AppendSprite(const shared_ptr<Sprite>& sprite) {
@@ -42,6 +51,38 @@ void SpriteBatchNode::AppendSprite(const shared_ptr<Sprite>& sprite) {
     }
 }
 
+void SpriteBatchNode::Visit() {
+    assert(!parent_.expired());
+
+    if (visible_) {
+        return;
+    }
+
+    mat4& model_view = MatrixStack<GLModelView>::Instance().Push();
+    model_view = LocalTransform() * model_view;
+    Render();
+    MatrixStack<GLModelView>::Instance().Pop();
+}
+
+void SpriteBatchNode::Render() {
+    shader_program_->Use();
+    shader_program_->SetUniformsForBuiltins();
+
+    for (vector<shared_ptr<Node> >::iterator i = children_.begin(); i != children_.end(); ++i) {
+        shared_ptr<Sprite> child = static_pointer_cast<Sprite>(*i);
+        child->UpdateTextureAtlas();
+    }
+
+    // set blending
+    if (blend_func_src_ == GL_ONE && blend_func_dst_ == GL_ZERO) {
+        glDisable(GL_BLEND);
+    } else {
+        glEnable(GL_BLEND);
+        glBlendFunc(blend_func_src_, blend_func_dst_);
+    }
+
+    texture_atlas_->RenderQuads();
+}
 
 void SpriteBatchNode::UpdateBlendFunc() {
     if (!texture_atlas_->texture()->has_premultiplied_alpha()) {
