@@ -38,8 +38,8 @@ void SpriteBatchNode::AppendSprite(const shared_ptr<Sprite>& sprite) {
 
     size_t next_index = sprits_.size() - 1;
     sprite->set_batch_node(static_pointer_cast<SpriteBatchNode>(shared_from_this()),
-                          next_index);
-
+                           next_index);
+    
     sprits_.push_back(sprite);
 
     vector<shared_ptr<Node> > children = sprite->children();
