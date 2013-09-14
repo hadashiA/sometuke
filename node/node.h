@@ -188,7 +188,7 @@ public:
     }
     
     void set_anchor_point(const float x, const float y) {
-        set_anchor_point(vec2(x, 7));
+        set_anchor_point(vec2(x, y));
     }
 
     void set_ignore_anchor_point_for_position(bool value) {
