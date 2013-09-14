@@ -54,7 +54,7 @@ void SpriteBatchNode::AppendSprite(const shared_ptr<Sprite>& sprite) {
 void SpriteBatchNode::Visit() {
     assert(!parent_.expired());
 
-    if (visible_) {
+    if (!visible_) {
         return;
     }
 
