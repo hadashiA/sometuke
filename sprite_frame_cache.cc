@@ -123,4 +123,9 @@ void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
     sprite_frames_[name] = sprite_frame;
 }
 
+void SpriteFrameCache::Purge() {
+    sprite_frames_.clear();
+    loaded_filenames_.clear();
+}
+
 }

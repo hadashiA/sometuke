@@ -22,6 +22,7 @@ public:
     }
 
     bool AddSpriteFramesWithFile(const string& json_path);
+    void Purge();
 
     shared_ptr<SpriteFrame> get(const string& sprite_frame_name) {
         return sprite_frames_[sprite_frame_name];
