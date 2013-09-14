@@ -36,7 +36,6 @@ public:
 
     virtual void Render();
 
-
     void DirtyRecursively() {
         if (!batch_node_.expired() && !recursive_dirty_) {
             dirty_ = recursive_dirty_ = true;

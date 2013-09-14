@@ -138,16 +138,20 @@ void Sprite::set_texture_rect(const Rect& rect, bool rotated,
     offset_position_.x = relative_offset.x + (content_size().x - rect.size.x) / 2;
     offset_position_.y = relative_offset.y + (content_size().y - rect.size.y) / 2;
 
-    float x1 = offset_position_.x;
-    float y1 = offset_position_.y;
-    float x2 = x1 + rect.size.x;
-    float y2 = y1 + rect.size.y;
-
-    // Don't update Z
-    quad_.bl.pos = vec3(x1, y1, 0);
-    quad_.br.pos = vec3(x2, y1, 0);
-    quad_.tl.pos = vec3(x1, y2, 0);
-    quad_.tr.pos = vec3(x2, y2, 0);
+    if (batch_node_.expired()) {
+        float x1 = offset_position_.x;
+        float y1 = offset_position_.y;
+        float x2 = x1 + rect.size.x;
+        float y2 = y1 + rect.size.y;
+        
+        // Don't update Z
+        quad_.bl.pos = vec3(x1, y1, 0);
+        quad_.br.pos = vec3(x2, y1, 0);
+        quad_.tl.pos = vec3(x1, y2, 0);
+        quad_.tr.pos = vec3(x2, y2, 0);
+    } else {
+        dirty_ = true;
+    }
 }
 
 void Sprite::set_display_frame(weak_ptr<SpriteFrame> weak_frame) {
