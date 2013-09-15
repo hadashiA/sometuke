@@ -56,7 +56,7 @@ public:
     void Resize(size_t new_size);
 
     void UpdateQuad(const P3F_C4B_T2F_Quad& quad, size_t index) {
-        if (quads_.size() <= index) {
+        if (quads_.size() -1 < index) {
             quads_.resize(index + 1);
         }
 
