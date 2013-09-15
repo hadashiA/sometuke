@@ -371,7 +371,7 @@ void Sprite::UpdateTextureAtlas() {
 
             float cr  =  transform_to_batch_.x.x;
             float sr  =  transform_to_batch_.x.y;
-            float cr2 =  transform_to_batch_.y.x;
+            float cr2 =  transform_to_batch_.y.y;
             float sr2 = -transform_to_batch_.x.z;
 
             float ax = x1 * cr - y1 * sr2 + x;
