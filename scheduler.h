@@ -87,8 +87,6 @@ public:
     
     void Update(const s2_time delta_time);
 
-    double Now();
-
 private:
     TimerList timers_;
 };

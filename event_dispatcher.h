@@ -10,7 +10,7 @@
 #include <map>
 
 #include <cmath>
-#include <sys/time.h>
+#include <chrono>
 
 namespace sometuke {
 using namespace std;
@@ -23,20 +23,14 @@ struct Event {
     }
     
     Event(const EventType& t)
-        : type(t),
-          created_at(0) {
-
-        timeval tv;
-        gettimeofday(&tv, NULL);
-        
-        double msec = floor(tv.tv_usec * 0.001) * 0.001;
-        created_at = ((double)(tv.tv_sec) + msec);
+        : type(t) {
+        created_at = chrono::system_clock::now();
     }
 
     virtual ~Event() {}
 
     EventType type;
-    double created_at;
+    chrono::time_point<chrono::system_clock> created_at;
 };
 
 typedef enum {

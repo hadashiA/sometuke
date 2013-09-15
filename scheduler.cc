@@ -4,7 +4,6 @@
 
 #include <climits>
 #include <cmath>
-#include <sys/time.h>
 
 namespace sometuke {
 const unsigned int Timer::REPEAT_FOREVER(UINT_MAX - 1);
@@ -50,14 +49,6 @@ void Timer::ScheduleUpdate() {
 
 void Timer::UnSchedule() {
     Director::Instance().scheduler().Unschedule(shared_from_this());
-}
-
-double Scheduler::Now() {
-    timeval tv;
-    gettimeofday(&tv, NULL);
-    
-    double msec = floor(tv.tv_usec * 0.001) * 0.001;
-    return ((double)(tv.tv_sec) + msec);
 }
 
 void Scheduler::Unschedule(const weak_ptr<Timer>& timer) {
