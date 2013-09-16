@@ -4,8 +4,9 @@
 #include "sometuke/vector.h"
 
 #include <string>
-#include <array>
 #include <unordered_map>
+#include <memory>
+#include <vector>
 
 namespace sometuke {
 using namespace std;
@@ -36,7 +37,7 @@ struct TmxLayerInfo {
     vec2 offset;
     bool visible;
     bool tiles_owned;
-    array<unsigned int> gids;
+    vector<unsigned int> gids;
     unsigned int gid_min;
     unsigned int gid_max;
     unordered_map<string, string> properties;
@@ -63,9 +64,27 @@ struct TmxMapInfo {
     vec2 map_size;
     ivec2 tiles_size;
 
-    vector<TmxLayerInfo> layers;
-    vector<TmxTilesetInfo> tilesets;
+    vector<shared_ptr<TmxLayerInfo> > layers;
+    vector<shared_ptr<TmxTilesetInfo> > tilesets;
     unordered_map<string, string> properties;
+};
+
+class TmxParser {
+public:
+    static TmxParser& Instance() {
+        static unique_ptr<TmxParser> __instance(new TmxParser);
+        return *__instance;
+    }
+
+    shared_ptr<TmxMapInfo> Parse(const string& file);
+
+private:
+    TmxParser() {}
+
+    TmxParser(const TmxParser&) = delete;
+    TmxParser(TmxParser&&) = delete;
+    TmxParser& operator=(const TmxParser&) = delete;
+    TmxParser& operator=(TmxParser&&) = delete;
 };
 
 }
