@@ -27,6 +27,12 @@ enum class TmxNode {
     TILE,
 };
 
+enum class TmxOrientation {
+    ORTHO,
+    HEX,
+    ISO,
+};
+
 struct TmxLayerInfo {
     TmxLayerInfo(size_t num_tiles)
         : gids(num_tiles) {
@@ -60,7 +66,7 @@ struct TmxMapInfo {
     int parent_element;
     unsigned int parent_gid;
     string filename;
-    int orientation;
+    TmxOrientation orientation;
     vec2 map_size;
     ivec2 tiles_size;
 
