@@ -67,8 +67,8 @@ struct TmxMapInfo {
     unsigned int parent_gid;
     string filename;
     TmxOrientation orientation;
-    vec2 map_size;
-    ivec2 tiles_size;
+    ivec2 map_size;
+    vec2 tile_size;
 
     vector<shared_ptr<TmxLayerInfo> > layers;
     vector<shared_ptr<TmxTilesetInfo> > tilesets;
