@@ -1,0 +1,3 @@
+[submodule "ext/picojson"]
+	path = ext/picojson
+	url = git@github.com:kazuho/picojson.git

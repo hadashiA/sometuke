@@ -3,7 +3,7 @@
 
 #include "sometuke/hashed_string.h"
 
-#include "sometuke/picojson/picojson.h"
+#include "sometuke/ext/picojson/picojson.h"
 
 #include <unordered_map>
 #include <unordered_set>

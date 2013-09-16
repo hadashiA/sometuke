@@ -5,7 +5,7 @@
 #include "sometuke/director.h"
 #include "sometuke/hashed_string.h"
 
-#include "sometuke/picojson/picojson.h"
+#include "sometuke/ext/picojson/picojson.h"
 
 #include <memory>
 #include <string>
