@@ -34,14 +34,17 @@ enum class TmxOrientation {
 };
 
 struct TmxLayerInfo {
-    TmxLayerInfo(size_t num_tiles)
-        : gids(num_tiles) {
+    TmxLayerInfo()
+        : pos(0, 0),
+          opacity(255),
+          visible(true) {
     }
 
     string name;
-    ivec2 tiles_size;
-    vec2 offset;
+    ivec2 num_tiles;
+    ivec2 pos;
     bool visible;
+    unsigned char opacity;
     bool tiles_owned;
     vector<unsigned int> gids;
     unsigned int gid_min;
@@ -50,13 +53,37 @@ struct TmxLayerInfo {
 };
 
 struct TmxTilesetInfo {
+    TmxTilesetInfo()
+        : tile_offset(0, 0) {
+    }
+
     string name;
     unsigned int first_gid;
-    vec2 size;
+    ivec2 tile_size;
+    ivec2 tile_offset;
+    ivec2 tile_anchor_point;
     unsigned int spacing;
     unsigned int margin;
-    string source_image;
-    vec2 image_size;
+    string image_source;
+    ivec2 image_size;
+};
+
+struct TmxObject {
+    string name;
+    unsigned int gid;
+    int x;
+    int y;
+    int width;
+    int height;
+    unordered_map<string, string> properties
+};
+
+struct TmxObjectGroup {
+    string name;
+    int width;
+    int height;
+    bool visible;
+    vector<TmxObject> objects;
 };
 
 struct TmxMapInfo {
@@ -68,10 +95,11 @@ struct TmxMapInfo {
     string filename;
     TmxOrientation orientation;
     ivec2 map_size;
-    vec2 tile_size;
+    ivec2 tile_size;
 
-    vector<shared_ptr<TmxLayerInfo> > layers;
-    vector<shared_ptr<TmxTilesetInfo> > tilesets;
+    vector<TmxLayerInfo> layers;
+    vector<TmxTilesetInfo> tilesets;
+    vector<TmxObjectGroup> object_groups;
     unordered_map<string, string> properties;
 };
 

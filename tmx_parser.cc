@@ -60,6 +60,8 @@ static string base64_decode(const string& encoded_string) {
 }
 
 shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
+    string dirname = Director::Instance().file_utils().Dirname(file);
+
     auto map_info = make_shared<TmxMapInfo>();
 
     string bytes = Director::Instance().file_utils().ReadString(file);
@@ -74,6 +76,17 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         return map_info;
     }
 
+    string orientation_str = mapnode->first_attribute("orientation")->value();
+    if (orientation_str == "orthogonal") {
+        mapnode->orientation = TmxOrientation::ORTHO;
+    } else if (orientation_str == "isometric") {
+        mapnode->orientation = TmxOrientation::ISO;
+    } else if (orientation_str == "hexagonal") {
+        mapnode->orientation = TmxOrientation::HEX;
+    } else {
+        S2ERROR("TmxFormat Unsupported orientation: %s", orientation_str.c_str());
+    }
+
     int width  = atoi(mapnode->first_attribute("width")->value());
     int height = atoi(mapnode->first_attribute("height")->value());
     map_info->map_size = ivec2(width, height);
@@ -82,14 +95,63 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     float tile_height = atof(mapnode->first_attribute("tileheight")->value());
     map_info->tile_size = vec2(tile_width, tile_height);
 
+    // tileset
     xml_node<> *tilesetnode = mapnode->first_node("tileset");
     while (tilesetnode) {
-        auto tileset_info = make_shared<TmxTilesetInfo>();
-        tileset_info->first_gid = atoi(tilesetnode->first_attribute("firstgid")->value());
+        auto external_tileset_filename = tilesetnode->first_attribute("source");
+        if (external_tileset_filename) {
+            S2ERROR("TmxParser external tileset filename not supported.");
+            return map_info;
+        } else {
+            TilesetInfo tileset_info;
+            tileset_info.name        = tilesetnode->first_attribute("name")->value();
+            tileset_info.first_gid   = atoi(tilesetnode->first_attribute("first_gid")->value());
+            tileset_info.spacing     = atoi(tilesetnode->first_attribute("spacing")->value());
+            tileset_info.margin      = atoi(tilesetnode->first_attribute("margin")->value());
+            tileset_info.tile_size.x = atoi(tilesetnode->first_attribute("tilewidth")->value());
+            tileset_info.tile_size.y = atoi(tilesetnode->first_attribute("tileheight")->value());
 
-        map_info->tilesets.push_back(tileset_info);
+            xml_node<> *imagenode = tilesetnode->first_node("image");
+            string image_filrname = imagenode->first_attribute("source")->value();
+            string image_basename = Director::Instance().file_utils().Basename(image_filename);
+            tileset_info.image_source = dirname + "/" + image_basename;
+
+            map_info.tilesets.push_back(tileset_info);
+        }
+        
+        tilesetnode = tilesetnode->next_sibling("tileset");
     }
-    
+
+    xml_node<> *layernode = mapnode->first_node("layer");
+    while (layernode) {
+        LayerInfo layer_info;
+        layer_info.name = layernode->first_attribute("name")->value();
+        layer_info.num_tiles.width  = atoi(layernode->first_attribute("width")->value());
+        layer_info.num_tiles.height = atoi(layernode->first_attribute("height")->value());
+
+        auto visible_attr = layernode->first_attribute("visible");
+        if (visible_attr) {
+            layer_info.visible = (string(visible_attr->value()) != "0");
+        }
+
+        auto opacity_attr = layernode->first_attribute("opacity");
+        if (opacity_attr) {
+            layer_info.opacity = atoi(opacity_attr->value());
+        }
+
+        layer_info.pos.x = atoi(layernode->first_attribute("x")->value());
+        layer_info.pos.y = atoi(layernode->first_attribute("y")->value());
+
+        xml_node<> *datanode = layernode->first_node("data");
+        if (datanode) {
+            string encoding = datanode->first_attribute("encoding")->value();
+            string compression = datanode->first_attribute("compression")->value();
+            
+        }
+
+        map_info.layers.push_back(layer_info);
+        layernode = layernode->next_sibling("layer");
+    }
 
     return map_info;
 }

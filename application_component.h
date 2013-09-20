@@ -170,6 +170,14 @@ public:
     virtual const string FullPathFromRelativePath(const string& relative_path) = 0;
     virtual vector<unsigned char> ReadBytes(const string& relative_path);
     virtual string ReadString(const string &relative_path);
+
+    virtual string Dirname(const string& path) {
+        return path.substr(0, path.find_last_of('/'));
+    }
+
+    virtual string Basename(const string& path) {
+        return path.substr(path.find_last_of('/') + 1);
+    }
 };
     
 class Texture2D;
