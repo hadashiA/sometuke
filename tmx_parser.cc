@@ -126,8 +126,8 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     while (layernode) {
         LayerInfo layer_info;
         layer_info.name = layernode->first_attribute("name")->value();
-        layer_info.num_tiles.width  = atoi(layernode->first_attribute("width")->value());
-        layer_info.num_tiles.height = atoi(layernode->first_attribute("height")->value());
+        layer_info.num_tiles.x  = atoi(layernode->first_attribute("width")->value());
+        layer_info.num_tiles.y = atoi(layernode->first_attribute("height")->value());
 
         auto visible_attr = layernode->first_attribute("visible");
         if (visible_attr) {
@@ -144,9 +144,26 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
         xml_node<> *datanode = layernode->first_node("data");
         if (datanode) {
-            string encoding = datanode->first_attribute("encoding")->value();
+            string encoding    = datanode->first_attribute("encoding")->value();
             string compression = datanode->first_attribute("compression")->value();
-            
+
+            TmxFormat format;
+            if (encoding == "base64") {
+                format = TmxFormat::BASE64;
+            } else {
+                S2ERROR("TmxParser only basr64 and/or gzip/zlib maps are supported");
+                return map_info();
+            }
+
+            TmxCompression compression = TmxCompression::NONE;
+            if (compression == "gzip") {
+                compression = TmxCompression::GZIP;
+            } else if (compression == "zlib") {
+                compression = TmxCompression::ZLIB;
+            }
+
+            layer_info.gids = ParseLayerData(datanode->value(), format, compression,
+                                             layer_info.num_tiles.x * layer_info_tiles.y);
         }
 
         map_info.layers.push_back(layer_info);
@@ -156,5 +173,17 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     return map_info;
 }
     
+vector<unsigned int> TmxParser::ParseLayerData(const unsigned char *data,
+                                               TmxFormat format, TmxCompression compression,
+                                               size_t num_tiles) {
+    size_t size = num_tiles * sizeof(uint32_t);
+    vector<unsigned int> gids(size);
+
+    if (format == TmxFormat::BASE64) {
+        string buffer = base64_decode(data);
+    }
+    return gids;
+}
+
 }
 

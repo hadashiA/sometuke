@@ -15,8 +15,12 @@ enum class TmxFormat {
     CSV,
     XML,
     BASE64,
-    GZIP,
+};
+
+enum class TmxCompression {
+    NONE,
     ZLIB,
+    GZIP,
 };
 
 enum class TmxNode {
@@ -119,6 +123,10 @@ private:
     TmxParser(TmxParser&&) = delete;
     TmxParser& operator=(const TmxParser&) = delete;
     TmxParser& operator=(TmxParser&&) = delete;
+
+    vector<unsigned int> ParseLayerData(const unsigned char *data,
+                                        TmxFormat format, TmxCompression compression,
+                                        size_t num_tiles);
 };
 
 }
