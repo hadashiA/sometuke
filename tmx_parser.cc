@@ -18,13 +18,13 @@ static bool is_base64(unsigned char c) {
   return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-static string base64_decode(const string& encoded_string) {
+static vector<unsigned char> base64_decode(const string& encoded_string) {
     int in_len = encoded_string.size();
     int i = 0;
     int j = 0;
     int in_ = 0;
     unsigned char char_array_4[4], char_array_3[3];
-    std::string ret;
+    vector<unsigned char> ret;
 
     while (in_len-- && ( encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
         char_array_4[i++] = encoded_string[in_]; in_++;
@@ -37,7 +37,7 @@ static string base64_decode(const string& encoded_string) {
             char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
             for (i = 0; (i < 3); i++)
-                ret += char_array_3[i];
+                ret.push_back(char_array_3[i]);
             i = 0;
         }
     }
@@ -53,7 +53,7 @@ static string base64_decode(const string& encoded_string) {
         char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
         char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
-        for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+        for (j = 0; (j < i - 1); j++) ret.push_back(char_array_3[j]);
     }
 
     return ret;
@@ -78,11 +78,11 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
     string orientation_str = mapnode->first_attribute("orientation")->value();
     if (orientation_str == "orthogonal") {
-        mapnode->orientation = TmxOrientation::ORTHO;
+        map_info->orientation = TmxOrientation::ORTHO;
     } else if (orientation_str == "isometric") {
-        mapnode->orientation = TmxOrientation::ISO;
+        map_info->orientation = TmxOrientation::ISO;
     } else if (orientation_str == "hexagonal") {
-        mapnode->orientation = TmxOrientation::HEX;
+        map_info->orientation = TmxOrientation::HEX;
     } else {
         S2ERROR("TmxFormat Unsupported orientation: %s", orientation_str.c_str());
     }
@@ -93,7 +93,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
     float tile_width  = atof(mapnode->first_attribute("tilewidth")->value());
     float tile_height = atof(mapnode->first_attribute("tileheight")->value());
-    map_info->tile_size = vec2(tile_width, tile_height);
+    map_info->tile_size = ivec2(tile_width, tile_height);
 
     // tileset
     xml_node<> *tilesetnode = mapnode->first_node("tileset");
@@ -103,7 +103,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             S2ERROR("TmxParser external tileset filename not supported.");
             return map_info;
         } else {
-            TilesetInfo tileset_info;
+            TmxTilesetInfo tileset_info;
             tileset_info.name        = tilesetnode->first_attribute("name")->value();
             tileset_info.first_gid   = atoi(tilesetnode->first_attribute("first_gid")->value());
             tileset_info.spacing     = atoi(tilesetnode->first_attribute("spacing")->value());
@@ -112,11 +112,11 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             tileset_info.tile_size.y = atoi(tilesetnode->first_attribute("tileheight")->value());
 
             xml_node<> *imagenode = tilesetnode->first_node("image");
-            string image_filrname = imagenode->first_attribute("source")->value();
+            string image_filename = imagenode->first_attribute("source")->value();
             string image_basename = Director::Instance().file_utils().Basename(image_filename);
             tileset_info.image_source = dirname + "/" + image_basename;
 
-            map_info.tilesets.push_back(tileset_info);
+            map_info->tilesets.push_back(tileset_info);
         }
         
         tilesetnode = tilesetnode->next_sibling("tileset");
@@ -124,7 +124,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
     xml_node<> *layernode = mapnode->first_node("layer");
     while (layernode) {
-        LayerInfo layer_info;
+        TmxLayerInfo layer_info;
         layer_info.name = layernode->first_attribute("name")->value();
         layer_info.num_tiles.x  = atoi(layernode->first_attribute("width")->value());
         layer_info.num_tiles.y = atoi(layernode->first_attribute("height")->value());
@@ -152,35 +152,37 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
                 format = TmxFormat::BASE64;
             } else {
                 S2ERROR("TmxParser only basr64 and/or gzip/zlib maps are supported");
-                return map_info();
+                return map_info;
             }
 
-            TmxCompression compression = TmxCompression::NONE;
+            TmxCompression c = TmxCompression::NONE;
             if (compression == "gzip") {
-                compression = TmxCompression::GZIP;
+                c = TmxCompression::GZIP;
             } else if (compression == "zlib") {
-                compression = TmxCompression::ZLIB;
+                c = TmxCompression::ZLIB;
             }
 
-            layer_info.gids = ParseLayerData(datanode->value(), format, compression,
-                                             layer_info.num_tiles.x * layer_info_tiles.y);
+            layer_info.gids = ParseLayerData(datanode->value(), format, c,
+                                             layer_info.num_tiles.x * layer_info.num_tiles.y);
         }
 
-        map_info.layers.push_back(layer_info);
+        map_info->layers.push_back(layer_info);
         layernode = layernode->next_sibling("layer");
     }
 
     return map_info;
 }
     
-vector<unsigned int> TmxParser::ParseLayerData(const unsigned char *data,
+vector<unsigned int> TmxParser::ParseLayerData(const string data,
                                                TmxFormat format, TmxCompression compression,
                                                size_t num_tiles) {
+    vector<unsigned int> gids;
+
     size_t size = num_tiles * sizeof(uint32_t);
-    vector<unsigned int> gids(size);
 
     if (format == TmxFormat::BASE64) {
-        string buffer = base64_decode(data);
+        vector<unsigned char> buffer = base64_decode(data);
+        
     }
     return gids;
 }

@@ -79,7 +79,7 @@ struct TmxObject {
     int y;
     int width;
     int height;
-    unordered_map<string, string> properties
+    unordered_map<string, string> properties;
 };
 
 struct TmxObjectGroup {
@@ -124,7 +124,7 @@ private:
     TmxParser& operator=(const TmxParser&) = delete;
     TmxParser& operator=(TmxParser&&) = delete;
 
-    vector<unsigned int> ParseLayerData(const unsigned char *data,
+    vector<unsigned int> ParseLayerData(const string data,
                                         TmxFormat format, TmxCompression compression,
                                         size_t num_tiles);
 };
