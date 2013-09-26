@@ -5,6 +5,8 @@
 
 #include "sometuke/ext/rapidxml/rapidxml.hpp"
 
+#include <zlib.h>
+
 namespace sometuke {
 using namespace rapidxml;
 
@@ -58,6 +60,17 @@ static vector<unsigned char> base64_decode(const string& encoded_string) {
 
     return ret;
 }
+
+static vector<unsigned char> inflate_memory_with_hint(const vector<unsigned char> data,
+                                                      size_t out_length_hint) {
+    int err = Z_OK;
+    size_t buffer_size = out_length_hint;
+    vector<unsigned char> result(buffer_size);
+
+    z_stream d_stream;
+    d_stream.zalloc = (alloc_func)0;
+}
+
 
 shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     string dirname = Director::Instance().file_utils().Dirname(file);
@@ -174,7 +187,8 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 }
     
 vector<unsigned int> TmxParser::ParseLayerData(const string data,
-                                               TmxFormat format, TmxCompression compression,
+                                               TmxFormat format,
+                                               TmxCompression compression,
                                                size_t num_tiles) {
     vector<unsigned int> gids;
 
@@ -182,7 +196,10 @@ vector<unsigned int> TmxParser::ParseLayerData(const string data,
 
     if (format == TmxFormat::BASE64) {
         vector<unsigned char> buffer = base64_decode(data);
-        
+        if (compression == TmxCompression::ZLIB ||
+            compression == TmxCompression::GZIP) {
+            
+        }        
     }
     return gids;
 }
