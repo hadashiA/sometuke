@@ -155,18 +155,18 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             layer_info.opacity = atoi(opacity_attr->value());
         }
 
-        if (auto x = layernode->first_attribute("x")) {
-            layer_info.offset.x = atoi(x->value());
+        if (auto x_attr = layernode->first_attribute("x")) {
+            layer_info.offset.x = atoi(x_attr->value());
         }
 
-        if (auto y = layernode->first_attribute("y")) {
-            layer_info.offset.y = atoi(y->value());
+        if (auto y_attr = layernode->first_attribute("y")) {
+            layer_info.offset.y = atoi(y_attr->value());
         }
 
-        xml_node<> *datanode = layernode->first_node("data");
-        if (datanode) {
-            string encoding_str    = datanode->first_attribute("encoding")->value();
-            string compression_str = datanode->first_attribute("compression")->value();
+        xml_node<> *data_node = layernode->first_node("data");
+        if (data_node) {
+            string encoding_str    = data_node->first_attribute("encoding")->value();
+            string compression_str = data_node->first_attribute("compression")->value();
 
             TmxEncoding encoding;
             if (encoding_str == "base64") {
@@ -183,7 +183,10 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
                 compression = TmxCompression::ZLIB;
             }
 
-            ParseLayerData(layer_info, datanode->value(),
+            string data_str = data_node->value();
+            data_str.erase(0, data_str.find_first_not_of(" \n\r\t"));
+            data_str.erase(data_str.find_last_not_of(" \n\r\t") + 1);
+            ParseLayerData(layer_info, data_str,
                            encoding,
                            compression);
         }
