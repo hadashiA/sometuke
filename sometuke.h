@@ -32,6 +32,8 @@
 #include "sometuke/node/polygon_sprite.h"
 #include "sometuke/node/sprite_batch_node.h"
 
+#include "sometuke/drawing_primitives.h"
+
 // process
 #include "sometuke/process/process_manager.h"
 #include "sometuke/process/animate.h"
@@ -42,13 +44,8 @@
 #include "sometuke/process/sequence.h"
 #include "sometuke/process/delay.h"
 
-// structs
-#include "sometuke/vector.h"
-#include "sometuke/matrix.h"
-#include "sometuke/vertices.h"
-
-#include "sometuke/OpenGL_Internal.h"
-#include "sometuke/drawing_primitives.h"
+// tmx
+#include "sometuke/tmx_parser.h"
 
 #include "sometuke/logger.h"
 
