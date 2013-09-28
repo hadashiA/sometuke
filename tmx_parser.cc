@@ -4,8 +4,7 @@
 #include "sometuke/logger.h"
 
 #include "sometuke/ext/rapidxml/rapidxml.hpp"
-
-#include <zlib.h>
+#include "sometuke/zlib_utils.h"
 
 namespace sometuke {
 using namespace rapidxml;
@@ -20,15 +19,22 @@ static bool is_base64(unsigned char c) {
   return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-static vector<unsigned char> base64_decode(const string& encoded_string) {
-    int in_len = encoded_string.size();
+static unsigned char *base64_decode(const string& encoded_string, size_t *decoded_length) {
+    size_t input_length = encoded_string.size();
+    if (input_length % 4 != 0) {
+        return nullptr;
+    }
+
+    *decoded_length = input_length / 4 * 3;
+    unsigned char *decoded_data = static_cast<unsigned char *>(malloc(*decoded_length));
+
     int i = 0;
     int j = 0;
     int in_ = 0;
+    size_t decoded_idx = 0;
     unsigned char char_array_4[4], char_array_3[3];
-    vector<unsigned char> ret;
 
-    while (in_len-- && ( encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+    while (input_length-- && ( encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
         char_array_4[i++] = encoded_string[in_]; in_++;
         if (i ==4) {
             for (i = 0; i <4; i++)
@@ -39,7 +45,7 @@ static vector<unsigned char> base64_decode(const string& encoded_string) {
             char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
             for (i = 0; (i < 3); i++)
-                ret.push_back(char_array_3[i]);
+                decoded_data[decoded_idx++] = char_array_3[i];
             i = 0;
         }
     }
@@ -55,22 +61,12 @@ static vector<unsigned char> base64_decode(const string& encoded_string) {
         char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
         char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
-        for (j = 0; (j < i - 1); j++) ret.push_back(char_array_3[j]);
+        for (j = 0; (j < i - 1); j++)
+            decoded_data[decoded_idx++] = char_array_3[j];
     }
 
-    return ret;
+    return decoded_data;
 }
-
-static vector<unsigned char> inflate_memory_with_hint(const vector<unsigned char> data,
-                                                      size_t out_length_hint) {
-    int err = Z_OK;
-    size_t buffer_size = out_length_hint;
-    vector<unsigned char> result(buffer_size);
-
-    z_stream d_stream;
-    d_stream.zalloc = (alloc_func)0;
-}
-
 
 shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     string dirname = Director::Instance().file_utils().Dirname(file);
@@ -157,26 +153,27 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
         xml_node<> *datanode = layernode->first_node("data");
         if (datanode) {
-            string encoding    = datanode->first_attribute("encoding")->value();
-            string compression = datanode->first_attribute("compression")->value();
+            string encoding_str    = datanode->first_attribute("encoding")->value();
+            string compression_str = datanode->first_attribute("compression")->value();
 
-            TmxFormat format;
-            if (encoding == "base64") {
-                format = TmxFormat::BASE64;
+            TmxEncoding encoding;
+            if (encoding_str == "base64") {
+                encoding = TmxEncoding::BASE64;
             } else {
                 S2ERROR("TmxParser only basr64 and/or gzip/zlib maps are supported");
                 return map_info;
             }
 
-            TmxCompression c = TmxCompression::NONE;
-            if (compression == "gzip") {
-                c = TmxCompression::GZIP;
-            } else if (compression == "zlib") {
-                c = TmxCompression::ZLIB;
+            TmxCompression compression = TmxCompression::NONE;
+            if (compression_str == "gzip") {
+                compression = TmxCompression::GZIP;
+            } else if (compression_str == "zlib") {
+                compression = TmxCompression::ZLIB;
             }
 
-            layer_info.gids = ParseLayerData(datanode->value(), format, c,
-                                             layer_info.num_tiles.x * layer_info.num_tiles.y);
+            ParseLayerData(layer_info, datanode->value(),
+                           encoding,
+                           compression);
         }
 
         map_info->layers.push_back(layer_info);
@@ -186,22 +183,49 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     return map_info;
 }
     
-vector<unsigned int> TmxParser::ParseLayerData(const string data,
-                                               TmxFormat format,
-                                               TmxCompression compression,
-                                               size_t num_tiles) {
-    vector<unsigned int> gids;
+bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
+                               const string data,
+                               TmxEncoding encoding,
+                               TmxCompression compression) {
+    if (encoding == TmxEncoding::BASE64) {
+        tmx_gid *gids_begin = nullptr;
+        tmx_gid *gids_end   = nullptr;
 
-    size_t size = num_tiles * sizeof(uint32_t);
+        size_t decoded_length;
+        unsigned char *decoded_data = base64_decode(data, &decoded_length);
+        if (decoded_data == nullptr) {
+            return false;
+        }
 
-    if (format == TmxFormat::BASE64) {
-        vector<unsigned char> buffer = base64_decode(data);
         if (compression == TmxCompression::ZLIB ||
             compression == TmxCompression::GZIP) {
+            size_t size_hint = layer_info.num_tiles.x * layer_info.num_tiles.y * sizeof(tmx_gid);
+            size_t inflated_length = 0;
+            unsigned char *inflated_data = inflate_memory_with_hint(decoded_data,
+                                                                    decoded_length,
+                                                                    &inflated_length,
+                                                                    size_hint);
+            if (inflated_data == nullptr) {
+                S2ERROR("TmxParser: inflate data error.");
+                return false;
+            }
+
+            free(decoded_data);
+            decoded_data = nullptr;
+
+            gids_begin = reinterpret_cast<tmx_gid *>(inflated_data);
+            gids_end   = reinterpret_cast<tmx_gid *>(inflated_data + inflated_length);
             
-        }        
-    }
-    return gids;
+        } else {
+            gids_begin = reinterpret_cast<tmx_gid *>(decoded_data);
+            gids_end   = reinterpret_cast<tmx_gid *>(decoded_data + decoded_length);
+        }
+
+        layer_info.gids = vector<tmx_gid>(gids_begin, gids_end);
+        return true;
+    } 
+    
+    return false;
 }
 
 }

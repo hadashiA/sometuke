@@ -11,7 +11,9 @@
 namespace sometuke {
 using namespace std;
 
-enum class TmxFormat {
+typedef uint32_t tmx_gid;
+
+enum class TmxEncoding {
     CSV,
     XML,
     BASE64,
@@ -50,9 +52,9 @@ struct TmxLayerInfo {
     bool visible;
     unsigned char opacity;
     bool tiles_owned;
-    vector<unsigned int> gids;
-    unsigned int gid_min;
-    unsigned int gid_max;
+    vector<tmx_gid> gids;
+    tmx_gid gid_min;
+    tmx_gid gid_max;
     unordered_map<string, string> properties;
 };
 
@@ -62,7 +64,7 @@ struct TmxTilesetInfo {
     }
 
     string name;
-    unsigned int first_gid;
+    tmx_gid first_gid;
     ivec2 tile_size;
     ivec2 tile_offset;
     ivec2 tile_anchor_point;
@@ -74,7 +76,7 @@ struct TmxTilesetInfo {
 
 struct TmxObject {
     string name;
-    unsigned int gid;
+    tmx_gid gid;
     int x;
     int y;
     int width;
@@ -91,11 +93,11 @@ struct TmxObjectGroup {
 };
 
 struct TmxMapInfo {
-    TmxFormat format;
+    TmxEncoding encoding;
     string current_string;
     bool storing_characters;
     int parent_element;
-    unsigned int parent_gid;
+    tmx_gid parent_gid;
     string filename;
     TmxOrientation orientation;
     ivec2 map_size;
@@ -124,9 +126,10 @@ private:
     TmxParser& operator=(const TmxParser&) = delete;
     TmxParser& operator=(TmxParser&&) = delete;
 
-    vector<unsigned int> ParseLayerData(const string data,
-                                        TmxFormat format, TmxCompression compression,
-                                        size_t num_tiles);
+    bool ParseLayerData(TmxLayerInfo &layer_info,
+                        const string data,
+                        TmxEncoding encoding,
+                        TmxCompression compression);
 };
 
 }
