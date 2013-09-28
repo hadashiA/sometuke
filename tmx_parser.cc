@@ -74,6 +74,10 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     auto map_info = make_shared<TmxMapInfo>();
 
     string bytes = Director::Instance().file_utils().ReadString(file);
+    if (bytes.empty()) {
+        S2ERROR("TmxParser: read faild %s", file.c_str());
+        return map_info;
+    }
 
     xml_document<> doc;
     doc.parse<0>((char *)(bytes.c_str()));
