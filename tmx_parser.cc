@@ -118,11 +118,16 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         } else {
             TmxTilesetInfo tileset_info;
             tileset_info.name        = tilesetnode->first_attribute("name")->value();
-            tileset_info.first_gid   = atoi(tilesetnode->first_attribute("first_gid")->value());
-            tileset_info.spacing     = atoi(tilesetnode->first_attribute("spacing")->value());
-            tileset_info.margin      = atoi(tilesetnode->first_attribute("margin")->value());
+            tileset_info.first_gid   = atoi(tilesetnode->first_attribute("firstgid")->value());
             tileset_info.tile_size.x = atoi(tilesetnode->first_attribute("tilewidth")->value());
             tileset_info.tile_size.y = atoi(tilesetnode->first_attribute("tileheight")->value());
+
+            if (auto spacing = tilesetnode->first_attribute("spacing")) {
+                tileset_info.spacing = atoi(spacing->value());
+            }
+            if (auto margin = tilesetnode->first_attribute("margin")) {
+                tileset_info.margin = atoi(margin->value());
+            }
 
             xml_node<> *imagenode = tilesetnode->first_node("image");
             string image_filename = imagenode->first_attribute("source")->value();
@@ -142,18 +147,21 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         layer_info.num_tiles.x  = atoi(layernode->first_attribute("width")->value());
         layer_info.num_tiles.y = atoi(layernode->first_attribute("height")->value());
 
-        auto visible_attr = layernode->first_attribute("visible");
-        if (visible_attr) {
+        if (auto visible_attr = layernode->first_attribute("visible")) {
             layer_info.visible = (string(visible_attr->value()) != "0");
         }
-
-        auto opacity_attr = layernode->first_attribute("opacity");
-        if (opacity_attr) {
+        
+        if (auto opacity_attr = layernode->first_attribute("opacity")) {
             layer_info.opacity = atoi(opacity_attr->value());
         }
 
-        layer_info.pos.x = atoi(layernode->first_attribute("x")->value());
-        layer_info.pos.y = atoi(layernode->first_attribute("y")->value());
+        if (auto x = layernode->first_attribute("x")) {
+            layer_info.offset.x = atoi(x->value());
+        }
+
+        if (auto y = layernode->first_attribute("y")) {
+            layer_info.offset.y = atoi(y->value());
+        }
 
         xml_node<> *datanode = layernode->first_node("data");
         if (datanode) {

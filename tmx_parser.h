@@ -41,14 +41,14 @@ enum class TmxOrientation {
 
 struct TmxLayerInfo {
     TmxLayerInfo()
-        : pos(0, 0),
+        : offset(0, 0),
           opacity(255),
           visible(true) {
     }
 
     string name;
     ivec2 num_tiles;
-    ivec2 pos;
+    ivec2 offset;
     bool visible;
     unsigned char opacity;
     bool tiles_owned;
@@ -60,7 +60,9 @@ struct TmxLayerInfo {
 
 struct TmxTilesetInfo {
     TmxTilesetInfo()
-        : tile_offset(0, 0) {
+        : tile_offset(0, 0),
+          spacing(0),
+          margin(0) {
     }
 
     string name;
