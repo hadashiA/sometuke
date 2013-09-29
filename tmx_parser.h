@@ -1,6 +1,7 @@
 #ifndef __sometuke__tmx_parser__
 #define __sometuke__tmx_parser__
 
+#include "sometuke/tmx_types.h"
 #include "sometuke/vector.h"
 
 #include <string>
@@ -10,8 +11,6 @@
 
 namespace sometuke {
 using namespace std;
-
-typedef uint32_t tmx_gid;
 
 enum class TmxEncoding {
     CSV,
@@ -25,20 +24,6 @@ enum class TmxCompression {
     GZIP,
 };
 
-enum class TmxNode {
-    MAP,
-    LAYER,
-    OBJECT_GROUP,
-    OBJECT,
-    TILE,
-};
-
-enum class TmxOrientation {
-    ORTHO,
-    HEX,
-    ISO,
-};
-
 struct TmxLayerInfo {
     TmxLayerInfo()
         : offset(0, 0),
@@ -47,8 +32,8 @@ struct TmxLayerInfo {
     }
 
     string name;
-    ivec2 num_tiles;
-    ivec2 offset;
+    ivec2 size_in_tiles;
+    ivec2 offset_in_tiles;
     bool visible;
     unsigned char opacity;
     bool tiles_owned;
@@ -67,31 +52,14 @@ struct TmxTilesetInfo {
 
     string name;
     tmx_gid first_gid;
-    ivec2 tile_size;
-    ivec2 tile_offset;
-    ivec2 tile_anchor_point;
+    ivec2 size_in_tiles;
+    vec2 tile_offset;
+    float tile_spacing;
+    float tile_margin;
     unsigned int spacing;
     unsigned int margin;
     string image_source;
     ivec2 image_size;
-};
-
-struct TmxObject {
-    string name;
-    tmx_gid gid;
-    int x;
-    int y;
-    int width;
-    int height;
-    unordered_map<string, string> properties;
-};
-
-struct TmxObjectGroup {
-    string name;
-    int width;
-    int height;
-    bool visible;
-    vector<TmxObject> objects;
 };
 
 struct TmxMapInfo {

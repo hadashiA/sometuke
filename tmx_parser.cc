@@ -144,8 +144,8 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     while (layernode) {
         TmxLayerInfo layer_info;
         layer_info.name = layernode->first_attribute("name")->value();
-        layer_info.num_tiles.x  = atoi(layernode->first_attribute("width")->value());
-        layer_info.num_tiles.y = atoi(layernode->first_attribute("height")->value());
+        layer_info.size_in_tiles.x = atoi(layernode->first_attribute("width")->value());
+        layer_info.size_in_tiles.y = atoi(layernode->first_attribute("height")->value());
 
         if (auto visible_attr = layernode->first_attribute("visible")) {
             layer_info.visible = (string(visible_attr->value()) != "0");
@@ -195,6 +195,32 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         layernode = layernode->next_sibling("layer");
     }
 
+    xml_node<> *objectgroup_node = mapnode->first_node("objectgroup");
+    while (objectgroup_node) {
+        TmxObjectGroup object_group;
+        object_group.name = objectgroup_node->first_attribute("name")->value();
+        object_group.size_in_tiles.x = atoi(objectgroup_node->first_attribute("width")->value());
+        object_group.size_in_tiles.y = atoi(objectgroup_node->first_attribute("height")->value());
+
+        if (auto x_attr = objectgroup_node->first_attribute("x")) {
+            object_group.offset_in_tiles.x = atoi(x_attr->value());
+        }
+
+        if (auto y_attr = objectgroup_node->first_attribute("y")) {
+            object_group.offset_in_tiles.y = atoi(y_attr->value());
+        }
+
+        if (auto opacity_attr = objectgroup_node->first_attribute("opacity")) {
+            object_group.opacity = atof(opacity_attr->value());
+        }
+
+        if (auto visible_attr = objectgroup_node->first_attribute("visible")) {
+            object_group.visible = (atoi(visible_attr->value()) == 1 ? true : false);
+        }
+
+        objectgroup_node = objectgroup_node->next_sibling("objectgroup");
+    }
+
     return map_info;
 }
     
@@ -214,7 +240,10 @@ bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
 
         if (compression == TmxCompression::ZLIB ||
             compression == TmxCompression::GZIP) {
-            size_t size_hint = layer_info.num_tiles.x * layer_info.num_tiles.y * sizeof(tmx_gid);
+            size_t size_hint =
+                layer_info.size_in_tiles.x *
+                layer_info.size_in_tiles.y *
+                sizeof(tmx_gid);
             size_t inflated_length = 0;
             unsigned char *inflated_data = inflate_memory_with_hint(decoded_data,
                                                                     decoded_length,
