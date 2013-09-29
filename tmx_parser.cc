@@ -218,6 +218,15 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             object_group.visible = (atoi(visible_attr->value()) == 1 ? true : false);
         }
 
+        xml_node<> *object_node = objectgroup_node->first_node("object");
+        while (object_node) {
+            XmxObject object;
+            object.name = object_node->first_attribute("name")->value();
+
+            object_group.objects.push_back(object);
+            object_node = object_node->next_sibling("object");
+        }
+
         objectgroup_node = objectgroup_node->next_sibling("objectgroup");
     }
 

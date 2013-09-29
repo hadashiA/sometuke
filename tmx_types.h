@@ -22,14 +22,27 @@ enum class TmxOrientation {
 };
 
 struct TmxObject {
+    TmxObject()
+        : visible(true),
+          rotation(false) {
+    }
+
     string name;
+    string type;
     tmx_gid gid;
     ivec2 offset_in_tiles;
     vec2 size_in_pixels;
+    bool rotation;
+    bool visible;
     TmxProperties properties;
 };
 
 struct TmxObjectGroup {
+    TmxObjectGroup()
+        : offset_in_tiles(0, 0),
+          visible(true) {
+    }
+
     string name;
     ivec2 offset_in_tiles;
     ivec2 size_in_tiles;
