@@ -127,9 +127,9 @@ struct DataPool256 { char data[256]; };
     
 class GeneralMemoryPool {
 public:
-    static unique_ptr<GeneralMemoryPool>& Shared() {
-        static unique_ptr<GeneralMemoryPool> __shared(new GeneralMemoryPool);
-        return __shared;
+    static GeneralMemoryPool& Instance() {
+        static GeneralMemoryPool __instance;
+        return __instance;
     }
 
     void *Alloc(std::size_t size) {
@@ -166,30 +166,65 @@ public:
         if (size == 0) {
             size = 1;
         }
-        return GeneralMemoryPool::Shared()->Alloc(size);
+        return GeneralMemoryPool::Instance().Alloc(size);
     }
 
     void operator delete(void *doomed, std::size_t size) {
         if (doomed == NULL) {
             return;
         }
-        GeneralMemoryPool::Shared()->Free(doomed, size);
+        GeneralMemoryPool::Instance().Free(doomed, size);
     }
 
     void *operator new[](std::size_t size) {
         if (size == 0) {
             size = 1;
         }
-        return GeneralMemoryPool::Shared()->Alloc(size);
+        return GeneralMemoryPool::Instance().Alloc(size);
     }
 
     void operator delete[](void *doomed, std::size_t size) {
         if (doomed == NULL) {
             return;
         }
-        GeneralMemoryPool::Shared()->Free(doomed, size);
+        GeneralMemoryPool::Instance().Free(doomed, size);
     }
 };
+
+struct MemoryList {
+    static MemoryList *head;
+
+    MemoryList()
+        : size(0),
+          filename(""),
+          line_no(0),
+          use_pool(false) {
+    }
+
+    size_t size;
+    const char *filename;
+    unsigned int line_no;
+    bool use_pool;
+    MemoryList *next;
+};
+
+static inline void *S2Alloc(size_t size, const char *name, unsigned int line) {
+    void *alloc_ptr = GeneralMemoryPool::Instance().Alloc(size + sizeof(MemoryList));
+    if (alloc_ptr == nullptr) {
+        MemoryList *current = static_cast<MemoryList *>(alloc_ptr);
+        current->size      = size;
+        current->file_name = name;
+        current->line_no   = line;
+        current->use_pool  = true;
+    } else {
+        alloc_ptr = std::malloc(size + sizeof(MemoryList));
+        MemoryList *current = static_cast<MemoryList *>(alloc_ptr);
+        current->next = nullptr;
+        
+    }
+    return static_cast<void *>(static_cast<char *>(alloc_ptr) + sizeof(MemoryList));
+}
+
 
 template <class T, std::size_t Size>
 unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
@@ -198,7 +233,7 @@ template<typename T>
 class GeneralPoolDeleter {
 public:
     void operator()(T* p) const {
-        GeneralMemoryPool::Shared()->Free(p, sizeof(T));
+        GeneralMemoryPool::Instance().Free(p, sizeof(T));
         p = nullptr;
     }
 };
@@ -232,11 +267,11 @@ public:
     }
 
     pointer allocate(const size_type n) {
-        return static_cast<pointer>(GeneralMemoryPool::Shared()->Alloc(n * sizeof(value_type)));
+        return static_cast<pointer>(GeneralMemoryPool::Instance().Alloc(n * sizeof(value_type)));
     }
 
     void deallocate(value_type *doomed, size_type n) {
-        GeneralMemoryPool::Shared()->Free(doomed, n * sizeof(value_type));
+        GeneralMemoryPool::Instance().Free(doomed, n * sizeof(value_type));
     }
 
     bool operator==(const GeneralPoolAllocator& rhs) const {
@@ -255,5 +290,27 @@ shared_ptr<T> Pool(Args&& ... args) {
 }
 
 }
+
+// // #ifdef S2_OVERRIDE_OPERATOR
+// inline void* operator new(std::size_t size) {
+//     return sometuke::GeneralMemoryPool::Instance().Alloc(size);
+// }
+
+// inline void* operator new(std::size_t size, const char* name, int line) {
+//     return sometuke::GeneralMemoryPool::Instance().Alloc(size, name, line);
+// }
+
+// inline void* operator new[](std::size_t size, const char* name, int line) {
+//     return ::operator new(size, name, line);
+// }
+
+// inline void operator delete(void *doomed) {
+//     sometuke::GeneralMemoryPool::Instance().Free(doomed);
+// }
+
+// inline void operator delete[](void* doomed) {
+//     ::operator delete(doomed);
+// }
+// // #endif
 
 #endif /* defined(__sometuke__memory_pool__) */
