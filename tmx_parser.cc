@@ -82,14 +82,14 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     xml_document<> doc;
     doc.parse<0>((char *)(bytes.c_str()));
 
-    xml_node<> *mapnode = doc.first_node("map");
-    string version = mapnode->first_attribute("version")->value();
-    if (version != "1.0") {
+    xml_node<> *map_node = doc.first_node("map");
+    map_info.version = atof(map_node->first_attribute("version")->value());
+    if (version != 1.0) {
         S2ERROR("TmxParser unsupported TMX version: %s", version.c_str());
         return map_info;
     }
 
-    string orientation_str = mapnode->first_attribute("orientation")->value();
+    string orientation_str = map_node->first_attribute("orientation")->value();
     if (orientation_str == "orthogonal") {
         map_info->orientation = TmxOrientation::ORTHO;
     } else if (orientation_str == "isometric") {
@@ -100,16 +100,18 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         S2ERROR("TmxFormat Unsupported orientation: %s", orientation_str.c_str());
     }
 
-    int width  = atoi(mapnode->first_attribute("width")->value());
-    int height = atoi(mapnode->first_attribute("height")->value());
-    map_info->map_size = ivec2(width, height);
+    map_info.size_in_tiles.x = atoi(map_node->first_attribute("width")->value());
+    map_info.size_in_tiles.y = atoi(map_node->first_attribute("height")->value());
 
-    float tile_width  = atof(mapnode->first_attribute("tilewidth")->value());
-    float tile_height = atof(mapnode->first_attribute("tileheight")->value());
-    map_info->tile_size = ivec2(tile_width, tile_height);
+    map_info.tile_size.x = atof(map_node->first_attribute("tilewidth")->value());
+    map_info.tile_size.y = atof(map_node->first_attribute("tileheight")->value());
+
+    if (auto backgroundcolor_attr = map_node->first_attribute("backgroundcolor")) {
+        map_info.background_color = Color3B(backgroundcolor_attr->value());
+    }
 
     // tileset
-    xml_node<> *tilesetnode = mapnode->first_node("tileset");
+    xml_node<> *tilesetnode = map_node->first_node("tileset");
     while (tilesetnode) {
         auto external_tileset_filename = tilesetnode->first_attribute("source");
         if (external_tileset_filename) {
@@ -140,7 +142,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         tilesetnode = tilesetnode->next_sibling("tileset");
     }
 
-    xml_node<> *layernode = mapnode->first_node("layer");
+    xml_node<> *layernode = map_node->first_node("layer");
     while (layernode) {
         TmxLayerInfo layer_info;
         layer_info.name = layernode->first_attribute("name")->value();
@@ -148,11 +150,11 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         layer_info.size_in_tiles.y = atoi(layernode->first_attribute("height")->value());
 
         if (auto visible_attr = layernode->first_attribute("visible")) {
-            layer_info.visible = (string(visible_attr->value()) != "0");
+            layer_info.visible = (atoi(visible_attr->value()) == 1);
         }
         
         if (auto opacity_attr = layernode->first_attribute("opacity")) {
-            layer_info.opacity = atoi(opacity_attr->value());
+            layer_info.opacity = (atoi(opacity_attr->value()) == 1);
         }
 
         if (auto x_attr = layernode->first_attribute("x")) {
@@ -195,7 +197,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         layernode = layernode->next_sibling("layer");
     }
 
-    xml_node<> *objectgroup_node = mapnode->first_node("objectgroup");
+    xml_node<> *objectgroup_node = map_node->first_node("objectgroup");
     while (objectgroup_node) {
         TmxObjectGroup object_group;
         object_group.name = objectgroup_node->first_attribute("name")->value();
@@ -222,6 +224,21 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         while (object_node) {
             XmxObject object;
             object.name = object_node->first_attribute("name")->value();
+            object.type = object_node->first_attribute("type")->value();
+            object.offset_in_tiles.x = atoi(object_node->first_attribute("x")->value());
+            object.offset_in_tiles.y = atoi(object_node->first_attribute("y")->value());
+            object.size_in_pixels.x = atoi(object_node->first_attribute("width")->value());
+            object.size_in_pixels.y = atoi(object_node->first_attribute("height")->value());
+
+            if (auto rotation_attr = object_node->first_attribute("rotation")) {
+                object.rotation = (atoi(rotation_attr->value()) == 1);
+            }
+            if (auto gid_attr = object_node->first_attribute("gid")) {
+                object.gid = atoi(gid_attr.value());
+            }
+            if (auto visible_attr = object_node->first_attribute("visible")) {
+                object.visible = (atoi(visible_attr->value()) == 1);
+            }
 
             object_group.objects.push_back(object);
             object_node = object_node->next_sibling("object");

@@ -3,6 +3,7 @@
 
 #include "sometuke/tmx_types.h"
 #include "sometuke/vector.h"
+#include "sometuke/color.h"
 
 #include <string>
 #include <unordered_map>
@@ -64,14 +65,12 @@ struct TmxTilesetInfo {
 
 struct TmxMapInfo {
     TmxEncoding encoding;
-    string current_string;
-    bool storing_characters;
-    int parent_element;
-    tmx_gid parent_gid;
     string filename;
+    float version;
     TmxOrientation orientation;
-    ivec2 map_size;
-    ivec2 tile_size;
+    ivec2 size_in_tiles;
+    vec2 tile_size;
+    Color3B background_color;
 
     vector<TmxLayerInfo> layers;
     vector<TmxTilesetInfo> tilesets;

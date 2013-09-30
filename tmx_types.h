@@ -21,17 +21,30 @@ enum class TmxOrientation {
     ISO,
 };
 
+enum class TmxObjectShape {
+    RECT,
+    ELLIPSE,
+    POLYGON,
+    POLYLINE,
+};
+
 struct TmxObject {
     TmxObject()
-        : visible(true),
+        : shape(TmxObjectShape::RECT),
+          gid(0),
+          size_in_pixels(0, 0),
+          offset_in_tiles(0, 0),
+          visible(true),
           rotation(false) {
     }
 
+    TmxObjectShape shape;
     string name;
     string type;
     tmx_gid gid;
     ivec2 offset_in_tiles;
     vec2 size_in_pixels;
+    vector<float> vertices;
     bool rotation;
     bool visible;
     TmxProperties properties;
