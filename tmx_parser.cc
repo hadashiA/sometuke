@@ -83,9 +83,9 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     doc.parse<0>((char *)(bytes.c_str()));
 
     xml_node<> *map_node = doc.first_node("map");
-    map_info.version = atof(map_node->first_attribute("version")->value());
-    if (version != 1.0) {
-        S2ERROR("TmxParser unsupported TMX version: %s", version.c_str());
+    map_info->version = atof(map_node->first_attribute("version")->value());
+    if (map_info->version != 1.0) {
+        S2ERROR("TmxParser unsupported TMX version: %f", map_info->version);
         return map_info;
     }
 
@@ -100,14 +100,14 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         S2ERROR("TmxFormat Unsupported orientation: %s", orientation_str.c_str());
     }
 
-    map_info.size_in_tiles.x = atoi(map_node->first_attribute("width")->value());
-    map_info.size_in_tiles.y = atoi(map_node->first_attribute("height")->value());
+    map_info->size_in_tiles.x = atoi(map_node->first_attribute("width")->value());
+    map_info->size_in_tiles.y = atoi(map_node->first_attribute("height")->value());
 
-    map_info.tile_size.x = atof(map_node->first_attribute("tilewidth")->value());
-    map_info.tile_size.y = atof(map_node->first_attribute("tileheight")->value());
+    map_info->tile_size.x = atof(map_node->first_attribute("tilewidth")->value());
+    map_info->tile_size.y = atof(map_node->first_attribute("tileheight")->value());
 
     if (auto backgroundcolor_attr = map_node->first_attribute("backgroundcolor")) {
-        map_info.background_color = Color3B(backgroundcolor_attr->value());
+        map_info->background_color = Color3B(backgroundcolor_attr->value());
     }
 
     // tileset
@@ -121,8 +121,8 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             TmxTilesetInfo tileset_info;
             tileset_info.name        = tilesetnode->first_attribute("name")->value();
             tileset_info.first_gid   = atoi(tilesetnode->first_attribute("firstgid")->value());
-            tileset_info.tile_size.x = atoi(tilesetnode->first_attribute("tilewidth")->value());
-            tileset_info.tile_size.y = atoi(tilesetnode->first_attribute("tileheight")->value());
+            tileset_info.size_in_tiles.x = atoi(tilesetnode->first_attribute("tilewidth")->value());
+            tileset_info.size_in_tiles.y = atoi(tilesetnode->first_attribute("tileheight")->value());
 
             if (auto spacing = tilesetnode->first_attribute("spacing")) {
                 tileset_info.spacing = atoi(spacing->value());
@@ -158,11 +158,11 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         }
 
         if (auto x_attr = layernode->first_attribute("x")) {
-            layer_info.offset.x = atoi(x_attr->value());
+            layer_info.offset_in_tiles.x = atoi(x_attr->value());
         }
 
         if (auto y_attr = layernode->first_attribute("y")) {
-            layer_info.offset.y = atoi(y_attr->value());
+            layer_info.offset_in_tiles.y = atoi(y_attr->value());
         }
 
         xml_node<> *data_node = layernode->first_node("data");
@@ -222,7 +222,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 
         xml_node<> *object_node = objectgroup_node->first_node("object");
         while (object_node) {
-            XmxObject object;
+            TmxObject object;
             object.name = object_node->first_attribute("name")->value();
             object.type = object_node->first_attribute("type")->value();
             object.offset_in_tiles.x = atoi(object_node->first_attribute("x")->value());
@@ -234,7 +234,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
                 object.rotation = (atoi(rotation_attr->value()) == 1);
             }
             if (auto gid_attr = object_node->first_attribute("gid")) {
-                object.gid = atoi(gid_attr.value());
+                object.gid = atoi(gid_attr->value());
             }
             if (auto visible_attr = object_node->first_attribute("visible")) {
                 object.visible = (atoi(visible_attr->value()) == 1);

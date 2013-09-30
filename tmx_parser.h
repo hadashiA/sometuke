@@ -27,7 +27,7 @@ enum class TmxCompression {
 
 struct TmxLayerInfo {
     TmxLayerInfo()
-        : offset(0, 0),
+        : offset_in_tiles(0, 0),
           opacity(255),
           visible(true) {
     }

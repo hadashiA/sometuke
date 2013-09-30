@@ -36,9 +36,9 @@ struct Color3B {
         stringstream ss;
         ss << std::hex << hex_str;
         ss >> hex_int;
-        r = ((hex_int  >> 16) & 0xFF);
-        g = ((hexValue >> 8)  & 0xFF);
-        b = ((hexValue)       & 0xFF);
+        r = ((hex_int >> 16) & 0xFF);
+        g = ((hex_int >> 8)  & 0xFF);
+        b = ((hex_int)       & 0xFF);
     }
 
     GLubyte r;

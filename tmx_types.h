@@ -1,7 +1,15 @@
 #ifndef __sometuke__tmx_types__
 #define __sometuke__tmx_types__
 
+#include "sometuke/vector.h"
+
+#include <cstdint>
+#include <unordered_map>
+#include <string>
+#include <vector>
+
 namespace sometuke {
+using namespace std;
 
 typedef uint32_t tmx_gid;
 
