@@ -2,12 +2,12 @@
 
 namespace sometuke {
 
-// Color4B::Color4B(const Color4F &color4f)
-//     : r((GLubyte)(color4f.r * 255.0f)),
-//       g((GLubyte)(color4f.g * 255.0f)),
-//       b((GLubyte)(color4f.b * 255.0f)),
-//       a((GLubyte)(color4f.a * 255.0f)) {
-// }
+Color4B::Color4B(const Color4F &color4f)
+    : r((GLubyte)(color4f.r * 255.0f)),
+      g((GLubyte)(color4f.g * 255.0f)),
+      b((GLubyte)(color4f.b * 255.0f)),
+      a((GLubyte)(color4f.a * 255.0f)) {
+}
 
 const Color3B Color3B::WHITE(255,255,255);
 const Color3B Color3B::YELLOW(255,255,0);

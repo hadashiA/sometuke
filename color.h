@@ -4,17 +4,15 @@
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 
+#include <string>
+#include <sstream>
+
 namespace sometuke {
+using namespace std;
+
+struct Color4F;
 
 struct Color3B {
-    Color3B() {}
-    Color3B(GLubyte red, GLubyte green, GLubyte blue)
-        : r(red), g(green), b(blue) {}
-
-    GLubyte r;
-    GLubyte g;
-    GLubyte b;
-
     const static Color3B WHITE;
     const static Color3B YELLOW;
     const static Color3B BLUE;
@@ -24,20 +22,31 @@ struct Color3B {
     const static Color3B BLACK;
     const static Color3B ORANGE;
     const static Color3B GRAY;
-};
 
-struct Color4B {
-    Color4B() {}
-    Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
-        : r(red), g(green), b(blue), a(alpha) {}
-    Color4B(Color3B color3, GLubyte alpha)
-        : r(color3.r), g(color3.g), b(color3.b), a(alpha) {}
+    Color3B() {}
+
+    Color3B(GLubyte red, GLubyte green, GLubyte blue)
+        : r(red),
+          g(green),
+          b(blue) {
+    }
+
+    Color3B(const char *hex_str) {
+        unsigned int hex_int;
+        stringstream ss;
+        ss << std::hex << hex_str;
+        ss >> hex_int;
+        r = ((hex_int  >> 16) & 0xFF);
+        g = ((hexValue >> 8)  & 0xFF);
+        b = ((hexValue)       & 0xFF);
+    }
 
     GLubyte r;
     GLubyte g;
     GLubyte b;
-    GLubyte a;
+};
 
+struct Color4B {
     const static Color4B WHITE;
     const static Color4B YELLOW;
     const static Color4B BLUE;
@@ -47,6 +56,29 @@ struct Color4B {
     const static Color4B BLACK;
     const static Color4B ORANGE;
     const static Color4B GRAY;
+
+    Color4B() {}
+
+    Color4B(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
+        : r(red),
+          g(green),
+          b(blue),
+          a(alpha) {
+    }
+
+    Color4B(Color3B color3, GLubyte alpha)
+        : r(color3.r),
+          g(color3.g),
+          b(color3.b),
+          a(alpha) {
+    }
+
+    Color4B(const Color4F& color4f);
+
+    GLubyte r;
+    GLubyte g;
+    GLubyte b;
+    GLubyte a;
 };
 
 struct Color4F {
