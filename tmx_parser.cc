@@ -223,12 +223,24 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         xml_node<> *object_node = objectgroup_node->first_node("object");
         while (object_node) {
             TmxObject object;
-            object.name = object_node->first_attribute("name")->value();
-            object.type = object_node->first_attribute("type")->value();
             object.offset_in_tiles.x = atoi(object_node->first_attribute("x")->value());
             object.offset_in_tiles.y = atoi(object_node->first_attribute("y")->value());
-            object.size_in_pixels.x = atoi(object_node->first_attribute("width")->value());
-            object.size_in_pixels.y = atoi(object_node->first_attribute("height")->value());
+
+            if (auto name_attr = object_node->first_attribute("name")) {
+                object.name = name_attr->value();
+            }
+
+            if (auto type_attr = object_node->first_attribute("type")) {
+                object.type = type_attr->value();
+            }
+
+            if (auto width_attr = object_node->first_attribute("width")) {
+                object.size_in_pixels.x = atoi(width_attr->value());
+            }
+
+            if (auto height_attr = object_node->first_attribute("height")) {
+                object.size_in_pixels.y = atoi(height_attr->value());
+            }
 
             if (auto rotation_attr = object_node->first_attribute("rotation")) {
                 object.rotation = (atoi(rotation_attr->value()) == 1);
