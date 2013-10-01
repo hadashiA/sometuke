@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <functional>
 #include <iostream>
+#include <cassert>
 
 #ifndef MM_DEFAULT_EXPAND_SIZE
 #define MM_DEFAULT_EXPAND_SIZE 10000
@@ -213,18 +214,52 @@ static inline void *S2Alloc(size_t size, const char *name, unsigned int line) {
     if (alloc_ptr == nullptr) {
         MemoryList *current = static_cast<MemoryList *>(alloc_ptr);
         current->size      = size;
-        current->file_name = name;
+        current->filename  = name;
         current->line_no   = line;
         current->use_pool  = true;
+        return static_cast<void *>(static_cast<char *>(alloc_ptr) +
+                                   sizeof(MemoryList));
     } else {
         alloc_ptr = std::malloc(size + sizeof(MemoryList));
+        assert(alloc_ptr);
         MemoryList *current = static_cast<MemoryList *>(alloc_ptr);
         current->next = nullptr;
-        
+
+        if (!MemoryList::head) {
+            MemoryList::head = current;
+        } else {
+            MemoryList *last = MemoryList::head;
+            while (last->next) {
+                last = last->next;
+            }
+            last->next = current;
+        }
+        current->size      = size;
+        current->filename  = name;
+        current->line_no   = line;
+        current->use_pool  = false;
+        return static_cast<void *>(static_cast<char *>(alloc_ptr) +
+                                   sizeof(MemoryList));
     }
-    return static_cast<void *>(static_cast<char *>(alloc_ptr) + sizeof(MemoryList));
 }
 
+static inline void S2Free(void *doomed) {
+    MemoryList *current =
+        reinterpret_cast<MemoryList *>(static_cast<char *>(doomed) - sizeof(MemoryList));
+    if (current->use_pool) {
+        GeneralMemoryPool::Instance().Free(current,
+                                           current->size + sizeof(MemoryList));
+    } else {
+        if (MemoryList::head == current) {
+            MemoryList::head = current->next;
+        } else {
+            for (MemoryList *p = MemoryList::head; p; p = p->next) {
+                p->next = current->next;
+            }
+        }
+        std::free(current);
+    }
+}
 
 template <class T, std::size_t Size>
 unique_ptr<MemoryPool<T, Size> > Poolable<T, Size>::POOL;
@@ -291,26 +326,26 @@ shared_ptr<T> Pool(Args&& ... args) {
 
 }
 
-// // #ifdef S2_OVERRIDE_OPERATOR
-// inline void* operator new(std::size_t size) {
-//     return sometuke::GeneralMemoryPool::Instance().Alloc(size);
-// }
+#ifdef S2_OVERRIDE_OPERATOR
+inline void* operator new(std::size_t size) {
+    return sometuke::GeneralMemoryPool::Instance().Alloc(size);
+}
 
-// inline void* operator new(std::size_t size, const char* name, int line) {
-//     return sometuke::GeneralMemoryPool::Instance().Alloc(size, name, line);
-// }
+inline void* operator new(std::size_t size, const char* name, int line) {
+    return sometuke::S2Alloc(size, name, line);
+}
 
-// inline void* operator new[](std::size_t size, const char* name, int line) {
-//     return ::operator new(size, name, line);
-// }
+inline void* operator new[](std::size_t size, const char* name, int line) {
+    return ::operator new(size, name, line);
+}
 
-// inline void operator delete(void *doomed) {
-//     sometuke::GeneralMemoryPool::Instance().Free(doomed);
-// }
+inline void operator delete(void *doomed) {
+    sometuke::S2Free(doomed);
+}
 
-// inline void operator delete[](void* doomed) {
-//     ::operator delete(doomed);
-// }
-// // #endif
+inline void operator delete[](void* doomed) {
+    ::operator delete(doomed);
+}
+#endif
 
 #endif /* defined(__sometuke__memory_pool__) */

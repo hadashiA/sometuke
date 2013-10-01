@@ -19,7 +19,7 @@ class ActorId {
 public:
     struct UuidDeleter { 
         void operator()(unsigned char* p) const {
-            GeneralMemoryPool::Shared()->Free(p, sizeof(uuid_t));
+            S2Free(p);
             p = nullptr;
         }
     };
@@ -31,7 +31,7 @@ public:
     void Generate() {
         if (!uuid_ptr_) {
             unsigned char *ptr =
-                static_cast<unsigned char *>(GeneralMemoryPool::Shared()->Alloc(sizeof(uuid_t)));
+                static_cast<unsigned char *>(S2Alloc(sizeof(uuid_t), __FILE__, __LINE__));
             
             uuid_generate(ptr);
             uuid_ptr_.reset(ptr, UuidDeleter());
