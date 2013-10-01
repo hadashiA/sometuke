@@ -25,7 +25,7 @@ public:
             Queue<ActorAddEvent>(actor);
             OnAdd(actor);
         } else {
-            S2ERROR("already exists id:%s", actor->id().c_str());
+            S2ERROR("already exists id:%s", actor->id().str());
         }
     }
 

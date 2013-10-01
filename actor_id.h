@@ -17,39 +17,31 @@ namespace sometuke {
 
 class ActorId {
 public:
-    struct UuidDeleter { 
-        void operator()(unsigned char* p) const {
-            S2Free(p);
-            p = nullptr;
-        }
-    };
-
     ActorId()
         : uuid_ptr_(nullptr) {
     }
 
-    void Generate() {
-        if (!uuid_ptr_) {
-            unsigned char *ptr =
-                static_cast<unsigned char *>(S2Alloc(sizeof(uuid_t), __FILE__, __LINE__));
-            
-            uuid_generate(ptr);
-            uuid_ptr_.reset(ptr, UuidDeleter());
+    ~ActorId() {
+        if (uuid_ptr_ != nullptr) {
+            GeneralMemoryPool::Instance().Free(uuid_ptr_, sizeof(uuid_t));
         }
     }
 
-    const string str() const {
-        char buf[37];
-        uuid_unparse(uuid_ptr_.get(), buf);
-        return string(buf);
+    void Generate() {
+        if (uuid_ptr_ == nullptr) {
+            uuid_ptr_ = static_cast<unsigned char *>(GeneralMemoryPool::Instance().Alloc(sizeof(uuid_t)));
+            
+            uuid_generate(uuid_ptr_);
+            uuid_unparse(uuid_ptr_, str_);
+        }
     }
     
-    const char *c_str() const {
-        return str().c_str();
+    const char *str() const {
+        return str_;
     }
 
     bool is_null() const {
-        return (!uuid_ptr_ || uuid_is_null(uuid_ptr_.get()));
+        return (!uuid_ptr_ || uuid_is_null(uuid_ptr_));
     }
 
     bool operator==(const ActorId& rhs) const {
@@ -58,7 +50,7 @@ public:
         } else if (rhs.is_null()) {
             return false;
         } else {
-            return (uuid_compare(uuid_ptr_.get(), rhs.uuid_ptr_.get()) == 0);
+            return (uuid_compare(uuid_ptr_, rhs.uuid_ptr_) == 0);
         }
     }
 
@@ -68,18 +60,18 @@ public:
     }
 
 private:
-    shared_ptr<unsigned char> uuid_ptr_;
+    unsigned char *uuid_ptr_;
+    char str_[37];
 };
 
 }
 
 namespace std {
-    template <> struct hash<sometuke::ActorId>
-    {
+    template <> struct hash<sometuke::ActorId> {
         size_t operator()(const sometuke::ActorId& value) const {
             /* your code here, e.g. "return hash<int>()(x.value);" */
-            std::hash<string> hash;
-            return hash(value.str());
+            std::hash<char32_t> hash;
+            return hash(reinterpret_cast<char32_t>(value.str()));
         }
     };
 }
