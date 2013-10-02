@@ -32,7 +32,7 @@ public:
                 bool _rotated,
                 const vec2& _offset_in_pixels,
                 const vec2& _original_size_in_pixels,
-                const string& _name)
+                const char *_name)
         : texture(_texture),
           rect_in_pixels(_rect_in_pixels),
           rotated(_rotated),

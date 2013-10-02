@@ -18,7 +18,7 @@ using namespace std;
 typedef HashedString EventType;
 
 struct Event {
-    Event(const string& str)
+    Event(const char *str)
         : Event(EventType(str)) {
     }
     

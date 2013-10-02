@@ -133,7 +133,7 @@ bool EventDispatcher::Tick(const s2_time max_time) {
 }
 
 bool EventDispatcher::IsValidType(const EventType& type) const {
-    return !type.str().empty();
+    return !type.empty();
 }
 
 bool EventDispatcher::IsListerningType(const EventType& type) const {

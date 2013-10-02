@@ -7,7 +7,7 @@
 namespace sometuke {
 
 shared_ptr<Texture2D> TextureCache::FetchFromPath(const string& path) {
-    unsigned int texture_id = HashedString(path).id();
+    int texture_id = HashedString(path.c_str()).id();
     if (textures_.find(texture_id) == textures_.end()) {
         shared_ptr<Texture2D> texture = Director::Instance().image().CreateTextureFromFile(path);
         if (texture) {

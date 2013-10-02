@@ -1,7 +1,6 @@
 #ifndef __sometuke__hashed_string__
 #define __sometuke__hashed_string__
 
-#include <string>
 #include <functional>
 #include <iostream>
 
@@ -10,35 +9,25 @@ using namespace std;
 
 class HashedString {
 public:
-    static size_t Hash(const string& s) {
-        static hash<string> __hash_func;
-        return __hash_func(s);
+    HashedString(const char *str)
+        : str_(const_cast<char *>(str)),
+          id_(0) {
+
+        const char *ch = str;
+        while (*ch)
+            id_ = id_ << 1 ^ *ch++;
     }
 
-    HashedString(const string& ident_string)
-        : ident_string_(ident_string) {
-        ident_ = Hash(ident_string_);
+    const int id() const {
+        return id_;
     }
 
-    HashedString(const char *ident_char)
-        : ident_string_(ident_char) {
-        ident_ = Hash(ident_string_);
-    }
-
-    const unsigned long id() const {
-        return reinterpret_cast<unsigned long>(ident_);
-    }
-
-    const string& str() const {
-        return ident_string_;
-    }
-
-    const char *c_str() const {
-        return ident_string_.c_str();
+    const char *str() const {
+        return str_;
     }
 
     bool empty() const {
-        return str().empty();
+        return (!str_ || str_[0] == '\0');
     }
 
     bool operator<(const HashedString& rhs) const {
@@ -50,9 +39,8 @@ public:
     }
 
 private:
-    // unsigned long ident_;
-    size_t ident_;
-    string ident_string_;
+    int id_;
+    char *str_;
 };
 
 }
