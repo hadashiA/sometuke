@@ -263,7 +263,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
 }
     
 bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
-                               const string data,
+                               const string& data,
                                TmxEncoding encoding,
                                TmxCompression compression) {
     if (encoding == TmxEncoding::BASE64) {

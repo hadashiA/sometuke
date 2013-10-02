@@ -1,6 +1,8 @@
 #ifndef __sometuke__hashed_string__
 #define __sometuke__hashed_string__
 
+#include "sometuke/memory_pool.h"
+
 #include <functional>
 #include <iostream>
 
@@ -10,12 +12,18 @@ using namespace std;
 class HashedString {
 public:
     HashedString(const char *str)
-        : str_(const_cast<char *>(str)),
+        : str_(nullptr),
           id_(0) {
 
+        str_ = CopyString(str);
+        
         const char *ch = str;
         while (*ch)
             id_ = id_ << 1 ^ *ch++;
+    }
+
+    ~HashedString() {
+        DeleteString(str_);
     }
 
     const int id() const {

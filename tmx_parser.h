@@ -96,7 +96,7 @@ private:
     TmxParser& operator=(TmxParser&&) = delete;
 
     bool ParseLayerData(TmxLayerInfo &layer_info,
-                        const string data,
+                        const string& data,
                         TmxEncoding encoding,
                         TmxCompression compression);
 };

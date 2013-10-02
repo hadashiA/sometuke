@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <cassert>
+#include <cstring>
 
 #ifndef MM_DEFAULT_EXPAND_SIZE
 #define MM_DEFAULT_EXPAND_SIZE 10000
@@ -322,6 +323,20 @@ template<class T, class... Args>
 shared_ptr<T> Pool(Args&& ... args) {
     GeneralPoolAllocator<T> alloc;
     return allocate_shared<T>(alloc, std::forward<Args>(args)...);
+}
+
+static inline char *CopyString(const char *str) {
+    char *copied = static_cast<char *>(GeneralMemoryPool::Instance().Alloc(strlen(str) + 1));
+    if (!copied) {
+        return nullptr;
+    }
+    strcpy(copied, str);
+    return copied;
+}
+
+static inline void DeleteString(const char *str) {
+    char *doomed = const_cast<char *>(str);
+    GeneralMemoryPool::Instance().Free(reinterpret_cast<void *>(doomed), strlen(str) + 1);
 }
 
 }

@@ -64,7 +64,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
              ++iter) {
             
             const picojson::value& frame_json = *iter;
-            const char *name = frame_json.get("filename").get<string>().c_str();
+            const string& name = frame_json.get("filename").get<string>();
             AddSpriteFrameFromJSON(texture, name, frame_json);
         }
         
@@ -76,7 +76,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 
             const string& name = iter->first;
             const picojson::value& frame_json = iter->second;
-            AddSpriteFrameFromJSON(texture, name.c_str(), frame_json);
+            AddSpriteFrameFromJSON(texture, name, frame_json);
         }
 
     } else {
@@ -88,7 +88,7 @@ bool SpriteFrameCache::AddSpriteFramesWithFile(const string& json_path) {
 }
 
 void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
-                                              const char *name,
+                                              const string& name,
                                               const picojson::value& frame_json) {
     const picojson::value& frame_rect_json    = frame_json.get("frame");
     const picojson::value& source_rect_json   = frame_json.get("spriteSourceSize");
@@ -118,7 +118,7 @@ void SpriteFrameCache::AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
                                                          rotated,
                                                          offset,
                                                          original_size,
-                                                         name
+                                                         name.c_str()
                                                          ));
     sprite_frames_[name] = sprite_frame;
 }

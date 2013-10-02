@@ -41,7 +41,7 @@ private:
     SpriteFrameCache& operator=(const SpriteFrameCache&);
 
     void AddSpriteFrameFromJSON(shared_ptr<Texture2D> texture,
-                                const char *name,
+                                const string& name,
                                 const picojson::value& frame_json);
 
     SpriteFrameTable sprite_frames_;
