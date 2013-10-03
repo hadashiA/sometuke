@@ -68,6 +68,7 @@ struct TmxMapInfo {
     string filename;
     float version;
     TmxOrientation orientation;
+
     ivec2 size_in_tiles;
     vec2 tile_size;
     Color3B background_color;
@@ -75,7 +76,7 @@ struct TmxMapInfo {
     vector<TmxLayerInfo> layers;
     vector<TmxTilesetInfo> tilesets;
     vector<TmxObjectGroup> object_groups;
-    unordered_map<string, string> properties;
+    TmxProperties properties;
 };
 
 class TmxParser {
@@ -85,7 +86,7 @@ public:
         return *__instance;
     }
 
-    shared_ptr<TmxMapInfo> Parse(const string& file);
+    shared_ptr<TmxTiledMap> Parse(const string& file);
 
 private:
     TmxParser() {}
