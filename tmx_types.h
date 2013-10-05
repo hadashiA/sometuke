@@ -62,6 +62,73 @@ struct TmxObjectGroup {
     vector<TmxObject> objects;
 };
 
+
+enum class TmxEncoding {
+    CSV,
+    XML,
+    BASE64,
+};
+
+enum class TmxCompression {
+    NONE,
+    ZLIB,
+    GZIP,
+};
+
+struct TmxLayerInfo {
+    TmxLayerInfo()
+        : offset_in_tiles(0, 0),
+          opacity(255),
+          visible(true) {
+    }
+
+    string name;
+    ivec2 size_in_tiles;
+    ivec2 offset_in_tiles;
+    bool visible;
+    unsigned char opacity;
+    bool tiles_owned;
+    vector<tmx_gid> gids;
+    tmx_gid gid_min;
+    tmx_gid gid_max;
+    unordered_map<string, string> properties;
+};
+
+struct TmxTilesetInfo {
+    TmxTilesetInfo()
+        : tile_offset(0, 0),
+          spacing(0),
+          margin(0) {
+    }
+
+    string name;
+    tmx_gid first_gid;
+    ivec2 size_in_tiles;
+    vec2 tile_offset;
+    float tile_spacing;
+    float tile_margin;
+    unsigned int spacing;
+    unsigned int margin;
+    string image_source;
+    ivec2 image_size;
+};
+
+struct TmxMapInfo {
+    TmxEncoding encoding;
+    string filename;
+    float version;
+    TmxOrientation orientation;
+
+    ivec2 size_in_tiles;
+    vec2 tile_size;
+    Color3B background_color;
+
+    vector<shared_ptr<TmxLayerInfo> > layers;
+    vector<shared_ptr<TmxTilesetInfo> > tilesets;
+    vector<shared_ptr<TmxObjectGroup> > object_groups;
+    TmxProperties properties;
+};
+
 }
 
 #endif /* defined(__sometuke__tmx_types__) */

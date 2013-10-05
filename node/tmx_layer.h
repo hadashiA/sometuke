@@ -2,23 +2,34 @@
 #define __sometuke__node_tmx_layer__
 
 #include "sometuke/node/sprite_batch_node.h"
-#include "sometuke/tmx_parser.h"
+#include "sometuke/tmx_types.h"
 
 namespace sometuke {
 
 class TmxLayer : public SpriteBatchNode {
 public:
-    bool InitWithTilesetInfo(const TmxTilesetInfo& tileset_info,
-                             const TmxLayerInfo& layer_info,
-                             const TmxMapInfo& map_info);
+    TmxLayer()
+        : orientation_(TmxOrientation::ORTHO) {
+    }
 
+    bool InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_info,
+                             const shared_ptr<TmxLayerInfo>& layer_info,
+                             const shared_ptr<TmxMapInfo>& map_info);
+    
 private:
-    TmxTilesetInfo tileset_info_;
-    char *name;
+    vec2 CalculateLayerOffset(const vec2& pos);
+
+    string name_;
     ivec2 size_in_tiles_;
     TmxProperties properties_;
     tmx_gid gid_min_;
     tmx_gid gid_max_;
+    vector<tmx_gid> gids_;
+
+    vec2 tile_size_;
+
+    shared_ptr<TmxTilesetInfo> tileset_info_;
+    TmxOrientation orientation_;
 };
     
 }

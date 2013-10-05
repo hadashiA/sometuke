@@ -111,61 +111,58 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     }
 
     // tileset
-    xml_node<> *tilesetnode = map_node->first_node("tileset");
-    while (tilesetnode) {
-        auto external_tileset_filename = tilesetnode->first_attribute("source");
+    xml_node<> *tileset_node = map_node->first_node("tileset");
+    while (tileset_node) {
+        auto external_tileset_filename = tileset_node->first_attribute("source");
         if (external_tileset_filename) {
             S2ERROR("TmxParser external tileset filename not supported.");
             return map_info;
         } else {
-            TmxTilesetInfo tileset_info;
-            tileset_info.name        = tilesetnode->first_attribute("name")->value();
-            tileset_info.first_gid   = atoi(tilesetnode->first_attribute("firstgid")->value());
-            tileset_info.size_in_tiles.x = atoi(tilesetnode->first_attribute("tilewidth")->value());
-            tileset_info.size_in_tiles.y = atoi(tilesetnode->first_attribute("tileheight")->value());
+            auto tileset_info = make_shared<TmxTilesetInfo>();
+            tileset_info->name      = tileset_node->first_attribute("name")->value();
+            tileset_info->first_gid = atoi(tileset_node->first_attribute("firstgid")->value());
+            tileset_info->size_in_tiles.x = atoi(tileset_node->first_attribute("tilewidth")->value());
+            tileset_info->size_in_tiles.y = atoi(tileset_node->first_attribute("tileheight")->value());
 
-            if (auto spacing = tilesetnode->first_attribute("spacing")) {
+            if (auto spacing = tileset_node->first_attribute("spacing")) {
                 tileset_info.spacing = atoi(spacing->value());
             }
-            if (auto margin = tilesetnode->first_attribute("margin")) {
+            if (auto margin = tileset_node->first_attribute("margin")) {
                 tileset_info.margin = atoi(margin->value());
             }
 
-            xml_node<> *imagenode = tilesetnode->first_node("image");
+            xml_node<> *imagenode = tileset_node->first_node("image");
             string image_filename = imagenode->first_attribute("source")->value();
             string image_basename = Director::Instance().file_utils().Basename(image_filename);
-            tileset_info.image_source = dirname + "/" + image_basename;
+            tileset_info->image_source = dirname + "/" + image_basename;
 
             map_info->tilesets.push_back(tileset_info);
         }
         
-        tilesetnode = tilesetnode->next_sibling("tileset");
+        tileset_node = tileset_node->next_sibling("tileset");
     }
 
-    xml_node<> *layernode = map_node->first_node("layer");
-    while (layernode) {
-        TmxLayerInfo layer_info;
-        layer_info.name = layernode->first_attribute("name")->value();
-        layer_info.size_in_tiles.x = atoi(layernode->first_attribute("width")->value());
-        layer_info.size_in_tiles.y = atoi(layernode->first_attribute("height")->value());
+    xml_node<> *layer_node = map_node->first_node("layer");
+    while (layer_node) {
+        auto layer_info = make_shared<TmxLayerInfo>();
+        layer_info->name = layer_node->first_attribute("name")->value();
+        layer_info->size_in_tiles.x = atoi(layer_node->first_attribute("width")->value());
+        layer_info->size_in_tiles.y = atoi(layer_node->first_attribute("height")->value());
 
-        if (auto visible_attr = layernode->first_attribute("visible")) {
-            layer_info.visible = (atoi(visible_attr->value()) == 1);
+        if (auto visible_attr = layer_node->first_attribute("visible")) {
+            layer_info->visible = (atoi(visible_attr->value()) == 1);
         }
-        
-        if (auto opacity_attr = layernode->first_attribute("opacity")) {
-            layer_info.opacity = (atoi(opacity_attr->value()) == 1);
+        if (auto opacity_attr = layer_node->first_attribute("opacity")) {
+            layer_info->opacity = (atoi(opacity_attr->value()) == 1);
         }
-
-        if (auto x_attr = layernode->first_attribute("x")) {
-            layer_info.offset_in_tiles.x = atoi(x_attr->value());
+        if (auto x_attr = layer_node->first_attribute("x")) {
+            layer_info->offset_in_tiles.x = atoi(x_attr->value());
         }
-
-        if (auto y_attr = layernode->first_attribute("y")) {
-            layer_info.offset_in_tiles.y = atoi(y_attr->value());
+        if (auto y_attr = layer_node->first_attribute("y")) {
+            layer_info->offset_in_tiles.y = atoi(y_attr->value());
         }
 
-        xml_node<> *data_node = layernode->first_node("data");
+        xml_node<> *data_node = layer_node->first_node("data");
         if (data_node) {
             string encoding_str    = data_node->first_attribute("encoding")->value();
             string compression_str = data_node->first_attribute("compression")->value();
@@ -194,7 +191,7 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
         }
 
         map_info->layers.push_back(layer_info);
-        layernode = layernode->next_sibling("layer");
+        layer_node = layer_node->next_sibling("layer");
     }
 
     xml_node<> *objectgroup_node = map_node->first_node("objectgroup");
@@ -262,10 +259,10 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
     return map_info;
 }
     
-bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
+bool TmxParser::ParseLayerData(shared_ptr<TmxLayerInfo>& layer_info,
                                const string& data,
-                               TmxEncoding encoding,
-                               TmxCompression compression) {
+                               const TmxEncoding encoding,
+                               const TmxCompression compression) {
     if (encoding == TmxEncoding::BASE64) {
         tmx_gid *gids_begin = nullptr;
         tmx_gid *gids_end   = nullptr;
@@ -279,8 +276,8 @@ bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
         if (compression == TmxCompression::ZLIB ||
             compression == TmxCompression::GZIP) {
             size_t size_hint =
-                layer_info.size_in_tiles.x *
-                layer_info.size_in_tiles.y *
+                layer_info->size_in_tiles.x *
+                layer_info->size_in_tiles.y *
                 sizeof(tmx_gid);
             size_t inflated_length = 0;
             unsigned char *inflated_data = inflate_memory_with_hint(decoded_data,
@@ -303,7 +300,7 @@ bool TmxParser::ParseLayerData(TmxLayerInfo &layer_info,
             gids_end   = reinterpret_cast<tmx_gid *>(decoded_data + decoded_length);
         }
 
-        layer_info.gids = vector<tmx_gid>(gids_begin, gids_end);
+        layer_info->gids = vector<tmx_gid>(gids_begin, gids_end);
         return true;
     } 
     
