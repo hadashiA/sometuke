@@ -70,6 +70,8 @@ public:
 
     bool InitWithImage(const shared_ptr<Image>& image);
 
+    void SetAliasTexParameters();
+
     const GLuint id() const {
         return id_;
     }

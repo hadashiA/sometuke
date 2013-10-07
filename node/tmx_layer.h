@@ -18,6 +18,9 @@ public:
     
 private:
     vec2 CalculateLayerOffset(const vec2& pos);
+    void SetupTiles();
+    Rect RectForGid(tmx_gid gid);
+    void AppendTileForGid(tmx_gid gid, const vec2& tile_coord);
 
     string name_;
     ivec2 size_in_tiles_;

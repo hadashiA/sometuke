@@ -16,10 +16,17 @@ using namespace std;
 
 class TmxTiledMap {
 public:
-    
+    bool InitWithTmxFile(const string& file);
+
 private:
+    shared_ptr<TmxTilesetInfo> TilesetForLayer(const shared_ptr<TmxLayerInfo>&, layer_info,
+                                               const shared_ptr<TmxMapInfo>& map_info);
+
+    TmxOrientation orientation_;
+    ivec2 size_in_tiles_;
+    vec2 tile_size_;
     vector<shared_ptr<TmxLayer> > layers_;
-    vector<TmxObjectGroup> object_groups_;
+    vector<shared_ptr<TmxObjectGroup> > object_groups_;
     TmxProperties tile_properties_;
 };
     

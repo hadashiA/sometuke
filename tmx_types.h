@@ -26,6 +26,14 @@ enum class TmxObjectShape {
     POLYLINE,
 };
 
+enum class TmxTileFlags {
+    HORIZONTAL = 0x80000000,
+    VERTICAL   = 0x40000000,
+    DIAGONAL   = 0x20000000,
+    ALL	       = (HORIZONTAL|VERTICAL|DIAGONAL),
+    FLIPPED    = ~(ALL),
+};
+
 struct TmxObject {
     TmxObject()
         : shape(TmxObjectShape::RECT),

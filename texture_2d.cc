@@ -272,6 +272,15 @@ void Texture2D::set_tex_parameters(const GLuint min_filter,
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t);
 }
 
+void Texture2D::SetAliasTexParameters() {
+    glBindTexture(GL_TEXTURE_2D, id_);
+    if (has_mipmaps_) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    } else {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	
+}
 
 }
 
