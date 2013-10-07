@@ -28,6 +28,7 @@ private:
     tmx_gid gid_min_;
     tmx_gid gid_max_;
     vector<tmx_gid> gids_;
+    unsigned char opacity_;
 
     vec2 tile_size_;
 

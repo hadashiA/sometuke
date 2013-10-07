@@ -1,6 +1,16 @@
-#ifndef __sometuke__tmx_parser__
-#define __sometuke__tmx_parser__
+#ifndef __sometuke__tmx_types__
+#define __sometuke__tmx_types__
 
+#include "sometuke/vector.h"
+#include "sometuke/color.h"
+
+#include <unordered_map>
+#include <string>
+#include <vector>
+
+namespace sometuke {
+using namespace std;
+    
 typedef uint32_t tmx_gid;
 
 typedef unordered_map<string, string> TmxProperties;
@@ -26,7 +36,7 @@ enum class TmxObjectShape {
     POLYLINE,
 };
 
-enum class TmxTileFlags {
+typedef enum TmxTileFlags {
     HORIZONTAL = 0x80000000,
     VERTICAL   = 0x40000000,
     DIAGONAL   = 0x20000000,
@@ -111,7 +121,7 @@ struct TmxTilesetInfo {
 
     string name;
     tmx_gid first_gid;
-    ivec2 size_in_tiles;
+    vec2 tile_size;
     vec2 tile_offset;
     float tile_spacing;
     float tile_margin;

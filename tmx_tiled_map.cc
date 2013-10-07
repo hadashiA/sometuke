@@ -1,13 +1,15 @@
 #include "sometuke/tmx_tiled_map.h"
 
 #include "sometuke/tmx_parser.h"
+#include "sometuke/logger.h"
+#include "sometuke/node/tmx_layer.h"
 
 #include <arpa/inet.h>
 
 namespace sometuke {
 
 bool TmxTiledMap::InitWithTmxFile(const string& file) {
-    const shared_ptr<TmxTilesetInfo>& info = TmxParser::Instance().Parse(file);
+    const shared_ptr<TmxMapInfo>& info = TmxParser::Instance().Parse(file);
     if (info->tilesets.empty()) {
         S2ERROR("TmxTiledMap: tileset empty");
         return false;
@@ -25,29 +27,29 @@ bool TmxTiledMap::InitWithTmxFile(const string& file) {
 
         auto layer = make_shared<TmxLayer>();
         if (!layer->InitWithTilesetInfo(tileset_info, layer_info, info)) {
-            S2ERROR("TmxTiledMap: faild layer initalize %s", lyaer_info->name.c_str());
+            S2ERROR("TmxTiledMap: faild layer initalize %s", layer_info->name.c_str());
             return false;
         }
     }
 }
 
-shared_ptr<TmxTilesetInfo> TmxTiledMap::TilesetForLayer(const shared_ptr<TmxLayerInfo>&, layer_info,
+shared_ptr<TmxTilesetInfo> TmxTiledMap::TilesetForLayer(const shared_ptr<TmxLayerInfo>& layer_info,
                                                         const shared_ptr<TmxMapInfo>& map_info) {
-    ivec2 size_in_tiles = layer_info->size_in_ties;
+    ivec2 size_in_tiles = layer_info->size_in_tiles;
     for (auto iter = map_info->tilesets.rbegin();
          iter != map_info->tilesets.rend();
-         ++i) {
+         ++iter) {
         auto tileset_info = *iter;
 
         for (size_t y = 0; y < size_in_tiles.y; ++y) {
-            for (size_t x = 0; x < size_in_tiles; ++x) {
+            for (size_t x = 0; x < size_in_tiles.x; ++x) {
                 size_t pos = x + size_in_tiles.x * y;
-                tmx_gid gid = layer_info->tiles[pos];
+                tmx_gid gid = layer_info->gids[pos];
 
                 gid = ntohl(gid);
                 if (gid != 0) {
                     if ((gid & TmxTileFlags::FLIPPED) >= tileset_info->first_gid) {
-                        return tileset;
+                        return tileset_info;
                     }
                 }
             }
@@ -55,7 +57,7 @@ shared_ptr<TmxTilesetInfo> TmxTiledMap::TilesetForLayer(const shared_ptr<TmxLaye
     }
 
     S2ERROR("TmxTiledMap: %s has no tiles", layer_info->name.c_str());
-    retrun nullptr;
+    return nullptr;
 }
 
 

@@ -10,16 +10,16 @@
 #include <vector>
 
 namespace sometuke {
-
-namespace sometuke {
 using namespace std;
+    
+class TmxLayer;
 
 class TmxTiledMap {
 public:
     bool InitWithTmxFile(const string& file);
 
 private:
-    shared_ptr<TmxTilesetInfo> TilesetForLayer(const shared_ptr<TmxLayerInfo>&, layer_info,
+    shared_ptr<TmxTilesetInfo> TilesetForLayer(const shared_ptr<TmxLayerInfo>& layer_info,
                                                const shared_ptr<TmxMapInfo>& map_info);
 
     TmxOrientation orientation_;
@@ -27,7 +27,7 @@ private:
     vec2 tile_size_;
     vector<shared_ptr<TmxLayer> > layers_;
     vector<shared_ptr<TmxObjectGroup> > object_groups_;
-    TmxProperties tile_properties_;
+    TmxProperties properties_;
 };
     
 }

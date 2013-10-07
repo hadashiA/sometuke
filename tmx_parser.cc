@@ -121,14 +121,14 @@ shared_ptr<TmxMapInfo> TmxParser::Parse(const string& file) {
             auto tileset_info = make_shared<TmxTilesetInfo>();
             tileset_info->name      = tileset_node->first_attribute("name")->value();
             tileset_info->first_gid = atoi(tileset_node->first_attribute("firstgid")->value());
-            tileset_info->size_in_tiles.x = atoi(tileset_node->first_attribute("tilewidth")->value());
-            tileset_info->size_in_tiles.y = atoi(tileset_node->first_attribute("tileheight")->value());
+            tileset_info->tile_size.x = atof(tileset_node->first_attribute("tilewidth")->value());
+            tileset_info->tile_size.y = atof(tileset_node->first_attribute("tileheight")->value());
 
             if (auto spacing = tileset_node->first_attribute("spacing")) {
-                tileset_info.spacing = atoi(spacing->value());
+                tileset_info->spacing = atoi(spacing->value());
             }
             if (auto margin = tileset_node->first_attribute("margin")) {
-                tileset_info.margin = atoi(margin->value());
+                tileset_info->margin = atoi(margin->value());
             }
 
             xml_node<> *imagenode = tileset_node->first_node("image");

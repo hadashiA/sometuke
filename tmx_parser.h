@@ -20,7 +20,7 @@ public:
         return *__instance;
     }
 
-    shared_ptr<TmxTileMapInfo> Parse(const string& file);
+    shared_ptr<TmxMapInfo> Parse(const string& file);
 
 private:
     TmxParser() {}

@@ -1,5 +1,7 @@
 #include "sometuke/node/tmx_layer.h"
 
+#include "sometuke/texture_cache.h"
+#include "sometuke/texture_2d.h"
 #include "sometuke/logger.h"
 
 #include <arpa/inet.h>
@@ -12,9 +14,9 @@ bool TmxLayer::InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_inf
     Director& director = Director::Instance();
     
     const shared_ptr<Texture2D>& texture =
-        TextureCache::Instance().FetchFromPath(tileset_info.source_image);
-    size_t num_tiles = layer_info.size_in_tiles.x * layer_info.size_in_tiles.y;
-    size_t capacity  = ceil(num_tiles * / 2);
+        TextureCache::Instance().FetchFromPath(tileset_info->image_source);
+    size_t num_tiles = layer_info->size_in_tiles.x * layer_info->size_in_tiles.y;
+    size_t capacity  = ceil(num_tiles * 0.5);
 
     if (!InitWithTexture(texture, capacity)) {
         S2ERROR("TmxLayer: faild texture init");
@@ -29,19 +31,19 @@ bool TmxLayer::InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_inf
     opacity_       = layer_info->opacity;
     properties_    = layer_info->properties;
 
-    vec2 offset = CalculateLayerOffset(layer_info->offset);
-    set_position(offset * director.content_scale_factor);
+    vec2 offset = CalculateLayerOffset(layer_info->offset_in_tiles);
+    set_position(offset * director.content_scale_factor());
 
     vec2 size_in_pixels(layer_info->size_in_tiles.x * map_info->tile_size.x,
                         layer_info->size_in_tiles.y * map_info->tile_size.y);
-    set_content_size(size_in_pixels / director.content_scale_factor);
+    set_content_size(size_in_pixels / director.content_scale_factor());
 
     return true;
 }
 
 vec2 TmxLayer::CalculateLayerOffset(const vec2& pos) {
     if (orientation_ == TmxOrientation::ORTHO) {
-        retrun vec2(pos.x * tile_size_.x, -pos.y * tile_size_.y);
+        return vec2(pos.x * tile_size_.x, -pos.y * tile_size_.y);
     } else {
         S2ERROR("TmxLayer: orientation not suppored %d", orientation_);
     }
@@ -54,7 +56,7 @@ void TmxLayer::SetupTiles() {
     for (size_t y = 0; y < size_in_tiles_.y; y++) {
         for (size_t x = 0; x < size_in_tiles_.x; x++) {
             size_t pos = x + size_in_tiles_.x * y;
-            tmx_gid gid = gids[pos];
+            tmx_gid gid = gids_[pos];
 
             // convert from big endian
             gid = ntohl(gid);
@@ -68,7 +70,7 @@ void TmxLayer::SetupTiles() {
     }
 }
 
-Rect RectForGid(tmx_gid gid) {
+Rect TmxLayer::RectForGid(tmx_gid gid) {
     Rect rect;
     
     rect.size = tileset_info_->tile_size;
