@@ -16,6 +16,10 @@ public:
                              const shared_ptr<TmxLayerInfo>& layer_info,
                              const shared_ptr<TmxMapInfo>& map_info);
     
+    const string name() const {
+        return name_;
+    }
+
 private:
     vec2 CalculateLayerOffset(const vec2& pos);
     void SetupTiles();

@@ -33,6 +33,15 @@ bool TmxTiledMap::InitWithTmxFile(const string& file) {
     }
 }
 
+shared_ptr<TmxLayer> TmxTiledMap::LayerForName(const string& name) {
+    for (auto layer : layers_) {
+        if (layer->name() == name) {
+            return layer;
+        }
+    }
+    return nullptr;
+}
+
 shared_ptr<TmxTilesetInfo> TmxTiledMap::TilesetForLayer(const shared_ptr<TmxLayerInfo>& layer_info,
                                                         const shared_ptr<TmxMapInfo>& map_info) {
     ivec2 size_in_tiles = layer_info->size_in_tiles;
@@ -59,6 +68,5 @@ shared_ptr<TmxTilesetInfo> TmxTiledMap::TilesetForLayer(const shared_ptr<TmxLaye
     S2ERROR("TmxTiledMap: %s has no tiles", layer_info->name.c_str());
     return nullptr;
 }
-
 
 }

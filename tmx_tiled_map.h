@@ -17,6 +17,7 @@ class TmxLayer;
 class TmxTiledMap {
 public:
     bool InitWithTmxFile(const string& file);
+    shared_ptr<TmxLayer> LayerForName(const string& name);
 
 private:
     shared_ptr<TmxTilesetInfo> TilesetForLayer(const shared_ptr<TmxLayerInfo>& layer_info,
