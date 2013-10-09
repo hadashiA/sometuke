@@ -3,6 +3,7 @@
 #include "sometuke/texture_cache.h"
 #include "sometuke/texture_2d.h"
 #include "sometuke/logger.h"
+#include "sometuke/node/sprite.h"
 
 #include <arpa/inet.h>
 
@@ -38,21 +39,9 @@ bool TmxLayer::InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_inf
                         layer_info->size_in_tiles.y * map_info->tile_size.y);
     set_content_size(size_in_pixels / director.content_scale_factor());
 
-    return true;
-}
-
-vec2 TmxLayer::CalculateLayerOffset(const vec2& pos) {
-    if (orientation_ == TmxOrientation::ORTHO) {
-        return vec2(pos.x * tile_size_.x, -pos.y * tile_size_.y);
-    } else {
-        S2ERROR("TmxLayer: orientation not suppored %d", orientation_);
-    }
-    return vec2(0, 0);
-}
-
-void TmxLayer::SetupTiles() {
     texture_atlas()->texture()->SetAliasTexParameters();
 
+    // setup tiles
     for (size_t y = 0; y < size_in_tiles_.y; y++) {
         for (size_t x = 0; x < size_in_tiles_.x; x++) {
             size_t pos = x + size_in_tiles_.x * y;
@@ -68,16 +57,63 @@ void TmxLayer::SetupTiles() {
             }            
         }
     }
+
+    return true;
+}
+
+vec2 TmxLayer::PositionAt(const vec2& tile_coord) {
+    vec2 pos;
+    if (orientation_ == TmxOrientation::ORTHO) {
+        
+    }
+    return pos;
+}
+
+vec2 TmxLayer::CalculateLayerOffset(const vec2& pos) {
+    if (orientation_ == TmxOrientation::ORTHO) {
+        return vec2(pos.x * tile_size_.x, -pos.y * tile_size_.y);
+    } else {
+        S2ERROR("TmxLayer: orientation not suppored %d", orientation_);
+    }
+    return vec2(0, 0);
 }
 
 Rect TmxLayer::RectForGid(tmx_gid gid) {
     Rect rect;
     
     rect.size = tileset_info_->tile_size;
+
+    tmx_gid local_id = (gid & TmxTileFlags::FLIPPED) - tileset_info_->first_gid;
+
+    const vec2& image_size = tileset_info_->image_size;
+    const vec2& tile_size  = tileset_info_->tile_size;
+    float margin  = tileset_info_->margin;
+    float spacing = tileset_info_->spacing;
+
+    int max_x = (image_size.x - margin * 2 + spacing) / (tile_size.x + spacing);
+    rect.pos.x = (local_id % max_x) * (tile_size.x + spacing) + margin;
+    rect.pos.y = (local_id / max_x) * (tile_size.y + spacing) + margin;
+
     return rect;
 }
 
 void TmxLayer::AppendTileForGid(tmx_gid gid, const vec2& tile_coord) {
+    unsigned int z = tile_coord.x + tile_coord.y * size_in_tiles_.x;
+}
+
+void TmxLayer::SetupTileAt(const vec2& tile_coord, tmx_gid gid) {
+    Rect rect = RectForGid(gid) * Director::Instance().content_scale_factor();
+
+    if (!reused_sprite_) {
+        reused_sprite_ = make_shared<Sprite>();
+        auto batch_node = static_pointer_cast<SpriteBatchNode>(shared_from_this());
+        reused_sprite_->InitWithTexture(texture_atlas()->texture(), rect, false);
+        reused_sprite_->set_batch_node(batch_node, 0);
+    } else {
+        reused_sprite_->reset_batch_node();
+        reused_sprite_->set_texture_rect(rect, false, rect.size);
+    }
+
     
 }
 

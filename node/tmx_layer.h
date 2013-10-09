@@ -16,13 +16,15 @@ public:
                              const shared_ptr<TmxLayerInfo>& layer_info,
                              const shared_ptr<TmxMapInfo>& map_info);
     
+    vec2 PositionAt(const vec2& tile_coord);
+
     const string name() const {
         return name_;
     }
 
 private:
     vec2 CalculateLayerOffset(const vec2& pos);
-    void SetupTiles();
+    void SetupTileAt(const vec2& tile_coord, tmx_gid gid);
     Rect RectForGid(tmx_gid gid);
     void AppendTileForGid(tmx_gid gid, const vec2& tile_coord);
 
@@ -38,6 +40,8 @@ private:
 
     shared_ptr<TmxTilesetInfo> tileset_info_;
     TmxOrientation orientation_;
+
+    shared_ptr<Sprite> reused_sprite_;
 };
     
 }

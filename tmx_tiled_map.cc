@@ -31,6 +31,7 @@ bool TmxTiledMap::InitWithTmxFile(const string& file) {
             return false;
         }
     }
+    return true;
 }
 
 shared_ptr<TmxLayer> TmxTiledMap::LayerForName(const string& name) {
