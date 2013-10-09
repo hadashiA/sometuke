@@ -1,17 +1,9 @@
 #ifndef __sometuke__
 #define __sometuke__
 
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#define __S2_PLATFORM_IOS 1
-#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
-#define __S2_PLATFORM_MAC 1
-#endif
-
-#include "sometuke/memory_pool.h"
-
-#include "sometuke/director.h"
-
 #include "sometuke/types.h"
+#include "sometuke/vector.h"
+#include "sometuke/director.h"
 
 #include "sometuke/texture_2d.h"
 #include "sometuke/texture_cache.h"
