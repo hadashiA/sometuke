@@ -61,12 +61,13 @@ bool TmxLayer::InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_inf
     return true;
 }
 
-vec2 TmxLayer::PositionAt(const vec2& tile_coord) {
-    vec2 pos;
+vec3 TmxLayer::PositionAt(const vec2& tile_coord) {
     if (orientation_ == TmxOrientation::ORTHO) {
-        
+        return vec2(tile_coord.x * tile_size_.x,
+                    (size_in_tiles_.y - tile_coord.y - 1) * tile_size_.y,
+                    0);
     }
-    return pos;
+    return vec2(0, 0);
 }
 
 vec2 TmxLayer::CalculateLayerOffset(const vec2& pos) {
@@ -114,7 +115,40 @@ void TmxLayer::SetupTileAt(const vec2& tile_coord, tmx_gid gid) {
         reused_sprite_->set_texture_rect(rect, false, rect.size);
     }
 
-    
+    reused_sprite_->set_position(PositionAt(tile_coord));
+    reused_sprite_->set_opacity(opacity_);
+    reused_sprite_->flip_x(false);
+    reused_sprite_->flip_y(false);
+    reused_sprite_->set_rotation(0);
+    reused_sprite_->set_anchor_point(0, 0);
+
+    if (gid & TmxTileFlags::DIAGONAL) {
+        reused_sprite_->set_anchor_point(0.5, 0.5);
+        vec2 pos  = reused_sprite_->position();
+        vec2 size = reused_sprite_->content_size();
+        reused_sprite_->set_position(pos.x + size.y / 2, pos.y + size.x / 2);
+
+        uint32_t flag = gid & (TmxTileFlags::HORIZONTAL | TmxTileFlags::VERTICAL);
+        if (flag == TmxTileFlags::HORIZONTAL) {
+            reused_sprite_->set_rotation(90);
+        } else if (flag == TmxTileFlags::VERTICAL) {
+            reused_sprite_->set_rotation(270);
+        } else if (flag == (TmxTileFlags::HORIZONTAL | TmxTileFlags::VERTICAL)) {
+            reused_sprite_->set_rotation(90);
+            reused_sprite_->flip_x(true);
+        } else {
+            reused_sprite_->set_rotation(270);
+            reused_sprite_->flip_x(true);
+        }
+
+    } else {
+        if (gid & TmxTileFlags::HORIZONTAL) {
+            reused_sprite_->flip_x(true);
+        }
+        if (gid & TmxTileFlags::VERTICAL) {
+            reused_sprite_->flip_y(true);
+        }
+    }
 }
 
 }
