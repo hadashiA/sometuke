@@ -63,7 +63,7 @@ bool TmxLayer::InitWithTilesetInfo(const shared_ptr<TmxTilesetInfo>& tileset_inf
 
 vec3 TmxLayer::PositionAt(const vec2& tile_coord) {
     if (orientation_ == TmxOrientation::ORTHO) {
-        return vec2(tile_coord.x * tile_size_.x,
+        return vec3(tile_coord.x * tile_size_.x,
                     (size_in_tiles_.y - tile_coord.y - 1) * tile_size_.y,
                     0);
     }
@@ -107,13 +107,13 @@ void TmxLayer::SetupTileAt(const vec2& tile_coord, tmx_gid gid) {
 
     if (!reused_sprite_) {
         reused_sprite_ = make_shared<Sprite>();
-        auto batch_node = static_pointer_cast<SpriteBatchNode>(shared_from_this());
         reused_sprite_->InitWithTexture(texture_atlas()->texture(), rect, false);
-        reused_sprite_->set_batch_node(batch_node, 0);
     } else {
         reused_sprite_->reset_batch_node();
         reused_sprite_->set_texture_rect(rect, false, rect.size);
     }
+    auto batch_node = static_pointer_cast<SpriteBatchNode>(shared_from_this());
+    reused_sprite_->set_batch_node(batch_node, 0);
 
     reused_sprite_->set_position(PositionAt(tile_coord));
     reused_sprite_->set_opacity(opacity_);
@@ -124,7 +124,7 @@ void TmxLayer::SetupTileAt(const vec2& tile_coord, tmx_gid gid) {
 
     if (gid & TmxTileFlags::DIAGONAL) {
         reused_sprite_->set_anchor_point(0.5, 0.5);
-        vec2 pos  = reused_sprite_->position();
+        vec3 pos  = reused_sprite_->position();
         vec2 size = reused_sprite_->content_size();
         reused_sprite_->set_position(pos.x + size.y / 2, pos.y + size.x / 2);
 

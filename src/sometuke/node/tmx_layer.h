@@ -16,7 +16,7 @@ public:
                              const shared_ptr<TmxLayerInfo>& layer_info,
                              const shared_ptr<TmxMapInfo>& map_info);
     
-    vec2 PositionAt(const vec2& tile_coord);
+    vec3 PositionAt(const vec2& tile_coord);
 
     const string name() const {
         return name_;
