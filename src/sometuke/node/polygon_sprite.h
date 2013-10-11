@@ -112,7 +112,6 @@ private:
     vector<vec2gl> tex_coords_;
 
     shared_ptr<GLProgram> shader_program_;
-
     Rect texture_rect_;
     bool texture_rect_rotated_;
 };
