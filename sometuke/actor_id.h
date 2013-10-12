@@ -2,6 +2,7 @@
 #define __sometuke__actor_id__
 
 #include "sometuke/memory_pool.h"
+#include "sometuke/logger.h"
 
 #include <string>
 #include <memory>
@@ -19,7 +20,7 @@ class ActorId {
 public:
     struct UuidDeleter { 
         void operator()(unsigned char* p) const {
-            GeneralMemoryPool::Instance().Free(p, sizeof(uuid_t));
+            free(p);
             p = nullptr;
         }
     };
@@ -30,18 +31,15 @@ public:
 
     void Generate() {
         if (!uuid_ptr_) {
-            unsigned char *ptr =
-                static_cast<unsigned char *>(GeneralMemoryPool::Instance().Alloc(sizeof(uuid_t)));
+            unsigned char *ptr = static_cast<unsigned char *>(malloc(sizeof(uuid_t)));
             
-            uuid_generate(ptr);
             uuid_ptr_.reset(ptr, UuidDeleter());
+            uuid_unparse(ptr, str_);
         }
     }
 
-    const string str() const {
-        char buf[37];
-        uuid_unparse(uuid_ptr_.get(), buf);
-        return string(buf);
+    const char *str() const {
+        return str_;
     }
     
     bool is_null() const {
@@ -65,6 +63,7 @@ public:
 
 private:
     shared_ptr<unsigned char> uuid_ptr_;
+    char str_[37];
 };
 
 }
