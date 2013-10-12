@@ -46,7 +46,12 @@ public:
     virtual void OnRemove(const shared_ptr<A>& actor) {}
     
     shared_ptr<A> Find(const ActorId& actor_id) {
-        return map_[actor_id];
+        auto iter = map_.find(actor_id);
+        if (iter == map_.end()) {
+            return nullptr;
+        } else {
+            return iter->second;
+        }
     }
 
     shared_ptr<A> operator[](const ActorId& actor_id) {
