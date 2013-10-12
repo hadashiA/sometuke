@@ -41,16 +41,13 @@ static inline void Log(const char *loglevel,
                        const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
-    printf("%s:%d - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+    printf("[%s] %s:%d %02d:%02d:%02d ",
+           loglevel,
            file,
            line,
-           ts->tm_year + 1900,
-           ts->tm_mon + 1,
-           ts->tm_mday,
            ts->tm_hour,
            ts->tm_min,
-           ts->tm_sec,
-           loglevel
+           ts->tm_sec
            );
 
     va_list args;
