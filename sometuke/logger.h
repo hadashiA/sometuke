@@ -17,17 +17,17 @@
 #if !defined(SOMETUKE_DEBUG) || SOMETUKE_DEBUG == 0
 #define S2INFO(...)  do {} while (0)
 #define IIWARN(...)  do {} while (0)
-#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", __FILE__, __LINE__, s, ##__VA_ARGS__)
 
 #elif SOMETUKE_DEBUG == 1
 #define S2INFO(...)     do {} while (0)
-#define IIWARN(s, ...)  sometuke::Log("WARN", s, ##__VA_ARGS__)
-#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  sometuke::Log("WARN", __FILE__, __LINE__, s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", __FILE__, __LINE__, s, ##__VA_ARGS__)
 
 #elif SOMETUKE_DEBUG > 1
-#define S2INFO(s, ...)  sometuke::Log("INFO", s, ##__VA_ARGS__)
-#define IIWARN(s, ...)  sometuke::Log("WARN", s, ##__VA_ARGS__)
-#define S2ERROR(s, ...) sometuke::Log("ERROR", s, ##__VA_ARGS__)
+#define S2INFO(s, ...)  sometuke::Log("INFO", __FILE__, __LINE__, s, ##__VA_ARGS__)
+#define IIWARN(s, ...)  sometuke::Log("WARN", __FILE__, __LINE__, s, ##__VA_ARGS__)
+#define S2ERROR(s, ...) sometuke::Log("ERROR", __FILE__, __LINE__, s, ##__VA_ARGS__)
 #endif
 
 #define S2INSPECT(obj) sometuke::Inspect(obj).c_str()
@@ -35,10 +35,15 @@
 namespace sometuke {
 using namespace std;
 
-static inline void Log(const char *loglevel, const string message, ...) {
+static inline void Log(const char *loglevel,
+                       const char *file,
+                       unsigned int line,
+                       const string message, ...) {
     time_t now = time(NULL);
     struct tm *ts = localtime(&now);
-    printf("sometuke - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+    printf("%s:%d - %04d-%02d-%02d %02d:%02d:%02d [%s] ",
+           file,
+           line,
            ts->tm_year + 1900,
            ts->tm_mon + 1,
            ts->tm_mday,
