@@ -72,7 +72,7 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     for (auto i = range.first; i != range.second;) {
         EventHandler handler = i->second;
         
-        if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
+        if (!handler.listener.expired()) {
             emitted = true;
             handler.callback(event);
             ++i;
@@ -112,7 +112,7 @@ bool EventDispatcher::Tick(const s2_time max_time) {
         for (auto i = range.first; i != range.second;) {
             EventHandler handler = i->second;
             
-            if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
+            if (!handler.listener.expired()) {
                 handler.callback(event);
                 ++i;
             } else {

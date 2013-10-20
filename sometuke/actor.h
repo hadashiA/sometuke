@@ -44,6 +44,8 @@ public:
           id_() {
           id_.Generate();
     }
+    
+    virtual ~Actor() {}
 
     const ActorId& id() const {
         return id_;
