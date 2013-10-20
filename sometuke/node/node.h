@@ -1,7 +1,6 @@
 #ifndef __sometuke__node_node__
 #define __sometuke__node_node__
 
-#include "sometuke/handler.h"
 #include "sometuke/types.h"
 #include "sometuke/actor_id.h"
 #include "sometuke/vector.h"
@@ -43,7 +42,7 @@ public:
     virtual void set_opacity_modify_rgb(bool value) = 0;
 };
 
-class Node : public Handler {
+class Node : public enable_shared_from_this<Node> {
 public:
     Node()
         : position_(0, 0, 0),
@@ -245,7 +244,6 @@ public:
              i != children_.end(); ++i) {
             (*i)->Enter();
         }
-        Resume();
         OnEnter();
     }
 
@@ -254,7 +252,6 @@ public:
              i != children_.end(); ++i) {
             (*i)->Exit();
         }
-        Pause();
         OnExit();
     }
 

@@ -43,29 +43,12 @@ struct EventHandler {
     weak_ptr<EventListener> listener;
 };
 
-class EventListenerInterface {
-public:
-    virtual ~EventListenerInterface() {}
-    virtual void HandleEvent(const shared_ptr<Event>& event) = 0;
-};
-
-class EventListener : public EventListenerInterface,
-                      public enable_shared_from_this<EventListener> {
+class EventListener : public enable_shared_from_this<EventListener> {
 public:
     virtual ~EventListener() {}
 
-    bool ListenTo(const EventType& type);
-    bool StopListering();
-
-    template <typename E>
-    bool ListenTo() {
-        return ListenTo(E::TYPE);
-    }
+    bool Off();
     
-    void HandleEvent(const shared_ptr<Event>& event) {
-        // dummy
-    }
-
     template <typename E>
     void On(EventCallback callback) {
         On(E::TYPE, callback);
@@ -82,15 +65,9 @@ public:
         active_queue_index_(0) {
     }
 
-    bool On(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type, shared_ptr<EventListener> listener);
     bool Off(const EventType& type);
     bool Off(shared_ptr<EventListener> listener);
-
-    template <typename E>
-    bool On(shared_ptr<EventListener> listener) {
-        return On(E::TYPE, listener);
-    }
 
     void On(const EventType& type, EventHandler handler);
 
@@ -144,9 +121,6 @@ private:
 
     list<shared_ptr<Event> > queues_[NUM_QUEUES];
     int active_queue_index_;
-
-    // EventTypeTable types_;
-    EventListenerTable listeners_;
 
     multimap<EventType, EventHandler> handlers_;
 };

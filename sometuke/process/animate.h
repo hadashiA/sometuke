@@ -27,7 +27,7 @@ public:
     }
 
     const bool sleeping() {
-        return !target_.expired() && target_.lock()->paused();
+        return !target_.expired() && !target_.lock()->visible();
     }
 
     void OnStart();

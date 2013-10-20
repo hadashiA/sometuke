@@ -35,13 +35,11 @@ public:
 
     void Enter() {
         root_node_->Enter();
-        WakeUp();
         OnEnter();
     }
 
     void Exit() {
         root_node_->Exit();
-        Sleep();
         OnExit();
     }
 

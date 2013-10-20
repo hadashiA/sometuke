@@ -8,11 +8,7 @@
 
 namespace sometuke {
 
-bool EventListener::ListenTo(const EventType& type) {
-    return Director::Instance().dispatcher().On(type, shared_from_this());
-}
-
-bool EventListener::StopListering() {
+bool EventListener::Off() {
     return Director::Instance().dispatcher().Off(shared_from_this());
 }
 
@@ -24,34 +20,23 @@ void EventListener::On(const EventType& type, EventCallback callback) {
     Director::Instance().dispatcher().On(type, handler);
 }
 
-bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
-    if (!IsValidType(type)) {
-        return false;
-    }
-
-    pair<EventType, weak_ptr<EventListener> > pair(type, listener);
-    listeners_.insert(pair);
-
-    return true;
-}
-
 void EventDispatcher::On(const EventType& type, EventHandler handler) {
     handlers_.emplace(std::make_pair(type, handler));
 }
 
 bool EventDispatcher::Off(const EventType& type) {
-    std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-        listeners_.equal_range(type);
-
-    listeners_.erase(range.first, range.second);
+    auto range = handlers_.equal_range(type);
+    handlers_.erase(range.first, range.second);
 
     return true;
 }
 
 bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
-    for (EventListenerTable::iterator i = listeners_.begin(); i != listeners_.end();) {
-        if (listener == i->second.lock()) {
-            listeners_.erase(i++);
+    for (auto i = handlers_.begin(); i != handlers_.end();) {
+        EventHandler handler = i->second;
+
+        if (listener == handler.listener.lock()) {
+            handlers_.erase(i++);
         } else {
             ++i;
         }
@@ -60,11 +45,12 @@ bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
 }
 
 bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> listener) {
-    pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-        listeners_.equal_range(type);
-    for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        if (listener == i->second.lock()) {
-            listeners_.erase(i++);
+    auto range = handlers_.equal_range(type);
+    for (auto i = range.first; i != range.second;) {
+        EventHandler handler = i->second;
+
+        if (listener == handler.listener.lock()) {
+            handlers_.erase(i++);
         } else {
             ++i;
         }
@@ -82,30 +68,16 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
 
     bool emitted = false;
 
-    pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-        listeners_.equal_range(type);
-    for (EventListenerTable::iterator i = range.first; i != range.second;) {
-        if (const shared_ptr<EventListener>& listener = i->second.lock()) {
+    auto range = handlers_.equal_range(type);
+    for (auto i = range.first; i != range.second;) {
+        EventHandler handler = i->second;
+        
+        if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
             emitted = true;
-            listener->HandleEvent(event);
-            i++;
+            handler.callback(event);
+            ++i;
         } else {
-            listeners_.erase(i++);
-        }
-    }
-
-    {
-        auto range = handlers_.equal_range(type);
-        for (auto i = range.first; i != range.second;) {
-            EventHandler handler = i->second;
-            
-            if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
-                emitted = true;
-                handler.callback(event);
-                ++i;
-            } else {
-                handlers_.erase(i++);
-            }
+            handlers_.erase(i++);
         }
     }
 
@@ -136,28 +108,15 @@ bool EventDispatcher::Tick(const s2_time max_time) {
         shared_ptr<Event> event = queue.front();
         queue.pop_front();
 
-        std::pair<EventListenerTable::iterator, EventListenerTable::iterator> range =
-            listeners_.equal_range(event->type);
-        for (EventListenerTable::iterator i = range.first; i != range.second;) {
-            if (const shared_ptr<EventListener>& listener = i->second.lock()) {
-                listener->HandleEvent(event);
+        auto range = handlers_.equal_range(event->type);
+        for (auto i = range.first; i != range.second;) {
+            EventHandler handler = i->second;
+            
+            if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
+                handler.callback(event);
                 ++i;
             } else {
-                listeners_.erase(i++);
-            }
-        }
-        
-        {
-            auto range = handlers_.equal_range(event->type);
-            for (auto i = range.first; i != range.second;) {
-                EventHandler handler = i->second;
-
-                if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
-                    handler.callback(event);
-                    ++i;
-                } else {
-                    handlers_.erase(i++);
-                }
+                handlers_.erase(i++);
             }
         }
     }
@@ -176,10 +135,6 @@ bool EventDispatcher::Tick(const s2_time max_time) {
 
 bool EventDispatcher::IsValidType(const EventType& type) const {
     return !type.empty();
-}
-
-bool EventDispatcher::IsListerningType(const EventType& type) const {
-    return (listeners_.find(type) != listeners_.end());
 }
 
 }

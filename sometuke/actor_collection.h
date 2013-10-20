@@ -2,7 +2,6 @@
 #define __Hitasura__collection__
 
 #include "sometuke/director.h"
-#include "sometuke/handler.h"
 #include "sometuke/actor.h"
 
 #include <memory>
@@ -12,7 +11,7 @@ namespace sometuke {
 using namespace std;
 
 template <class A>
-class ActorCollection : public Handler {
+class ActorCollection {
 public:
     typedef unordered_map<ActorId, shared_ptr<A> > Map;
 
@@ -22,7 +21,7 @@ public:
         typename Map::iterator i = map_.find(actor->id());
         if (i == map_.end()) {
             map_[actor->id()] = actor;
-            Queue<ActorAddEvent>(actor);
+            Director::Instance().dispatcher().Queue<ActorAddEvent>(actor);
             OnAdd(actor);
         } else {
             S2ERROR("already exists id:%s", actor->id().str());
@@ -32,7 +31,7 @@ public:
     void Remove(const ActorId& actor_id) {
         typename Map::iterator i = map_.find(actor_id);
         if (i != map_.end()) {
-            Queue<ActorRemoveEvent>(actor_id);
+            Director::Instance().dispatcher().Queue<ActorRemoveEvent>(actor_id);
             OnRemove(i->second);
             map_.erase(i);
         }

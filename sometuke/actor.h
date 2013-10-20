@@ -4,7 +4,6 @@
 #include "sometuke/director.h"
 #include "sometuke/vector.h"
 #include "sometuke/actor_id.h"
-#include "sometuke/handler.h"
 
 #include <memory>
 #include <uuid/uuid.h>
@@ -38,7 +37,7 @@ struct ActorRemoveEvent : public Event {
     ActorId actor_id;
 };
 
-class Actor : public Handler {
+class Actor {
 public:
     Actor(const ActorType& t)
         : type_(t),
