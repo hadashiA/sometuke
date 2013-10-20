@@ -94,6 +94,21 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
         }
     }
 
+    {
+        auto range = handlers_.equal_range(type);
+        for (auto i = range.first; i != range.second;) {
+            EventHandler handler = i->second;
+            
+            if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
+                emitted = true;
+                handler.callback(event);
+                ++i;
+            } else {
+                handlers_.erase(i++);
+            }
+        }
+    }
+
     return emitted;
 }
 
