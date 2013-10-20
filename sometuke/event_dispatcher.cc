@@ -136,8 +136,13 @@ bool EventDispatcher::Tick(const s2_time max_time) {
             auto range = handlers_.equal_range(event->type);
             for (auto i = range.first; i != range.second;) {
                 EventHandler handler = i->second;
-                handler.callback(event);
-                ++i;
+
+                if (const shared_ptr<EventListener>& listener = handler.listener.lock()) {
+                    handler.callback(event);
+                    ++i;
+                } else {
+                    handlers_.erase(i++);
+                }
             }
         }
     }

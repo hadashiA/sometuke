@@ -70,7 +70,7 @@ protected:
     Timer& timer();
 
 private:    
-    shared_ptr<EventListener> listener_;
+    shared_ptr<EventListener> listener_old_;
     shared_ptr<Timer> timer_;
 
     bool paused_;

@@ -3,10 +3,10 @@
 namespace sometuke {
 
 EventListener& Handler::listener() {
-    if (!listener_) {
-        listener_ = Pool<EventProxy>(shared_from_this());
+    if (!listener_old_) {
+        listener_old_ = Pool<EventProxy>(shared_from_this());
     }
-    return *listener_;
+    return *listener_old_;
 }
 
 Timer& Handler::timer() {
