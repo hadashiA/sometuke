@@ -8,6 +8,7 @@
 #include <memory>
 #include <list>
 #include <map>
+#include <functional>
 
 #include <cmath>
 #include <chrono>
@@ -32,16 +33,14 @@ struct Event {
     EventType type;
     chrono::time_point<chrono::system_clock> created_at;
 };
-
-typedef enum {
-    kScriptDefined,             // Event is defined in script.
-    kCodeEventOnly,             // Event is defined by main code, and is NOT callable from script.
-    kCodeEventScriptCallable,   // Event is defined by code, but is callable from script.
-} EventCallable;
-
-struct EventTypeMetadata {
-    explicit EventTypeMetadata(EventCallable c) : callable(c) {}
-    EventCallable callable;
+    
+class EventListener;
+    
+typedef std::function<void(const shared_ptr<Event>&)> EventCallback;
+    
+struct EventHandler {
+    EventCallback callback;
+    weak_ptr<EventListener> listener;
 };
 
 class EventListenerInterface {
@@ -62,6 +61,17 @@ public:
     bool ListenTo() {
         return ListenTo(E::TYPE);
     }
+    
+    void HandleEvent(const shared_ptr<Event>& event) {
+        // dummy
+    }
+
+    template <typename E>
+    void On(EventCallback callback) {
+        On(E::TYPE, callback);
+    }
+
+    void On(const EventType& e, EventCallback handler);
 };
 
 class EventDispatcher {
@@ -81,6 +91,8 @@ public:
     bool On(shared_ptr<EventListener> listener) {
         return On(E::TYPE, listener);
     }
+
+    void On(const EventType& type, EventHandler handler);
 
     template <typename E>
     bool Off() {
@@ -135,6 +147,8 @@ private:
 
     // EventTypeTable types_;
     EventListenerTable listeners_;
+
+    multimap<EventType, EventHandler> handlers_;
 };
 
 }

@@ -16,6 +16,14 @@ bool EventListener::StopListering() {
     return Director::Instance().dispatcher().Off(shared_from_this());
 }
 
+void EventListener::On(const EventType& type, EventCallback callback) {
+    EventHandler handler;
+    handler.callback = callback;
+    handler.listener = shared_from_this();
+
+    Director::Instance().dispatcher().On(type, handler);
+}
+
 bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listener) {
     if (!IsValidType(type)) {
         return false;
@@ -25,6 +33,10 @@ bool EventDispatcher::On(const EventType& type, shared_ptr<EventListener> listen
     listeners_.insert(pair);
 
     return true;
+}
+
+void EventDispatcher::On(const EventType& type, EventHandler handler) {
+    handlers_.emplace(std::make_pair(type, handler));
 }
 
 bool EventDispatcher::Off(const EventType& type) {
@@ -63,7 +75,8 @@ bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> liste
 bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
     const EventType& type = event->type;
 
-    if (!IsValidType(type) || !IsListerningType(type)) {
+    // if (!IsValidType(type) || !IsListerningType(type)) {
+    if (!IsValidType(type)) {
         return false;
     }
 
@@ -88,7 +101,7 @@ bool EventDispatcher::Queue(const shared_ptr<Event>& event) {
     assert(active_queue_index_ >= 0);
     assert(active_queue_index_ < NUM_QUEUES);
 
-    if (!IsValidType(event->type) || !IsListerningType(event->type)) {
+    if (!IsValidType(event->type)) {
         return false;
     }
 
@@ -116,6 +129,15 @@ bool EventDispatcher::Tick(const s2_time max_time) {
                 ++i;
             } else {
                 listeners_.erase(i++);
+            }
+        }
+        
+        {
+            auto range = handlers_.equal_range(event->type);
+            for (auto i = range.first; i != range.second;) {
+                EventHandler handler = i->second;
+                handler.callback(event);
+                ++i;
             }
         }
     }
