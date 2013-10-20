@@ -8,18 +8,14 @@
 #include <map>
 #include <cassert>
 #include <iostream>
+#include <functional>
 
 namespace sometuke {
 using namespace std;
 
-class TimerInterface {
-public:
-    virtual ~TimerInterface() {}
-    virtual bool Update(const s2_time delta) = 0;
-};
+typedef std::function<bool(const s2_time)> UpdateCallback;
 
-class Timer : public TimerInterface,
-              public enable_shared_from_this<Timer> {
+class Timer : public enable_shared_from_this<Timer> {
 public:
     static const unsigned int REPEAT_FOREVER;
 
@@ -51,17 +47,8 @@ public:
         use_delay_ = (delay > 0);
     }
 
-    void ScheduleUpdate();
-    void ScheduleUpdate(const s2_time interval,
-                        const unsigned int repeat = REPEAT_FOREVER,
-                        const s2_time delay = 0) {
-        set_interval(interval);
-        set_repeat(repeat);
-        set_delay(delay);
-        ScheduleUpdate();
-    }
-    
-    void UnSchedule();
+    void On(UpdateCallback callback);
+    void Off();
 
 private:
     s2_time elapsed_;
@@ -71,9 +58,8 @@ private:
     unsigned int repeat_;
     bool run_forever_;
     int num_executed_;
+    UpdateCallback callback_;
 };
-
-class ProcessManager;
 
 typedef list<weak_ptr<Timer> > TimerList;
 

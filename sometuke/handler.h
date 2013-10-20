@@ -6,8 +6,7 @@
 
 namespace sometuke {
 
-class Handler : public TimerInterface,
-                public EventListenerInterface,
+class Handler : public EventListenerInterface,
       		public enable_shared_from_this<Handler> {
 public:
     Handler()
@@ -16,7 +15,6 @@ public:
     }
 
     virtual ~Handler() {}
-    virtual bool Update(const s2_time delta) { return true; }
     virtual void HandleEvent(const shared_ptr<Event>& event) {}
 
     virtual bool paused() const { return paused_; }
@@ -51,51 +49,14 @@ public:
         return listener().StopListering();
     }
 
-    void ScheduleUpdate() {
-        timer().ScheduleUpdate();
-    }
-
-    void ScheduleUpdate(const s2_time interval,
-                        const unsigned int repeat = Timer::REPEAT_FOREVER,
-                        const s2_time delay = 0) {
-        timer().ScheduleUpdate(interval, repeat, delay);
-    }
-
-    void UnSchedule() {
-        timer().UnSchedule();
-    }
-
 protected:
     EventListener& listener();
-    Timer& timer();
 
 private:    
     shared_ptr<EventListener> listener_old_;
-    shared_ptr<Timer> timer_;
 
     bool paused_;
     bool sleeping_;
-};
-
-class TimerProxy : public Timer {
-public:
-    TimerProxy(weak_ptr<Handler> handler,
-               const s2_time interval = 0,
-               const unsigned int repeat = Timer::REPEAT_FOREVER,
-               const s2_time delay = 0)
-        : Timer(interval, repeat, delay),
-          handler_(handler) {
-    }
-
-    bool Update(const s2_time delta) {
-        if (const shared_ptr<Handler>& handler = handler_.lock()) {
-            return (!handler->paused() && !handler->sleeping() && handler->Update(delta));
-        }
-        return false;
-    }
-
-private:    
-    weak_ptr<Handler> handler_;
 };
 
 class EventProxy : public EventListener {

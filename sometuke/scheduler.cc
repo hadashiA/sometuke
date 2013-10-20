@@ -13,7 +13,7 @@ bool Timer::Tick(const s2_time delta_time) {
     if (run_forever_ && !use_delay_) {
         elapsed_ += delta_time;
         if (elapsed_ >= interval_) {
-            bool result = Update(elapsed_);
+            bool result = callback_(elapsed_);
             elapsed_ = 0;
             return result;
         }
@@ -26,13 +26,13 @@ bool Timer::Tick(const s2_time delta_time) {
                 elapsed_ -= delay_;
                 num_executed_++;
                 use_delay_ = false;
-                return Update(elapsed_);
+                return callback_(elapsed_);
             }
         } else {
             if (elapsed_ >= interval_) {
                 elapsed_ = 0;
                 num_executed_++;
-                return Update(elapsed_);
+                return callback_(elapsed_);
             }
         }
         
@@ -43,11 +43,12 @@ bool Timer::Tick(const s2_time delta_time) {
     return true;
 }
 
-void Timer::ScheduleUpdate() {
+void Timer::On(UpdateCallback callback) {
+    callback_ = callback;
     Director::Instance().scheduler().ScheduleUpdate(shared_from_this());
 }
 
-void Timer::UnSchedule() {
+void Timer::Off() {
     Director::Instance().scheduler().Unschedule(shared_from_this());
 }
 

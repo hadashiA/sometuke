@@ -8,12 +8,5 @@ EventListener& Handler::listener() {
     }
     return *listener_old_;
 }
-
-Timer& Handler::timer() {
-    if (!timer_) {
-        timer_ = Pool<TimerProxy>(shared_from_this());
-    }
-    return *timer_;
-}
     
 }
