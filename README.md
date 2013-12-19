@@ -6,3 +6,5 @@ sometuke (染付)
 * c++11
 * OpenGLES2.0
 * iOS
+
+未完成!
