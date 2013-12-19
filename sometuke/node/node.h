@@ -2,7 +2,6 @@
 #define __sometuke__node_node__
 
 #include "sometuke/types.h"
-#include "sometuke/actor_id.h"
 #include "sometuke/vector.h"
 #include "sometuke/matrix.h"
 #include "sometuke/color.h"
@@ -16,6 +15,7 @@ using namespace std;
 
 class EventDispatcher;
 class Texture2D;
+class Actor;
 
 class LabelInterface {
 public:
@@ -110,10 +110,6 @@ public:
 
     const vec2& content_size() const {
         return content_size_;
-    }
-
-    const ActorId& actor_id() const {
-        return actor_id_;
     }
 
     shared_ptr<Node> parent() {
@@ -223,10 +219,6 @@ public:
         set_content_size(vec2(x, y));
     }
 
-    void set_actor_id(const ActorId& actor_id) {
-        actor_id_ = actor_id;
-    }
-
     void set_parent(const shared_ptr<Node>& value) {
         parent_ = value;
     }
@@ -306,8 +298,6 @@ protected:
     bool is_transform_dirty_;
     bool is_inverse_dirty_;
     bool is_reorder_child_dirty_;
-
-    ActorId actor_id_;
 
     vector<shared_ptr<Node> > children_;
     weak_ptr<Node> parent_;

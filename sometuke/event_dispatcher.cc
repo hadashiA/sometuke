@@ -7,44 +7,53 @@
 #include <cassert>
 
 namespace sometuke {
+using namespace std;
 
-bool EventListener::Off() {
-    return Director::Instance().dispatcher().Off(shared_from_this());
+// EventEmitter
+
+void EventEmitter::On(const EventType& type,
+                      const client_id sender_id,
+                      EventCallback callback) {
+    Director::Instance().dispatcher().On(type, sender_id, cid_, callback);
 }
 
-void EventListener::On(const EventType& type, EventCallback callback) {
-    EventHandler handler;
-    handler.callback = callback;
-    handler.listener = shared_from_this();
-
-    Director::Instance().dispatcher().On(type, handler);
+void EventEmitter::Off() {
+    Director::Instance().dispatcher().Off(cid_);
 }
 
-void EventDispatcher::On(const EventType& type, EventHandler handler) {
-    handlers_.emplace(std::make_pair(type, handler));
+void EventEmitter::Trigger(const shared_ptr<Event>& event) {
+    Director::Instance().dispatcher().Trigger(event, cid_);
 }
 
-bool EventDispatcher::Off(const EventType& type) {
+// EventDispatcher
+
+void EventDispatcher::On(const EventType& type,
+                         const client_id sender_id,
+                         const client_id receiver_id,
+                         const EventCallback& callback) {
+    
+    EventHandler handler(sender_id, receiver_id, callback);
+    handlers_.emplace(type, handler);
+}
+
+void EventDispatcher::Off(const EventType& type) {
     auto range = handlers_.equal_range(type);
     handlers_.erase(range.first, range.second);
-
-    return true;
 }
 
-bool EventDispatcher::Off(shared_ptr<EventListener> listener) {
+bool EventDispatcher::Off(const client_id receiver_id) {
     for (auto i = handlers_.begin(); i != handlers_.end();) {
         EventHandler handler = i->second;
 
-        if (listener == handler.listener.lock()) {
+        if (receiver_id == handler.receiver_id) {
             handlers_.erase(i++);
         } else {
             ++i;
         }
     }
-    return true;
 }
 
-bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> listener) {
+void EventDispatcher::Off(const client_id receiver_id, const EventType& type) {
     auto range = handlers_.equal_range(type);
     for (auto i = range.first; i != range.second;) {
         EventHandler handler = i->second;
@@ -55,10 +64,9 @@ bool EventDispatcher::Off(const EventType& type, shared_ptr<EventListener> liste
             ++i;
         }
     }
-    return true;
 }
 
-bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
+void EventDispatcher::QuickTrigger(const shared_ptr<Event>& event) {
     const EventType& type = event->type;
 
     // if (!IsValidType(type) || !IsListerningType(type)) {
@@ -70,34 +78,28 @@ bool EventDispatcher::Trigger(const shared_ptr<Event>& event) {
 
     auto range = handlers_.equal_range(type);
     for (auto i = range.first; i != range.second;) {
-        EventHandler handler = i->second;
-        
-        if (!handler.listener.expired()) {
-            emitted = true;
-            handler.callback(event);
-            ++i;
-        } else {
-            handlers_.erase(i++);
-        }
+        const EventHandler& handler = i->second;
+        handler.callback(event);
     }
-
-    return emitted;
 }
 
-bool EventDispatcher::Queue(const shared_ptr<Event>& event) {
+void EventDispatcher::Trigger(const shared_ptr<Event>& event) {
+    if (event->quick) {
+        QuickTrigger(event);
+        return;
+     }
+
     assert(active_queue_index_ >= 0);
     assert(active_queue_index_ < NUM_QUEUES);
 
     if (!IsValidType(event->type)) {
-        return false;
+        return;
     }
 
     queues_[active_queue_index_].push_back(event);
-
-    return true;
 }
 
-bool EventDispatcher::Tick(const s2_time max_time) {
+void EventDispatcher::Tick(const s2_time max_time) {
     std::list<shared_ptr<Event> > queue = queues_[active_queue_index_];
 
     // swap active queues, make sure new queue is empty after the swap..
@@ -105,19 +107,14 @@ bool EventDispatcher::Tick(const s2_time max_time) {
     queues_[active_queue_index_].clear();
 
     while (!queue.empty()) {
-        shared_ptr<Event> event = queue.front();
+        const shared_ptr<Event>& event = queue.front();
         queue.pop_front();
 
         auto range = handlers_.equal_range(event->type);
         for (auto i = range.first; i != range.second;) {
-            EventHandler handler = i->second;
+            const EventHandler& handler = i->second;
             
-            if (!handler.listener.expired()) {
-                handler.callback(event);
-                ++i;
-            } else {
-                handlers_.erase(i++);
-            }
+            handler.callback(event);
         }
     }
 
@@ -129,8 +126,6 @@ bool EventDispatcher::Tick(const s2_time max_time) {
             queue.pop_back();
         }
     }
-    
-    return queue_flushed;
 }
 
 bool EventDispatcher::IsValidType(const EventType& type) const {

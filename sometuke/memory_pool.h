@@ -326,11 +326,13 @@ shared_ptr<T> Pool(Args&& ... args) {
 }
 
 static inline char *CopyString(const char *str) {
-    char *copied = static_cast<char *>(GeneralMemoryPool::Instance().Alloc(strlen(str) + 1));
+    size_t len = strlen(str);
+    char *copied = static_cast<char *>(GeneralMemoryPool::Instance().Alloc(len + 1));
     if (!copied) {
         return nullptr;
     }
-    strcpy(copied, str);
+    strncpy(copied, str, len - 1);
+    *(copied + len - 1) = '\0';
     return copied;
 }
 

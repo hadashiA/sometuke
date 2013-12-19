@@ -7,31 +7,27 @@
 #include <iostream>
 
 namespace sometuke {
-using namespace std;
 
 class HashedString {
 public:
-    HashedString(const char *str)
-        : str_(nullptr),
+    HashedString(const string& str)
+        : str_(str),
           id_(0) {
 
-        str_ = CopyString(str);
-        
-        const char *ch = str;
-        while (*ch)
-            id_ = id_ << 1 ^ *ch++;
-    }
-
-    ~HashedString() {
-        DeleteString(str_);
+        std::hash<string> h;
+        id_ = h(str);
     }
 
     const int id() const {
         return id_;
     }
 
-    const char *str() const {
+    const string str() const {
         return str_;
+    }
+
+    const char *c_str() const {
+        return str_.c_str();
     }
 
     bool empty() const {
@@ -39,16 +35,16 @@ public:
     }
 
     bool operator<(const HashedString& rhs) const {
-        return (id() < rhs.id());
+        return (id_) < rhs.id_));
     }
 
     bool operator==(const HashedString& rhs) const {
-        return (id() == rhs.id());
+        return (id_) == rhs.id_));
     }
 
 private:
-    int id_;
-    char *str_;
+    size_t id_;
+    string str_;
 };
 
 }

@@ -16,6 +16,7 @@
 namespace sometuke {
 using namespace std;
 
+typedef unsigned int client_id;
 typedef HashedString EventType;
 
 struct Event {
@@ -24,91 +25,92 @@ struct Event {
     }
     
     Event(const EventType& t)
-        : type(t) {
+        : type(t),
+          sender_id(0),
+          quick(false) {
         created_at = chrono::system_clock::now();
     }
 
     virtual ~Event() {}
 
     EventType type;
+    client_id sender_id;
+    bool quick;
     chrono::time_point<chrono::system_clock> created_at;
 };
     
-class EventListener;
-    
 typedef std::function<void(const shared_ptr<Event>&)> EventCallback;
     
-struct EventHandler {
-    EventCallback callback;
-    weak_ptr<EventListener> listener;
-};
-
-class EventListener : public enable_shared_from_this<EventListener> {
+class EventEmitter {
 public:
-    virtual ~EventListener() {}
-
-    bool Off();
-    
-    template <typename E>
-    void On(EventCallback callback) {
-        On(E::TYPE, callback);
+    static client_id GenerateClientId() {
+        static client_id __last_id = 0;
+        return ++__last_id;
     }
 
-    void On(const EventType& e, EventCallback handler);
+    EventEmitter()
+        : cid_(GenerateClientId()) {
+    }
+
+    ~EventEmitter() {
+        Off();
+    }
+
+    template <typename E>
+    void On(const client_id listener_id, EventCallback callback) {
+        On(E::TYPE, listener_id, callback);
+    }
+
+    void On(const EventType& e,
+            const client_id sender_id,
+            const EventCallback& callback);
+
+    void Off();
+
+    void Trigger(const shared_ptr<Event>& event);
+
+    template<class T>
+    void Trigger() {
+        shared_ptr<T> event = Pool<T>();
+        return Trigger(event);
+    }
+
+    template<class T, class Arg1, class... Args>
+    void Trigger(Arg1&& arg1, Args&& ... args) {
+        shared_ptr<T> event(Pool<T>(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
+        return Trigger(event);
+    }
+
+private:
+    const client_id cid_;
+};
+
+struct EventHandler {
+    EventHandler(const client_id sender_id,
+                 const client_id receiver_id,
+                 const EventCallback& callback)
+        : sender_id(sender_id),
+          receiver_id(receiver_id),
+          callback(callback) {
+    client_id sender_id;
+    client_id receiver_id;
+    EventCallback callback;
 };
 
 class EventDispatcher {
 public:
-    typedef multimap<EventType, weak_ptr<EventListener> > EventListenerTable;
+    typedef std::multimap<EventType, EventHandler> handlers_;
 
     EventDispatcher() :
         active_queue_index_(0) {
     }
 
-    bool Off(const EventType& type, shared_ptr<EventListener> listener);
-    bool Off(const EventType& type);
-    bool Off(shared_ptr<EventListener> listener);
-
-    void On(const EventType& type, EventHandler handler);
-
-    template <typename E>
-    bool Off() {
-        return Off(E::TYPE);
-    }
-
-    template <typename E>
-    bool Off(shared_ptr<EventListener> listener) {
-        return Off(E::TYPE, listener);
-    }
-
-    bool Trigger(const shared_ptr<Event>& event);
-
-    template <class T>
-    bool Trigger() {
-        shared_ptr<T> event(new T);
-        return Trigger(event);
-    }
-
-    template <class T, class Arg1, class... Args>
-    bool Trigger(Arg1&& arg1, Args&& ... args) {
-        shared_ptr<T> event(new T(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
-        return Trigger(event);
-    }
-
-    bool Queue(const shared_ptr<Event>& event);
-
-    template<class T>
-    bool Queue() {
-        shared_ptr<T> event = Pool<T>();
-        return Queue(event);
-    }
-
-    template<class T, class Arg1, class... Args>
-    bool Queue(Arg1&& arg1, Args&& ... args) {
-        shared_ptr<T> event(Pool<T>(std::forward<Arg1>(arg1), std::forward<Args>(args)...));
-        return Queue(event);
-    }
-
+    void On(const EventType& type,
+            const client_id sender_id,
+            const client_id receiver_id,
+            const EventCallback& callback);
+    void Off(const client_id receiver_id);
+    void Trigger(const shared_ptr<Event>& event)
     bool Tick(const s2_time max_time);
 
 private:
@@ -119,10 +121,10 @@ private:
         NUM_QUEUES = 2
     };
 
-    list<shared_ptr<Event> > queues_[NUM_QUEUES];
-    int active_queue_index_;
+    std::list<shared_ptr<Event> > queues_[NUM_QUEUES];
+    size_t active_queue_index_;
 
-    multimap<EventType, EventHandler> handlers_;
+    EventListenerTable listeners_;
 };
 
 }

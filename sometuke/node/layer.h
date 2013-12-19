@@ -1,7 +1,6 @@
 #ifndef __sometuke__node_layer__
 #define __sometuke__node_layer__
 
-#include "sometuke/actor_id.h"
 #include "sometuke/logger.h"
 #include "sometuke/node/node.h"
 
